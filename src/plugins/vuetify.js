@@ -1,4 +1,4 @@
-import "@fortawesome/fontawesome-free/css/all.css";
+import "@mdi/font/css/materialdesignicons.css";
 import Vue from "vue";
 import Vuetify from "vuetify/lib";
 
@@ -7,21 +7,21 @@ Vue.use(Vuetify);
 export default new Vuetify({
   theme: {
     options: {
-      customProperties: true
+      customProperties: true,
     },
     themes: {
       light: {
-        primary: "#ff8700",
-        secondary: "#424242",
-        accent: "#82B1FF",
+        primary: "#062131",
+        secondary: "#ff8700",
+        accent: "#2aa6b9",
         error: "#FF5252",
-        info: "#2196F3",
+        info: "#e4e6ea",
         success: "#4CAF50",
-        warning: "#FFC107"
-      }
-    }
+        warning: "#eb3a3a",
+      },
+    },
   },
   icons: {
-    iconfont: "fa"
-  }
+    iconfont: "mdi",
+  },
 });

@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <room-view></room-view>
+    <room-view v-if="false"></room-view>
+    <transaction-view v-if="true"></transaction-view>
   </div>
 </template>
 
 <script>
 import RoomView from "./components/room/RoomView.vue";
+import TransactionView from "./components/transaction/TransactionView.vue";
 
 export default {
   name: "app",
   components: {
-    RoomView
-  }
+    RoomView,
+    TransactionView,
+  },
 };
 </script>
 

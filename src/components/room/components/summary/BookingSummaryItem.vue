@@ -1,0 +1,78 @@
+<template>
+  <v-list-item class="desktop-summary-item pa-0">
+    <v-list-item-content class="text-left">
+      <v-row no-gutters>
+        <v-col>
+          <v-list-item-subtitle class="ml-10">
+            {{ room.checkIn | formatDate }}
+            <span v-if="room.checkOut">- {{ room.checkOut | formatDate }}</span>
+          </v-list-item-subtitle>
+          <v-list-item-title>
+            <v-btn icon @click="destroy">
+              <v-icon small>mdi-trash-can</v-icon>
+            </v-btn>
+            {{ room.name }}
+          </v-list-item-title>
+        </v-col>
+      </v-row>
+      <v-list-item-subtitle v-if="isSelected">
+        <v-row no-gutters>
+          <v-col cols="8">
+            <span class="accent white--text pl-1 mr-1">
+              <v-icon color="white" small>mdi-account</v-icon>
+              x{{ room.maxOccupancy * room.qty }}
+            </span>
+            {{ room.qty }} {{ bedType }} x {{ room.maxOccupancy }}
+            {{ personDescriptor }}
+            <span v-if="room.qty > 1">
+              each
+            </span>
+          </v-col>
+          <v-col cols="4" class="text-right">
+            <div class="mr-2">{{ room.cost | formatPrice }}</div>
+          </v-col>
+        </v-row>
+      </v-list-item-subtitle>
+    </v-list-item-content>
+  </v-list-item>
+</template>
+
+<script>
+import { formatPrice } from "../../../../filters/money";
+import { formatDate } from "../../../../filters/date";
+
+export default {
+  props: {
+    room: {
+      type: Object,
+      default: null,
+    },
+    isSelected: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  filters: {
+    formatPrice,
+    formatDate,
+  },
+  methods: {
+    destroy() {
+      const date = this.room.checkOut ? "" : this.room.checkIn;
+      this.$emit("destroy-room", this.room.code, date);
+    },
+  },
+  computed: {
+    personDescriptor() {
+      return this.room.maxOccupancy === 1 ? "Person" : "People";
+    },
+    bedType() {
+      if (this.room.qty === 1)
+        return this.room.type === "private" ? "Room" : "Bed";
+      else return this.room.type === "private" ? "Rooms" : "Beds";
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped></style>
