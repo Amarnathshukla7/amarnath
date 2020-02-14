@@ -41,6 +41,7 @@
     "v-stripe-elements": "^1.2.0",
     "vue": "^2.6.10",
     "vue-light-gallery": "^1.0.1",
+    "vue-load-script-plus": "^1.6.5",
     "vuetify": "^2.1.0"
   },
   "gitHooks": {

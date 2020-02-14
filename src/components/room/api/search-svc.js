@@ -24,8 +24,6 @@ export const availability = async (hostel, start, end) => {
         plan => plan.planId === defaultPlanId,
       ).rooms;
 
-      console.log(rooms);
-
       return {
         dorms: rooms.filter(room => room.roomType === "dorm"),
         privates: rooms.filter(room => room.roomType === "private"),

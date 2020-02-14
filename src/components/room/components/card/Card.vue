@@ -19,7 +19,7 @@
 
       <v-col cols="12" md="10">
         <v-row no-gutters>
-          <v-col cols="12" md="6" lg="6">
+          <v-col cols="12" md="5" lg="6">
             <v-card-title
               pa-2
               class="font-weight-bold subtitle-1"
@@ -30,7 +30,7 @@
 
             <v-card-subtitle class="text-left px-3">
               <v-icon
-                class="d-inline-block pb-1 mr-1"
+                class="hidden-md-and-down pb-1 mr-1"
                 :class="selectedAndCustomStylePrimaryColor"
               >
                 {{ peopleIcon }}
@@ -113,9 +113,9 @@
 
 <script>
 import { LightGallery } from "vue-light-gallery";
-import { destroy, updateOrCreate } from "../api/reservation-svc/cart-svc";
-import { bus } from "../../../plugins/bus";
-import { filter } from "../helpers/filters";
+import { destroy, updateOrCreate } from "../../api/reservation-svc/cart-svc";
+import { bus } from "../../../../plugins/bus";
+import { filter } from "../../helpers/filters";
 
 export default {
   props: {
@@ -129,7 +129,7 @@ export default {
     },
   },
   components: {
-    Selection: () => import("./selection/Selection.vue"),
+    Selection: () => import("../selection/Selection.vue"),
     CustomError: () => import("./CustomError.vue"),
     LightGallery,
   },
@@ -158,6 +158,7 @@ export default {
           units === 0
             ? await this.destroy({ date })
             : await this.update({ date, units });
+
         this.$emit("update-local-cart", cart);
       } catch (e) {
         console.log(e);
@@ -189,7 +190,7 @@ export default {
     images() {
       return this.content.images.map(image => ({
         title: image.fields.description,
-        url: image.fields.file.url,
+        url: `${image.fields.file.url}?w=1080&q=85`,
       }));
     },
     thumb() {

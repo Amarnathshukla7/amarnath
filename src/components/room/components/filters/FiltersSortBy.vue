@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Filters from "./filters/Filters.vue";
+import Filters from "./Filters.vue";
 
 export default {
   components: {

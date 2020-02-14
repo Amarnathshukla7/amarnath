@@ -21,10 +21,10 @@
           >
             <div class="heading font-weight-bold">
               <span v-if="date">{{ date }}</span>
-              <span v-else>{{ price | formatPrice }}</span>
+              <span v-else>{{ price | formatPrice(currency) }}</span>
             </div>
-            <div class="subtitle-2 mb-0">
-              <span v-if="date">{{ price | formatPrice }}</span>
+            <div class="caption mb-0">
+              <span v-if="date">{{ price | formatPrice(currency) }}</span>
               <span v-else>Avg price per night</span>
             </div>
           </div>
@@ -67,6 +67,7 @@ export default {
   data() {
     return {
       unitsSelected: null,
+      hostelConf: null,
     };
   },
   watch: {
@@ -89,13 +90,16 @@ export default {
         units: this.unitsSelected,
       };
     },
+    currency() {
+      return this.hostelConf ? this.hostelConf.currency : "GBP";
+    },
   },
   methods: {
     update(value) {
       this.unitsSelected = value;
     },
   },
-  created() {
+  async created() {
     bus.$on("set-room-amount", (code, date, value) => {
       if (
         (!date && this.code === code) ||
@@ -103,6 +107,8 @@ export default {
       )
         this.unitsSelected = value;
     });
+
+    bus.$on("hostel-config.update", conf => (this.hostelConf = conf));
   },
 };
 </script>

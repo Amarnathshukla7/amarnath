@@ -1,10 +1,10 @@
 <template>
-  <v-app class="room-view">
-    <v-overlay :value="isLoading">
+  <main class="room-view">
+    <v-overlay class="text-center" :value="isLoading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
 
-    <v-overlay :value="isError" opacity=".8">
+    <v-overlay class="text-center" :value="isError" opacity=".8">
       <div class="title">Network Error</div>
       <div class="body-1 px-6">
         Please check your connection and click below to try again
@@ -27,12 +27,22 @@
           <v-expansion-panels v-model="openPanel" class="mb-6" multiple>
             <v-expansion-panel>
               <v-expansion-panel-header color="primary">
-                <div class="font-weight-bold white--text">Shared Rooms</div>
+                <div
+                  class="font-weight-bold white--text text-uppercase heading"
+                >
+                  Shared Rooms
+                </div>
                 <template v-slot:actions>
                   <v-icon color="white">$expand</v-icon>
                 </template>
               </v-expansion-panel-header>
               <v-expansion-panel-content ref="sharedRooms" color="info">
+                <p
+                  v-if="!isLoading && dorms.length === 0"
+                  class="heading font-weight-bold text-center mt-2"
+                >
+                  Nothing available
+                </p>
                 <card
                   v-for="dorm in dorms"
                   :room="dorm"
@@ -52,12 +62,22 @@
 
             <v-expansion-panel>
               <v-expansion-panel-header color="primary">
-                <div class="font-weight-bold white--text">Private Rooms</div>
+                <div
+                  class="font-weight-bold white--text text-uppercase heading"
+                >
+                  Private Rooms
+                </div>
                 <template v-slot:actions>
                   <v-icon color="white">$expand</v-icon>
                 </template>
               </v-expansion-panel-header>
               <v-expansion-panel-content ref="privateRooms" color="info">
+                <p
+                  v-if="!isLoading && privates.length === 0"
+                  class="heading font-weight-bold text-center mt-2"
+                >
+                  Nothing available
+                </p>
                 <card
                   v-for="priv in privates"
                   :room="priv"
@@ -82,30 +102,36 @@
             :cart-data="cart"
             :rooms-content="roomsContent"
             @update-cart="cart => (this.cart = cart)"
+            @go-to-transaction="submitBooking"
           ></booking-summary>
         </v-col>
       </v-row>
     </v-container>
-    <!-- <mobile-summary-bottom class="hidden-md-and-up" :cost="totalCost" /> -->
-  </v-app>
+  </main>
 </template>
 
 <script>
-import Card from "./components/Card.vue";
-// import MobileSummaryBottom from "./components/summary/MobileSummaryBottom.vue";
+import Card from "./components/card/Card.vue";
 import BookingSummary from "./components/summary/BookingSummary.vue";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
-import FiltersSortBy from "./components/FiltersSortBy.vue";
-import { getHostel } from "../../plugins/hostel";
-// import { bus } from "../../plugins/bus";
+import FiltersSortBy from "./components/filters/FiltersSortBy.vue";
 import { availability } from "./api/search-svc";
-import { find } from "./api/reservation-svc/hostel-svc";
+import { create } from "./api/reservation-svc/cart-svc";
+// import { bus } from "../../plugins/bus";
 
 export default {
   props: {
     hostelCode: {
       type: String,
       default: "FPU",
+    },
+    hostelConf: {
+      type: Object,
+      defualt: null,
+    },
+    hostel: {
+      type: Object,
+      defualt: null,
     },
   },
   components: {
@@ -121,8 +147,6 @@ export default {
       isError: false,
       rooms: null,
       cart: null,
-      hostel: null,
-      hostelConf: null,
     };
   },
   created() {
@@ -134,13 +158,12 @@ export default {
       this.isLoading = true;
 
       try {
-        this.hostel = await getHostel(this.hostelCode);
         this.rooms = await availability(
           this.hostelCode,
-          "2020-02-12",
-          "2020-02-18",
+          "2020-10-12",
+          "2020-10-18",
         );
-        this.hostelConf = await find(this.hostelCode);
+        await create("STC");
       } catch (e) {
         this.isError = true;
         console.log(e);
@@ -154,25 +177,25 @@ export default {
       }
       this.rooms = null;
       this.cart = null;
-      this.hostel = null;
       this.isError = false;
     },
     updateCart(cart) {
       this.cart = cart;
     },
-    // filterRooms() {
-    //
-    // }
+    submitBooking() {
+      this.isLoading = true;
+      this.$emit("go-to-view", "transaction", this.cart);
+    },
   },
   computed: {
     roomsContent() {
       return this.hostel ? this.hostel.rooms : null;
     },
     dorms() {
-      return this.rooms ? this.rooms.dorms : null;
+      return this.rooms ? this.rooms.dorms : [];
     },
     privates() {
-      return this.rooms ? this.rooms.privates : null;
+      return this.rooms ? this.rooms.privates : [];
     },
     totalCost() {
       return this.cart ? this.cart.total_cost : 0;

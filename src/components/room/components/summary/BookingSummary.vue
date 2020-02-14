@@ -1,5 +1,5 @@
 <template>
-  <div class="desktop-summary">
+  <div class="desktop-summary accent">
     <v-expansion-panels tile flat multiple class="hidden-sm-and-down">
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
@@ -39,30 +39,49 @@
     <v-card tile flat color="accent" class="white--text pt-4">
       <v-row no-gutters class="mb-5">
         <v-col cols="6">
-          <div class="heading font-weight-bold">Total price:</div>
+          <div class="heading ml-6 font-weight-bold">Total price:</div>
         </v-col>
         <v-col cols="6">
-          <div class="heading font-weight-bold">
+          <div class="heading text-right mr-6 font-weight-bold">
             {{ cost | formatPrice }}
           </div>
         </v-col>
       </v-row>
-      <v-row no-gutters>
+      <v-row v-if="!transaction" class="text-center" no-gutters>
         <v-col>
-          <v-btn
-            tile
-            height="64px"
-            color="secondary"
-            :disabled="isCartUpdating"
-            class="font-weight-bold heading white--text continue-btn"
+          <v-tooltip
+            :disabled="!isCartUpdating && !isCartEmpty"
+            open-on-hover
+            open-on-click
+            slot="append"
+            bottom
           >
-            <v-progress-circular
-              v-if="isCartUpdating"
-              indeterminate
-              color="white"
-            ></v-progress-circular>
-            <span v-if="!isCartUpdating">Confirm Selection</span>
-          </v-btn>
+            <template v-slot:activator="{ on }">
+              <div v-on="on">
+                <v-btn
+                  tile
+                  height="64px"
+                  color="secondary"
+                  :disabled="isCartUpdating || isCartEmpty"
+                  class="font-weight-bold heading white--text continue-btn"
+                  @click="$emit('go-to-transaction')"
+                >
+                  <v-progress-circular
+                    v-if="isCartUpdating"
+                    indeterminate
+                    color="white"
+                  ></v-progress-circular>
+                  <span v-if="!isCartUpdating">Confirm Selection</span>
+                </v-btn>
+              </div>
+            </template>
+            <span v-if="isCartUpdating"
+              >Please hold on while we update your cart</span
+            >
+            <span v-if="isCartEmpty"
+              >Please add a room/bed to your cart before continuing</span
+            >
+          </v-tooltip>
         </v-col>
       </v-row>
     </v-card>
@@ -80,6 +99,10 @@ import BookingSummaryItem from "./BookingSummaryItem.vue";
 
 export default {
   props: {
+    transaction: {
+      type: Boolean,
+      default: false,
+    },
     cartData: {
       type: Object,
       default: null,
@@ -107,11 +130,14 @@ export default {
   methods: {
     async deleteFromCart(code, date) {
       try {
+        this.isCartUpdating = true;
         this.cart = await destroy(code, date);
         bus.$emit("set-room-amount", code, date, 0);
       } catch (e) {
         console.log(e);
       }
+
+      this.isCartUpdating = false;
     },
     normalBooking(rooms, roomContent) {
       return {
@@ -147,6 +173,9 @@ export default {
       set(cart) {
         this.$emit("update-cart", cart);
       },
+    },
+    isCartEmpty() {
+      return !(this.cart ? this.cart.items.length >= 1 : false);
     },
     cost() {
       if (!this.cart) return 0;

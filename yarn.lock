@@ -10297,6 +10297,11 @@ vue-light-gallery@^1.0.1:
   resolved "https://registry.yarnpkg.com/vue-light-gallery/-/vue-light-gallery-1.0.1.tgz#9416121b6940d0874b0ee6d9a48cfb7a7903d9a9"
   integrity sha512-xNKNZ3upRIHgIeFIOQ+3RZcHsr3CwZvSFq3SqcsZ2rBWlHqc9IsVpWlpD2EOJyy7ovgODTC8C2rfaiRchQ2GOA==
 
+vue-load-script-plus@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/vue-load-script-plus/-/vue-load-script-plus-1.6.5.tgz#67479199d0298c065b9c6b30b7f901e3541a31e0"
+  integrity sha512-3MhTOlOekhH+kp7CpBCiGJUbmV9KFHp1S6v/U6+v19pKPDU806V4g1NaihL3zM1xLriofnypCORPTte77aZs7w==
+
 vue-loader@^15.7.2:
   version "15.8.3"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.8.3.tgz#857cb9e30eb5fc25e66db48dce7e4f768602a23c"
