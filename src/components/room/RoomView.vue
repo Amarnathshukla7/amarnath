@@ -133,6 +133,14 @@ export default {
       type: Object,
       defualt: null,
     },
+    checkIn: {
+      type: String,
+      default: null,
+    },
+    checkOut: {
+      type: String,
+      default: null,
+    },
   },
   components: {
     Card,
@@ -160,8 +168,8 @@ export default {
       try {
         this.rooms = await availability(
           this.hostelCode,
-          "2020-02-12",
-          "2020-02-20",
+          this.checkIn,
+          this.checkOut,
         );
         await create("STC");
       } catch (e) {

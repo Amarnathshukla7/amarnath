@@ -6,6 +6,8 @@
       :hostel="hostel"
       :hostel-conf="hostelConf"
       :hostel-code="code"
+      :check-in="checkIn"
+      :check-out="checkOut"
     ></room-view>
     <transaction-view
       v-if="isTransaction && hostel && hostelConf"
@@ -23,6 +25,20 @@ import { getHostel } from "../plugins/hostel";
 import { find } from "../components/room/api/reservation-svc/hostel-svc";
 
 export default {
+  props: {
+    checkIn: {
+      type: String,
+      default: null,
+    },
+    checkOut: {
+      type: String,
+      default: null,
+    },
+    code: {
+      type: String,
+      default: null,
+    },
+  },
   components: {
     RoomView,
     TransactionView,
@@ -33,7 +49,6 @@ export default {
       data: null,
       hostel: null,
       hostelConf: null,
-      code: "BRI",
     };
   },
   async created() {
