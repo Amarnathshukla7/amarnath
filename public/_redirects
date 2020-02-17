@@ -1,0 +1,5 @@
+/search-svc/*  https://beds-and-bars-search-subdomain-search-svc.bnb-platform.com/:splat  200
+/cart-svc/*  https://reservations.apis.bedsandbars.com/api/carts/:splat  200
+/reservation-svc/*  https://reservations.apis.bedsandbars.com/api/reservations/:splat  200
+/hostel-svc/*  https://reservations.apis.bedsandbars.com/api/hostels/:splat  200
+/transaction-svc/*  https://reservations.apis.bedsandbars.com/api/transactions/:splat  200`
