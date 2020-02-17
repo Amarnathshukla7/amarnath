@@ -1,0 +1,92 @@
+/**
+ * Custom CSS
+ */
+
+:root {
+  --primary-color: #ff6016;
+  --secondary-color: #177e89;
+  --alpha-color: #3dccb1;
+  --bravo-color: #81d0dc;
+  --charlie-color: #fdd6d6;
+  --danger-color: #e70101;
+  --delta-color: #899495;
+  --echo-color: #393d41;
+  --foxtrot-color: #e4e6ea;
+  --golf-color: #fafafa;
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --unknown-color: #ffffff;
+
+  --font-primary: Quicksand;
+  --font-sans-serif: sans-serif;
+  --font-big-button: Roboto;
+  --font-headings-buttons: 'PFDinTextCondPro-Medium';
+  --font-open-sans: 'Open Sans';
+  --font-secondary: Roboto;
+  --font-PFDinTextCondPro-Thin: 'PFDinTextCondPro-Thin';
+  --font-PFDinTextCondPro-Regular: 'PFDinTextCondPro-Regular';
+  --font-PFDinTextCondPro-Medium: 'PFDinTextCondPro-Medium';
+  --font-PF-Din-Med: 'PF Din Med';
+  --font-PFDinTextCondPro-Bold: 'PFDinTextCondPro-Bold';
+  --font-proxima-nova: 'proxima-nova';
+
+  --availability-tile-border: #bfbfc0;
+  --container-tile-background: #fafafa;
+  --booking-heading-background: #4e5b67;
+  --booking-price-background: #177e89;
+  --price-tile-background: #ffffff;
+  --selected-tile-background: #d2efe8;
+  --price-tile-back: #c1c8c5;
+  --price-tile-drop: #ff6016;
+  --box-text-color: #72767a;
+  --box-border-color: #69c9b2;
+  --section-background-color: #fafafa;
+  --table-background-color: #eef2f0;
+  --box-background-color: #d2efe8;
+  --selected--price-tile-drop: #d2efe8;
+  --selected--price-tile-color: #393d41;
+  --price-tile-color: none;
+  --price-tile-radius: 4px;
+  --input-radius: 4px;
+  --price-text-color: #fff;
+  --luck-tile-background: #d2efe8;
+  --luck-tile-text-color: #3a3d40;
+  --selected-luck-tile-text-color: #3a3d40;
+  --selected-luck-tile-background: #d2efe8;
+  --selected-tile-text-color: #000;
+  --luck-tile-heading-color: #3a3d40;
+  --luck-tile-icon-color: #69c9b2;
+  --breadcrumb-icon-color: #ec6b31;
+  --filter-icon-text-transform: uppercase;
+
+  /* --border-radius-2-5pt: 2.5pt;
+  --border-radius-3: 3px;
+  --border-radius-4: 4px;
+  --border-radius-gallery-card: 4px;
+  --border-radius-4pt: 4pt;
+  --border-radius-5: 5px;
+  --border-radius-8: 8px;
+  --border-radius-10: 10px;
+  --border-radius-20: 20px;
+  --border-radius-21: 21px;
+  --border-radius-50percent: 50%;
+  --border-radius-100percent: 100%;
+  --border-radius-100: 100px;
+  --border-radius-icon-container: 150% 0 5px 0; */
+}
+/* 
+body {
+  font-family: var(--font-primary);
+} */
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-secondary);
+}
+
+.bold {
+  font-weight: bold;
+}

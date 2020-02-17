@@ -1,5 +1,5 @@
 <template>
-  <div class="desktop-summary accent">
+  <div class="desktop-summary">
     <v-expansion-panels tile flat>
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
@@ -10,16 +10,16 @@
             <v-icon color="white">$expand</v-icon>
           </template>
         </v-expansion-panel-header>
-        <v-expansion-panel-content color="info" class="pa-0">
+        <v-expansion-panel-content color="other" class="pa-0">
           <v-card
             flat
             tile
-            color="info"
+            color="other"
             class="pa-0 summary-card"
             max-height="250"
           >
             <div class="cart-item-row">
-              <v-row class="px-4 white">
+              <v-row class="px-4 py-2 white">
                 <v-col cols="8">
                   Accommodation Sub-Total
                 </v-col>
@@ -29,7 +29,7 @@
                   }}
                 </v-col>
               </v-row>
-              <v-row class="px-4">
+              <v-row class="px-4 py-2">
                 <v-col cols="8">
                   Loyalty Coupon Code
                 </v-col>
@@ -37,7 +37,7 @@
                   {{ cart.discount | formatPrice(hostelConf.currency) }}
                 </v-col>
               </v-row>
-              <v-row class="px-4 white">
+              <v-row class="px-4 py-2 white">
                 <v-col cols="8">
                   Tourist Tax Total
                 </v-col>
@@ -45,20 +45,17 @@
                   {{ cart.tourist_tax_cost | formatPrice(hostelConf.currency) }}
                 </v-col>
               </v-row>
-              <v-row class="px-4">
-                <v-col cols="8">
+              <v-row class="px-4 py-2">
+                <v-col cols="6">
                   Breakfast Total
                 </v-col>
-                <v-col cols="4" class="text-right">
-                  {{ breakfastCost | formatPrice(hostelConf.currency) }}
-                </v-col>
-              </v-row>
-              <v-row class="px-4 white">
-                <v-col cols="8">
-                  Breakfast Discount
-                </v-col>
-                <v-col cols="4" class="text-right">
-                  -{{ breakfastCost | formatPrice(hostelConf.currency) }}
+                <v-col cols="6" class="text-right">
+                  <span v-if="breakfastCost > 0">
+                    {{ breakfastCost | formatPrice(hostelConf.currency) }}
+                  </span>
+                  <span v-else>
+                    Included for FREE!
+                  </span>
                 </v-col>
               </v-row>
             </div>
@@ -67,41 +64,32 @@
       </v-expansion-panel>
     </v-expansion-panels>
     <v-card tile flat color="accent" class="">
-      <v-row no-gutters class="white--text pt-4 hidden-md-and-down">
-        <v-col cols="6">
-          <div class="heading ml-6 mb-md-6 font-weight-bold">
-            Payable Now:
-          </div>
+      <v-row class="px-4 py-2 white--text">
+        <v-col cols="8">
+          Payable Now:
         </v-col>
-        <v-col cols="6">
-          <div class="heading text-right mr-6 font-weight-bold">
-            {{ payable | formatPrice }}
-          </div>
+        <v-col cols="4" class="text-right">
+          {{ payable | formatPrice }}
         </v-col>
       </v-row>
-      <v-row no-gutters class="white pt-4 hidden-md-and-down">
-        <v-col cols="6">
-          <div class="heading ml-6 mb-md-6 font-weight-bold">
-            Due on arrival:
-          </div>
+      <v-row class="px-4 py-2 white">
+        <v-col cols="8">
+          Due on arrival:
         </v-col>
-        <v-col cols="6">
-          <div class="heading text-right mr-6 font-weight-bold">
-            {{ dueOnArrival | formatPrice }}
-          </div>
+        <v-col cols="4" class="text-right">
+          {{ dueOnArrival | formatPrice }}
         </v-col>
       </v-row>
-      <v-row no-gutters class="white--text pt-4">
-        <v-col cols="6">
-          <div class="heading ml-6 mb-6 font-weight-bold">Total price:</div>
+      <v-row class="px-4 py-2 white--text">
+        <v-col cols="8">
+          Total price:
         </v-col>
-        <v-col cols="6">
-          <div class="heading text-right mr-6 font-weight-bold">
-            {{ cost | formatPrice }}
-          </div>
+        <v-col cols="4" class="text-right">
+          {{ cost | formatPrice }}
         </v-col>
       </v-row>
     </v-card>
+    <breakfast class="hidden-md-and-down" />
   </div>
 </template>
 
@@ -124,14 +112,22 @@ export default {
       default: 0,
     },
   },
+  components: {
+    Breakfast: () => import("./Breakfast.vue"),
+  },
   data() {
     return {
       isCartUpdating: false,
+      breakfasts: 0,
     };
   },
   filters: {
     formatPrice,
     formatDate,
+  },
+  methods: {
+    increment() {},
+    decrement() {},
   },
   computed: {
     isCartEmpty() {
@@ -143,9 +139,7 @@ export default {
       return this.cart.total_cost;
     },
     breakfastCost() {
-      return this.cart.items
-        .map(item => item.qty * item.max_occupancy * 399)
-        .reduce((a, b) => a + b);
+      return 0;
     },
     dueOnArrival() {
       return this.cost - this.payable;
@@ -172,7 +166,7 @@ export default {
   }
 
   .summary-card {
-    overflow: scroll;
+    overflow-y: scroll;
   }
 
   position: sticky;

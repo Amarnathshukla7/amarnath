@@ -1,0 +1,184 @@
+<template>
+  <v-app>
+    <v-container>
+      <v-row no-gutters>
+        <v-col cols="12 mb-6">
+          <bread-crumbs :step="4" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col class="text-center">
+          <h1 class="display-1 font-weight-bold accent--text">
+            THANKS FOR BOOKING
+          </h1>
+          <p class="body-2">
+            You will shortly receive a confirmation email with your booking
+            details.
+          </p>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" md="5" offset-md="1">
+          <v-card tile class="other">
+            <v-row class="accent text-center py-6">
+              <v-col>
+                <div class="white--text font-weight-bold subtitle-1 mx-auto">
+                  Your booking reference number is:
+                  <div class="display-1 font-weight-bold">
+                    {{ reservation.booking_reference }}
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row class="py-2 white">
+              <v-col cols="8">
+                Accommodation Sub-Total
+              </v-col>
+              <v-col cols="4" class="text-right">{{
+                reservation.cart.accommodation_cost
+                  | formatPrice(reservation.cart.hostel.currency)
+              }}</v-col>
+            </v-row>
+            <v-row class="py-2 other">
+              <v-col cols="8">
+                Loyalty Coupon Code
+              </v-col>
+              <v-col cols="4" class="text-right">{{
+                reservation.cart.discount
+                  | formatPrice(reservation.cart.hostel.currency)
+              }}</v-col>
+            </v-row>
+            <v-row class="py-2 white">
+              <v-col cols="8">
+                Tourist Tax Total
+              </v-col>
+              <v-col cols="4" class="text-right">{{
+                reservation.cart.tourist_tax_cost
+                  | formatPrice(reservation.cart.hostel.currency)
+              }}</v-col>
+            </v-row>
+            <v-row class="py-2 other">
+              <v-col cols="6">
+                Breakfast Total
+              </v-col>
+              <v-col cols="6" class="text-right">
+                <span v-if="breakfastCost > 0">
+                  {{
+                    breakfastCost
+                      | formatPrice(reservation.cart.hostel.currency)
+                  }}
+                </span>
+                <span>
+                  Included for FREE!
+                </span>
+              </v-col>
+            </v-row>
+            <v-row class="py-2 accent white--text">
+              <v-col cols="8">
+                Total Price
+              </v-col>
+              <v-col cols="4" class="text-right">{{
+                reservation.cart.total_cost
+                  | formatPrice(reservation.cart.hostel.currency)
+              }}</v-col>
+            </v-row>
+            <v-row class="py-2 white">
+              <v-col cols="8">
+                Total Paid
+              </v-col>
+              <v-col cols="4" class="text-right">{{
+                reservation.paid | formatPrice(reservation.cart.hostel.currency)
+              }}</v-col>
+            </v-row>
+            <v-row class="py-2 other">
+              <v-col cols="8">
+                Due on arrival
+              </v-col>
+              <v-col cols="4" class="text-right">
+                {{
+                  dueOnArrival | formatPrice(reservation.cart.hostel.currency)
+                }}
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="5">
+          <v-card tile class="text-center" color="greyback">
+            <div
+              class="display-1 font-weight-bold greyish--text text-center pt-6"
+            >
+              PACK YOUR BAGS
+            </div>
+            <div class="body-2">We look forward to welcoming you at:</div>
+            <div class="title font-weight-bold greyish--text">
+              {{ hostel.title }}
+            </div>
+            <div class="body-2 mx-auto mt-4" style="max-width: 70%">
+              » {{ hostel.hostelPageRef.fields.tabs[0].fields.phoneNumber }} »
+              {{ hostel.confirmationEmail }} » {{ hostel.streetAddress }}
+            </div>
+            <div
+              class="map mt-4"
+              v-html="hostel.hostelPageRef.fields.tabs[0].fields.tabsMap"
+            ></div>
+            <v-btn
+              width="80%"
+              color="secondary"
+              class="subtitle-1 font-weight-bold my-4"
+              >Manage my booking</v-btn
+            >
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
+</template>
+
+<script>
+import contentful from "../../plugins/contentful";
+import { get } from "./api/reservation-svc";
+import BreadCrumbs from "../shared/BreadCrumbs.vue";
+import { formatPrice } from "../../filters/money";
+
+export default {
+  components: {
+    BreadCrumbs,
+  },
+  data() {
+    return {
+      bookingRef: "TEST-STC-BRI-41936480",
+      reservation: null,
+      hostel: null,
+    };
+  },
+  async created() {
+    this.reservation = await get(this.bookingRef);
+
+    const hostelReq = await contentful.getEntries({
+      include: 2,
+      content_type: "hostel",
+      "fields.code": this.reservation.cart.hostel.hostel_code,
+      select:
+        "fields.whatToKnow,fields.hostelPageRef,fields.streetAddress,fields.confirmationEmail,fields.title",
+    });
+
+    this.hostel = hostelReq.items[0].fields;
+  },
+  filters: {
+    formatPrice,
+  },
+  computed: {
+    dueOnArrival() {
+      return this.reservation.cart.total_cost - this.reservation.paid;
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+.map iframe {
+  width: 100%;
+  max-height: 325px;
+  margin: auto;
+}
+</style>

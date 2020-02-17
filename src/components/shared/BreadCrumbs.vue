@@ -59,6 +59,8 @@ export default {
 }
 .breadcrumb-container {
   margin: 0;
+  max-width: 980px;
+  margin: auto;
 }
 .breadcrumb a {
   font-family: var(--font-primary);

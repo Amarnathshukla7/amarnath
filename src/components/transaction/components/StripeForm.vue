@@ -1,6 +1,6 @@
 <template>
   <v-stripe-card
-    class="stripe_form--field"
+    class="stripe_form--field mt-4"
     v-if="stripeReady"
     ref="stripeCard"
     :api-key="stripeKey"

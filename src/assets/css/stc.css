@@ -1,0 +1,84 @@
+/**
+ * Custom CSS
+ */
+
+:root {
+  --primary-color: #ff8700;
+  --secondary-color: #062131;
+  --alpha-color: #2aa6b9;
+  --bravo-color: #81d0dc;
+  --charlie-color: #fdd6d6;
+  --danger-color: #e70101;
+  --delta-color: #899495;
+  --echo-color: #393d41;
+  --foxtrot-color: #e4e6ea;
+  --golf-color: #fafafa;
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --unknown-color: #ffffff;
+  --button-hover: #a45c0b;
+
+  --font-primary: 'proxima-nova';
+  --font-secondary: 'ff-tisa-web-pro';
+  --font-big-button: 'proxima-nova';
+  --font-headings-buttons: 'proxima-nova';
+  --font-sans-serif: sans-serif;
+  --font-open-sans: 'Open Sans';
+  --font-PFDinTextCondPro-Thin: 'ff-tisa-web-pro';
+  --font-PFDinTextCondPro-Regular: 'ff-tisa-web-pro';
+  --font-PFDinTextCondPro-Medium: 'ff-tisa-web-pro';
+  --font-PF-Din-Med: 'ff-tisa-web-pro';
+  --font-PFDinTextCondPro-Bold: 'ff-tisa-web-pro';
+  --font-proxima-nova: 'proxima-nova';
+
+  --availability-tile-border: '';
+  --container-tile-background: #e4e6ea;
+  --booking-heading-background: #062131;
+  --booking-price-background: #2aa6b9;
+  --price-tile-background: #ffffff;
+  --selected-tile-background: #2aa6b9;
+  --price-tile-back: #fff;
+  --price-tile-drop: #fff;
+  --box-text-color: #f0903a;
+  --box-border-color: #f08c34;
+  --box-background-color: #fef4ea;
+  --section-background-color: #e4e6ea;
+  --table-background-color: #e4e6ea;
+  --selected--price-tile-drop: #2aa6b9;
+  --selected--price-tile-color: #fff;
+  --price-tile-color: none;
+  --price-tile-radius: 0px;
+  --input-radius: 0px;
+  --price-text-color: #2aa6b9;
+  --luck-tile-background: #fff;
+  --luck-tile-text-color: #ec6b31;
+  --selected-luck-tile-text-color: #fff;
+  --selected-tile-text-color: #fff;
+  --luck-tile-heading-color: #ec6b31;
+  --luck-tile-icon-color: #ec6b31;
+  --breadcrumb-icon-color: #81d0dc;
+  --filter-icon-text-transform: none;
+
+  /*--border-radius-2-5pt: 2.5pt;
+  --border-radius-3: 3px;
+  --border-radius-4: 4px;
+  --border-radius-gallery-card: 0px;
+  --border-radius-4pt: 4pt;
+  --border-radius-5: 5px;
+  --border-radius-8: 8px;
+  --border-radius-10: 10px;
+  --border-radius-20: 20px;
+  --border-radius-21: 21px;
+  --border-radius-50percent: 50%;
+  --border-radius-100percent: 100%;
+  --border-radius-100: 100px;
+  --border-radius-icon-container: 150% 0 5px 0;*/
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-primary);
+}

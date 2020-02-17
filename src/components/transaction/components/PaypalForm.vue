@@ -1,5 +1,5 @@
 <template>
-  <div id="paypalButton"></div>
+  <div id="paypalButton" class="mt-4"></div>
 </template>
 
 <script>
@@ -18,6 +18,10 @@ export default {
     valid: {
       type: Boolean,
       default: false,
+    },
+    formRef: {
+      type: Object,
+      default: null,
     },
   },
   data() {
@@ -39,9 +43,7 @@ export default {
           .Buttons({
             // onInit is called when the button first renders
             onClick: (data, actions) => {
-              console.log(this.valid);
-
-              if (!this.valid) {
+              if (!this.formRef.validate()) {
                 this.$emit("show-validation-error");
                 return actions.reject();
               }

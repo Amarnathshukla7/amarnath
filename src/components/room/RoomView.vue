@@ -160,8 +160,8 @@ export default {
       try {
         this.rooms = await availability(
           this.hostelCode,
-          "2020-10-12",
-          "2020-10-13",
+          "2020-02-12",
+          "2020-02-20",
         );
         await create("STC");
       } catch (e) {

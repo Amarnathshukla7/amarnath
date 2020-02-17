@@ -1,10 +1,10 @@
 <template>
   <v-card class="mt-4" tile flat>
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="6">
         <v-text-field label="Enter code" outlined=""></v-text-field>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="6">
         <v-btn
           class="font-weight-bold white--text subtitle-1"
           :disabled="loading"

@@ -11,7 +11,13 @@
     <v-overlay :value="isError" opacity=".8">
       <div class="title">Network Error</div>
       <div class="body-1">
-        Please check your connection and click below to try again
+        <span v-if="isPmsError">
+          Issue occurred creating booking, please refresh this page and try
+          again
+        </span>
+        <span v-else
+          >Please check your connection and click below to try again</span
+        >
       </div>
       <v-btn icon>
         <v-icon>mdi-refresh</v-icon>
@@ -26,7 +32,7 @@
       </v-row>
 
       <v-row no-gutters>
-        <v-col cols="12" md="8">
+        <v-col cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2">
           <v-form ref="form" @submit.prevent>
             <v-row no-gutters>
               <v-col cols="12">
@@ -120,15 +126,35 @@
                               v-model="data.payMethod"
                               class="payment-date"
                             >
-                              <v-radio
-                                value="card"
-                                label="Credit/Debit"
-                              ></v-radio>
-                              <v-radio
-                                v-if="isPaypalEnabled"
-                                value="paypal"
-                                label="PayPal"
-                              ></v-radio>
+                              <v-row>
+                                <v-col>
+                                  <v-radio value="card">
+                                    <div slot="label">
+                                      Credit/Debit
+                                      <img
+                                        class="d-inline ml-3"
+                                        width="96"
+                                        src="../../assets/payment/card-icons1.svg"
+                                      />
+                                    </div>
+                                  </v-radio>
+                                </v-col>
+                                <v-col>
+                                  <v-radio
+                                    v-if="isPaypalEnabled"
+                                    value="paypal"
+                                  >
+                                    <div slot="label">
+                                      PayPal
+                                      <img
+                                        class="d-inline ml-3"
+                                        width="96"
+                                        src="../../assets/payment/paypal-icon.svg"
+                                      />
+                                    </div>
+                                  </v-radio>
+                                </v-col>
+                              </v-row>
                             </v-radio-group>
                           </v-col>
                         </v-row>
@@ -201,6 +227,7 @@
                           </v-col>
                           <v-col cols="12">
                             <v-checkbox
+                              class="pt-8"
                               v-model="data.newsletter"
                               label="Sign up for St Christopher’s Inns offers, deals,
                             latest travel guides, playlists and more. By opting
@@ -212,35 +239,47 @@
                             />
                           </v-col>
                         </v-row>
-                        <v-row v-show="showCard">
-                          <v-col cols="12">
-                            <v-btn
-                              class="font-weight-bold white--text subtitle-1"
-                              large
-                              width="100%"
-                              color="secondary"
-                              :disabled="isLoading"
-                              @click="cardReservation"
-                            >
-                              <span v-if="payable > 0"
-                                >Pay
-                                {{
-                                  payable | formatPrice(hostelConf.currency)
-                                }}</span
-                              >
-                              <span v-else>Confirm Booking</span>
-                            </v-btn>
-                          </v-col>
-                        </v-row>
                       </v-card>
                     </v-expansion-panel-content>
+                    <v-card
+                      v-if="showCard"
+                      tile
+                      color="accent white--text py-4"
+                    >
+                      <v-row no-gutters class="text-center">
+                        <v-col cols="6">
+                          <div class="subtitle-1 font-weight-bold d-inline">
+                            Payable Now:
+                          </div>
+                          <div class="headline font-weight-bold d-inline">
+                            {{ payable | formatPrice(hostelConf.currency) }}
+                          </div>
+                        </v-col>
+                        <v-col cols="6">
+                          <v-btn
+                            class="font-weight-bold"
+                            tile
+                            large
+                            py-2
+                            color="secondary"
+                            @click="cardReservation"
+                          >
+                            <span v-if="payable > 0">
+                              PAY NOW
+                              {{ payable | formatPrice(hostelConf.currency) }}
+                            </span>
+                            <span v-else>Confirm Booking</span>
+                          </v-btn>
+                        </v-col>
+                      </v-row>
+                    </v-card>
                   </v-expansion-panel>
                 </v-expansion-panels>
               </v-col>
             </v-row>
           </v-form>
         </v-col>
-        <v-col cols="12" md="4" class="pl-4">
+        <v-col cols="12" md="4" lg="4" xl="3" class="pl-4">
           <booking-summary
             :cart="cart"
             :hostel-conf="hostelConf"
@@ -331,6 +370,11 @@ export default {
     },
   },
   computed: {
+    isPmsError() {
+      return this.reservation
+        ? this.reservation.booking_error_action === "PMS_ERROR"
+        : null;
+    },
     roomsContent() {
       return this.hostel ? this.hostel.rooms : null;
     },
@@ -363,14 +407,20 @@ export default {
     },
     async createPaypalReservation(transaction) {
       this.isLoadingOverlay = true;
-      const reservation = await create({
+
+      this.reservation = await create({
+        deposit: this.data.deposit,
         guest: this.data.guest,
         marketing: this.data.newsletter,
         transaction,
         gateway: "paypal",
       });
 
-      console.log(reservation);
+      this.isLoadingOverlay = false;
+
+      if (this.reservation.status !== "success") {
+        this.isError = true;
+      }
 
       // if (reservation.status === 'success') {}
     },
@@ -402,4 +452,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.theme--light.v-expansion-panels .v-expansion-panel {
+  background-color: #f8f8f8 !important;
+}
+</style>

@@ -2,7 +2,6 @@
   <v-row class="sort-by--filters my-4" align="start" no-gutters>
     <v-col cols="12" class="text-left ml-3">
       <v-btn
-        large
         @click="showFilters = !showFilters"
         text
         :tile="true"
@@ -12,7 +11,6 @@
         Filters
       </v-btn>
       <v-select
-        height="43"
         dense
         class="d-inline-block"
         :items="items"
