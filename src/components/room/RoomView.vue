@@ -4,7 +4,7 @@
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
 
-    <v-overlay class="text-center" :value="isError" opacity=".8">
+    <v-overlay class="text-center" :value="isError" :opacity="0.8">
       <div class="title">Network Error</div>
       <div class="body-1 px-6">
         Please check your connection and click below to try again
@@ -161,7 +161,7 @@ export default {
         this.rooms = await availability(
           this.hostelCode,
           "2020-10-12",
-          "2020-10-18",
+          "2020-10-13",
         );
         await create("STC");
       } catch (e) {

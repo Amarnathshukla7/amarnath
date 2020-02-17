@@ -12,35 +12,35 @@ module.exports = {
         pathRewrite: { "^/review-svc/": "" },
       },
       // "/cart-svc/": {
-      //   target: "https://apis.bedsandbars.com/book/carts/",
+      //   target: "http://localhost:8000/carts/",
       //   pathRewrite: { "^/cart-svc/": "" },
       // },
       // "/reservation-svc/": {
-      //   target: "https://apis.bedsandbars.com/book/reservations/",
+      //   target: "http://localhost:8000/reservations/",
       //   pathRewrite: { "^/reservation-svc/": "" },
       // },
       // "/hostel-svc/": {
-      //   target: "https://apis.bedsandbars.com/book/hostels/",
+      //   target: "http://localhost:8000/hostels/",
       //   pathRewrite: { "^/hostel-svc/": "" },
       // },
       // "/transaction-svc/": {
-      //   target: "https://apis.bedsandbars.com/book/transactions/",
+      //   target: "http://localhost:8000/transactions/",
       //   pathRewrite: { "^/transaction-svc/": "" },
       // },
       "/cart-svc/": {
-        target: "http://127.0.0.1:8000/carts/",
+        target: "http://reservation-apis.test/api/carts/",
         pathRewrite: { "^/cart-svc/": "" },
       },
       "/reservation-svc/": {
-        target: "http://127.0.0.1:8000/reservations/",
+        target: "http://reservation-apis.test/api/reservations/",
         pathRewrite: { "^/reservation-svc/": "" },
       },
       "/hostel-svc/": {
-        target: "http://127.0.0.1:8000/hostels/",
+        target: "http://reservation-apis.test/api/hostels/",
         pathRewrite: { "^/hostel-svc/": "" },
       },
       "/transaction-svc/": {
-        target: "http://127.0.0.1:8000/transactions/",
+        target: "http://reservation-apis.test/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
     },

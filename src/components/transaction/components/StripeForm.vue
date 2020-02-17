@@ -39,10 +39,8 @@ export default {
       });
     },
     async createStripeReservation() {
-      const transaction = await create("stripe");
+      const transaction = await create("stripe", this.deposit);
       const secret = JSON.parse(transaction.secret_output)["secret"];
-
-      console.log(this.$refs);
 
       const data = {
         payment_method: {

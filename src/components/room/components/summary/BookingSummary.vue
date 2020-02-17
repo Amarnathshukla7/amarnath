@@ -39,7 +39,7 @@
     <v-card tile flat color="accent" class="white--text pt-4">
       <v-row no-gutters class="mb-5">
         <v-col cols="6">
-          <div class="heading ml-6 font-weight-bold">Total price:</div>
+          <div class="heading ml-6 mb-md-6 font-weight-bold">Total price:</div>
         </v-col>
         <v-col cols="6">
           <div class="heading text-right mr-6 font-weight-bold">

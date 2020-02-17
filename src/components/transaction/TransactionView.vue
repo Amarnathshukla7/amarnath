@@ -1,7 +1,11 @@
 <template>
-  <v-app class="room-view">
-    <v-overlay :value="isLoadingOverlay">
+  <v-app class="transaction-view">
+    <v-overlay class="text-center" :value="isLoadingOverlay" :opacity="0.8">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
+      <div style="max-width: 620px" class="heading mt-10 px-6">
+        Please wait while we confirm your payment and booking. This might take
+        up to 30 seconds or more on slow internet connections. Please be patient
+      </div>
     </v-overlay>
 
     <v-overlay :value="isError" opacity=".8">
@@ -22,7 +26,7 @@
       </v-row>
 
       <v-row no-gutters>
-        <v-col cols="12" md="8" lg="9">
+        <v-col cols="12" md="8">
           <v-form ref="form" @submit.prevent>
             <v-row no-gutters>
               <v-col cols="12">
@@ -38,31 +42,41 @@
                     </v-expansion-panel-header>
                     <v-expansion-panel-content color="white">
                       <v-card class="mt-4" tile flat>
-                        <v-text-field
-                          label="Full Name"
-                          :rules="rules.name"
-                          v-model="data.guest.name"
-                          outlined=""
-                        ></v-text-field>
-                        <v-text-field
-                          label="Email"
-                          :rules="rules.email"
-                          v-model="data.guest.email"
-                          outlined
-                        ></v-text-field>
-                        <v-text-field
-                          label="Phone Number"
-                          :rules="rules.phone"
-                          v-model="data.guest.phone"
-                          outlined=""
-                        ></v-text-field>
-                        <v-autocomplete
-                          :items="countries"
-                          label="Country"
-                          :rules="rules.country"
-                          v-model="data.guest.country"
-                          outlined=""
-                        ></v-autocomplete>
+                        <v-row>
+                          <v-col cols="12" md="6">
+                            <v-text-field
+                              label="Full Name"
+                              :rules="rules.name"
+                              v-model="data.guest.name"
+                              outlined=""
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <v-text-field
+                              label="Email"
+                              :rules="rules.email"
+                              v-model="data.guest.email"
+                              outlined
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <v-text-field
+                              label="Phone Number"
+                              :rules="rules.phone"
+                              v-model="data.guest.phone"
+                              outlined=""
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <v-autocomplete
+                              :items="countries"
+                              label="Country"
+                              :rules="rules.country"
+                              v-model="data.guest.country"
+                              outlined=""
+                            ></v-autocomplete>
+                          </v-col>
+                        </v-row>
                       </v-card>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
@@ -167,6 +181,7 @@
                             <paypal-form
                               :valid="valid"
                               :hostel="hostelConf"
+                              :form-ref="$refs.form"
                               @show-validation-error="validate"
                               @paypal-approved="createPaypalReservation"
                             ></paypal-form>
@@ -225,13 +240,11 @@
             </v-row>
           </v-form>
         </v-col>
-        <v-col cols="12" md="4" lg="3" class="pl-4">
+        <v-col cols="12" md="4" class="pl-4">
           <booking-summary
-            :transaction="true"
-            :cost="totalCost"
-            :cart-data="cart"
-            :rooms-content="roomsContent"
-            @update-cart="cart => (this.cart = cart)"
+            :cart="cart"
+            :hostel-conf="hostelConf"
+            :payable="payable"
           ></booking-summary>
         </v-col>
       </v-row>
@@ -249,10 +262,9 @@
 import Vue from "vue";
 import VStripeElements from "v-stripe-elements/lib";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
-import BookingSummary from "../room/components/summary/BookingSummary.vue";
+import BookingSummary from "./components/summary/Summary.vue";
 import countries from "./data/countries.json";
 import { formatPrice } from "../../filters/money";
-import { deposit } from "./api/cart-svc";
 import { create } from "./api/reservation-svc";
 
 Vue.use(VStripeElements);
@@ -314,25 +326,6 @@ export default {
     };
   },
   watch: {
-    data: {
-      handler() {
-        console.log(
-          Object.values(this.$refs.form.errorBag).every(bool => bool === false),
-        );
-        this.valid = Object.values(this.$refs.form.errorBag).every(
-          bool => bool === false,
-        );
-      },
-      deep: true,
-    },
-    "data.deposit": {
-      async handler(val) {
-        this.isLoading = true;
-        await deposit(val);
-        this.isLoading = false;
-      },
-      deep: true,
-    },
     showPaypal() {
       this.data.deposit = 100;
     },
@@ -372,11 +365,14 @@ export default {
       this.isLoadingOverlay = true;
       const reservation = await create({
         guest: this.data.guest,
+        marketing: this.data.newsletter,
         transaction,
         gateway: "paypal",
       });
 
       console.log(reservation);
+
+      // if (reservation.status === 'success') {}
     },
     createSagepayReservation() {},
     async cardReservation() {
@@ -388,9 +384,11 @@ export default {
       this.isLoadingOverlay = true;
       const transaction = await this.$refs.stripeContainer.createStripeReservation();
       const reservation = await create({
+        deposit: this.data.deposit,
         guest: this.data.guest,
         transaction,
         gateway: "stripe",
+        marketing: this.data.newsletter,
       });
 
       console.log(reservation);
