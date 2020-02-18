@@ -1,6 +1,6 @@
 <template>
   <div class="desktop-summary">
-    <v-expansion-panels tile flat>
+    <v-expansion-panels class="hidden-md-and-down" tile flat>
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -24,9 +24,7 @@
                   Accommodation Sub-Total
                 </v-col>
                 <v-col cols="4" class="text-right">
-                  {{
-                    cart.accommodation_cost | formatPrice(hostelConf.currency)
-                  }}
+                  {{ cart.accommodation_cost | formatPrice(currency) }}
                 </v-col>
               </v-row>
               <v-row class="px-4 py-2">
@@ -34,7 +32,7 @@
                   Loyalty Coupon Code
                 </v-col>
                 <v-col cols="4" class="text-right">
-                  {{ cart.discount | formatPrice(hostelConf.currency) }}
+                  − {{ discount | formatPrice(currency) }}
                 </v-col>
               </v-row>
               <v-row class="px-4 py-2 white">
@@ -42,7 +40,7 @@
                   Tourist Tax Total
                 </v-col>
                 <v-col cols="4" class="text-right">
-                  {{ cart.tourist_tax_cost | formatPrice(hostelConf.currency) }}
+                  {{ cart.tourist_tax_cost | formatPrice(currency) }}
                 </v-col>
               </v-row>
               <v-row class="px-4 py-2">
@@ -51,7 +49,7 @@
                 </v-col>
                 <v-col cols="6" class="text-right">
                   <span v-if="breakfastCost > 0">
-                    {{ breakfastCost | formatPrice(hostelConf.currency) }}
+                    {{ breakfastCost | formatPrice(currency) }}
                   </span>
                   <span v-else>
                     Included for FREE!
@@ -64,28 +62,36 @@
       </v-expansion-panel>
     </v-expansion-panels>
     <v-card tile flat color="accent" class="">
-      <v-row class="px-4 py-2 white--text">
+      <v-row class="hidden-md-and-down px-4 py-2 white--text">
         <v-col cols="8">
           Payable Now:
         </v-col>
         <v-col cols="4" class="text-right">
-          {{ payable | formatPrice }}
+          {{ payable | formatPrice(currency) }}
         </v-col>
       </v-row>
-      <v-row class="px-4 py-2 white">
+      <v-row class="hidden-md-and-down px-4 py-2 white">
         <v-col cols="8">
           Due on arrival:
         </v-col>
         <v-col cols="4" class="text-right">
-          {{ dueOnArrival | formatPrice }}
+          {{ dueOnArrival | formatPrice(currency) }}
         </v-col>
       </v-row>
       <v-row class="px-4 py-2 white--text">
-        <v-col cols="8">
-          Total price:
+        <v-col cols="6" offset="1" md="8" offset-md="0">
+          <div class="title font-weight-bold">Total price:</div>
+          <div class="subtitle-1 font-weight-bold hidden-md-and-up">
+            Payable Now:
+          </div>
         </v-col>
         <v-col cols="4" class="text-right">
-          {{ cost | formatPrice }}
+          <div class="title font-weight-bold">
+            {{ cost | formatPrice(currency) }}
+          </div>
+          <div class="subtitle-1 font-weight-bold hidden-md-and-up">
+            {{ payable | formatPrice(currency) }}
+          </div>
         </v-col>
       </v-row>
     </v-card>
@@ -103,9 +109,9 @@ export default {
       type: Object,
       default: null,
     },
-    hostelConf: {
-      type: Object,
-      default: null,
+    currency: {
+      type: String,
+      default: "GBP",
     },
     payable: {
       type: Number,
@@ -132,6 +138,9 @@ export default {
   computed: {
     isCartEmpty() {
       return !(this.cart ? this.cart.items.length >= 1 : false);
+    },
+    discount() {
+      return (this.cart.discount / 100) * this.cart.accommodation_cost;
     },
     cost() {
       if (!this.cart) return 0;

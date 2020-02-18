@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <room-and-transaction-view v-if="asd"></room-and-transaction-view>
-    <confirmation />
+    <room-and-transaction-view></room-and-transaction-view>
+    <confirmation v-if="asd" />
   </div>
 </template>
 

@@ -36,7 +36,11 @@
           <v-form ref="form" @submit.prevent>
             <v-row no-gutters>
               <v-col cols="12">
-                <v-expansion-panels v-model="openPanels" multiple>
+                <v-expansion-panels
+                  v-model="openPanels"
+                  multiple
+                  class="transaction-view-panel--margin"
+                >
                   <v-expansion-panel>
                     <v-expansion-panel-header color="primary">
                       <div class="font-weight-bold white--text subtitle-2">
@@ -99,10 +103,11 @@
                       <discount-code
                         :is-loading="isLoading"
                         @is-loading="state => (this.isLoading = state)"
+                        @cart-updated="cart => (this.cart = cart)"
                       ></discount-code>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
-                  <v-expansion-panel class="mb-12">
+                  <v-expansion-panel>
                     <v-expansion-panel-header color="primary">
                       <div class="font-weight-bold white--text subtitle-2">
                         3/3 PAYMENT DETAILS
@@ -227,7 +232,7 @@
                           </v-col>
                           <v-col cols="12">
                             <v-checkbox
-                              class="pt-8"
+                              class="pt-12 pt-md-4 pb-8"
                               v-model="data.newsletter"
                               label="Sign up for St Christopher’s Inns offers, deals,
                             latest travel guides, playlists and more. By opting
@@ -244,10 +249,14 @@
                     <v-card
                       v-if="showCard"
                       tile
-                      color="accent white--text py-4"
+                      color="py-4"
+                      :class="{
+                        'white--text': isDesktop,
+                        accent: isDesktop,
+                      }"
                     >
                       <v-row no-gutters class="text-center">
-                        <v-col cols="6">
+                        <v-col class="hidden-md-and-down" cols="6">
                           <div class="subtitle-1 font-weight-bold d-inline">
                             Payable Now:
                           </div>
@@ -255,13 +264,14 @@
                             {{ payable | formatPrice(hostelConf.currency) }}
                           </div>
                         </v-col>
-                        <v-col cols="6">
+                        <v-col cols="12" md="6">
                           <v-btn
                             class="font-weight-bold"
                             tile
                             large
                             py-2
                             color="secondary"
+                            width="90%"
                             @click="cardReservation"
                           >
                             <span v-if="payable > 0">
@@ -282,7 +292,7 @@
         <v-col cols="12" md="4" lg="4" xl="3" class="pl-4">
           <booking-summary
             :cart="cart"
-            :hostel-conf="hostelConf"
+            :currency="hostelConf.currency"
             :payable="payable"
           ></booking-summary>
         </v-col>
@@ -370,6 +380,11 @@ export default {
     },
   },
   computed: {
+    isDesktop() {
+      if (!window) return true;
+
+      return window.innerWidth > 959;
+    },
     isPmsError() {
       return this.reservation
         ? this.reservation.booking_error_action === "PMS_ERROR"
@@ -392,6 +407,10 @@ export default {
     },
     showCard() {
       return this.data.payMethod === "card";
+    },
+    breakfast() {
+      return this.hostel.extras.find(extra => extra.fields.type === "breakfast")
+        .fields;
     },
   },
   methods: {
@@ -455,5 +474,9 @@ export default {
 <style lang="scss" scoped>
 .theme--light.v-expansion-panels .v-expansion-panel {
   background-color: #f8f8f8 !important;
+}
+
+.transaction-view-panel--margin {
+  margin-bottom: 125px;
 }
 </style>

@@ -6,7 +6,7 @@ export const getHostel = async code => {
     content_type: "hostel",
     "fields.code": code,
     select:
-      "fields.currency,fields.rooms,fields.code,fields.shortName,fields.streetAddress,fields.gallery,fields.hostelPage,fields.description,fields.facilities,fields.attractions,fields.title,fields.mainImage,fields.basicContentBlocks,fields.whatToKnow",
+      "fields.currency,fields.rooms,fields.code,fields.shortName,fields.streetAddress,fields.gallery,fields.title,fields.mainImage,fields.whatToKnow,fields.extras",
   });
 
   return hostelReq.items[0].fields;
