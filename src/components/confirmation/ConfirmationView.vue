@@ -136,9 +136,9 @@
 
 <script>
 import contentful from "../../plugins/contentful";
-import { get } from "./api/reservation-svc";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import { formatPrice } from "../../filters/money";
+import { get } from "idb-keyval";
 
 export default {
   components: {
@@ -146,13 +146,17 @@ export default {
   },
   data() {
     return {
-      bookingRef: "TEST-STC-BRI-41936480",
+      bookingRef: "TEST-STC-BRI-25353491",
       reservation: null,
       hostel: null,
     };
   },
   async created() {
-    this.reservation = await get(this.bookingRef);
+    // this.reservation = await get(this.bookingRef);
+
+    this.reservation = await get("reservation");
+
+    console.log(this.reservation);
 
     const hostelReq = await contentful.getEntries({
       include: 2,
@@ -180,5 +184,34 @@ export default {
   width: 100%;
   max-height: 325px;
   margin: auto;
+}
+
+@import url(https://use.typekit.net/dzk4xxw.css);
+
+$body-font-family: "proxima-nova";
+$title-font: "proxima-nova";
+
+.v-application *,
+.v-application .subtitle-1,
+.v-application .headline,
+.v-application .display-1,
+.v-application .body-1,
+.v-application .body-2 {
+  font-family: $body-font-family, sans-serif !important;
+}
+
+.v-application {
+  font-family: $body-font-family, sans-serif !important;
+
+  .title {
+    // To pin point specific classes of some components
+    font-family: $title-font, sans-serif !important;
+  }
+}
+
+#app {
+  font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 </style>

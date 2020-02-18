@@ -14,8 +14,8 @@
       <h2 class="mx-2 mt-4 text-justtify subtitle-1">
         UPGRADE TO COOKED BREAKFAST
         <br />
-        <span class="secondary--text font-weight-bold headline"
-          >AND SAVE 30%</span
+        <span class="secondary--text font-weight-bold headline">
+          AND SAVE 30%</span
         >
       </h2>
       <number-counter class="primary--text" id="breakfast-counter" />

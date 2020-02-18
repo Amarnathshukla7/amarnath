@@ -8,19 +8,22 @@
       </div>
     </v-overlay>
 
-    <v-overlay :value="isError" opacity=".8">
-      <div class="title">Network Error</div>
-      <div class="body-1">
+    <v-overlay :value="isError" opacity=".8" class="text-center">
+      <div class="title">Error</div>
+      <div class="body-1 px-4">
         <span v-if="isPmsError">
           Issue occurred creating booking, please refresh this page and try
-          again
+          again. Reference:
+          <br />
+          <br />
+          {{ reservation.booking_reference }}
         </span>
-        <span v-else
-          >Please check your connection and click below to try again</span
-        >
+        <span v-else>
+          Something unexpected went wrong, please try again
+        </span>
       </div>
-      <v-btn icon>
-        <v-icon>mdi-refresh</v-icon>
+      <v-btn class="mt-4" icon @click="isError = false">
+        <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-overlay>
 
@@ -214,6 +217,7 @@
                               :hostel="hostelConf"
                               :form-ref="$refs.form"
                               @show-validation-error="validate"
+                              @paypal-error="payPalError"
                               @paypal-approved="createPaypalReservation"
                             ></paypal-form>
                           </v-col>
@@ -315,6 +319,7 @@ import BookingSummary from "./components/summary/Summary.vue";
 import countries from "./data/countries.json";
 import { formatPrice } from "../../filters/money";
 import { create } from "./api/reservation-svc";
+import { set } from "idb-keyval";
 
 Vue.use(VStripeElements);
 
@@ -424,21 +429,36 @@ export default {
       this.valid = true;
       return this.valid;
     },
+    payPalError() {
+      this.isError = true;
+      this.isLoadingOverlay = false;
+    },
     async createPaypalReservation(transaction) {
       this.isLoadingOverlay = true;
 
-      this.reservation = await create({
-        deposit: this.data.deposit,
-        guest: this.data.guest,
-        marketing: this.data.newsletter,
-        transaction,
-        gateway: "paypal",
-      });
+      try {
+        this.reservation = await create({
+          deposit: this.data.deposit,
+          guest: this.data.guest,
+          marketing: this.data.newsletter,
+          transaction,
+          gateway: "paypal",
+        });
 
-      this.isLoadingOverlay = false;
+        this.isLoadingOverlay = false;
 
-      if (this.reservation.status !== "success") {
+        if (this.reservation && this.reservation.status !== "success") {
+          this.isError = true;
+          this.isLoadingOverlay = false;
+          return;
+        }
+
+        this.$router.push({
+          path: `/${window.location.pathname}/confirmation`,
+        });
+      } catch (e) {
         this.isError = true;
+        this.isLoadingOverlay = false;
       }
 
       // if (reservation.status === 'success') {}
@@ -451,16 +471,32 @@ export default {
       }
 
       this.isLoadingOverlay = true;
-      const transaction = await this.$refs.stripeContainer.createStripeReservation();
-      const reservation = await create({
-        deposit: this.data.deposit,
-        guest: this.data.guest,
-        transaction,
-        gateway: "stripe",
-        marketing: this.data.newsletter,
-      });
 
-      console.log(reservation);
+      try {
+        const transaction = await this.$refs.stripeContainer.createStripeReservation();
+        this.reservation = await create({
+          deposit: this.data.deposit,
+          guest: this.data.guest,
+          transaction,
+          gateway: "stripe",
+          marketing: this.data.newsletter,
+        });
+
+        if (this.reservation && this.reservation.status !== "success") {
+          this.isError = true;
+          this.isLoadingOverlay = false;
+          return;
+        }
+
+        await set("reservation", this.reservation);
+
+        this.$router.push({
+          path: `${window.location.pathname}confirmation`,
+        });
+      } catch (e) {
+        this.isError = true;
+        this.isLoadingOverlay = false;
+      }
 
       this.isLoadingOverlay = false;
     },
