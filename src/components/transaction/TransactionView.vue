@@ -67,6 +67,7 @@
                           <v-col cols="12" md="6">
                             <v-text-field
                               label="Email"
+                              class="mt-n6 mt-md-0"
                               :rules="rules.email"
                               v-model="data.guest.email"
                               outlined
@@ -74,6 +75,7 @@
                           </v-col>
                           <v-col cols="12" md="6">
                             <v-text-field
+                              class="mt-n6 mb-md-n6"
                               label="Phone Number"
                               :rules="rules.phone"
                               v-model="data.guest.phone"
@@ -82,6 +84,7 @@
                           </v-col>
                           <v-col cols="12" md="6">
                             <v-autocomplete
+                              class="mt-n6 mb-n6"
                               :items="countries"
                               label="Country"
                               :rules="rules.country"

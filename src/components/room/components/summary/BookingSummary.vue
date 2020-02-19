@@ -1,6 +1,6 @@
 <template>
   <div class="desktop-summary accent">
-    <v-expansion-panels tile flat multiple class="hidden-sm-and-down">
+    <v-expansion-panels v-model="open" tile flat class="hidden-sm-and-down">
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -17,12 +17,12 @@
             tile
             color="info"
             class="pa-0 summary-card"
-            max-height="250"
           >
             <booking-summary-item
-              v-for="room in bookingEntries.normal"
+              v-for="(room, index) in bookingEntries.normal"
               :key="room.code"
               :room="room"
+              :index="index"
               @destroy-room="deleteFromCart"
             ></booking-summary-item>
 
@@ -117,6 +117,7 @@ export default {
   },
   data() {
     return {
+      open: 0,
       isCartUpdating: false,
     };
   },

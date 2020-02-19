@@ -2,7 +2,7 @@
   <v-card
     v-if="!isHidden"
     tile
-    class="my-6 room-card pa-lg-4"
+    class="my-4 room-card"
     :class="{ active: isSelectedAndNotCustom }"
   >
     <v-row no-gutters>
@@ -11,7 +11,7 @@
           class="hidden-sm-and-down"
           :src="thumb.src"
           :lazy-src="thumb.lzy"
-          width="200"
+          width="100"
           :aspect-ratio="1"
           @click="index = 0"
         ></v-img>
@@ -22,7 +22,7 @@
           <v-col cols="12" md="5" lg="6">
             <v-card-title
               pa-2
-              class="font-weight-bold subtitle-1"
+              class="font-weight-bold title"
               :class="selectedAndCustomStylePrimaryColor"
             >
               {{ room.roomName }}
@@ -41,6 +41,14 @@
               >
                 Prices are per {{ bedType }} sleeping {{ maxOccupancy }}
                 {{ personDescriptor }}
+              </div>
+              <div class="caption greyish--text">
+                Want to customise your stay? <br />
+                Switch to
+                <a class="secondary--text" href="javascript:void(0)"
+                  >custom booking</a
+                >
+                instead
               </div>
             </v-card-subtitle>
           </v-col>
@@ -65,13 +73,32 @@
 
             <selection
               v-if="!isCustom"
-              class="pb-2"
+              class="pb-2 mt-n2 mr-n2"
               :price="price"
               :available="available"
               :code="room.code"
+              :bed-type="bedType"
               @room-active="val => (selected = val)"
               @update-local-room-cart="updateCart"
             />
+            <div
+              class="heading font-weight-bold"
+              :class="{
+                'white--text': selected,
+                'accent--text': !selected,
+              }"
+            >
+              You’re in luck!
+            </div>
+            <div
+              class="caption"
+              :class="{
+                'white--text': selected,
+                'accent--text': !selected,
+              }"
+            >
+              This Room has full availability on your chosen dates
+            </div>
           </v-col>
         </v-row>
       </v-col>

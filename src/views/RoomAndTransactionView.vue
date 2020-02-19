@@ -28,11 +28,11 @@ export default {
   props: {
     checkIn: {
       type: String,
-      default: "2020-03-05",
+      default: "2020-10-05",
     },
     checkOut: {
       type: String,
-      default: "2020-03-10",
+      default: "2020-10-10",
     },
     code: {
       type: String,
@@ -51,6 +51,12 @@ export default {
       hostelConf: null,
     };
   },
+  watch: {
+    async code(code) {
+      this.hostel = await getHostel(code);
+      this.hostelConf = await find(code);
+    },
+  },
   async created() {
     this.hostel = await getHostel(this.code);
     this.hostelConf = await find(this.code);
@@ -65,7 +71,7 @@ export default {
       // Chrome requires returnValue to be set.
       event.returnValue = "";
 
-      return confirm("Are you sure you want to leave the journey?");
+      return confirm("Are you sure you want to abandon your search?");
     });
   },
   methods: {
@@ -86,17 +92,18 @@ export default {
 </script>
 
 <style lang="scss">
-@import url(https://use.typekit.net/dzk4xxw.css);
-
-$body-font-family: "proxima-nova";
+$body-font-family: "ff-tisa-web-pro";
 $title-font: "proxima-nova";
 
-.v-application *,
 .v-application .subtitle-1,
 .v-application .headline,
-.v-application .display-1,
+.v-application .display-1 {
+  font-family: $title-font, sans-serif !important;
+}
+
 .v-application .body-1,
-.v-application .body-2 {
+.v-application .body-2,
+.v-application .caption {
   font-family: $body-font-family, sans-serif !important;
 }
 

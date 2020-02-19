@@ -142,6 +142,17 @@ export default {
       default: null,
     },
   },
+  watch: {
+    hostelCode() {
+      this.loadData();
+    },
+    checkIn() {
+      this.loadData();
+    },
+    checkOut() {
+      this.loadData();
+    },
+  },
   components: {
     Card,
     BookingSummary,

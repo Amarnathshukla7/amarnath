@@ -19,7 +19,4 @@ export default {
 
 <style lang="scss">
 @import url(https://use.typekit.net/dzk4xxw.css);
-
-$body-font-family: "proxima-nova";
-$title-font: "proxima-nova";
 </style>

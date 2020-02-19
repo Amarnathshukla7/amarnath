@@ -1,10 +1,10 @@
 <template>
   <div class="unit--selector">
     <v-select
-      class="unit--selector--select pb-2 subtitle-2"
+      class="unit--selector--select pb-0 subtitle-2"
       :items="available"
       v-model="selected"
-      placeholder="0 Beds"
+      :placeholder="placehold"
       :disabled="soldOut"
       :readonly="soldOut"
       :rounded="false"
@@ -32,6 +32,10 @@
 <script>
 export default {
   props: {
+    bedType: {
+      type: String,
+      default: "bed",
+    },
     units: {
       type: Number,
       default: 0,
@@ -42,6 +46,9 @@ export default {
     },
   },
   computed: {
+    placehold() {
+      return `0 ${this.bedType}s`;
+    },
     soldOut() {
       return !this.units === 0;
     },

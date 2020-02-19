@@ -1,6 +1,6 @@
 <template>
   <div class="desktop-summary">
-    <v-expansion-panels class="hidden-md-and-down" tile flat>
+    <v-expansion-panels v-model="open" class="hidden-md-and-down" tile flat>
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -11,13 +11,7 @@
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content color="other" class="pa-0">
-          <v-card
-            flat
-            tile
-            color="other"
-            class="pa-0 summary-card"
-            max-height="250"
-          >
+          <v-card flat tile color="other" class="pa-0 summary-card">
             <div class="cart-item-row">
               <v-row class="px-4 py-2 white">
                 <v-col cols="8">
@@ -123,6 +117,7 @@ export default {
   },
   data() {
     return {
+      open: 0,
       isCartUpdating: false,
       breakfasts: 0,
     };
@@ -140,7 +135,7 @@ export default {
       return !(this.cart ? this.cart.items.length >= 1 : false);
     },
     discount() {
-      return (this.cart.discount / 100) * this.cart.accommodation_cost;
+      return this.cart.discount;
     },
     cost() {
       if (!this.cart) return 0;

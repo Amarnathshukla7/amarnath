@@ -186,9 +186,7 @@ export default {
   margin: auto;
 }
 
-@import url(https://use.typekit.net/dzk4xxw.css);
-
-$body-font-family: "proxima-nova";
+$body-font-family: "ff-tisa-web-pro";
 $title-font: "proxima-nova";
 
 .v-application *,

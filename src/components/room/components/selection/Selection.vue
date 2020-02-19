@@ -1,16 +1,12 @@
 <template>
   <div class="selection">
-    <v-card
-      outlined
-      tile
-      class="ma-3 custom-card"
-      :class="{ accent: isSelected }"
-    >
+    <v-card tile flat class="ma-2 custom-card" :class="{ accent: isSelected }">
       <v-row no-gutters>
         <v-col cols="6">
           <unit-select
             :units="available"
             :value="unitsSelected"
+            :bed-type="bedType"
             @update-value="update"
           ></unit-select>
         </v-col>
@@ -19,7 +15,7 @@
             class="white--text date--price"
             :class="{ accent: !isSoldOut, info: isSoldOut }"
           >
-            <div class="heading font-weight-bold">
+            <div class="title font-weight-bold">
               <span v-if="date">{{ date }}</span>
               <span v-else>{{ price | formatPrice(currency) }}</span>
             </div>
@@ -41,6 +37,10 @@ import { bus } from "../../../../plugins/bus";
 
 export default {
   props: {
+    bedType: {
+      type: String,
+      default: "bed",
+    },
     code: {
       type: String,
       default: null,
@@ -122,7 +122,7 @@ export default {
   height: 100%;
 }
 
-.custom-card.theme--light.v-card.v-card--outlined {
-  border: 1px solid var(--v-accent-base) !important;
-}
+// .custom-card.theme--light.v-card.v-card--outlined {
+//   border: 1px solid var(--v-accent-base) !important;
+// }
 </style>
