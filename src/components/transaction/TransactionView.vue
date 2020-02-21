@@ -490,31 +490,11 @@ export default {
       this.isLoadingOverlay = true;
 
       try {
-        this.reservation = await create({
-          deposit: this.data.deposit,
-          guest: this.data.guest,
-          marketing: this.data.newsletter,
-          transaction,
-          gateway: "paypal",
-        });
-
-        this.isLoadingOverlay = false;
-
-        if (this.reservation && this.reservation.status !== "success") {
-          this.isError = true;
-          this.isLoadingOverlay = false;
-          return;
-        }
-
-        this.$router.push({
-          path: `/${window.location.pathname}/confirmation`,
-        });
+        this.completeTransaction(transaction, "paypal");
       } catch (e) {
         this.isError = true;
         this.isLoadingOverlay = false;
       }
-
-      // if (reservation.status === 'success') {}
     },
     createSagepayReservation() {},
     async cardReservation() {
@@ -527,11 +507,19 @@ export default {
 
       try {
         const transaction = await this.$refs.stripeContainer.createStripeReservation();
+        this.completeTransaction(transaction, "stripe");
+      } catch (e) {
+        this.isError = true;
+        this.isLoadingOverlay = false;
+      }
+    },
+    async completeTransaction(transaction, gateway) {
+      try {
         this.reservation = await create({
           deposit: this.data.deposit,
           guest: this.data.guest,
           transaction,
-          gateway: "stripe",
+          gateway,
           marketing: this.data.newsletter,
         });
 
@@ -542,7 +530,7 @@ export default {
         }
 
         await set("reservation", this.reservation);
-
+        console.log(`${window.location.pathname}confirmation`);
         this.$router.push({
           path: `${window.location.pathname}confirmation`,
         });
