@@ -6,7 +6,7 @@
         text
         :tile="true"
         outlined
-        class="mr-4"
+        class="mr-4 mb-2"
       >
         Filters
       </v-btn>
@@ -15,14 +15,13 @@
         class="d-inline-block"
         :items="items"
         label="Sort By"
-        placeholder="Select Filter"
         outlined
         clearable
         item-text="value"
         item-value="key"
       ></v-select>
     </v-col>
-    <v-col cols="12" class="ml-6 mt-4">
+    <v-col cols="12">
       <filters v-if="showFilters" />
     </v-col>
   </v-row>

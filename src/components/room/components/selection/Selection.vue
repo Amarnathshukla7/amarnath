@@ -1,26 +1,42 @@
 <template>
   <div class="selection">
-    <v-card tile flat class="ma-2 custom-card" :class="{ accent: isSelected }">
+    <v-card
+      :outlined="custom"
+      tile
+      flat
+      class="ma-2 custom-card"
+      :class="{ accent: isSelected }"
+    >
       <v-row no-gutters>
-        <v-col cols="6">
+        <v-col cols="6" md="7">
           <unit-select
+            class="pb-2"
+            :class="{ 'pb-md-0': !custom }"
             :units="available"
             :value="unitsSelected"
             :bed-type="bedType"
             @update-value="update"
           ></unit-select>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="6" md="5">
           <div
             class="white--text date--price"
             :class="{ accent: !isSoldOut, info: isSoldOut }"
           >
-            <div class="title font-weight-bold">
-              <span v-if="date">{{ date }}</span>
+            <div
+              class="font-weight-bold"
+              :class="{ title: !date, 'subtitle-2': date }"
+            >
+              <span v-if="date">{{ date | formatDate }}</span>
               <span v-else>{{ price | formatPrice(currency) }}</span>
             </div>
-            <div class="caption mb-0">
-              <span v-if="date">{{ price | formatPrice(currency) }}</span>
+            <div class="font-weight-bold caption mb-0">
+              <span
+                class="font-weight-bold"
+                v-if="date"
+                :class="{ title: date }"
+                >{{ price | formatPrice(currency) }}</span
+              >
               <span v-else>Avg price per night</span>
             </div>
           </div>
@@ -34,6 +50,7 @@
 import UnitSelect from "./UnitSelect.vue";
 import { formatPrice } from "../../../../filters/money";
 import { bus } from "../../../../plugins/bus";
+import { format } from "date-fns/esm";
 
 export default {
   props: {
@@ -57,12 +74,19 @@ export default {
       type: String,
       default: null,
     },
+    custom: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     UnitSelect,
   },
   filters: {
     formatPrice,
+    formatDate(date) {
+      return format(new Date(date), "EEE d MMM");
+    },
   },
   data() {
     return {
@@ -122,7 +146,7 @@ export default {
   height: 100%;
 }
 
-// .custom-card.theme--light.v-card.v-card--outlined {
-//   border: 1px solid var(--v-accent-base) !important;
-// }
+.custom-card.theme--light.v-card.v-card--outlined {
+  border: 1px solid var(--v-accent-base) !important;
+}
 </style>

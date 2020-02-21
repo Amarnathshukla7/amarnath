@@ -1,5 +1,19 @@
 <template>
   <v-app>
+    <v-overlay class="text-center" :value="overlay">
+      <iframe
+        width="1080"
+        height="620"
+        src="https://www.youtube-nocookie.com/embed/tBYlNZRi_Jw?controls=0&autoplay=1"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope"
+        allowfullscreen
+      ></iframe>
+      <br />
+      <v-btn x-large icon @click="overlay = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-overlay>
     <v-container>
       <v-row no-gutters>
         <v-col cols="12 mb-6">
@@ -105,6 +119,7 @@
         <v-col cols="12" md="5">
           <v-card tile class="text-center" color="greyback">
             <div
+              @click="packYourBags = packYourBags + 1"
               class="display-1 font-weight-bold greyish--text text-center pt-6"
             >
               PACK YOUR BAGS
@@ -146,10 +161,23 @@ export default {
   },
   data() {
     return {
+      packYourBags: 0,
+      overlay: false,
       bookingRef: "TEST-STC-BRI-25353491",
       reservation: null,
       hostel: null,
     };
+  },
+  watch: {
+    packYourBags(val) {
+      if (val === 5) {
+        this.overlay = true;
+        setTimeout(() => {
+          this.overlay = false;
+          this.packYourBags = 0;
+        }, 17000);
+      }
+    },
   },
   async created() {
     // this.reservation = await get(this.bookingRef);

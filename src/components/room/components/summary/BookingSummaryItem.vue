@@ -1,6 +1,6 @@
 <template>
   <v-list-item class="desktop-summary-item pa-0">
-    <v-list-item-content class="text-left ">
+    <v-list-item-content class="text-left">
       <v-divider v-if="index !== 0" class="mb-4 mt-n2"></v-divider>
       <v-row no-gutters>
         <v-col>

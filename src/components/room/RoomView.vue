@@ -14,7 +14,7 @@
       </v-btn>
     </v-overlay>
 
-    <v-container>
+    <v-container max-width="1400px">
       <v-row no-gutters>
         <v-col cols="12">
           <bread-crumbs />
@@ -24,7 +24,11 @@
       </v-row>
       <v-row no-gutters>
         <v-col cols="12" md="8" lg="9">
-          <v-expansion-panels v-model="openPanel" class="mb-6" multiple>
+          <v-expansion-panels
+            v-model="openPanel"
+            class="room-view-panel--margin"
+            multiple
+          >
             <v-expansion-panel>
               <v-expansion-panel-header color="primary">
                 <div
@@ -48,6 +52,8 @@
                   :room="dorm"
                   :room-contents="hostel.rooms"
                   :key="dorm.code"
+                  :check-in="checkIn"
+                  :check-out="checkOut"
                   @update-local-cart="updateCart"
                   @cart-error="isError = true"
                 />
@@ -83,6 +89,8 @@
                   :room="priv"
                   :room-contents="hostel.rooms"
                   :key="priv.code"
+                  :check-in="checkIn"
+                  :check-out="checkOut"
                   @update-local-cart="updateCart"
                   @cart-error="isError = true"
                 />
@@ -242,5 +250,9 @@ export default {
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   border-radius: 0 !important;
+}
+
+.room-view-panel--margin {
+  margin-bottom: 125px;
 }
 </style>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>fullava</title>
+    <desc>Created with Sketch.</desc>
+    <g id="BOOKING-JOURNEY-NEW" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Tiles-Refined" transform="translate(-572.000000, -319.000000)">
+            <g id="PRIVATE-ROOMS" transform="translate(34.000000, 25.000000)">
+                <g id="ROOM-Copy-4" transform="translate(20.000000, 210.000000)">
+                    <g id="Room">
+                        <g id="Group-11" transform="translate(518.000000, 80.000000)">
+                            <g id="fullava" transform="translate(0.000000, 4.000000)">
+                                <circle id="Oval" fill="#2AA6B9" cx="12.5" cy="12.5" r="12.5"></circle>
+                                <path d="M19.9146822,9.13436422 L17.8728879,7.08560871 C17.7597141,6.97146376 17.5747859,6.97146376 17.4610288,7.08560871 L10.3748359,14.1953757 L8.53897119,12.3538371 C8.42579745,12.2396922 8.24086922,12.2396922 8.12711211,12.3538371 L6.08531783,14.4025927 C5.97156072,14.5167376 5.97156072,14.7022963 6.08531783,14.8164413 L10.1689064,18.9139523 C10.2826635,19.0286826 10.4675917,19.0286826 10.5807655,18.9139523 L19.9146822,9.54821283 C20.0284393,9.43406788 20.0284393,9.24850916 19.9146822,9.13436422" id="Fill-1" fill="#FFFFFF" transform="translate(13.000000, 13.000000) rotate(-360.000000) translate(-13.000000, -13.000000) "></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,19 +1,21 @@
 <template>
-  <v-row>
-    <v-badge
-      v-for="filter in filters"
-      :key="filter"
-      bordered
-      color="secondary"
-      icon="mdi-check-bold"
-      overlap
-      :value="isSelected(filter)"
-      class="mr-3"
-    >
-      <v-btn @click="updateSelected(filter)" text outlined>{{ filter }}</v-btn>
-    </v-badge>
+  <v-row dense no-gutters justify="start" align-content="start">
+    <v-col class="mt-2" v-for="filter in filters" :key="filter">
+      <v-badge
+        bordered
+        color="secondary"
+        icon="mdi-check-bold"
+        overlap
+        :value="isSelected(filter)"
+        class="mr-3"
+      >
+        <v-btn @click="updateSelected(filter)" text outlined>{{
+          filter
+        }}</v-btn>
+      </v-badge>
+    </v-col>
 
-    <v-btn color="secondary" @click="selected = []" outlined>
+    <v-btn class="mt-2" color="secondary" @click="selected = []" outlined>
       <v-icon>mdi-close</v-icon>
       Clear All
     </v-btn>

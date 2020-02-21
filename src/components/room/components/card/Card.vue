@@ -6,9 +6,9 @@
     :class="{ active: isSelectedAndNotCustom }"
   >
     <v-row no-gutters>
-      <v-col cols="12" md="2">
+      <v-col cols="12" md="2" align-self="center">
         <v-img
-          class="hidden-sm-and-down"
+          class="hidden-sm-and-down mx-auto"
           :src="thumb.src"
           :lazy-src="thumb.lzy"
           width="100"
@@ -30,7 +30,7 @@
 
             <v-card-subtitle class="text-left px-3">
               <v-icon
-                class="hidden-md-and-down pb-1 mr-1"
+                class="hidden-md pb-1 mr-1"
                 :class="selectedAndCustomStylePrimaryColor"
               >
                 {{ peopleIcon }}
@@ -42,17 +42,74 @@
                 Prices are per {{ bedType }} sleeping {{ maxOccupancy }}
                 {{ personDescriptor }}
               </div>
-              <div class="caption greyish--text">
+              <div class="hidden-md-and-up mt-2 mb-n3">
+                <v-row no-gutters align="center">
+                  <v-col cols="1">
+                    <img
+                      src="../../../../assets/icons/check-green.svg"
+                      alt=""
+                      style="width: 20px"
+                    />
+                  </v-col>
+                  <v-col cols="11">
+                    <div
+                      class="heading font-weight-bold"
+                      :class="{
+                        'white--text': isSelectedAndNotCustom,
+                        'accent--text': !selected,
+                      }"
+                    >
+                      You're in luck!
+                    </div>
+                    <div
+                      class="caption mb-3"
+                      :class="{
+                        'white--text': isSelectedAndNotCustom,
+                        'accent--text': !selected,
+                      }"
+                    >
+                      This Room has full availability on your chosen dates
+                    </div>
+                  </v-col>
+                </v-row>
+              </div>
+              <div
+                v-if="!customSelected"
+                class="caption greyish--text hidden-md-and-down"
+              >
                 Want to customise your stay? <br />
                 Switch to
-                <a class="secondary--text" href="javascript:void(0)"
-                  >custom booking</a
+                <a
+                  class="secondary--text"
+                  href="javascript:void(0)"
+                  @click="switchToCustom"
                 >
+                  custom booking
+                </a>
                 instead
+              </div>
+              <div
+                v-if="customSelected"
+                class="caption greyish--text hidden-md-and-down"
+              >
+                Booking your entire stay in this room? <br />
+                Switch back to
+                <a
+                  class="secondary--text"
+                  href="javascript:void(0)"
+                  @click="customSelected = false"
+                >
+                  normal booking
+                </a>
               </div>
             </v-card-subtitle>
           </v-col>
-          <v-col cols="12" md="7" lg="6">
+          <v-col
+            cols="12"
+            md="7"
+            lg="6"
+            :align-self="customSelected ? 'end' : ''"
+          >
             <v-img
               class="mx-auto hidden-md-and-up"
               :src="thumb.src"
@@ -64,7 +121,7 @@
 
             <!-- Custom Booking Alert -->
             <custom-error
-              v-if="isCustom"
+              v-if="room.isCustom"
               :class="{
                 white: !selected,
                 accent: selected,
@@ -72,8 +129,9 @@
             />
 
             <selection
-              v-if="!isCustom"
-              class="pb-2 mt-n2 mr-n2"
+              v-show="!isCustom"
+              ref="standardSelection"
+              class="pb-2 mt-md-n2 mr-md-n2"
               :price="price"
               :available="available"
               :code="room.code"
@@ -81,23 +139,67 @@
               @room-active="val => (selected = val)"
               @update-local-room-cart="updateCart"
             />
+
             <div
-              class="heading font-weight-bold"
+              v-if="!customSelected"
+              class="caption hidden-md-and-up text-center mb-4"
               :class="{
+                'greyish--text': !selected,
                 'white--text': selected,
-                'accent--text': !selected,
               }"
             >
-              You’re in luck!
+              Want to customise your stay? <br />
+              Switch to
+              <a
+                class="secondary--text"
+                href="javascript:void(0)"
+                @click="switchToCustom"
+              >
+                custom booking
+              </a>
+              instead
             </div>
             <div
-              class="caption"
-              :class="{
-                'white--text': selected,
-                'accent--text': !selected,
-              }"
+              v-if="customSelected"
+              class="caption hidden-md-and-up text-center mt-4 mb-4"
             >
-              This Room has full availability on your chosen dates
+              Booking your entire stay in this room? <br />
+              Switch back to
+              <a
+                class="secondary--text"
+                href="javascript:void(0)"
+                @click="customSelected = false"
+              >
+                normal booking
+              </a>
+            </div>
+
+            <div class="hidden-md-and-down">
+              <v-row no-gutters align="center">
+                <v-col cols="1">
+                  <img src="../../../../assets/icons/check-green.svg" alt="" />
+                </v-col>
+                <v-col cols="11">
+                  <div
+                    class="heading font-weight-bold"
+                    :class="{
+                      'white--text': isSelectedAndNotCustom,
+                      'accent--text': !isSelectedAndNotCustom,
+                    }"
+                  >
+                    You're in luck!
+                  </div>
+                  <div
+                    class="caption mb-3"
+                    :class="{
+                      'white--text': isSelectedAndNotCustom,
+                      'accent--text': !isSelectedAndNotCustom,
+                    }"
+                  >
+                    This Room has full availability on your chosen dates
+                  </div>
+                </v-col>
+              </v-row>
             </div>
           </v-col>
         </v-row>
@@ -123,13 +225,14 @@
     /> -->
 
     <!-- Custom Booking -->
-    <v-row v-if="isCustom" no-gutters justify="center">
-      <v-col cols="12" md="4" v-for="date in dates" :key="date.date">
+    <v-row v-show="isCustom" no-gutters justify="center">
+      <v-col cols="12" md="4" v-for="date in customDates" :key="date.date">
         <selection
           :date="date.date"
           :price="date.cost"
           :code="room.code"
           :available="date.units"
+          :custom="true"
           @update-local-room-cart="updateCart"
         >
         </selection>
@@ -143,9 +246,18 @@ import { LightGallery } from "vue-light-gallery";
 import { destroy, updateOrCreate } from "../../api/reservation-svc/cart-svc";
 import { bus } from "../../../../plugins/bus";
 import { filter } from "../../helpers/filters";
+import { eachDayOfInterval, subDays, format } from "date-fns";
 
 export default {
   props: {
+    checkIn: {
+      type: String,
+      default: null,
+    },
+    checkOut: {
+      type: String,
+      default: null,
+    },
     room: {
       type: Object,
       default: null,
@@ -167,6 +279,7 @@ export default {
       selected: false,
       isLoading: false,
       isHidden: false,
+      customSelected: false,
     };
   },
   created() {
@@ -203,7 +316,7 @@ export default {
           code: this.room.code,
           date: data.date,
           name: this.room.roomName,
-          type: `bed`,
+          type: "bed",
           qty: units,
         }));
 
@@ -212,8 +325,36 @@ export default {
     destroy({ date }) {
       return destroy(this.room.code, date);
     },
+    switchToCustom() {
+      this.customSelected = true;
+
+      Object.values(this.customDates).forEach(date => {
+        bus.$emit(
+          "set-room-amount",
+          this.room.code,
+          date.date,
+          this.standardSelected,
+        );
+      });
+    },
+    switchToNormal() {},
   },
   computed: {
+    customDates() {
+      const days = eachDayOfInterval({
+        start: new Date(this.checkIn),
+        end: new Date(subDays(new Date(this.checkOut), 1)),
+      });
+
+      return days.map(date => {
+        const day = format(new Date(date), "yyyy-MM-dd");
+        return {
+          date: day,
+          units: parseInt(this.room.dates[day].numberOfUnits),
+          cost: this.room.dates[day].cost,
+        };
+      });
+    },
     images() {
       return this.content.images.map(image => ({
         title: image.fields.description,
@@ -227,7 +368,7 @@ export default {
       };
     },
     isCustom() {
-      return this.room.isCustom;
+      return this.room.isCustom || this.customSelected;
     },
     isSelectedAndNotCustom() {
       return this.selected && !this.isCustom;
@@ -267,6 +408,9 @@ export default {
       return this.roomContents.find(
         room => room.fields.roomCode === this.room.code,
       ).fields;
+    },
+    standardSelected() {
+      return this.$refs.standardSelection.unitsSelected || 0;
     },
   },
 };

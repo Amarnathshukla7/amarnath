@@ -1,7 +1,7 @@
 <template>
   <div class="unit--selector">
     <v-select
-      class="unit--selector--select pb-0 subtitle-2"
+      class="unit--selector--select pb-0"
       :items="available"
       v-model="selected"
       :placeholder="placehold"
