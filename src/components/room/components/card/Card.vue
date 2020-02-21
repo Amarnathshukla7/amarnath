@@ -75,7 +75,11 @@
               </div>
               <div
                 v-if="!customSelected"
-                class="caption greyish--text hidden-md-and-down"
+                class="caption hidden-md-and-down"
+                :class="{
+                  'greyish--text': !selected,
+                  'white--text': selected,
+                }"
               >
                 Want to customise your stay? <br />
                 Switch to
