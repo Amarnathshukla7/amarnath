@@ -156,7 +156,6 @@
                                     value="paypal"
                                   >
                                     <div slot="label">
-                                      PayPal
                                       <img
                                         class="d-inline ml-3"
                                         width="96"
@@ -169,7 +168,7 @@
                             </v-radio-group>
                           </v-col>
                         </v-row>
-                        <v-row no-gutters>
+                        <v-row v-show="data.payMethod === 'card'" no-gutters>
                           <v-col cols="12">
                             <div
                               class="subtitle-1 text-left accent--text font-weight-bold"
@@ -206,12 +205,12 @@
                             ></stripe-form>
                           </v-col>
                         </v-row>
-                        <v-row v-show="showPaypal" no-gutters>
+                        <!-- <v-row v-show="showPaypal" no-gutters>
                           <v-col cols="12">
                             <div
                               class="subtitle-1 text-left accent--text font-weight-bold"
                             >
-                              3. PayPal
+                              2,. PayPal
                             </div>
                           </v-col>
                           <v-col cols="12">
@@ -224,8 +223,8 @@
                               @paypal-approved="createPaypalReservation"
                             ></paypal-form>
                           </v-col>
-                        </v-row>
-                        <v-row no-gutters>
+                        </v-row> -->
+                        <v-row v-show="data.payMethod" no-gutters>
                           <v-col cols="12">
                             <v-checkbox
                               v-model="data.terms"
@@ -254,7 +253,6 @@
                       </v-card>
                     </v-expansion-panel-content>
                     <v-card
-                      v-if="showCard"
                       tile
                       color="py-4"
                       :class="{
@@ -272,14 +270,25 @@
                           </div>
                         </v-col>
                         <v-col cols="12" md="6">
+                          <paypal-form
+                            v-show="showPaypal"
+                            :valid="valid"
+                            :hostel="hostelConf"
+                            :form-ref="$refs.form"
+                            @show-validation-error="validate"
+                            @paypal-error="payPalError"
+                            @paypal-approved="createPaypalReservation"
+                          ></paypal-form>
                           <v-btn
+                            v-show="showCard || !data.payMethod"
                             class="font-weight-bold"
                             tile
-                            large
+                            x-large
                             py-2
                             color="secondary"
                             width="90%"
                             @click="cardReservation"
+                            :disabled="!data.payMethod"
                           >
                             <span v-if="payable > 0">
                               PAY NOW
@@ -301,6 +310,7 @@
             :cart="cart"
             :currency="hostelConf.currency"
             :payable="payable"
+            :breakfast="breakfast"
           ></booking-summary>
         </v-col>
       </v-row>
@@ -358,7 +368,7 @@ export default {
         terms: false,
         newsletter: false,
         deposit: 0,
-        payMethod: "card",
+        payMethod: null,
         guest: {
           name: null,
           email: null,
@@ -417,6 +427,8 @@ export default {
       return this.data.payMethod === "card";
     },
     breakfast() {
+      if (!this.hostel.extras) return null;
+
       return this.hostel.extras.find(extra => extra.fields.type === "breakfast")
         .fields;
     },

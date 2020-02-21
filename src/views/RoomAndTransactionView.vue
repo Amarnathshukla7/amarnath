@@ -36,7 +36,7 @@ export default {
     },
     code: {
       type: String,
-      default: "BRI",
+      default: "FPU",
     },
   },
   components: {

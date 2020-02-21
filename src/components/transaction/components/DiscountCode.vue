@@ -16,10 +16,9 @@
           color="secondary"
           @click="add"
           width="100%"
-          large
+          x-large
           tile
           flat
-          height="56"
         >
           <v-progress-circular
             v-if="loading"

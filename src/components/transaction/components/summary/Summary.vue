@@ -89,7 +89,11 @@
         </v-col>
       </v-row>
     </v-card>
-    <breakfast class="hidden-md-and-down" />
+    <breakfast
+      v-if="breakfast"
+      :content="breakfast"
+      class="hidden-md-and-down"
+    />
   </div>
 </template>
 
@@ -99,6 +103,10 @@ import { formatDate } from "../../../../filters/date";
 
 export default {
   props: {
+    breakfast: {
+      type: Object,
+      default: null,
+    },
     cart: {
       type: Object,
       default: null,
