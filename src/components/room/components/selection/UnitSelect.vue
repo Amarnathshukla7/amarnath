@@ -5,7 +5,6 @@
       :items="available"
       v-model="selected"
       :placeholder="placehold"
-      :disabled="soldOut"
       :readonly="soldOut"
       :rounded="false"
       outlined
@@ -23,7 +22,7 @@
             mdi-help
           </v-icon>
         </template>
-        <span>Room/Bed unavailable on this night</span>
+        <span>{{ bedType }} unavailable on this night</span>
       </v-tooltip>
     </v-select>
   </div>
@@ -45,12 +44,19 @@ export default {
       default: null,
     },
   },
+  filters: {
+    capitalize(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    },
+  },
   computed: {
     placehold() {
       return `0 ${this.bedType}s`;
     },
     soldOut() {
-      return !this.units === 0;
+      return this.units === 0;
     },
     selected: {
       get() {

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { get } from "idb-keyval";
 
-export const create = async (gateway, deposit) => {
+export const create = async (gateway, deposit = 100) => {
   const { token } = await get("token");
 
   return axios

@@ -164,11 +164,25 @@
                                     </div>
                                   </v-radio>
                                 </v-col>
+                                <v-col>
+                                  <v-radio
+                                    v-if="digitalWalletEnabled"
+                                    value="digital"
+                                  >
+                                    <div slot="label">
+                                      <img
+                                        class="d-inline ml-3"
+                                        width="56"
+                                        src="../../assets/payment/google-pay.png"
+                                      />
+                                    </div>
+                                  </v-radio>
+                                </v-col>
                               </v-row>
                             </v-radio-group>
                           </v-col>
                         </v-row>
-                        <v-row v-show="data.payMethod === 'card'" no-gutters>
+                        <v-row v-show="showDepositChoice" no-gutters>
                           <v-col cols="12">
                             <div
                               class="subtitle-1 text-left accent--text font-weight-bold"
@@ -202,6 +216,7 @@
                             <stripe-form
                               ref="stripeContainer"
                               :deposit="data.deposit"
+                              :card="data.payMethod === 'card'"
                             ></stripe-form>
                           </v-col>
                         </v-row>
@@ -253,6 +268,7 @@
                       </v-card>
                     </v-expansion-panel-content>
                     <v-card
+                      flat
                       tile
                       color="py-4"
                       :class="{
@@ -275,10 +291,16 @@
                             :valid="valid"
                             :hostel="hostelConf"
                             :form-ref="$refs.form"
+                            class="mx-auto"
                             @show-validation-error="validate"
                             @paypal-error="payPalError"
                             @paypal-approved="createPaypalReservation"
                           ></paypal-form>
+                          <!-- <stripe-payment-request
+                            v-show="showWallet"
+                            class="mx-auto"
+                            @wallet-enabled="digitalWalletEnabled = true"
+                          ></stripe-payment-request> -->
                           <v-btn
                             v-show="showCard || !data.payMethod"
                             class="font-weight-bold"
@@ -333,6 +355,7 @@ import countries from "./data/countries.json";
 import { formatPrice } from "../../filters/money";
 import { create } from "./api/reservation-svc";
 import { set } from "idb-keyval";
+import { bus } from "../../plugins/bus";
 
 Vue.use(VStripeElements);
 
@@ -343,6 +366,7 @@ export default {
     DiscountCode: () => import("./components/DiscountCode.vue"),
     PaypalForm: () => import("./components/PaypalForm.vue"),
     StripeForm: () => import("./components/StripeForm.vue"),
+    // StripePaymentRequest: () => import("./components/StripePaymentRequest.vue"),
   },
   props: {
     cart: {
@@ -360,6 +384,7 @@ export default {
   },
   data() {
     return {
+      digitalWalletEnabled: false,
       formErrorSnackbar: false,
       reservation: null,
       valid: false,
@@ -397,7 +422,17 @@ export default {
       this.data.deposit = 100;
     },
   },
+  created() {
+    bus.$on("cart-transaction-updated", cart => {
+      this.cart = cart;
+    });
+  },
   computed: {
+    showDepositChoice() {
+      return (
+        this.data.payMethod === "card" || this.data.payMethod === "digital"
+      );
+    },
     isDesktop() {
       if (!window) return true;
 
@@ -422,6 +457,9 @@ export default {
     },
     showPaypal() {
       return this.isPaypalEnabled && this.data.payMethod === "paypal";
+    },
+    showWallet() {
+      return this.data.payMethod === "digital";
     },
     showCard() {
       return this.data.payMethod === "card";

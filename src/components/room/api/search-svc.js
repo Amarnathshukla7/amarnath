@@ -30,3 +30,12 @@ export const availability = async (hostel, start, end) => {
       };
     });
 };
+
+export const getBreakfastPrice = async breakfastCode => {
+  const { token } = await get("token");
+
+  return axios.get(`/search-svc/cache/${token}`).then(res => {
+    console.log(res.data.availability.service[breakfastCode]);
+    return res.data.availability.service[breakfastCode].price;
+  });
+};

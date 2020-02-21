@@ -8,3 +8,13 @@ export const discount = async code => {
     .put(`/cart-svc/${token}/discounts/${code}`)
     .then(res => res.data);
 };
+
+export const addExtra = async extra => {
+  const { token } = await get("token");
+
+  return axios
+    .post(`/cart-svc/${token}/items`, {
+      ...extra,
+    })
+    .then(res => res.data);
+};

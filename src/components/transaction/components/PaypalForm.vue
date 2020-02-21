@@ -74,6 +74,6 @@ export default {
 
 <style scoped>
 #paypalButton {
-  max-width: 180px;
+  max-width: 220px;
 }
 </style>

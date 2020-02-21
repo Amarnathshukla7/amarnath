@@ -92,6 +92,7 @@
     <breakfast
       v-if="breakfast"
       :content="breakfast"
+      :currency="currency"
       class="hidden-md-and-down"
     />
   </div>
@@ -151,7 +152,7 @@ export default {
       return this.cart.total_cost;
     },
     breakfastCost() {
-      return 0;
+      return this.cart.extras_cost;
     },
     dueOnArrival() {
       return this.cost - this.payable;

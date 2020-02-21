@@ -74,7 +74,7 @@
                 </v-row>
               </div>
               <div
-                v-if="!customSelected"
+                v-if="!customSelected && !room.isCustom"
                 class="caption hidden-md-and-down"
                 :class="{
                   'greyish--text': !selected,
@@ -178,7 +178,7 @@
               </a>
             </div>
 
-            <div class="hidden-md-and-down">
+            <div v-if="!room.isCustom" class="hidden-md-and-down">
               <v-row no-gutters align="center">
                 <v-col cols="1">
                   <img src="../../../../assets/icons/check-green.svg" alt="" />
@@ -352,10 +352,16 @@ export default {
 
       return days.map(date => {
         const day = format(new Date(date), "yyyy-MM-dd");
+        const units = this.room.dates[day]
+          ? this.room.dates[day].numberOfUnits
+          : 0;
+
+        const cost = this.room.dates[day] ? this.room.dates[day].cost : 0;
+
         return {
           date: day,
-          units: parseInt(this.room.dates[day].numberOfUnits),
-          cost: this.room.dates[day].cost,
+          units: parseInt(units),
+          cost: cost,
         };
       });
     },

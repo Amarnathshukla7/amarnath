@@ -21,7 +21,7 @@
         <v-col cols="6" md="5">
           <div
             class="white--text date--price"
-            :class="{ accent: !isSoldOut, info: isSoldOut }"
+            :class="{ accent: !isSoldOut, greyish: isSoldOut }"
           >
             <div
               class="font-weight-bold"
@@ -33,10 +33,11 @@
             <div class="font-weight-bold caption mb-0">
               <span
                 class="font-weight-bold"
-                v-if="date"
+                v-if="date && price > 0"
                 :class="{ title: date }"
                 >{{ price | formatPrice(currency) }}</span
               >
+              <span v-else-if="price === 0 && date">Sold Out</span>
               <span v-else>Avg price per night</span>
             </div>
           </div>

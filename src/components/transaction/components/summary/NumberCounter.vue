@@ -1,5 +1,5 @@
 <template>
-  <number-input v-model="value" :min="0" :max="20" center controls />
+  <number-input v-model="selected" :min="0" :max="20" center controls />
 </template>
 
 <script>
@@ -11,8 +11,18 @@ Vue.use(VueNumberInput);
 export default {
   data() {
     return {
-      value: 0,
+      val: 0,
     };
+  },
+  computed: {
+    selected: {
+      get() {
+        return this.val;
+      },
+      set(val) {
+        this.$emit("update-value", val ? val : 0);
+      },
+    },
   },
 };
 </script>

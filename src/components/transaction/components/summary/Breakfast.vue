@@ -3,7 +3,9 @@
     <div class="price-container primary">
       <p class="subtitle-2">
         For only
-        <span class="title font-weight-bold">{{ 3.99 }}</span>
+        <span class="title font-weight-bold">{{
+          price | formatPrice(currency)
+        }}</span>
       </p>
     </div>
     <figure class="text-center">
@@ -18,7 +20,30 @@
           AND SAVE 30%</span
         >
       </h2>
-      <number-counter class="primary--text" id="breakfast-counter" />
+      <v-row align="center">
+        <v-col cols="6" offset="2">
+          <number-counter
+            class="primary--text mb-3"
+            id="breakfast-counter"
+            @update-value="val => (qty = val)"
+          />
+        </v-col>
+        <v-col cols="2" class="text-left">
+          <v-btn
+            @click="addExtraToCart"
+            :disabled="isLoading"
+            class="d-inline"
+            icon
+          >
+            <v-icon v-if="!isLoading" color="white">mdi-check</v-icon>
+            <v-progress-circular
+              v-else
+              indeterminate
+              color="white"
+            ></v-progress-circular>
+          </v-btn>
+        </v-col>
+      </v-row>
       <p class="mx-2 my-2 pb-4">
         You’ll get breakfast voucher(s) on check-in. Can use them to select
         anything from the Belushi’s breakfast menu.
@@ -29,6 +54,10 @@
 
 <script>
 import NumberCounter from "./NumberCounter.vue";
+import { getBreakfastPrice } from "../../../room/api/search-svc";
+import { formatPrice } from "../../../../filters/money";
+import { addExtra } from "../../api/cart-svc";
+import { bus } from "../../../../plugins/bus";
 
 export default {
   props: {
@@ -36,9 +65,45 @@ export default {
       type: Object,
       default: null,
     },
+    currency: {
+      type: String,
+      default: "GBP",
+    },
+  },
+  data() {
+    return {
+      price: null,
+      isLoading: false,
+      qty: 0,
+    };
   },
   components: {
     NumberCounter,
+  },
+  async created() {
+    this.isLoading = true;
+    this.price = await getBreakfastPrice(this.content.key);
+    this.isLoading = false;
+  },
+  filters: {
+    formatPrice,
+  },
+  methods: {
+    async addExtraToCart() {
+      this.isLoading = true;
+      const cart = await addExtra([
+        {
+          code: this.content.key,
+          name: "breakfast",
+          type: "extra",
+          qty: this.qty,
+        },
+      ]);
+
+      bus.$emit("cart-transaction-updated", cart);
+
+      this.isLoading = false;
+    },
   },
 };
 </script>
