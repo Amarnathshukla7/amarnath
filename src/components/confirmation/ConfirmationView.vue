@@ -76,13 +76,13 @@
                 Breakfast Total
               </v-col>
               <v-col cols="6" class="text-right">
-                <span v-if="breakfastCost > 0">
+                <span v-if="reservation.cart.extras_cost > 0">
                   {{
-                    breakfastCost
+                    reservation.cart.extras_cost
                       | formatPrice(reservation.cart.hostel.currency)
                   }}
                 </span>
-                <span>
+                <span v-else>
                   Included for FREE!
                 </span>
               </v-col>

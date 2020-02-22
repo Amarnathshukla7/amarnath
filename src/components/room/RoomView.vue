@@ -114,6 +114,11 @@
           ></booking-summary>
         </v-col>
       </v-row>
+      <breakdown-and-breakfast
+        v-if="showSummaryBreakfast"
+        :cart-data="cart"
+        :rooms-content="roomsContent"
+      ></breakdown-and-breakfast>
     </v-container>
   </main>
 </template>
@@ -166,6 +171,7 @@ export default {
     BookingSummary,
     BreadCrumbs,
     FiltersSortBy,
+    BreakdownAndBreakfast: () => import("./BreakdownAndBreakfast.vue"),
   },
   data() {
     return {
@@ -174,6 +180,7 @@ export default {
       isError: false,
       rooms: null,
       cart: null,
+      showSummaryBreakfast: false,
     };
   },
   created() {
@@ -210,11 +217,21 @@ export default {
       this.cart = cart;
     },
     submitBooking() {
+      if (this.isSmallDevice) {
+        return;
+      }
+
+      window.scrollTo(0, 0);
       this.isLoading = true;
       this.$emit("go-to-view", "transaction", this.cart);
     },
   },
   computed: {
+    isSmallDevice() {
+      if (!window) return false;
+
+      return window.innerWidth < 960;
+    },
     roomsContent() {
       return this.hostel ? this.hostel.rooms : null;
     },
