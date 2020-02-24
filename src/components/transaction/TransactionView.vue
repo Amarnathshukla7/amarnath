@@ -517,9 +517,12 @@ export default {
         }
 
         await set("reservation", this.reservation);
-        console.log(`${window.location.pathname}confirmation`);
+
+        const path =
+          window.location.pathname.replace("availability", "") + "confirmation";
+
         this.$router.push({
-          path: `${window.location.pathname}confirmation`,
+          path,
         });
       } catch (e) {
         this.isError = true;
