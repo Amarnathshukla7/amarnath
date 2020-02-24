@@ -54,6 +54,7 @@
                   :key="dorm.code"
                   :check-in="checkIn"
                   :check-out="checkOut"
+                  :min-stay="dormMinStay"
                   @update-local-cart="updateCart"
                   @cart-error="isError = true"
                 />
@@ -91,6 +92,7 @@
                   :key="priv.code"
                   :check-in="checkIn"
                   :check-out="checkOut"
+                  :min-stay="privateMinStay"
                   @update-local-cart="updateCart"
                   @cart-error="isError = true"
                 />
@@ -238,8 +240,14 @@ export default {
     dorms() {
       return this.rooms ? this.rooms.dorms : [];
     },
+    dormMinStay() {
+      return this.rooms ? this.rooms.minstays.dorm || null : null;
+    },
     privates() {
       return this.rooms ? this.rooms.privates : [];
+    },
+    privateMinStay() {
+      return this.rooms ? this.rooms.minstays.private || null : null;
     },
     totalCost() {
       return this.cart ? this.cart.total_cost : 0;

@@ -20,13 +20,14 @@ export const availability = async (hostel, start, end) => {
     .then(res => {
       const defaultPlanId = res.data.availability.default;
 
-      const rooms = res.data.availability.plans.find(
+      const plan = res.data.availability.plans.find(
         plan => plan.planId === defaultPlanId,
-      ).rooms;
+      );
 
       return {
-        dorms: rooms.filter(room => room.roomType === "dorm"),
-        privates: rooms.filter(room => room.roomType === "private"),
+        minstays: plan.minstay,
+        dorms: plan.rooms.filter(room => room.roomType === "dorm"),
+        privates: plan.rooms.filter(room => room.roomType === "private"),
       };
     });
 };

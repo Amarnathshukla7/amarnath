@@ -132,8 +132,18 @@
               }"
             />
 
+            <div
+              class="subtitle-2  my-4 warning--text font-weight-bold"
+              v-show="minStay"
+            >
+              Minimum stay for this room is {{ minStay }} nights. <br />
+              <a href="#update-dates" class="warning--text"
+                >Please update your search</a
+              >
+            </div>
+
             <selection
-              v-show="!isCustom"
+              v-show="!isCustom && !minStay"
               ref="standardSelection"
               class="pb-2 mt-md-n2 mr-md-n2"
               :price="price"
@@ -178,7 +188,7 @@
               </a>
             </div>
 
-            <div v-if="!room.isCustom" class="hidden-md-and-down">
+            <div v-if="!room.isCustom && !minStay" class="hidden-md-and-down">
               <v-row no-gutters align="center">
                 <v-col cols="1">
                   <img src="../../../../assets/icons/check-green.svg" alt="" />
@@ -254,6 +264,10 @@ import { eachDayOfInterval, subDays, format } from "date-fns";
 
 export default {
   props: {
+    minStay: {
+      type: Number,
+      default: null,
+    },
     checkIn: {
       type: String,
       default: null,

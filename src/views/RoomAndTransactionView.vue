@@ -28,11 +28,11 @@ export default {
   props: {
     checkIn: {
       type: String,
-      default: "2020-10-21",
+      default: "2020-04-12",
     },
     checkOut: {
       type: String,
-      default: "2020-10-22",
+      default: "2020-04-18",
     },
     code: {
       type: String,

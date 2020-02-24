@@ -18,9 +18,7 @@
           <br />
           {{ reservation.booking_reference }}
         </span>
-        <span v-else>
-          Something unexpected went wrong, please try again
-        </span>
+        <span v-else>Something unexpected went wrong, please try again</span>
       </div>
       <v-btn class="mt-4" icon @click="isError = false">
         <v-icon>mdi-close</v-icon>
@@ -61,7 +59,7 @@
                               label="Full Name"
                               :rules="rules.name"
                               v-model="data.guest.name"
-                              outlined=""
+                              outlined
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -79,7 +77,7 @@
                               label="Phone Number"
                               :rules="rules.phone"
                               v-model="data.guest.phone"
-                              outlined=""
+                              outlined
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -89,7 +87,7 @@
                               label="Country"
                               :rules="rules.country"
                               v-model="data.guest.country"
-                              outlined=""
+                              outlined
                             ></v-autocomplete>
                           </v-col>
                         </v-row>
@@ -197,8 +195,8 @@
                             >
                               <v-radio
                                 v-if="!showPaypal"
-                                :value="0"
-                                label="Pay on Arrival"
+                                :value="lowerDeposit"
+                                :label="lowerDepositLabel"
                               ></v-radio>
                               <v-radio :value="100" label="Pay Now"></v-radio>
                             </v-radio-group>
@@ -220,25 +218,6 @@
                             ></stripe-form>
                           </v-col>
                         </v-row>
-                        <!-- <v-row v-show="showPaypal" no-gutters>
-                          <v-col cols="12">
-                            <div
-                              class="subtitle-1 text-left accent--text font-weight-bold"
-                            >
-                              2,. PayPal
-                            </div>
-                          </v-col>
-                          <v-col cols="12">
-                            <paypal-form
-                              :valid="valid"
-                              :hostel="hostelConf"
-                              :form-ref="$refs.form"
-                              @show-validation-error="validate"
-                              @paypal-error="payPalError"
-                              @paypal-approved="createPaypalReservation"
-                            ></paypal-form>
-                          </v-col>
-                        </v-row> -->
                         <v-row v-show="data.payMethod" no-gutters>
                           <v-col cols="12">
                             <v-checkbox
@@ -300,7 +279,7 @@
                             v-show="showWallet"
                             class="mx-auto"
                             @wallet-enabled="digitalWalletEnabled = true"
-                          ></stripe-payment-request> -->
+                          ></stripe-payment-request>-->
                           <v-btn
                             v-show="showCard || !data.payMethod"
                             class="font-weight-bold"
@@ -339,9 +318,7 @@
     </v-container>
     <v-snackbar top v-model="formErrorSnackbar">
       Please check that all fields in the form are filled out correctly
-      <v-btn text @click="formErrorSnackbar = false">
-        Close
-      </v-btn>
+      <v-btn text @click="formErrorSnackbar = false">Close</v-btn>
     </v-snackbar>
   </v-app>
 </template>
@@ -426,6 +403,8 @@ export default {
     bus.$on("cart-transaction-updated", cart => {
       this.cart = cart;
     });
+
+    if (!this.isPaypalEnabled) this.data.payMethod = "card";
   },
   computed: {
     showDepositChoice() {
@@ -469,6 +448,14 @@ export default {
 
       return this.hostel.extras.find(extra => extra.fields.type === "breakfast")
         .fields;
+    },
+    lowerDeposit() {
+      return this.cart.deposit_model_rate;
+    },
+    lowerDepositLabel() {
+      return this.lowerDeposit === 0
+        ? "Pay on Arrival"
+        : `Pay ${this.lowerDeposit}%`;
     },
   },
   methods: {
