@@ -28,15 +28,15 @@ export default {
   props: {
     checkIn: {
       type: String,
-      default: "2020-03-12",
+      default: "2020-04-12",
     },
     checkOut: {
       type: String,
-      default: "2020-03-18",
+      default: "2020-04-18",
     },
     code: {
       type: String,
-      default: "BRI",
+      default: "FPU",
     },
   },
   components: {
@@ -62,7 +62,7 @@ export default {
     this.hostelConf = await find(this.code);
   },
   beforeDestroy() {
-    window.removeEventListener("beforeunload");
+    // window.removeEventListener("beforeunload");
   },
   mounted() {
     window.addEventListener("beforeunload", event => {
