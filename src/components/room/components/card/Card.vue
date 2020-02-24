@@ -133,7 +133,7 @@
             />
 
             <div
-              class="subtitle-2  my-4 warning--text font-weight-bold"
+              class="subtitle-2 text-center my-4 warning--text font-weight-bold"
               v-show="minStay"
             >
               Minimum stay for this room is {{ minStay }} nights. <br />
@@ -155,7 +155,7 @@
             />
 
             <div
-              v-if="!customSelected"
+              v-if="!customSelected && !minStay"
               class="caption hidden-md-and-up text-center mb-4"
               :class="{
                 'greyish--text': !selected,
@@ -174,7 +174,7 @@
               instead
             </div>
             <div
-              v-if="customSelected"
+              v-if="customSelected && !minStay"
               class="caption hidden-md-and-up text-center mt-4 mb-4"
             >
               Booking your entire stay in this room? <br />
