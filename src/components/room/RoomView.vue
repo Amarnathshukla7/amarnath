@@ -219,9 +219,9 @@ export default {
       this.cart = cart;
     },
     submitBooking() {
-      if (this.isSmallDevice) {
-        return;
-      }
+      // if (this.isSmallDevice) {
+      //   return;
+      // }
 
       window.scrollTo(0, 0);
       this.isLoading = true;
