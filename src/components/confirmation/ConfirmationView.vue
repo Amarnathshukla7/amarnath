@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-if="reservation">
     <v-overlay class="text-center" :value="overlay">
       <iframe
         width="1080"
