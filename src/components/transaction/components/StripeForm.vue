@@ -39,7 +39,7 @@ export default {
         this.stripeReady = true;
       });
     },
-    async createStripeReservation() {
+    async createStripeTransaction() {
       const transaction = await create("stripe", this.deposit);
       const secret = JSON.parse(transaction.secret_output)["secret"];
 

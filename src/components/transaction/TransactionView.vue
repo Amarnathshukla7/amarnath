@@ -212,10 +212,15 @@
                           </v-col>
                           <v-col cols="12">
                             <stripe-form
+                              v-if="isStripe"
                               ref="stripeContainer"
                               :deposit="data.deposit"
-                              :card="data.payMethod === 'card'"
                             ></stripe-form>
+                            <sagepay-form
+                              v-if="isSagepay"
+                              ref="sagepayContainer"
+                              :deposit="data.deposit"
+                            ></sagepay-form>
                           </v-col>
                         </v-row>
                         <v-row v-show="data.payMethod" no-gutters>
@@ -343,6 +348,7 @@ export default {
     DiscountCode: () => import("./components/DiscountCode.vue"),
     PaypalForm: () => import("./components/PaypalForm.vue"),
     StripeForm: () => import("./components/StripeForm.vue"),
+    SagepayForm: () => import("./components/SagepayForm.vue"),
     // StripePaymentRequest: () => import("./components/StripePaymentRequest.vue"),
   },
   props: {
@@ -434,6 +440,12 @@ export default {
     isPaypalEnabled() {
       return this.hostelConf.is_paypal_enabled;
     },
+    isSagepay() {
+      return this.hostelConf.payment_gateway_name === "Sagepay";
+    },
+    isStripe() {
+      return this.hostelConf.payment_gateway_name === "Stripe";
+    },
     showPaypal() {
       return this.isPaypalEnabled && this.data.payMethod === "paypal";
     },
@@ -493,8 +505,14 @@ export default {
       this.isLoadingOverlay = true;
 
       try {
-        const transaction = await this.$refs.stripeContainer.createStripeReservation();
-        this.completeTransaction(transaction, "stripe");
+        if (this.isStripe) {
+          const transaction = await this.$refs.stripeContainer.createStripeTransaction();
+          this.completeTransaction(transaction, "stripe");
+        } else if (this.isSagepay) {
+          const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
+          console.log(transaction);
+          this.completeTransaction(transaction, "sagepay");
+        }
       } catch (e) {
         this.isError = true;
         this.isLoadingOverlay = false;

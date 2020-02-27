@@ -28,7 +28,7 @@ export default {
   props: {
     checkIn: {
       type: String,
-      default: "2020-04-12",
+      default: "2020-04-16",
     },
     checkOut: {
       type: String,
@@ -36,7 +36,7 @@ export default {
     },
     code: {
       type: String,
-      default: "FPU",
+      default: "BRI",
     },
   },
   components: {
