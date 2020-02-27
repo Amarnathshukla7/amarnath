@@ -216,11 +216,11 @@
                               ref="stripeContainer"
                               :deposit="data.deposit"
                             ></stripe-form>
-                            <sagepay-form
+                            <sage-payment-form
                               v-if="isSagepay"
                               ref="sagepayContainer"
                               :deposit="data.deposit"
-                            ></sagepay-form>
+                            ></sage-payment-form>
                           </v-col>
                         </v-row>
                         <v-row v-show="data.payMethod" no-gutters>
@@ -348,7 +348,7 @@ export default {
     DiscountCode: () => import("./components/DiscountCode.vue"),
     PaypalForm: () => import("./components/PaypalForm.vue"),
     StripeForm: () => import("./components/StripeForm.vue"),
-    SagepayForm: () => import("./components/SagepayForm.vue"),
+    SagePaymentForm: () => import("./components/SagePaymentForm.vue"),
     // StripePaymentRequest: () => import("./components/StripePaymentRequest.vue"),
   },
   props: {
