@@ -31,92 +31,31 @@
           </p>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col cols="12" md="5" offset-md="1">
+      <v-row class="">
+        <v-col cols="12" md="6">
           <v-card tile class="other">
-            <v-row class="accent text-center py-6">
-              <v-col>
-                <div class="white--text font-weight-bold subtitle-1 mx-auto">
-                  Your booking reference number is:
-                  <div class="display-1 font-weight-bold">
-                    {{ reservation.booking_reference }}
-                  </div>
-                </div>
-              </v-col>
-            </v-row>
-            <v-row class="py-2 white">
-              <v-col cols="8">
-                Accommodation Sub-Total
-              </v-col>
-              <v-col cols="4" class="text-right">{{
-                reservation.cart.accommodation_cost
-                  | formatPrice(reservation.cart.hostel.currency)
-              }}</v-col>
-            </v-row>
-            <v-row class="py-2 other">
-              <v-col cols="8">
-                Loyalty Coupon Code
-              </v-col>
-              <v-col cols="4" class="text-right">{{
-                reservation.cart.discount
-                  | formatPrice(reservation.cart.hostel.currency)
-              }}</v-col>
-            </v-row>
-            <v-row class="py-2 white">
-              <v-col cols="8">
-                Tourist Tax Total
-              </v-col>
-              <v-col cols="4" class="text-right">{{
-                reservation.cart.tourist_tax_cost
-                  | formatPrice(reservation.cart.hostel.currency)
-              }}</v-col>
-            </v-row>
-            <v-row class="py-2 other">
-              <v-col cols="6">
-                Breakfast Total
-              </v-col>
-              <v-col cols="6" class="text-right">
-                <span v-if="reservation.cart.extras_cost > 0">
-                  {{
-                    reservation.cart.extras_cost
+            <div
+              class="white--text text-center accent px-4 py-8 font-weight-bold title mx-auto"
+            >
+              Your booking reference number is:
+              <div class="display-1 font-weight-bold">
+                {{ reservation.booking_reference }}
+              </div>
+            </div>
+            <v-list-item class="py-2 ml-6">
+              <v-list-item-content>
+                <v-list-item-title>
+                  Accommodation Sub-Total
+                  <span class="float-right mr-6">{{
+                    reservation.cart.accommodation_cost
                       | formatPrice(reservation.cart.hostel.currency)
-                  }}
-                </span>
-                <span v-else>
-                  Included for FREE!
-                </span>
-              </v-col>
-            </v-row>
-            <v-row class="py-2 accent white--text">
-              <v-col cols="8">
-                Total Price
-              </v-col>
-              <v-col cols="4" class="text-right">{{
-                reservation.cart.total_cost
-                  | formatPrice(reservation.cart.hostel.currency)
-              }}</v-col>
-            </v-row>
-            <v-row class="py-2 white">
-              <v-col cols="8">
-                Total Paid
-              </v-col>
-              <v-col cols="4" class="text-right">{{
-                reservation.paid | formatPrice(reservation.cart.hostel.currency)
-              }}</v-col>
-            </v-row>
-            <v-row class="py-2 other">
-              <v-col cols="8">
-                Due on arrival
-              </v-col>
-              <v-col cols="4" class="text-right">
-                {{
-                  dueOnArrival | formatPrice(reservation.cart.hostel.currency)
-                }}
-              </v-col>
-            </v-row>
+                  }}</span>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-card>
         </v-col>
-        <v-col cols="12" md="5">
+        <v-col cols="12" md="6">
           <v-card tile class="text-center" color="greyback">
             <div
               @click="packYourBags = packYourBags + 1"
@@ -142,6 +81,35 @@
               class="subtitle-1 font-weight-bold my-4"
               >Manage my booking</v-btn
             >
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-card class="accent " tile>
+            <v-img
+              height="350px"
+              src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+            />
+            <v-card-text class="text-center">
+              <div
+                class="headline mb-1 white--text font-weight-bold text-center"
+              >
+                YOUR NEXT BOOKING
+              </div>
+              <div class="body-1 white--text text-center font-weight-bold">
+                Sign up to our newsletter to reveal a 10% discount code below
+              </div>
+              <v-btn
+                large
+                tile
+                depressed
+                color="secondary"
+                class="font-weight-bold mt-4"
+              >
+                Signup!
+              </v-btn>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>

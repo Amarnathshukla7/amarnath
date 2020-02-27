@@ -217,7 +217,7 @@
                               :deposit="data.deposit"
                             ></stripe-form>
                             <sage-payment-form
-                              v-if="isSagepay"
+                              v-if="isSagepay && !showPaypal"
                               ref="sagepayContainer"
                               :deposit="data.deposit"
                             ></sage-payment-form>
