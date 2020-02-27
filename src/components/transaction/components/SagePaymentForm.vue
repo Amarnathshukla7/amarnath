@@ -160,7 +160,7 @@ export default {
 
       const url =
         process.env.NODE_ENV === "production"
-          ? "https://pi-live.sagepay.com/api/v1/card-identifiers"
+          ? "https://pi-test.sagepay.com/api/v1/card-identifiers"
           : "https://pi-test.sagepay.com/api/v1/card-identifiers";
 
       const cardIdentifier = await axios
