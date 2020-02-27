@@ -142,15 +142,7 @@ export default {
           },
           //
         ],
-        cardSecurityCode: [
-          v => !!v || "Card Code is required",
-          v => {
-            return (
-              (v.length < 5 && v.length > 2) ||
-              "Needs to be either 3 or 4 digits"
-            );
-          },
-        ],
+        cardSecurityCode: [v => !!v || "CVV is required"],
         nameOnCard: [v => !!v || "Name on card is required"],
         address1: [v => !!v || "Address Line 1 is required"],
         city: [v => !!v || "City is required"],
