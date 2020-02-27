@@ -1,5 +1,5 @@
 <template>
-  <v-app v-if="reservation">
+  <v-app v-if="reservation && hostel">
     <v-overlay class="text-center" :value="overlay">
       <iframe
         width="1080"
