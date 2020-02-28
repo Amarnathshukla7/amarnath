@@ -80,6 +80,7 @@ export default {
         this.$emit("cart-updated", cart);
       } catch (e) {
         this.errors = e.response.data.errors;
+        this.loading = false;
       }
 
       this.loading = false;

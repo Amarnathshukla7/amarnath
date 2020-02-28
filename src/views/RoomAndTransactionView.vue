@@ -28,15 +28,15 @@ export default {
   props: {
     checkIn: {
       type: String,
-      default: "2020-05-16",
+      default: "2020-06-16",
     },
     checkOut: {
       type: String,
-      default: "2020-05-18",
+      default: "2020-06-19",
     },
     code: {
       type: String,
-      default: "SHP",
+      default: "BRI",
     },
   },
   components: {
