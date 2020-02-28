@@ -410,7 +410,10 @@ export default {
       this.cart = cart;
     });
 
+    console.log(this.cart.deposit_model_rate);
+
     if (!this.isPaypalEnabled) this.data.payMethod = "card";
+    this.data.deposit = this.cart.deposit_model_rate || 0;
   },
   computed: {
     showDepositChoice() {
