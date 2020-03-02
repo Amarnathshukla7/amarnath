@@ -30,7 +30,7 @@
           </span>
         </v-btn>
         <span v-if="success" class="accent--text caption font-weight-bold">
-          * Code applied succesfully
+          * Code applied successfully
         </span>
         <span
           v-if="errors.length === 1"
