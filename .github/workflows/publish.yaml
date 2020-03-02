@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js '12.x'
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
@@ -42,4 +42,4 @@ jobs:
       - name: Auto publish to github
         uses: luvies/action-yarn-publish@v0.1.1
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GHB_TOKEN }}
