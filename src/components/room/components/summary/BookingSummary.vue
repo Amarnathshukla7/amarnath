@@ -43,7 +43,7 @@
         </v-col>
         <v-col cols="6">
           <div class="heading text-right mr-6 font-weight-bold">
-            {{ cost | formatPrice }}
+            {{ cost | formatPrice(currency) }}
           </div>
         </v-col>
       </v-row>
@@ -110,6 +110,10 @@ export default {
     roomsContent: {
       type: Array,
       default: null,
+    },
+    currency: {
+      type: String,
+      default: "GBP",
     },
   },
   components: {

@@ -111,6 +111,7 @@
             :cost="totalCost"
             :cart-data="cart"
             :rooms-content="roomsContent"
+            :currency="currency"
             @update-cart="cart => (this.cart = cart)"
             @go-to-transaction="submitBooking"
           ></booking-summary>
@@ -229,6 +230,9 @@ export default {
     },
   },
   computed: {
+    currency() {
+      return this.hostelConf ? this.hostelConf.currency : "GBP";
+    },
     isSmallDevice() {
       if (!window) return false;
 
