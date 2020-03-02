@@ -137,7 +137,7 @@ export default {
       try {
         this.isCartUpdating = true;
         this.cart = await destroy(code, date);
-        bus.$emit("set-room-amount", code, date, 0);
+        bus.$emit("set-room-amount", code, this.oneDayBooking ? "" : date, 0);
       } catch (e) {
         console.log(e);
       }
@@ -186,6 +186,14 @@ export default {
       if (!this.cart) return 0;
 
       return this.cart.total_cost;
+    },
+    oneDayBooking() {
+      if (!this.cart) return;
+
+      return differenceInDays(
+        new Date(this.cart.check_out),
+        new Date(this.cart.check_in),
+      );
     },
     bookingEntries() {
       const normalBook = [];
