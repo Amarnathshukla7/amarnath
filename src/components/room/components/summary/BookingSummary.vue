@@ -1,6 +1,6 @@
 <template>
-  <div class="desktop-summary accent">
-    <v-expansion-panels v-model="open" tile flat class="hidden-sm-and-down">
+  <div class="desktop-summary-room accent">
+    <v-expansion-panels v-model="open" tile flat class="d-none d-sm-block">
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -246,7 +246,7 @@ export default {
 </script>
 
 <style lang="scss">
-.desktop-summary {
+.desktop-summary-room {
   .v-expansion-panel-content__wrap {
     padding: 0 !important;
   }
@@ -270,8 +270,8 @@ export default {
   top: 20px;
 }
 
-@media (max-width: 960px) {
-  .desktop-summary {
+@media (max-width: 600px) {
+  .desktop-summary-room {
     // position: unset;
     position: fixed;
     z-index: 2;

@@ -6,9 +6,9 @@
     :class="{ active: isSelectedAndNotCustom }"
   >
     <v-row no-gutters>
-      <v-col cols="12" md="2" align-self="center">
+      <v-col cols="12" lg="2" align-self="center">
         <v-img
-          class="hidden-sm-and-down mx-auto"
+          class="hidden-md-and-down mx-auto"
           :src="thumb.src"
           :lazy-src="thumb.lzy"
           width="100"
@@ -17,9 +17,9 @@
         ></v-img>
       </v-col>
 
-      <v-col cols="12" md="10">
+      <v-col cols="12" lg="10">
         <v-row no-gutters>
-          <v-col cols="12" md="5" lg="6">
+          <v-col cols="12" lg="6">
             <v-card-title
               pa-2
               class="font-weight-bold title"
@@ -30,7 +30,7 @@
 
             <v-card-subtitle class="text-left px-3">
               <v-icon
-                class="hidden-md pb-1 mr-1"
+                class="hidden-sm pb-1 mr-1"
                 :class="selectedAndCustomStylePrimaryColor"
               >
                 {{ peopleIcon }}
@@ -42,7 +42,7 @@
                 Prices are per {{ bedType }} sleeping {{ maxOccupancy }}
                 {{ personDescriptor }}
               </div>
-              <div class="hidden-md-and-up mt-2 mb-n3">
+              <div class="hidden-lg-and-up mt-2 mb-n3">
                 <v-row no-gutters align="center">
                   <v-col cols="1">
                     <img
@@ -76,7 +76,7 @@
               <div
                 v-if="!oneDayBooking"
                 v-show="!customSelected && !room.isCustom"
-                class="caption hidden-md-and-down"
+                class="caption hidden-lg-and-down"
                 :class="{
                   'greyish--text': !selected,
                   'white--text': selected,
@@ -109,14 +109,9 @@
               </div>
             </v-card-subtitle>
           </v-col>
-          <v-col
-            cols="12"
-            md="7"
-            lg="6"
-            :align-self="customSelected ? 'end' : ''"
-          >
+          <v-col cols="12" lg="6" :align-self="customSelected ? 'end' : ''">
             <v-img
-              class="mx-auto hidden-md-and-up"
+              class="mx-auto hidden-lg-and-up"
               :src="thumb.src"
               :lazy-src="thumb.lzy"
               width="95%"
@@ -158,7 +153,7 @@
             <div
               v-if="!oneDayBooking"
               v-show="!customSelected && !room.isCustom"
-              class="caption hidden-md-and-up text-center mb-4"
+              class="caption hidden-lg-and-up text-center mb-4"
               :class="{
                 'greyish--text': !selected,
                 'white--text': selected,
@@ -177,7 +172,7 @@
             </div>
             <div
               v-if="customSelected && !minStay"
-              class="caption hidden-md-and-up text-center mt-4 mb-4"
+              class="caption hidden-lg-and-up text-center mt-4 mb-4"
             >
               Booking your entire stay in this room? <br />
               Switch back to
@@ -190,7 +185,7 @@
               </a>
             </div>
 
-            <div v-if="!room.isCustom && !minStay" class="hidden-md-and-down">
+            <div v-if="!room.isCustom && !minStay" class="hidden-lg-and-down">
               <v-row no-gutters align="center">
                 <v-col cols="1">
                   <img src="../../../../assets/icons/check-green.svg" alt="" />
@@ -242,7 +237,7 @@
 
     <!-- Custom Booking -->
     <v-row v-show="isCustom" no-gutters justify="center">
-      <v-col cols="12" md="4" v-for="date in customDates" :key="date.date">
+      <v-col cols="12" lg="4" v-for="date in customDates" :key="date.date">
         <selection
           :date="date.date"
           :price="date.cost"

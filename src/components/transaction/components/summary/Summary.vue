@@ -1,6 +1,6 @@
 <template>
-  <div class="desktop-summary">
-    <v-expansion-panels v-model="open" class="hidden-md-and-down" tile flat>
+  <div class="desktop-summary-transaction">
+    <v-expansion-panels v-model="open" tile flat class="d-none d-sm-block">
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -166,7 +166,7 @@ export default {
 </script>
 
 <style lang="scss">
-.desktop-summary {
+.desktop-summary-transaction {
   .v-expansion-panel-content__wrap {
     padding: 0 !important;
   }
@@ -190,8 +190,8 @@ export default {
   top: 20px;
 }
 
-@media (max-width: 960px) {
-  .desktop-summary {
+@media (max-width: 600px) {
+  .desktop-summary-transaction {
     // position: unset;
     position: fixed;
     z-index: 2;

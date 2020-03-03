@@ -21,7 +21,7 @@
       <v-list-item-subtitle v-if="isSelected">
         <v-row no-gutters>
           <v-col class="pl-md-2" cols="8">
-            <span class="accent white--text pl-lg-1 mr-1 hidden-md-and-down">
+            <span class="accent white--text pl-lg-1 mr-1 d-none d-sm-inline">
               <v-icon color="white" small>mdi-account</v-icon>
               x{{ room.maxOccupancy * room.qty }}
             </span>
