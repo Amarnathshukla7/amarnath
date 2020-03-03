@@ -74,7 +74,8 @@
                 </v-row>
               </div>
               <div
-                v-if="!customSelected && !room.isCustom"
+                v-if="!oneDayBooking"
+                v-show="!customSelected && !room.isCustom"
                 class="caption hidden-md-and-down"
                 :class="{
                   'greyish--text': !selected,
@@ -155,7 +156,8 @@
             />
 
             <div
-              v-if="!customSelected && !minStay"
+              v-if="!oneDayBooking"
+              v-show="!customSelected && !room.isCustom"
               class="caption hidden-md-and-up text-center mb-4"
               :class="{
                 'greyish--text': !selected,
@@ -260,7 +262,7 @@ import { LightGallery } from "vue-light-gallery";
 import { destroy, updateOrCreate } from "../../api/reservation-svc/cart-svc";
 import { bus } from "../../../../plugins/bus";
 import { filter } from "../../helpers/filters";
-import { eachDayOfInterval, subDays, format } from "date-fns";
+import { eachDayOfInterval, subDays, format, differenceInDays } from "date-fns";
 
 export default {
   props: {
@@ -378,6 +380,9 @@ export default {
           cost: cost,
         };
       });
+    },
+    oneDayBooking() {
+      return differenceInDays(new Date(this.checkOut), new Date(this.checkIn));
     },
     images() {
       return this.content.images.map(image => ({
