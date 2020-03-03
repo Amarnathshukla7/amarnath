@@ -61,20 +61,21 @@ export default {
     this.hostel = await getHostel(this.code);
     this.hostelConf = await find(this.code);
   },
-  beforeDestroy() {
-    // window.removeEventListener("beforeunload");
-  },
   mounted() {
-    window.addEventListener("beforeunload", event => {
+    window.addEventListener("beforeunload", this.preventCloseByAccident);
+  },
+  beforeDestroy() {
+    window.removeEventListener("beforeunload", this.preventCloseByAccident);
+  },
+  methods: {
+    preventCloseByAccident(event) {
       // Cancel the event as stated by the standard.
       event.preventDefault();
       // Chrome requires returnValue to be set.
       event.returnValue = "";
 
       return confirm("Are you sure you want to abandon your search?");
-    });
-  },
-  methods: {
+    },
     changeView(view, data) {
       this.data = data;
       this.view = view;

@@ -14,10 +14,9 @@
       </v-btn>
     </v-overlay>
     <bread-crumbs />
-    <v-container max-width="1400px">
+    <v-container>
       <v-row no-gutters>
-        <v-col cols="12"> </v-col>
-        <filters-sort-by />
+        <filters-sort-by @sort="sort" />
       </v-row>
       <v-row no-gutters>
         <v-col cols="12" md="8" lg="9">
@@ -130,6 +129,7 @@ import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import FiltersSortBy from "./components/filters/FiltersSortBy.vue";
 import { availability } from "./api/search-svc";
 import { create } from "./api/reservation-svc/cart-svc";
+import sortRooms from "./helpers/sort";
 // import { bus } from "../../plugins/bus";
 
 export default {
@@ -224,6 +224,14 @@ export default {
       window.scrollTo(0, 0);
       this.isLoading = true;
       this.$emit("go-to-view", "transaction", this.cart);
+    },
+    sort(type) {
+      const rooms = sortRooms[type](this.rooms);
+
+      this.rooms = {
+        ...rooms,
+        ...this.rooms,
+      };
     },
   },
   computed: {
