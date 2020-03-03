@@ -13,13 +13,10 @@
         <v-icon>mdi-refresh</v-icon>
       </v-btn>
     </v-overlay>
-
+    <bread-crumbs />
     <v-container max-width="1400px">
       <v-row no-gutters>
-        <v-col cols="12">
-          <bread-crumbs />
-        </v-col>
-
+        <v-col cols="12"> </v-col>
         <filters-sort-by />
       </v-row>
       <v-row no-gutters>
