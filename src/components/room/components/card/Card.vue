@@ -42,7 +42,10 @@
                 Prices are per {{ bedType }} sleeping {{ maxOccupancy }}
                 {{ personDescriptor }}
               </div>
-              <div class="hidden-lg-and-up mt-2 mb-n3">
+              <div
+                v-if="!room.isCustom && !minStay"
+                class="hidden-lg-and-up mt-2 mb-n3"
+              >
                 <v-row no-gutters align="center">
                   <v-col cols="1">
                     <img
