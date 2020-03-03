@@ -245,6 +245,7 @@
           :date="date.date"
           :price="date.cost"
           :code="room.code"
+          :bed-type="bedType"
           :available="date.units"
           :custom="true"
           @update-local-room-cart="updateCart"
