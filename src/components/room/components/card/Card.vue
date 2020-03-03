@@ -79,7 +79,7 @@
               <div
                 v-if="!oneDayBooking"
                 v-show="!customSelected && !room.isCustom"
-                class="caption hidden-lg-and-down"
+                class="caption hidden-md-and-down"
                 :class="{
                   'greyish--text': !selected,
                   'white--text': selected,
