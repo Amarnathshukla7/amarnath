@@ -382,7 +382,9 @@ export default {
       });
     },
     oneDayBooking() {
-      return differenceInDays(new Date(this.checkOut), new Date(this.checkIn));
+      return (
+        differenceInDays(new Date(this.checkOut), new Date(this.checkIn)) <= 1
+      );
     },
     images() {
       return this.content.images.map(image => ({
