@@ -188,7 +188,7 @@
               </a>
             </div>
 
-            <div v-if="!room.isCustom && !minStay" class="hidden-lg-and-down">
+            <div v-if="!room.isCustom && !minStay" class="hidden-md-and-down">
               <v-row no-gutters align="center">
                 <v-col cols="1">
                   <img src="../../../../assets/icons/check-green.svg" alt="" />
