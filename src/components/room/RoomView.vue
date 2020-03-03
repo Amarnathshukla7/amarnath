@@ -16,10 +16,13 @@
     <bread-crumbs />
     <v-container>
       <v-row no-gutters>
-        <filters-sort-by @sort="sort" />
+        <v-col cols="12" offset-xl="2">
+          <filters-sort-by @sort="sort" />
+        </v-col>
       </v-row>
-      <v-row no-gutters>
-        <v-col cols="12" md="8" lg="9">
+      <v-row>
+        <v-col cols="12" md="12" lg="9" xl="6" offset-xl="2">
+          <!-- cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2" -->
           <v-expansion-panels
             v-model="openPanel"
             class="room-view-panel--margin"
@@ -102,7 +105,7 @@
             </v-expansion-panel>
           </v-expansion-panels>
         </v-col>
-        <v-col cols="12" md="4" lg="3" class="pl-4">
+        <v-col cols="12" md="4" lg="3" xl="2">
           <booking-summary
             :cost="totalCost"
             :cart-data="cart"
