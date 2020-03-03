@@ -32,7 +32,7 @@ export default {
     },
     checkOut: {
       type: String,
-      default: "2020-06-17",
+      default: "2020-06-20",
     },
     code: {
       type: String,
