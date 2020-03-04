@@ -91,6 +91,8 @@ export default {
   methods: {
     async addExtraToCart() {
       this.isLoading = true;
+      bus.$emit("cart-updating", true);
+
       const cart = await addExtra([
         {
           code: this.content.key,
@@ -103,6 +105,7 @@ export default {
       bus.$emit("cart-transaction-updated", cart);
 
       this.isLoading = false;
+      bus.$emit("cart-updating", false);
     },
   },
 };

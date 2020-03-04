@@ -1,6 +1,6 @@
 <template>
   <div class="desktop-summary-room accent">
-    <v-expansion-panels v-model="open" tile flat class="d-none d-sm-block">
+    <v-expansion-panels v-model="open" tile flat class="">
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -27,16 +27,22 @@
             ></booking-summary-item>
 
             <booking-summary-item
-              v-for="room in bookingEntries.custom"
+              v-for="(room, index) in bookingEntries.custom"
               :key="`${room.code}-${room.checkIn}`"
               :room="room"
+              :index="index"
               @destroy-room="deleteFromCart"
             ></booking-summary-item>
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <v-card tile flat color="accent" class="white--text pt-4">
+    <v-card
+      tile
+      flat
+      color="accent"
+      class="white--text pt-4 total-price-room-summary"
+    >
       <v-row no-gutters class="mb-5">
         <v-col cols="6">
           <div class="heading ml-6 mb-md-6 font-weight-bold">Total price:</div>
@@ -205,6 +211,7 @@ export default {
       const roomCodes = new Set(
         items
           .sort((a, b) => new Date(a.date) - new Date(b.date))
+          .filter(room => room.type === "bed")
           .map(room => room.code),
       );
 
@@ -261,24 +268,24 @@ export default {
       margin-bottom: 15px;
     }
   }
-
-  .summary-card {
-    overflow: scroll;
-  }
-
-  position: sticky;
-  top: 20px;
 }
 
-@media (max-width: 600px) {
-  .desktop-summary-room {
-    // position: unset;
+@media (max-width: 599px) {
+  .total-price-room-summary {
+    position: unset;
     position: fixed;
     z-index: 2;
     bottom: 0;
     top: unset;
     width: 100%;
     left: 0;
+  }
+}
+
+@media (min-width: 599px) {
+  .desktop-summary-room {
+    position: sticky;
+    top: 20px;
   }
 }
 </style>
