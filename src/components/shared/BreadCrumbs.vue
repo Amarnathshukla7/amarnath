@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .breadcrumb {
   display: inline-block;
   overflow: hidden;
@@ -63,7 +63,7 @@ export default {
   margin: auto;
 }
 .breadcrumb a {
-  font-family: var(--font-primary);
+  font-family: $body-font-family;
   text-transform: uppercase;
   font-weight: bold;
   text-decoration: none;
