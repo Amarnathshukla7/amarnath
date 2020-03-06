@@ -9,8 +9,13 @@
       <div class="body-1 px-6">
         Please check your connection and click below to try again
       </div>
-      <v-btn class="pt-4" icon @click="loadData">
+      <v-btn class="mt-4 mr-4" @click="loadData">
         <v-icon>mdi-refresh</v-icon>
+        Try Again
+      </v-btn>
+      <v-btn class="mt-4" @click="isError = false">
+        <v-icon>mdi-close</v-icon>
+        Close
       </v-btn>
     </v-overlay>
     <bread-crumbs />

@@ -9,8 +9,7 @@ module.exports = {
     // },
     proxy: {
       "/search-svc/": {
-        target:
-          "https://beds-and-bars-search-subdomain-search-svc.bnb-platform.com/",
+        target: "https://search.apis.bedsandbars.com/",
         pathRewrite: { "^/search-svc/": "" },
       },
       "/review-svc/": {

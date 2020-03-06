@@ -24,7 +24,9 @@ export const updateOrCreate = async (room, dates) => {
 export const destroy = async (room, date) => {
   const { token } = await get("token");
 
+  const appendDate = date ? `/${date}` : "";
+
   return axios
-    .delete(`/cart-svc/${token}/items/${room}/${date || ""}`)
+    .delete(`/cart-svc/${token}/items/${room}${appendDate}`)
     .then(res => res.data);
 };

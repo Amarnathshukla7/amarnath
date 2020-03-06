@@ -24,11 +24,7 @@
               <v-icon color="white" small>mdi-account</v-icon>
               x{{ room.maxOccupancy * room.qty }}
             </span>
-            {{ room.qty }} {{ bedType }} x {{ room.maxOccupancy }}
-            {{ personDescriptor }}
-            <span v-if="room.qty > 1">
-              each
-            </span>
+            in {{ room.qty }} {{ bedType }}
           </v-col>
           <v-col cols="4" class="text-right">
             <div class="mr-2 body-1 mt-n1 font-weight-bold">
