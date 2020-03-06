@@ -14,7 +14,16 @@
       </v-btn>
     </v-overlay>
     <bread-crumbs />
-    <v-container>
+    <v-container v-if="showSummaryBreakfast">
+      <breakdown-and-breakfast
+        :cart="cart"
+        :hostel="hostel"
+        :currency="currency"
+        @show-rooms="showSummaryBreakfast = false"
+        @go-to-transaction="submitBooking"
+      ></breakdown-and-breakfast>
+    </v-container>
+    <v-container v-if="!showSummaryBreakfast">
       <v-row no-gutters>
         <v-col cols="12" offset-xl="2">
           <filters-sort-by @sort="sort" />
@@ -116,11 +125,6 @@
           ></booking-summary>
         </v-col>
       </v-row>
-      <breakdown-and-breakfast
-        v-if="showSummaryBreakfast"
-        :cart-data="cart"
-        :rooms-content="roomsContent"
-      ></breakdown-and-breakfast>
     </v-container>
   </main>
 </template>
@@ -133,7 +137,7 @@ import FiltersSortBy from "./components/filters/FiltersSortBy.vue";
 import { availability } from "./api/search-svc";
 import { create } from "./api/reservation-svc/cart-svc";
 import sortRooms from "./helpers/sort";
-// import { bus } from "../../plugins/bus";
+import { bus } from "../../plugins/bus";
 
 export default {
   props: {
@@ -188,6 +192,10 @@ export default {
   },
   created() {
     this.loadData();
+
+    bus.$on("cart-transaction-updated", cart => {
+      this.cart = cart;
+    });
   },
   methods: {
     async loadData() {
@@ -219,16 +227,19 @@ export default {
     updateCart(cart) {
       this.cart = cart;
     },
-    submitBooking() {
-      // if (this.isSmallDevice) {
-      //   return;
-      // }
+    submitBooking(force = false) {
+      if (this.isSmallDevice && !force) {
+        this.showSummaryBreakfast = true;
+        return;
+      }
 
       window.scrollTo(0, 0);
       this.isLoading = true;
       this.$emit("go-to-view", "transaction", this.cart);
     },
     sort(type) {
+      if (!type) return;
+
       const rooms = sortRooms[type](this.rooms);
 
       this.rooms = {
@@ -244,7 +255,7 @@ export default {
     isSmallDevice() {
       if (!window) return false;
 
-      return window.innerWidth < 960;
+      return window.innerWidth < 600;
     },
     roomsContent() {
       return this.hostel ? this.hostel.rooms : null;

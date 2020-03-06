@@ -1,7 +1,6 @@
 <template>
   <v-list-item class="desktop-summary-item pa-0">
     <v-list-item-content class="text-left">
-      <v-divider v-if="index !== 0" class="mb-4 mt-n2"></v-divider>
       <v-row no-gutters>
         <v-col>
           <v-list-item-subtitle
@@ -21,7 +20,7 @@
       <v-list-item-subtitle v-if="isSelected">
         <v-row no-gutters>
           <v-col class="pl-md-2" cols="8">
-            <span class="accent white--text pl-lg-1 mr-1 d-none d-sm-inline">
+            <span class="accent white--text pl-lg-1 mr-1">
               <v-icon color="white" small>mdi-account</v-icon>
               x{{ room.maxOccupancy * room.qty }}
             </span>
@@ -38,6 +37,7 @@
           </v-col>
         </v-row>
       </v-list-item-subtitle>
+      <v-divider class="mt-4 mb-n2"></v-divider>
     </v-list-item-content>
   </v-list-item>
 </template>
