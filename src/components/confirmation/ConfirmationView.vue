@@ -16,7 +16,7 @@
     </v-overlay>
     <v-container>
       <v-row no-gutters>
-        <v-col cols="12 mb-6">
+        <v-col cols="12" class="my-4">
           <bread-crumbs :step="4" />
         </v-col>
       </v-row>
@@ -32,7 +32,7 @@
         </v-col>
       </v-row>
       <v-row class="">
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="6" lg="5" offset-lg="1">
           <v-card tile class="other">
             <div
               class="white--text text-center accent px-4 py-8 font-weight-bold title mx-auto"
@@ -128,7 +128,7 @@
             </v-list-item>
           </v-card>
         </v-col>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="6" lg="5">
           <v-card tile class="text-center" color="greyback">
             <div
               @click="packYourBags = packYourBags + 1"
@@ -163,7 +163,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="6" lg="5" offset-lg="1">
           <v-card class="accent " tile>
             <v-img
               height="350px"
@@ -182,10 +182,13 @@
                 large
                 tile
                 depressed
+                :disabled="signUpSuccessful"
                 color="secondary"
                 class="font-weight-bold mt-4"
+                @click="signupToNewsletter"
               >
-                Signup!
+                <span v-if="!signUpSuccessful">Sign Up!</span>
+                <span v-else>Successfully Signed Up!</span>
               </v-btn>
             </v-card-text>
           </v-card>
@@ -196,6 +199,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import contentful from "../../plugins/contentful";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import { formatPrice } from "../../filters/money";
@@ -212,6 +216,7 @@ export default {
       bookingRef: "TEST-STC-BRI-25353491",
       reservation: null,
       hostel: null,
+      signUpSuccessful: false,
     };
   },
   watch: {
@@ -226,11 +231,7 @@ export default {
     },
   },
   async created() {
-    // this.reservation = await get(this.bookingRef);
-
     this.reservation = await get("reservation");
-
-    console.log(this.reservation);
 
     const hostelReq = await contentful.getEntries({
       include: 2,
@@ -241,6 +242,12 @@ export default {
     });
 
     this.hostel = hostelReq.items[0].fields;
+  },
+  methods: {
+    signupToNewsletter() {
+      axios.post(`/reservation-svc/${this.reservation.id}/user/marketing`);
+      this.signUpSuccessful = true;
+    },
   },
   filters: {
     formatPrice,
