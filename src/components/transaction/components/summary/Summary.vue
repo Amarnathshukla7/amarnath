@@ -182,9 +182,6 @@ export default {
     }
   }
 
-  .summary-card {
-    overflow-y: scroll;
-  }
 
   position: sticky;
   top: 20px;
