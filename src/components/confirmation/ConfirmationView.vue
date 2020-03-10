@@ -267,9 +267,6 @@ export default {
   margin: auto;
 }
 
-$body-font-family: "ff-tisa-web-pro";
-$title-font: "proxima-nova";
-
 .v-application *,
 .v-application .subtitle-1,
 .v-application .headline,
@@ -286,11 +283,5 @@ $title-font: "proxima-nova";
     // To pin point specific classes of some components
     font-family: $title-font, sans-serif !important;
   }
-}
-
-#app {
-  font-family: "proxima-nova", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 </style>

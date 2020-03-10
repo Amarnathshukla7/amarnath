@@ -93,9 +93,6 @@ export default {
 </script>
 
 <style lang="scss">
-$body-font-family: "ff-tisa-web-pro";
-$title-font: "proxima-nova";
-
 .v-application .subtitle-1,
 .v-application .headline,
 .v-application .display-1 {
@@ -115,11 +112,5 @@ $title-font: "proxima-nova";
     // To pin point specific classes of some components
     font-family: $title-font, sans-serif !important;
   }
-}
-
-#app {
-  font-family: "proxima-nova", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 </style>

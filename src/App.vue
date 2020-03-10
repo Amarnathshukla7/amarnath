@@ -18,5 +18,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import url(https://use.typekit.net/dzk4xxw.css);
+@import url("https://use.typekit.net/dzk4xxw.css");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:400,700|Roboto:400,700&display=swap");
 </style>

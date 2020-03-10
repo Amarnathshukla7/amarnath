@@ -18,15 +18,15 @@ const stc = {
 };
 
 const fp = {
-  primary: "#062131",
-  secondary: "#ff8700",
-  accent: "#2aa6b9",
+  primary: "#4e5b67",
+  secondary: "#ff6016",
+  accent: "#bfc8c5",
   error: "#FF5252",
-  info: "#e4e6ea",
+  info: "#edf2f0",
   other: "#dcf3f7",
   success: "#4CAF50",
   warning: "#eb3a3a",
-  greyish: "#899495",
+  greyish: "#71767b",
   greyback: "#f8f8f8",
 };
 
