@@ -136,6 +136,7 @@ export default {
 @media screen and (max-width: 400px) {
   figure .breadcrumb-container {
     max-width: 100%;
+    text-align: center;
   }
 }
 @media screen and (max-width: 900px) {
