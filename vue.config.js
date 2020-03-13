@@ -9,12 +9,11 @@ module.exports = {
     // },
     proxy: {
       "/search-svc/": {
-        target: "https://search.apis.bedsandbars.com/",
+        target: "https://search.svc.bedsandbars.com/",
         pathRewrite: { "^/search-svc/": "" },
       },
       "/review-svc/": {
-        target:
-          "https://beds-and-bars-feedback-subdomain-review-service.bnb-platform.com/",
+        target: "https://feedback.svc.bedsandbars.com/",
         pathRewrite: { "^/review-svc/": "" },
       },
       // "/cart-svc/": {

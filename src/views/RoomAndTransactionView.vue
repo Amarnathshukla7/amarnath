@@ -28,15 +28,15 @@ export default {
   props: {
     checkIn: {
       type: String,
-      default: "2020-06-16",
+      default: "2020-10-16",
     },
     checkOut: {
       type: String,
-      default: "2020-06-20",
+      default: "2020-10-20",
     },
     code: {
       type: String,
-      default: "BRI",
+      default: "FPU",
     },
   },
   components: {

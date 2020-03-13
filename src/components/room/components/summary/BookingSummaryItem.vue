@@ -1,22 +1,17 @@
 <template>
   <v-list-item class="desktop-summary-item pa-0">
     <v-list-item-content class="text-left">
-      <v-row no-gutters>
-        <v-col>
-          <v-list-item-subtitle
-            class="ml-10 body-1 font-weight-bold accent--text"
-          >
-            {{ room.checkIn | formatDate }}
-            <span v-if="room.checkOut">- {{ room.checkOut | formatDate }}</span>
-          </v-list-item-subtitle>
-          <v-list-item-title class="font-weight-bold greyish--text">
-            <v-btn icon @click="destroy">
-              <v-icon small>mdi-trash-can</v-icon>
-            </v-btn>
-            {{ room.name }}
-          </v-list-item-title>
-        </v-col>
-      </v-row>
+      <v-list-item-subtitle class="ml-10 body-1 font-weight-bold accent--text">
+        {{ room.checkIn | formatDate }}
+        <span v-if="room.checkOut">- {{ room.checkOut | formatDate }}</span>
+      </v-list-item-subtitle>
+      <v-list-item-title class="font-weight-bold greyish--text ml-10 ml-sm-0">
+        <v-btn class="hidden-sm-and-down d-sm-inline" icon @click="destroy">
+          <v-icon small>mdi-trash-can</v-icon>
+        </v-btn>
+        {{ room.name }}
+      </v-list-item-title>
+
       <v-list-item-subtitle v-if="isSelected">
         <v-row no-gutters>
           <v-col class="pl-md-2" cols="8">

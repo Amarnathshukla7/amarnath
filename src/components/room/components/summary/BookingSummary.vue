@@ -125,6 +125,14 @@ export default {
   components: {
     BookingSummaryItem,
   },
+  watch: {
+    bookingEntries(entries) {
+      if (!entries) return;
+
+      entries.normal.forEach(room => this.roomTypePopup(room.code, room.qty));
+      entries.custom.forEach(room => this.roomTypePopup(room.code, room.qty));
+    },
+  },
   data() {
     return {
       open: 0,
@@ -174,6 +182,34 @@ export default {
         type: roomContent.fields.type,
         cost: room.price_per_item * room.qty,
       }));
+    },
+    roomTypePopup(roomCode, qty) {
+      const msg8bed =
+        "In the room type you selected there are 2 double mattresses and 4 single mattresses. Please be aware that with your current selection you will not be placed in the same room";
+      const msg12bed =
+        "In the room type you selected there are 2 double mattresses and 8 single mattresses. Please be aware that with your current selection you will not be placed in the same room.";
+      const rooms = {
+        1000118: {
+          qty: 2,
+          msg: msg8bed,
+        },
+        1000119: {
+          qty: 4,
+          msg: msg8bed,
+        },
+        1000122: {
+          qty: 2,
+          msg: msg12bed,
+        },
+        1000123: {
+          qty: 8,
+          msg: msg12bed,
+        },
+      };
+      if (Object.keys(rooms).includes(roomCode) && qty > rooms[roomCode].qty) {
+        // eslint-disable-next-line no-alert
+        window.alert(rooms[roomCode].msg);
+      }
     },
   },
   computed: {

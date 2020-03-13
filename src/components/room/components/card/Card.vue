@@ -25,7 +25,7 @@
               class="font-weight-bold title"
               :class="selectedAndCustomStylePrimaryColor"
             >
-              {{ room.roomName }}
+              {{ content.name }}
             </v-card-title>
 
             <v-card-subtitle class="text-left px-3">
