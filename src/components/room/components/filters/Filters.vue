@@ -1,6 +1,13 @@
 <template>
   <v-row dense no-gutters justify="start" align-content="start">
-    <v-col class="mt-2" v-for="filter in filters" :key="filter">
+    <v-col
+      cols="4"
+      sm="2"
+      md="1"
+      class="mt-2 mr-md-6"
+      v-for="filter in filters"
+      :key="filter"
+    >
       <v-badge
         bordered
         color="secondary"
