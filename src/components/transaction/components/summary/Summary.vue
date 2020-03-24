@@ -1,6 +1,6 @@
 <template>
-  <div class="desktop-summary">
-    <v-expansion-panels v-model="open" class="hidden-md-and-down" tile flat>
+  <div class="desktop-summary-transaction">
+    <v-expansion-panels v-model="open" tile flat class="d-none d-sm-block">
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -12,45 +12,49 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content color="other" class="pa-0">
           <v-card flat tile color="other" class="pa-0 summary-card">
-            <div class="cart-item-row">
-              <v-row class="px-4 py-2 white">
-                <v-col cols="8">
+            <v-list-item class="py-2 pl-4 white">
+              <v-list-item-content>
+                <v-list-item-title>
                   Accommodation Sub-Total
-                </v-col>
-                <v-col cols="4" class="text-right">
-                  {{ cart.accommodation_cost | formatPrice(currency) }}
-                </v-col>
-              </v-row>
-              <v-row class="px-4 py-2">
-                <v-col cols="8">
+                  <span class="float-right">{{
+                    cart.accommodation_cost | formatPrice(currency)
+                  }}</span>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item class="py-2 pl-4 other">
+              <v-list-item-content>
+                <v-list-item-title>
                   Loyalty Coupon Code
-                </v-col>
-                <v-col cols="4" class="text-right">
-                  − {{ discount | formatPrice(currency) }}
-                </v-col>
-              </v-row>
-              <v-row class="px-4 py-2 white">
-                <v-col cols="8">
+                  <span class="float-right">{{
+                    discount | formatPrice(currency)
+                  }}</span>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item class="py-2 pl-4 white">
+              <v-list-item-content>
+                <v-list-item-title>
                   Tourist Tax Total
-                </v-col>
-                <v-col cols="4" class="text-right">
-                  {{ cart.tourist_tax_cost | formatPrice(currency) }}
-                </v-col>
-              </v-row>
-              <v-row class="px-4 py-2">
-                <v-col cols="6">
+                  <span class="float-right">{{
+                    cart.tourist_tax_cost | formatPrice(currency)
+                  }}</span>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item class="py-2 pl-4 other">
+              <v-list-item-content>
+                <v-list-item-title>
                   Breakfast Total
-                </v-col>
-                <v-col cols="6" class="text-right">
-                  <span v-if="breakfastCost > 0">
+                  <span class="float-right" v-if="breakfastCost > 0">
                     {{ breakfastCost | formatPrice(currency) }}
                   </span>
-                  <span v-else>
+                  <span class="float-right" v-else>
                     Included for FREE!
                   </span>
-                </v-col>
-              </v-row>
-            </div>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -162,7 +166,7 @@ export default {
 </script>
 
 <style lang="scss">
-.desktop-summary {
+.desktop-summary-transaction {
   .v-expansion-panel-content__wrap {
     padding: 0 !important;
   }
@@ -178,16 +182,13 @@ export default {
     }
   }
 
-  .summary-card {
-    overflow-y: scroll;
-  }
 
   position: sticky;
   top: 20px;
 }
 
-@media (max-width: 960px) {
-  .desktop-summary {
+@media (max-width: 600px) {
+  .desktop-summary-transaction {
     // position: unset;
     position: fixed;
     z-index: 2;

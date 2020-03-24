@@ -1,6 +1,6 @@
 <template>
-  <div class="desktop-summary accent">
-    <v-expansion-panels v-model="open" tile flat class="hidden-sm-and-down">
+  <div class="desktop-summary-room accent">
+    <v-expansion-panels v-model="open" tile flat class="">
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -27,23 +27,29 @@
             ></booking-summary-item>
 
             <booking-summary-item
-              v-for="room in bookingEntries.custom"
+              v-for="(room, index) in bookingEntries.custom"
               :key="`${room.code}-${room.checkIn}`"
               :room="room"
+              :index="index"
               @destroy-room="deleteFromCart"
             ></booking-summary-item>
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <v-card tile flat color="accent" class="white--text pt-4">
+    <v-card
+      tile
+      flat
+      color="accent"
+      class="white--text pt-4 total-price-room-summary"
+    >
       <v-row no-gutters class="mb-5">
         <v-col cols="6">
           <div class="heading ml-6 mb-md-6 font-weight-bold">Total price:</div>
         </v-col>
         <v-col cols="6">
           <div class="heading text-right mr-6 font-weight-bold">
-            {{ cost | formatPrice }}
+            {{ cost | formatPrice(currency) }}
           </div>
         </v-col>
       </v-row>
@@ -111,9 +117,21 @@ export default {
       type: Array,
       default: null,
     },
+    currency: {
+      type: String,
+      default: "GBP",
+    },
   },
   components: {
     BookingSummaryItem,
+  },
+  watch: {
+    bookingEntries(entries) {
+      if (!entries) return;
+
+      entries.normal.forEach(room => this.roomTypePopup(room.code, room.qty));
+      entries.custom.forEach(room => this.roomTypePopup(room.code, room.qty));
+    },
   },
   data() {
     return {
@@ -133,7 +151,7 @@ export default {
       try {
         this.isCartUpdating = true;
         this.cart = await destroy(code, date);
-        bus.$emit("set-room-amount", code, date, 0);
+        bus.$emit("set-room-amount", code, this.oneDayBooking ? "" : date, 0);
       } catch (e) {
         console.log(e);
       }
@@ -165,6 +183,34 @@ export default {
         cost: room.price_per_item * room.qty,
       }));
     },
+    roomTypePopup(roomCode, qty) {
+      const msg8bed =
+        "In the room type you selected there are 2 double mattresses and 4 single mattresses. Please be aware that with your current selection you will not be placed in the same room";
+      const msg12bed =
+        "In the room type you selected there are 2 double mattresses and 8 single mattresses. Please be aware that with your current selection you will not be placed in the same room.";
+      const rooms = {
+        1000118: {
+          qty: 2,
+          msg: msg8bed,
+        },
+        1000119: {
+          qty: 4,
+          msg: msg8bed,
+        },
+        1000122: {
+          qty: 2,
+          msg: msg12bed,
+        },
+        1000123: {
+          qty: 8,
+          msg: msg12bed,
+        },
+      };
+      if (Object.keys(rooms).includes(roomCode) && qty > rooms[roomCode].qty) {
+        // eslint-disable-next-line no-alert
+        window.alert(rooms[roomCode].msg);
+      }
+    },
   },
   computed: {
     cart: {
@@ -183,6 +229,14 @@ export default {
 
       return this.cart.total_cost;
     },
+    oneDayBooking() {
+      if (!this.cart) return;
+
+      return differenceInDays(
+        new Date(this.cart.check_out),
+        new Date(this.cart.check_in),
+      );
+    },
     bookingEntries() {
       const normalBook = [];
       const customBook = [];
@@ -193,6 +247,7 @@ export default {
       const roomCodes = new Set(
         items
           .sort((a, b) => new Date(a.date) - new Date(b.date))
+          .filter(room => room.type === "bed")
           .map(room => room.code),
       );
 
@@ -234,7 +289,7 @@ export default {
 </script>
 
 <style lang="scss">
-.desktop-summary {
+.desktop-summary-room {
   .v-expansion-panel-content__wrap {
     padding: 0 !important;
   }
@@ -249,24 +304,24 @@ export default {
       margin-bottom: 15px;
     }
   }
-
-  .summary-card {
-    overflow: scroll;
-  }
-
-  position: sticky;
-  top: 20px;
 }
 
-@media (max-width: 960px) {
-  .desktop-summary {
-    // position: unset;
+@media (max-width: 599px) {
+  .total-price-room-summary {
+    position: unset;
     position: fixed;
     z-index: 2;
     bottom: 0;
     top: unset;
     width: 100%;
     left: 0;
+  }
+}
+
+@media (min-width: 599px) {
+  .desktop-summary-room {
+    position: sticky;
+    top: 20px;
   }
 }
 </style>

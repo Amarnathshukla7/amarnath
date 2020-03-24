@@ -6,9 +6,9 @@
     :class="{ active: isSelectedAndNotCustom }"
   >
     <v-row no-gutters>
-      <v-col cols="12" md="2" align-self="center">
+      <v-col cols="12" lg="2" align-self="center">
         <v-img
-          class="hidden-sm-and-down mx-auto"
+          class="hidden-md-and-down mx-auto"
           :src="thumb.src"
           :lazy-src="thumb.lzy"
           width="100"
@@ -17,20 +17,20 @@
         ></v-img>
       </v-col>
 
-      <v-col cols="12" md="10">
+      <v-col cols="12" lg="10">
         <v-row no-gutters>
-          <v-col cols="12" md="5" lg="6">
+          <v-col cols="12" lg="6">
             <v-card-title
               pa-2
               class="font-weight-bold title"
               :class="selectedAndCustomStylePrimaryColor"
             >
-              {{ room.roomName }}
+              {{ content.name }}
             </v-card-title>
 
             <v-card-subtitle class="text-left px-3">
               <v-icon
-                class="hidden-md pb-1 mr-1"
+                class="hidden-sm pb-1 mr-1"
                 :class="selectedAndCustomStylePrimaryColor"
               >
                 {{ peopleIcon }}
@@ -42,7 +42,10 @@
                 Prices are per {{ bedType }} sleeping {{ maxOccupancy }}
                 {{ personDescriptor }}
               </div>
-              <div class="hidden-md-and-up mt-2 mb-n3">
+              <div
+                v-if="!room.isCustom && !minStay"
+                class="hidden-lg-and-up mt-2 mb-n3"
+              >
                 <v-row no-gutters align="center">
                   <v-col cols="1">
                     <img
@@ -74,7 +77,8 @@
                 </v-row>
               </div>
               <div
-                v-if="!customSelected && !room.isCustom"
+                v-if="!oneDayBooking"
+                v-show="!customSelected && !room.isCustom"
                 class="caption hidden-md-and-down"
                 :class="{
                   'greyish--text': !selected,
@@ -108,14 +112,9 @@
               </div>
             </v-card-subtitle>
           </v-col>
-          <v-col
-            cols="12"
-            md="7"
-            lg="6"
-            :align-self="customSelected ? 'end' : ''"
-          >
+          <v-col cols="12" lg="6" :align-self="customSelected ? 'end' : ''">
             <v-img
-              class="mx-auto hidden-md-and-up"
+              class="mx-auto hidden-lg-and-up"
               :src="thumb.src"
               :lazy-src="thumb.lzy"
               width="95%"
@@ -155,8 +154,9 @@
             />
 
             <div
-              v-if="!customSelected && !minStay"
-              class="caption hidden-md-and-up text-center mb-4"
+              v-if="!oneDayBooking"
+              v-show="!customSelected && !room.isCustom"
+              class="caption hidden-lg-and-up text-center mb-4"
               :class="{
                 'greyish--text': !selected,
                 'white--text': selected,
@@ -175,7 +175,7 @@
             </div>
             <div
               v-if="customSelected && !minStay"
-              class="caption hidden-md-and-up text-center mt-4 mb-4"
+              class="caption hidden-lg-and-up text-center mt-4 mb-4"
             >
               Booking your entire stay in this room? <br />
               Switch back to
@@ -240,11 +240,12 @@
 
     <!-- Custom Booking -->
     <v-row v-show="isCustom" no-gutters justify="center">
-      <v-col cols="12" md="4" v-for="date in customDates" :key="date.date">
+      <v-col cols="12" lg="4" v-for="date in customDates" :key="date.date">
         <selection
           :date="date.date"
           :price="date.cost"
           :code="room.code"
+          :bed-type="bedType"
           :available="date.units"
           :custom="true"
           @update-local-room-cart="updateCart"
@@ -260,7 +261,7 @@ import { LightGallery } from "vue-light-gallery";
 import { destroy, updateOrCreate } from "../../api/reservation-svc/cart-svc";
 import { bus } from "../../../../plugins/bus";
 import { filter } from "../../helpers/filters";
-import { eachDayOfInterval, subDays, format } from "date-fns";
+import { eachDayOfInterval, subDays, format, differenceInDays } from "date-fns";
 
 export default {
   props: {
@@ -378,6 +379,11 @@ export default {
           cost: cost,
         };
       });
+    },
+    oneDayBooking() {
+      return (
+        differenceInDays(new Date(this.checkOut), new Date(this.checkIn)) <= 1
+      );
     },
     images() {
       return this.content.images.map(image => ({

@@ -8,7 +8,7 @@
       :class="{ accent: isSelected }"
     >
       <v-row no-gutters>
-        <v-col cols="6" md="7">
+        <v-col cols="7" md="7">
           <unit-select
             class="pb-2"
             :class="{ 'pb-md-0': !custom }"
@@ -18,7 +18,7 @@
             @update-value="update"
           ></unit-select>
         </v-col>
-        <v-col cols="6" md="5">
+        <v-col cols="5" md="5">
           <div
             class="white--text date--price"
             :class="{ accent: !isSoldOut, greyish: isSoldOut }"

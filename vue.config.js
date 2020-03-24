@@ -9,13 +9,11 @@ module.exports = {
     // },
     proxy: {
       "/search-svc/": {
-        target:
-          "https://beds-and-bars-search-subdomain-search-svc.bnb-platform.com/",
+        target: "https://search.svc.bedsandbars.com/",
         pathRewrite: { "^/search-svc/": "" },
       },
       "/review-svc/": {
-        target:
-          "https://beds-and-bars-feedback-subdomain-review-service.bnb-platform.com/",
+        target: "https://feedback.svc.bedsandbars.com/",
         pathRewrite: { "^/review-svc/": "" },
       },
       // "/cart-svc/": {
@@ -35,19 +33,19 @@ module.exports = {
       //   pathRewrite: { "^/transaction-svc/": "" },
       // },
       "/cart-svc/": {
-        target: "http://reservation-apis.test/api/carts/",
+        target: "https://reservation.svc.bedsandbars.com/api/carts/",
         pathRewrite: { "^/cart-svc/": "" },
       },
       "/reservation-svc/": {
-        target: "http://reservation-apis.test/api/reservations/",
+        target: "https://reservation.svc.bedsandbars.com/api/reservations/",
         pathRewrite: { "^/reservation-svc/": "" },
       },
       "/hostel-svc/": {
-        target: "http://reservation-apis.test/api/hostels/",
+        target: "https://reservation.svc.bedsandbars.com/api/hostels/",
         pathRewrite: { "^/hostel-svc/": "" },
       },
       "/transaction-svc/": {
-        target: "http://reservation-apis.test/api/transactions/",
+        target: "https://reservation.svc.bedsandbars.com/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
     },

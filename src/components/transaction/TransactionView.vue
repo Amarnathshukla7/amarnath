@@ -32,8 +32,9 @@
         </v-col>
       </v-row>
 
-      <v-row no-gutters>
-        <v-col cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2">
+      <v-row>
+        <!-- <v-col cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2"> -->
+        <v-col cols="12" sm="6" md="7" lg="8" xl="5" offset-xl="2">
           <v-form ref="form" @submit.prevent>
             <v-row no-gutters>
               <v-col cols="12">
@@ -311,7 +312,7 @@
             </v-row>
           </v-form>
         </v-col>
-        <v-col cols="12" md="4" lg="4" xl="3" class="pl-4">
+        <v-col cols="12" sm="6" md="5" lg="4" xl="3">
           <booking-summary
             :cart="cart"
             :currency="hostelConf.currency"
@@ -409,8 +410,6 @@ export default {
     bus.$on("cart-transaction-updated", cart => {
       this.cart = cart;
     });
-
-    console.log(this.cart.deposit_model_rate);
 
     if (!this.isPaypalEnabled) this.data.payMethod = "card";
     this.data.deposit = this.cart.deposit_model_rate || 0;

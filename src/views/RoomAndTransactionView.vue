@@ -28,15 +28,15 @@ export default {
   props: {
     checkIn: {
       type: String,
-      default: "2020-06-16",
+      default: "2020-10-16",
     },
     checkOut: {
       type: String,
-      default: "2020-06-19",
+      default: "2020-10-20",
     },
     code: {
       type: String,
-      default: "BRI",
+      default: "FPU",
     },
   },
   components: {
@@ -61,20 +61,21 @@ export default {
     this.hostel = await getHostel(this.code);
     this.hostelConf = await find(this.code);
   },
-  beforeDestroy() {
-    // window.removeEventListener("beforeunload");
-  },
   mounted() {
-    window.addEventListener("beforeunload", event => {
+    window.addEventListener("beforeunload", this.preventCloseByAccident);
+  },
+  beforeDestroy() {
+    window.removeEventListener("beforeunload", this.preventCloseByAccident);
+  },
+  methods: {
+    preventCloseByAccident(event) {
       // Cancel the event as stated by the standard.
       event.preventDefault();
       // Chrome requires returnValue to be set.
       event.returnValue = "";
 
       return confirm("Are you sure you want to abandon your search?");
-    });
-  },
-  methods: {
+    },
     changeView(view, data) {
       this.data = data;
       this.view = view;
@@ -92,9 +93,6 @@ export default {
 </script>
 
 <style lang="scss">
-$body-font-family: "ff-tisa-web-pro";
-$title-font: "proxima-nova";
-
 .v-application .subtitle-1,
 .v-application .headline,
 .v-application .display-1 {
@@ -114,11 +112,5 @@ $title-font: "proxima-nova";
     // To pin point specific classes of some components
     font-family: $title-font, sans-serif !important;
   }
-}
-
-#app {
-  font-family: "proxima-nova", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 </style>

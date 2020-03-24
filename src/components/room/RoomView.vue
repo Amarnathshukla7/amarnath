@@ -9,21 +9,34 @@
       <div class="body-1 px-6">
         Please check your connection and click below to try again
       </div>
-      <v-btn class="pt-4" icon @click="loadData">
+      <v-btn class="mt-4 mr-4" @click="loadData">
         <v-icon>mdi-refresh</v-icon>
+        Try Again
+      </v-btn>
+      <v-btn class="mt-4" @click="isError = false">
+        <v-icon>mdi-close</v-icon>
+        Close
       </v-btn>
     </v-overlay>
-
-    <v-container max-width="1400px">
+    <bread-crumbs />
+    <v-container v-if="showSummaryBreakfast">
+      <breakdown-and-breakfast
+        :cart="cart"
+        :hostel="hostel"
+        :currency="currency"
+        @show-rooms="showSummaryBreakfast = false"
+        @go-to-transaction="submitBooking"
+      ></breakdown-and-breakfast>
+    </v-container>
+    <v-container v-if="!showSummaryBreakfast">
       <v-row no-gutters>
-        <v-col cols="12">
-          <bread-crumbs />
+        <v-col cols="12" offset-xl="2">
+          <filters-sort-by @sort="sort" />
         </v-col>
-
-        <filters-sort-by />
       </v-row>
-      <v-row no-gutters>
-        <v-col cols="12" md="8" lg="9">
+      <v-row>
+        <v-col cols="12" sm="7" md="8" lg="9" xl="6" offset-xl="2">
+          <!-- cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2" -->
           <v-expansion-panels
             v-model="openPanel"
             class="room-view-panel--margin"
@@ -106,21 +119,17 @@
             </v-expansion-panel>
           </v-expansion-panels>
         </v-col>
-        <v-col cols="12" md="4" lg="3" class="pl-4">
+        <v-col cols="12" sm="5" md="4" lg="3" xl="2">
           <booking-summary
             :cost="totalCost"
             :cart-data="cart"
             :rooms-content="roomsContent"
+            :currency="currency"
             @update-cart="cart => (this.cart = cart)"
             @go-to-transaction="submitBooking"
           ></booking-summary>
         </v-col>
       </v-row>
-      <breakdown-and-breakfast
-        v-if="showSummaryBreakfast"
-        :cart-data="cart"
-        :rooms-content="roomsContent"
-      ></breakdown-and-breakfast>
     </v-container>
   </main>
 </template>
@@ -132,7 +141,8 @@ import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import FiltersSortBy from "./components/filters/FiltersSortBy.vue";
 import { availability } from "./api/search-svc";
 import { create } from "./api/reservation-svc/cart-svc";
-// import { bus } from "../../plugins/bus";
+import sortRooms from "./helpers/sort";
+import { bus } from "../../plugins/bus";
 
 export default {
   props: {
@@ -187,6 +197,10 @@ export default {
   },
   created() {
     this.loadData();
+
+    bus.$on("cart-transaction-updated", cart => {
+      this.cart = cart;
+    });
   },
   methods: {
     async loadData() {
@@ -218,21 +232,35 @@ export default {
     updateCart(cart) {
       this.cart = cart;
     },
-    submitBooking() {
-      // if (this.isSmallDevice) {
-      //   return;
-      // }
+    submitBooking(force = false) {
+      if (this.isSmallDevice && !force) {
+        this.showSummaryBreakfast = true;
+        return;
+      }
 
       window.scrollTo(0, 0);
       this.isLoading = true;
       this.$emit("go-to-view", "transaction", this.cart);
     },
+    sort(type) {
+      if (!type) return;
+
+      const rooms = sortRooms[type](this.rooms);
+
+      this.rooms = {
+        ...rooms,
+        ...this.rooms,
+      };
+    },
   },
   computed: {
+    currency() {
+      return this.hostelConf ? this.hostelConf.currency : "GBP";
+    },
     isSmallDevice() {
       if (!window) return false;
 
-      return window.innerWidth < 960;
+      return window.innerWidth < 600;
     },
     roomsContent() {
       return this.hostel ? this.hostel.rooms : null;

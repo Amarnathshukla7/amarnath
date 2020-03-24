@@ -1,6 +1,6 @@
 <template>
   <figure>
-    <div class="breadcrumb-container">
+    <div class="breadcrumb-container mt-8">
       <div class="breadcrumb flat">
         <a href="javascript:void(0)" :class="{ active: step >= 1 }">
           City
@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .breadcrumb {
   display: inline-block;
   overflow: hidden;
@@ -63,7 +63,7 @@ export default {
   margin: auto;
 }
 .breadcrumb a {
-  font-family: var(--font-primary);
+  font-family: $body-font-family;
   text-transform: uppercase;
   font-weight: bold;
   text-decoration: none;
@@ -128,9 +128,15 @@ export default {
   background: var(--v-accent-base);
   color: #fff !important;
 }
+@media screen and (max-width: 320px) {
+  .breadcrumb a {
+    font-size: 10px;
+  }
+}
 @media screen and (max-width: 400px) {
   figure .breadcrumb-container {
     max-width: 100%;
+    text-align: center;
   }
 }
 @media screen and (max-width: 900px) {

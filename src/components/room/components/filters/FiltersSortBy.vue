@@ -15,6 +15,7 @@
         class="d-inline-block"
         :items="items"
         label="Sort By"
+        v-model="sort"
         outlined
         clearable
         item-text="value"
@@ -34,9 +35,16 @@ export default {
   components: {
     Filters,
   },
+  watch: {
+    sort(type) {
+      console.log(type);
+      this.$emit("sort", type);
+    },
+  },
   data() {
     return {
       showFilters: false,
+      sort: null,
       items: [
         { key: "price-low", value: "Lowest Price" },
         { key: "price-high", value: "Highest Price" },
