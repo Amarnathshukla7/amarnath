@@ -7,6 +7,7 @@
 <script>
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
+import { getStripeKey } from "../helpers/stripe";
 
 Vue.use(VueLoadScript);
 export default {
@@ -24,7 +25,7 @@ export default {
   },
   methods: {
     init() {
-      const Stripe = window.Stripe("pk_test_m0eFJAIVQpT7S1OKH6YvkjlZ");
+      const Stripe = window.Stripe(getStripeKey());
 
       this.paymentRequest = Stripe.paymentRequest({
         country: "US",

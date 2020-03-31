@@ -13,6 +13,7 @@
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
 import { create } from "../api/transaction-svc";
+import { getStripeKey } from "../helpers/stripe";
 
 Vue.use(VueLoadScript);
 
@@ -26,9 +27,12 @@ export default {
   data() {
     return {
       stripeReady: false,
-      stripeKey: "pk_test_m0eFJAIVQpT7S1OKH6YvkjlZ",
+      stripeKey: null,
       paymentRequest: null,
     };
+  },
+  created() {
+    this.stripeKey = getStripeKey();
   },
   mounted() {
     this.loadScript();

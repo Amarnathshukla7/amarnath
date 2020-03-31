@@ -8,6 +8,7 @@
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
 import { create } from "../api/transaction-svc";
+import { getStripeKey } from "../helpers/stripe";
 
 Vue.use(VueLoadScript);
 
@@ -58,7 +59,7 @@ export default {
   },
   methods: {
     init() {
-      this.Stripe = window.Stripe("pk_test_m0eFJAIVQpT7S1OKH6YvkjlZ");
+      this.Stripe = window.Stripe(getStripeKey());
 
       this.paymentRequest = this.Stripe.paymentRequest({
         country: "GB",
