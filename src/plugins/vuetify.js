@@ -36,8 +36,8 @@ export default new Vuetify({
       customProperties: true,
     },
     themes: {
-      // light: stc,
-      light: fp,
+      light: stc,
+      // light: fp,
     },
   },
   icons: {

@@ -1,5 +1,8 @@
 <template>
   <v-app>
+    <v-overlay class="text-center" :value="isLoading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <room-view
       v-if="isRooms && hostel && hostelConf"
       @go-to-view="changeView"
@@ -36,7 +39,7 @@ export default {
     },
     code: {
       type: String,
-      default: "FPU",
+      default: "BRI",
     },
   },
   components: {
@@ -45,6 +48,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       view: "room",
       data: null,
       hostel: null,
@@ -53,13 +57,17 @@ export default {
   },
   watch: {
     async code(code) {
+      this.isLoading = true;
       this.hostel = await getHostel(code);
       this.hostelConf = await find(code);
+      this.isLoading = false;
     },
   },
   async created() {
+    this.isLoading = true;
     this.hostel = await getHostel(this.code);
     this.hostelConf = await find(this.code);
+    this.isLoading = false;
   },
   mounted() {
     window.addEventListener("beforeunload", this.preventCloseByAccident);

@@ -24,14 +24,8 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-overlay>
-
+    <bread-crumbs :step="3" />
     <v-container>
-      <v-row no-gutters>
-        <v-col cols="12 mb-6">
-          <bread-crumbs :step="3" />
-        </v-col>
-      </v-row>
-
       <v-row>
         <!-- <v-col cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2"> -->
         <v-col cols="12" sm="6" md="7" lg="8" xl="5" offset-xl="2">
@@ -238,7 +232,7 @@
                           </v-col>
                           <v-col cols="12">
                             <v-checkbox
-                              class="pt-12 pt-md-4 pb-8"
+                              class="mt-n3"
                               v-model="data.newsletter"
                               label="Sign up for St Christopher’s Inns offers, deals,
                             latest travel guides, playlists and more. By opting
@@ -281,11 +275,18 @@
                             @paypal-error="payPalError"
                             @paypal-approved="createPaypalReservation"
                           ></paypal-form>
-                          <!-- <stripe-payment-request
+                          <stripe-payment-request
+                            ref="stripePaymentReqeuest"
+                            :form-ref="$refs.form"
+                            :cart="cart"
+                            :currency="hostelConf.currency"
                             v-show="showWallet"
                             class="mx-auto"
                             @wallet-enabled="digitalWalletEnabled = true"
-                          ></stripe-payment-request>-->
+                            @show-validation-error="validate"
+                            @preq-error="payPalError"
+                            @preq-approved="createPreqReservation"
+                          ></stripe-payment-request>
                           <v-btn
                             v-show="showCard || !data.payMethod"
                             class="font-weight-bold"
@@ -350,7 +351,7 @@ export default {
     PaypalForm: () => import("./components/PaypalForm.vue"),
     StripeForm: () => import("./components/StripeForm.vue"),
     SagePaymentForm: () => import("./components/SagePaymentForm.vue"),
-    // StripePaymentRequest: () => import("./components/StripePaymentRequest.vue"),
+    StripePaymentRequest: () => import("./components/StripePaymentRequest.vue"),
   },
   props: {
     cart: {
@@ -405,6 +406,9 @@ export default {
     showPaypal() {
       this.data.deposit = 100;
     },
+    digitalWalletEnabled(val) {
+      if (val === true) this.data.deposit = 100;
+    },
   },
   created() {
     bus.$on("cart-transaction-updated", cart => {
@@ -416,9 +420,7 @@ export default {
   },
   computed: {
     showDepositChoice() {
-      return (
-        this.data.payMethod === "card" || this.data.payMethod === "digital"
-      );
+      return this.data.payMethod === "card";
     },
     isDesktop() {
       if (!window) return true;
@@ -498,6 +500,9 @@ export default {
       }
     },
     createSagepayReservation() {},
+    createPreqReservation(transaction) {
+      this.completeTransaction(transaction, "stripe");
+    },
     async cardReservation() {
       if (!this.validate()) {
         this.formErrorSnackbar = true;
@@ -512,6 +517,10 @@ export default {
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
           const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
+          console.log(transaction);
+          this.completeTransaction(transaction, "sagepay");
+        } else if (this.isDigitalWallet) {
+          const transaction = await this.$refs.stripePaymentReqeuest.createStripePaymentRequest();
           console.log(transaction);
           this.completeTransaction(transaction, "sagepay");
         }
