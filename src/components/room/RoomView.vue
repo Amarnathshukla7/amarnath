@@ -146,6 +146,10 @@ import { bus } from "../../plugins/bus";
 
 export default {
   props: {
+    bookingSource: {
+      type: String,
+      default: "STC",
+    },
     hostelCode: {
       type: String,
       default: "FPU",
@@ -213,7 +217,7 @@ export default {
           this.checkIn,
           this.checkOut,
         );
-        await create("STC");
+        await create(this.bookingSource);
       } catch (e) {
         this.isError = true;
         console.log(e);

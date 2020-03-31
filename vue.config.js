@@ -33,19 +33,19 @@ module.exports = {
       //   pathRewrite: { "^/transaction-svc/": "" },
       // },
       "/cart-svc/": {
-        target: "https://reservation.svc.bedsandbars.com/api/carts/",
+        target: "http://reservation-apis.test/api/carts/",
         pathRewrite: { "^/cart-svc/": "" },
       },
       "/reservation-svc/": {
-        target: "https://reservation.svc.bedsandbars.com/api/reservations/",
+        target: "http://reservation-apis.test/api/reservations/",
         pathRewrite: { "^/reservation-svc/": "" },
       },
       "/hostel-svc/": {
-        target: "https://reservation.svc.bedsandbars.com/api/hostels/",
+        target: "http://reservation-apis.test/api/hostels/",
         pathRewrite: { "^/hostel-svc/": "" },
       },
       "/transaction-svc/": {
-        target: "https://reservation.svc.bedsandbars.com/api/transactions/",
+        target: "http://reservation-apis.test/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
     },

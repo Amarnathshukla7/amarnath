@@ -11,6 +11,7 @@
       :hostel-code="code"
       :check-in="checkIn"
       :check-out="checkOut"
+      :booking-source="bookingSource"
     ></room-view>
     <transaction-view
       v-if="isTransaction && hostel && hostelConf"
@@ -29,6 +30,10 @@ import { find } from "../components/room/api/reservation-svc/hostel-svc";
 
 export default {
   props: {
+    bookingSource: {
+      type: String,
+      default: "FP",
+    },
     checkIn: {
       type: String,
       default: "2020-10-16",
