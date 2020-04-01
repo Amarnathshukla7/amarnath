@@ -9,11 +9,13 @@ const makeToken = async () => {
     token,
   });
 
+  console.log("new token generated", token);
+
   return token;
 };
 
 export const availability = async (hostel, start, end) => {
-  const { token } = await makeToken();
+  const token = await makeToken();
 
   return axios
     .get(`/search-svc/${hostel}/${start}/${end}?token=${token}`)
