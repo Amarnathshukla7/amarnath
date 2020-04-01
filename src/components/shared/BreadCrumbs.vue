@@ -57,10 +57,15 @@ export default {
   overflow: hidden;
   counter-reset: flag;
 }
+figure {
+  margin: initial !important;
+}
 .breadcrumb-container {
   margin: 0;
   max-width: 980px;
   margin: auto;
+  z-index: 0;
+  position: relative;
 }
 .breadcrumb a {
   font-family: $body-font-family;
