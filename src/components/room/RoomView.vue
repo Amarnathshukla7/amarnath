@@ -7,7 +7,10 @@
     <v-overlay class="text-center" :value="isError" :opacity="0.8">
       <div class="title">Network Error</div>
       <div class="body-1 px-6">
-        Please check your connection and click below to try again
+        Please check your connection and click below to try again. If you see
+        this error persistently, it might be because there's no rooms/beds
+        available on your selected dates. Please click "Close", select new dates
+        and click search again
       </div>
       <v-btn class="mt-4 mr-4" @click="loadData">
         <v-icon>mdi-refresh</v-icon>
@@ -228,7 +231,6 @@ export default {
         await create(this.bookingSource);
       } catch (e) {
         this.isError = true;
-        console.log(e);
       }
 
       this.isLoading = false;
