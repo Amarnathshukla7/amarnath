@@ -10,12 +10,8 @@
 </template>
 
 <script>
-import Vue from "vue";
-import VueLoadScript from "vue-load-script-plus";
 import { create } from "../api/transaction-svc";
 import { getStripeKey } from "../helpers/stripe";
-
-Vue.use(VueLoadScript);
 
 export default {
   props: {
@@ -39,9 +35,13 @@ export default {
   },
   methods: {
     loadScript() {
-      this.$loadScript("https://js.stripe.com/v3/").then(() => {
-        this.stripeReady = true;
-      });
+      const stripeInt = setInterval(() => {
+        if (window.Stripe) {
+          this.stripeReady = true;
+
+          clearInterval(stripeInt);
+        }
+      }, 500);
     },
     async createStripeTransaction() {
       const transaction = await create("stripe", this.deposit);

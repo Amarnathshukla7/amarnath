@@ -339,6 +339,7 @@
 
 <script>
 import Vue from "vue";
+import VueLoadScript from "vue-load-script-plus";
 import VStripeElements from "v-stripe-elements/lib";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import BookingSummary from "./components/summary/Summary.vue";
@@ -349,6 +350,7 @@ import { set } from "idb-keyval";
 import { bus } from "../../plugins/bus";
 
 Vue.use(VStripeElements);
+Vue.use(VueLoadScript);
 
 export default {
   components: {
@@ -424,6 +426,9 @@ export default {
 
     if (!this.isPaypalEnabled) this.data.payMethod = "card";
     this.data.deposit = this.cart.deposit_model_rate || 0;
+  },
+  mounted() {
+    this.$loadScript("https://js.stripe.com/v3/");
   },
   computed: {
     isChrome() {

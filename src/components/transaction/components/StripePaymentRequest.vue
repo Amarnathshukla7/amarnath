@@ -5,12 +5,8 @@
 </template>
 
 <script>
-import Vue from "vue";
-import VueLoadScript from "vue-load-script-plus";
 import { create } from "../api/transaction-svc";
 import { getStripeKey } from "../helpers/stripe";
-
-Vue.use(VueLoadScript);
 
 export default {
   props: {
@@ -48,14 +44,12 @@ export default {
     };
   },
   mounted() {
-    this.$loadScript("https://js.stripe.com/v3/").then(() => {
-      const stripeInt = setInterval(() => {
-        if (window.Stripe) {
-          this.init();
-          clearInterval(stripeInt);
-        }
-      }, 500);
-    });
+    const stripeInt = setInterval(() => {
+      if (window.Stripe) {
+        this.init();
+        clearInterval(stripeInt);
+      }
+    }, 500);
   },
   methods: {
     init() {
