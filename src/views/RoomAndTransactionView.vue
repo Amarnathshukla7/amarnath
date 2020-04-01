@@ -36,7 +36,7 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2020-04-01",
+      default: "2020-04-03",
     },
     checkOut: {
       type: String,

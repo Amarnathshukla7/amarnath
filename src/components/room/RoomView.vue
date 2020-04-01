@@ -215,8 +215,10 @@ export default {
   },
   methods: {
     async loadData() {
-      this.reset();
+      if (this.isLoading) return;
+
       this.isLoading = true;
+      this.reset();
 
       try {
         this.rooms = await availability(
