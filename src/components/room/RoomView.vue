@@ -22,23 +22,16 @@
       </v-btn>
     </v-overlay>
     <bread-crumbs />
-    <v-container v-if="showSummaryBreakfast">
-      <breakdown-and-breakfast
-        :cart="cart"
-        :hostel="hostel"
-        :currency="currency"
-        @show-rooms="showSummaryBreakfast = false"
-        @go-to-transaction="submitBooking"
-      ></breakdown-and-breakfast>
-    </v-container>
-    <v-container v-if="!showSummaryBreakfast">
-      <v-row no-gutters>
+
+    <v-container>
+      <v-row v-show="!showSummaryBreakfast" no-gutters>
         <v-col cols="12" offset-xl="2">
           <filters-sort-by @sort="sort" />
         </v-col>
       </v-row>
       <v-row>
         <v-col
+          v-show="!showSummaryBreakfast"
           cols="12"
           sm="7"
           md="8"
@@ -138,6 +131,10 @@
             :currency="currency"
             @update-cart="cart => (this.cart = cart)"
             @go-to-transaction="submitBooking"
+            @back-to-rooms="showSummaryBreakfast = false"
+            :showSummaryBreakfast="showSummaryBreakfast"
+            :hostel="hostel"
+            :isSmallDevice="isSmallDevice"
           ></booking-summary>
         </v-col>
       </v-row>
@@ -198,7 +195,6 @@ export default {
     BookingSummary,
     BreadCrumbs,
     FiltersSortBy,
-    BreakdownAndBreakfast: () => import("./BreakdownAndBreakfast.vue"),
   },
   data() {
     return {
@@ -247,12 +243,13 @@ export default {
       this.cart = cart;
     },
     submitBooking(force = false) {
-      if (this.isSmallDevice && !force) {
+      window.scrollTo(0, 0);
+
+      if (this.isSmallDevice && !force && !this.showSummaryBreakfast) {
         this.showSummaryBreakfast = true;
         return;
       }
 
-      window.scrollTo(0, 0);
       this.isLoading = true;
       this.$emit("go-to-view", "transaction", this.cart);
     },

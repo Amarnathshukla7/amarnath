@@ -1,6 +1,22 @@
 <template>
-  <div class="desktop-summary-room accent">
-    <v-expansion-panels v-model="open" tile flat class="">
+  <div class="desktop-summary-room">
+    <v-btn
+      class="mb-4"
+      v-show="showSummaryBreakfast"
+      @click="$emit('back-to-rooms')"
+      width="100%"
+      color="accent"
+      outlined
+    >
+      Back
+    </v-btn>
+    <v-expansion-panels
+      v-show="showSummaryBreakfast || !isSmallDevice"
+      v-model="open"
+      tile
+      flat
+      class=""
+    >
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -37,6 +53,31 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+    <v-card v-if="showSummaryBreakfast" outlined tile class="mt-8">
+      <v-list-item class="py-2 pl-8 white">
+        <v-list-item-content>
+          <v-list-item-title>
+            Accommodation Sub-Total
+            <span class="float-right mr-6">{{
+              cart.accommodation_cost | formatPrice(currency)
+            }}</span>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item class="py-2 pl-8 other">
+        <v-list-item-content>
+          <v-list-item-title>
+            Breakfast Total
+            <span class="float-right mr-6" v-if="cart.extras_cost > 0">
+              {{ cart.extras_cost | formatPrice(currency) }}
+            </span>
+            <span class="float-right mr-6" v-else>
+              Included for FREE!
+            </span>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-card>
     <v-card
       tile
       flat
@@ -91,6 +132,11 @@
         </v-col>
       </v-row>
     </v-card>
+    <breakfast
+      v-if="breakfast && showSummaryBreakfast"
+      :currency="currency"
+      :content="breakfast"
+    />
   </div>
 </template>
 
@@ -102,14 +148,27 @@ import { destroy } from "../../api/reservation-svc/cart-svc";
 import { bus } from "../../../../plugins/bus";
 
 import BookingSummaryItem from "./BookingSummaryItem.vue";
+import Breakfast from "../../../transaction/components/summary/Breakfast";
 
 export default {
   props: {
+    isSmallDevice: {
+      type: Boolean,
+      default: false,
+    },
+    showSummaryBreakfast: {
+      type: Boolean,
+      default: false,
+    },
     transaction: {
       type: Boolean,
       default: false,
     },
     cartData: {
+      type: Object,
+      default: null,
+    },
+    hostel: {
       type: Object,
       default: null,
     },
@@ -124,6 +183,7 @@ export default {
   },
   components: {
     BookingSummaryItem,
+    Breakfast,
   },
   watch: {
     bookingEntries(entries) {
@@ -221,6 +281,12 @@ export default {
         this.$emit("update-cart", cart);
       },
     },
+    breakfast() {
+      if (!this.hostel.extras) return null;
+
+      return this.hostel.extras.find(extra => extra.fields.type === "breakfast")
+        .fields;
+    },
     isCartEmpty() {
       return !(this.cart ? this.cart.items.length >= 1 : false);
     },
@@ -308,8 +374,8 @@ export default {
 
 @media (max-width: 599px) {
   .total-price-room-summary {
-    position: unset;
-    position: fixed;
+    position: unset !important;
+    position: fixed !important;
     z-index: 2;
     bottom: 0;
     top: unset;
