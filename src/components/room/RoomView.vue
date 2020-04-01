@@ -34,8 +34,16 @@
           <filters-sort-by @sort="sort" />
         </v-col>
       </v-row>
-      <v-row style="z-index: 0;">
-        <v-col cols="12" sm="7" md="8" lg="9" xl="6" offset-xl="2">
+      <v-row>
+        <v-col
+          cols="12"
+          sm="7"
+          md="8"
+          lg="9"
+          xl="6"
+          offset-xl="2"
+          style="z-index: 0;"
+        >
           <!-- cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2" -->
           <v-expansion-panels
             v-model="openPanel"
