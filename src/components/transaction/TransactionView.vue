@@ -164,9 +164,16 @@
                                   >
                                     <div slot="label">
                                       <img
+                                        v-if="isChrome"
                                         class="d-inline ml-3"
                                         width="56"
                                         src="../../assets/payment/google-pay.png"
+                                      />
+                                      <img
+                                        v-if="isSafari"
+                                        class="d-inline ml-3"
+                                        width="56"
+                                        src="../../assets/payment/apple-pay.png"
                                       />
                                     </div>
                                   </v-radio>
@@ -419,6 +426,18 @@ export default {
     this.data.deposit = this.cart.deposit_model_rate || 0;
   },
   computed: {
+    isChrome() {
+      return (
+        /Chrome/.test(navigator.userAgent) &&
+        /Google Inc/.test(navigator.vendor)
+      );
+    },
+    isSafari() {
+      return (
+        /Safari/.test(navigator.userAgent) &&
+        /Apple Computer, Inc./.test(navigator.vendor)
+      );
+    },
     showDepositChoice() {
       return this.data.payMethod === "card";
     },
