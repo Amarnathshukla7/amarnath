@@ -9,7 +9,7 @@ const makeToken = async () => {
     token,
   });
 
-  return get("token");
+  return token;
 };
 
 export const availability = async (hostel, start, end) => {
