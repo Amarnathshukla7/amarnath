@@ -287,6 +287,7 @@
                             :form-ref="$refs.form"
                             :cart="cart"
                             :currency="hostelConf.currency"
+                            :deposit="data.deposit"
                             v-show="showWallet"
                             class="mx-auto"
                             @wallet-enabled="digitalWalletEnabled = true"
@@ -444,7 +445,9 @@ export default {
       );
     },
     showDepositChoice() {
-      return this.data.payMethod === "card";
+      return (
+        this.data.payMethod === "card" || this.data.payMethod === "digital"
+      );
     },
     isDesktop() {
       if (!window) return true;
@@ -525,7 +528,14 @@ export default {
     },
     createSagepayReservation() {},
     createPreqReservation(transaction) {
-      this.completeTransaction(transaction, "stripe");
+      this.isLoadingOverlay = true;
+
+      try {
+        this.completeTransaction(transaction, "stripe");
+      } catch (e) {
+        this.isError = true;
+        this.isLoadingOverlay = false;
+      }
     },
     async cardReservation() {
       if (!this.validate()) {

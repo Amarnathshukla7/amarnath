@@ -1,4 +1,4 @@
-# booking-components
+# Booking Journey Vue Compoents
 
 ## Project setup
 ```
@@ -32,3 +32,7 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Dev Notes
+
+### Test Payment Request Button
