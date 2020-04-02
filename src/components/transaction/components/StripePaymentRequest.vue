@@ -1,6 +1,12 @@
 <template>
-  <div id="payment-request-button">
-    <!-- A Stripe Element will be inserted here. -->
+  <div class="pay-req-container">
+    <div id="payment-request-button" class="mx-auto mb-4">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+    <div v-show="deposit === 0" class="caption px-5">
+      NOTE: No money will be taken from your account. This step will simply
+      validate and run fraud checks on your card.
+    </div>
   </div>
 </template>
 
@@ -28,6 +34,14 @@ export default {
     },
   },
   watch: {
+    deposit(deposit) {
+      this.paymentRequest.update({
+        total: {
+          label: "Total",
+          amount: this.cart.total_cost * (deposit / 100),
+        },
+      });
+    },
     cart(cart) {
       this.paymentRequest.update({
         total: {
@@ -99,28 +113,29 @@ export default {
       const transaction = await create("stripe", this.deposit);
       const secret = JSON.parse(transaction.secret_output)["secret"];
 
-      this.Stripe.confirmCardPayment(
-        secret,
-        { payment_method: ev.paymentMethod.id },
-        { handleActions: false },
-      ).then(confirmResult => {
+      const data = {
+        payment_method: ev.paymentMethod.id,
+      };
+
+      const intent =
+        this.deposit === 0
+          ? this.Stripe.confirmCardSetup(secret, data)
+          : this.Stripe.confirmCardPayment(secret, data);
+
+      intent.then(confirmResult => {
         if (confirmResult.error) {
           ev.complete("fail");
           this.$emit("preq-error");
         } else {
           ev.complete("success");
-          this.Stripe.confirmCardPayment(secret).then(result => {
-            if (result.error) {
-              // The payment failed -- ask your customer for a new payment method.
-              this.$emit("preq-error");
-            } else {
-              this.$emit("preq-approved", result.paymentIntent);
-            }
-          });
+          this.$emit(
+            "preq-approved",
+            this.deposit === 0
+              ? confirmResult.setupIntent
+              : confirmResult.paymentIntent,
+          );
         }
       });
-
-      // return intent.then(res => res[type]);
     },
   },
 };

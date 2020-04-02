@@ -131,51 +131,44 @@
                               class="payment-date"
                             >
                               <v-row>
-                                <v-col>
+                                <v-col cols="12" sm="6" md="3">
                                   <v-radio value="card">
-                                    <div slot="label">
-                                      Credit/Debit
-                                      <img
-                                        class="d-inline ml-3"
-                                        width="96"
-                                        src="../../assets/payment/card-icons1.svg"
-                                      />
-                                    </div>
+                                    <img
+                                      slot="label"
+                                      height="24"
+                                      src="../../assets/payment/card-icons1.svg"
+                                    />
                                   </v-radio>
                                 </v-col>
-                                <v-col>
+                                <v-col cols="12" sm="6" md="3">
                                   <v-radio
                                     v-if="isPaypalEnabled"
                                     value="paypal"
                                   >
-                                    <div slot="label">
-                                      <img
-                                        class="d-inline ml-3"
-                                        width="96"
-                                        src="../../assets/payment/paypal-icon.svg"
-                                      />
-                                    </div>
+                                    <img
+                                      slot="label"
+                                      height="24"
+                                      src="../../assets/payment/paypal-icon.svg"
+                                    />
                                   </v-radio>
                                 </v-col>
-                                <v-col>
+                                <v-col cols="12" sm="6" md="3">
                                   <v-radio
                                     v-if="digitalWalletEnabled"
                                     value="digital"
                                   >
-                                    <div slot="label">
-                                      <img
-                                        v-if="isChrome"
-                                        class="d-inline ml-3"
-                                        width="56"
-                                        src="../../assets/payment/google-pay.png"
-                                      />
-                                      <img
-                                        v-if="isSafari"
-                                        class="d-inline ml-3"
-                                        width="56"
-                                        src="../../assets/payment/apple-pay.png"
-                                      />
-                                    </div>
+                                    <img
+                                      v-if="isChrome"
+                                      slot="label"
+                                      height="24"
+                                      src="../../assets/payment/google-pay.png"
+                                    />
+                                    <img
+                                      v-if="isSafari"
+                                      slot="label"
+                                      height="24"
+                                      src="../../assets/payment/apple-pay.png"
+                                    />
                                   </v-radio>
                                 </v-col>
                               </v-row>
@@ -287,6 +280,7 @@
                             :form-ref="$refs.form"
                             :cart="cart"
                             :currency="hostelConf.currency"
+                            :deposit="data.deposit"
                             v-show="showWallet"
                             class="mx-auto"
                             @wallet-enabled="digitalWalletEnabled = true"
@@ -415,9 +409,6 @@ export default {
     showPaypal() {
       this.data.deposit = 100;
     },
-    digitalWalletEnabled(val) {
-      if (val === true) this.data.deposit = 100;
-    },
   },
   created() {
     bus.$on("cart-transaction-updated", cart => {
@@ -444,7 +435,9 @@ export default {
       );
     },
     showDepositChoice() {
-      return this.data.payMethod === "card";
+      return (
+        this.data.payMethod === "card" || this.data.payMethod === "digital"
+      );
     },
     isDesktop() {
       if (!window) return true;
@@ -525,7 +518,14 @@ export default {
     },
     createSagepayReservation() {},
     createPreqReservation(transaction) {
-      this.completeTransaction(transaction, "stripe");
+      this.isLoadingOverlay = true;
+
+      try {
+        this.completeTransaction(transaction, "stripe");
+      } catch (e) {
+        this.isError = true;
+        this.isLoadingOverlay = false;
+      }
     },
     async cardReservation() {
       if (!this.validate()) {
