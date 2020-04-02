@@ -416,9 +416,6 @@ export default {
     showPaypal() {
       this.data.deposit = 100;
     },
-    digitalWalletEnabled(val) {
-      if (val === true) this.data.deposit = 100;
-    },
   },
   created() {
     bus.$on("cart-transaction-updated", cart => {
