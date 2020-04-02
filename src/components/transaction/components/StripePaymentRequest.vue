@@ -46,7 +46,7 @@ export default {
       this.paymentRequest.update({
         total: {
           label: "Total",
-          amount: cart.total_cost,
+          amount: cart.total_cost * (this.deposit / 100),
         },
       });
     },
@@ -74,7 +74,7 @@ export default {
         currency: this.currency.toLowerCase(),
         total: {
           label: "Total",
-          amount: this.cart.total_cost,
+          amount: this.cart.total_cost * (this.deposit / 100),
         },
         requestPayerName: true,
         requestPayerEmail: true,
