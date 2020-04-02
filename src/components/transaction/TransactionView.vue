@@ -136,7 +136,7 @@
                                     <img
                                       slot="label"
                                       height="24"
-                                      src="../../assets/payment/card-icons1.svg"
+                                      src="https://storage.googleapis.com/bedsandbars-images/card-icons1.02fa28e9.svg"
                                     />
                                   </v-radio>
                                 </v-col>
@@ -148,7 +148,7 @@
                                     <img
                                       slot="label"
                                       height="24"
-                                      src="../../assets/payment/paypal-icon.svg"
+                                      src="https://storage.googleapis.com/bedsandbars-images/paypal-icon.580dc673.svg"
                                     />
                                   </v-radio>
                                 </v-col>
@@ -161,13 +161,13 @@
                                       v-if="isChrome"
                                       slot="label"
                                       height="24"
-                                      src="../../assets/payment/google-pay.png"
+                                      src="https://storage.googleapis.com/bedsandbars-images/google-pay.8779b289.png"
                                     />
                                     <img
                                       v-if="isSafari"
                                       slot="label"
                                       height="24"
-                                      src="../../assets/payment/apple-pay.png"
+                                      src="https://storage.googleapis.com/bedsandbars-images/apple-pay.aac3a5bc.png"
                                     />
                                   </v-radio>
                                 </v-col>

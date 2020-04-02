@@ -49,7 +49,7 @@
                 <v-row no-gutters align="center">
                   <v-col cols="1">
                     <img
-                      src="../../../../assets/icons/check-green.svg"
+                      src="https://storage.googleapis.com/bedsandbars-images/check-green.a92045f4.svg"
                       alt=""
                       style="width: 20px"
                     />
@@ -191,7 +191,7 @@
             <div v-if="!room.isCustom && !minStay" class="hidden-md-and-down">
               <v-row no-gutters align="center">
                 <v-col cols="1">
-                  <img src="../../../../assets/icons/check-green.svg" alt="" />
+                  <img src="https://storage.googleapis.com/bedsandbars-images/check-green.a92045f4.svg" alt="" />
                 </v-col>
                 <v-col cols="11">
                   <div
