@@ -1,3 +1,4 @@
-// import Welcome from "./components/HelloWorld.vue";
+import RoomAndTransactionView from "./components/room/RoomAndTransactionView.vue";
+import ConfirmationView from "./components/confirmation/ConfirmationView.vue";
 
-// export { Welcome };
+export { RoomAndTransactionView, ConfirmationView };

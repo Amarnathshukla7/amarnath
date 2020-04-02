@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import RoomView from "../components/room/RoomView.vue";
-import TransactionView from "../components/transaction/TransactionView.vue";
-import { getHostel } from "../plugins/hostel";
-import { find } from "../components/room/api/reservation-svc/hostel-svc";
+import RoomView from "./RoomView.vue";
+import TransactionView from "../transaction/TransactionView.vue";
+import { getHostel } from "../../plugins/hostel";
+import { find } from "./api/reservation-svc/hostel-svc";
 
 export default {
   props: {
