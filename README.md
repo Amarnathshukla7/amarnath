@@ -36,3 +36,20 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## Dev Notes
 
 ### Test Payment Request Button
+
+#### Install Ngrok
+```
+$ brew install ngrok
+```
+
+Signup for an account https://ngrok.com/
+
+Run the auth command:
+```
+$ ngrok authtoken REPLACE_ME_WITH_REAL_TOKEN
+```
+
+Run the ngork command (replace 8080 if running the project on a different port)
+```
+$ ngrok http --host-header=rewrite 8080
+```
