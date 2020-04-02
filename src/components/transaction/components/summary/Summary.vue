@@ -106,6 +106,8 @@
 import { formatPrice } from "../../../../filters/money";
 import { formatDate } from "../../../../filters/date";
 
+import Breakfast from "./Breakfast.vue";
+
 export default {
   props: {
     breakfast: {
@@ -126,7 +128,7 @@ export default {
     },
   },
   components: {
-    Breakfast: () => import("./Breakfast.vue"),
+    Breakfast
   },
   data() {
     return {

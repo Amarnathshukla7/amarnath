@@ -343,6 +343,12 @@ import { create } from "./api/reservation-svc";
 import { set } from "idb-keyval";
 import { bus } from "../../plugins/bus";
 
+import DiscountCode from "./components/DiscountCode.vue";
+import PaypalForm from "./components/PaypalForm.vue";
+import StripeForm from "./components/StripeForm.vue";
+import SagePaymentForm from "./components/SagePaymentForm.vue";
+import StripePaymentRequest from "./components/StripePaymentRequest.vue";
+
 Vue.use(VStripeElements);
 Vue.use(VueLoadScript);
 
@@ -350,11 +356,11 @@ export default {
   components: {
     BreadCrumbs,
     BookingSummary,
-    DiscountCode: () => import("./components/DiscountCode.vue"),
-    PaypalForm: () => import("./components/PaypalForm.vue"),
-    StripeForm: () => import("./components/StripeForm.vue"),
-    SagePaymentForm: () => import("./components/SagePaymentForm.vue"),
-    StripePaymentRequest: () => import("./components/StripePaymentRequest.vue"),
+    DiscountCode,
+    PaypalForm,
+    StripeForm,
+    SagePaymentForm,
+    StripePaymentRequest,
   },
   props: {
     cart: {

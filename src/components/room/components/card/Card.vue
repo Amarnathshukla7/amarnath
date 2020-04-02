@@ -257,11 +257,15 @@
 </template>
 
 <script>
+import { eachDayOfInterval, subDays, format, differenceInDays } from "date-fns";
 import { LightGallery } from "vue-light-gallery";
 import { destroy, updateOrCreate } from "../../api/reservation-svc/cart-svc";
 import { bus } from "../../../../plugins/bus";
 import { filter } from "../../helpers/filters";
-import { eachDayOfInterval, subDays, format, differenceInDays } from "date-fns";
+
+import Selection from "../selection/Selection.vue"
+import CustomError from "./CustomError.vue"
+
 
 export default {
   props: {
@@ -287,8 +291,8 @@ export default {
     },
   },
   components: {
-    Selection: () => import("../selection/Selection.vue"),
-    CustomError: () => import("./CustomError.vue"),
+    Selection,
+    CustomError,
     LightGallery,
   },
   data() {
