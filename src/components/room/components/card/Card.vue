@@ -191,7 +191,10 @@
             <div v-if="!room.isCustom && !minStay" class="hidden-md-and-down">
               <v-row no-gutters align="center">
                 <v-col cols="1">
-                  <img src="https://storage.googleapis.com/bedsandbars-images/check-green.a92045f4.svg" alt="" />
+                  <img
+                    src="https://storage.googleapis.com/bedsandbars-images/check-green.a92045f4.svg"
+                    alt=""
+                  />
                 </v-col>
                 <v-col cols="11">
                   <div
