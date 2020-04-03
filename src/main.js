@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 
 Vue.config.productionTip = false;
 
-import RoomAndTransactionView from "./views/RoomAndTransactionView.vue";
+import RoomAndTransactionView from "./components/room/RoomAndTransactionView.vue";
 import ConfirmationView from "./components/confirmation/ConfirmationView.vue";
 
 const router = new VueRouter({

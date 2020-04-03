@@ -128,7 +128,7 @@ export default {
     },
   },
   components: {
-    Breakfast
+    Breakfast,
   },
   data() {
     return {

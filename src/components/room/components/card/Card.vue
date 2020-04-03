@@ -266,9 +266,8 @@ import { destroy, updateOrCreate } from "../../api/reservation-svc/cart-svc";
 import { bus } from "../../../../plugins/bus";
 import { filter } from "../../helpers/filters";
 
-import Selection from "../selection/Selection.vue"
-import CustomError from "./CustomError.vue"
-
+import Selection from "../selection/Selection.vue";
+import CustomError from "./CustomError.vue";
 
 export default {
   props: {
