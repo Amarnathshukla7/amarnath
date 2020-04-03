@@ -18,6 +18,7 @@
       :cart="data"
       :hostel="hostel"
       :hostel-conf="hostelConf"
+      :stripe-key="stripeKey"
     ></transaction-view>
   </v-app>
 </template>
@@ -30,6 +31,10 @@ import { find } from "./api/reservation-svc/hostel-svc";
 
 export default {
   props: {
+    stripeKey: {
+      type: String,
+      default: null,
+    },
     bookingSource: {
       type: String,
       default: "FP",

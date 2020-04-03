@@ -210,6 +210,7 @@
                               v-if="isStripe"
                               ref="stripeContainer"
                               :deposit="data.deposit"
+                              :stripe-key="stripeKey"
                             ></stripe-form>
                             <sage-payment-form
                               v-if="isSagepay && !showPaypal"
@@ -280,6 +281,7 @@
                             :form-ref="$refs.form"
                             :cart="cart"
                             :currency="hostelConf.currency"
+                            :stripe-key="stripeKey"
                             :deposit="data.deposit"
                             v-show="showWallet"
                             class="mx-auto"
@@ -363,6 +365,10 @@ export default {
     StripePaymentRequest,
   },
   props: {
+    stripeKey: {
+      type: String,
+      default: null
+    },
     cart: {
       type: Object,
       default: null,

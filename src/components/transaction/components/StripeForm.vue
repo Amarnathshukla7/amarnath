@@ -19,16 +19,16 @@ export default {
       type: Number,
       default: 0,
     },
+    stripeKey: {
+      type: String,
+      default: null
+    }
   },
   data() {
     return {
       stripeReady: false,
-      stripeKey: null,
       paymentRequest: null,
     };
-  },
-  created() {
-    this.stripeKey = getStripeKey();
   },
   mounted() {
     this.loadScript();

@@ -11,6 +11,12 @@ import { getStripeKey } from "../helpers/stripe";
 
 Vue.use(VueLoadScript);
 export default {
+  props: {
+    stripeKey: {
+      type: String,
+      default: null
+    }
+  },
   mounted() {
     const stripeInt = setInterval(() => {
       if (window.Stripe) {
@@ -25,7 +31,7 @@ export default {
   },
   methods: {
     init() {
-      const Stripe = window.Stripe(getStripeKey());
+      const Stripe = window.Stripe(this.stripeKey);
 
       this.paymentRequest = Stripe.paymentRequest({
         country: "US",

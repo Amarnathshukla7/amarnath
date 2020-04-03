@@ -1,6 +1,6 @@
 export const getStripeKey = () => {
   console.log(process.env.NODE_ENV);
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.VUE_APP_MODE === "production") {
     return "pk_live_ZIg3OXpf5Pw23Ljd7QoxCUs700ZFnmIcjt";
   }
 

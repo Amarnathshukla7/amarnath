@@ -32,6 +32,10 @@ export default {
       type: String,
       default: "eur",
     },
+    stripeKey: {
+      type: String,
+      default: null
+    }
   },
   watch: {
     deposit(deposit) {
@@ -67,7 +71,7 @@ export default {
   },
   methods: {
     init() {
-      this.Stripe = window.Stripe(getStripeKey());
+      this.Stripe = window.Stripe(this.stripeKey);
 
       this.paymentRequest = this.Stripe.paymentRequest({
         country: "GB",
