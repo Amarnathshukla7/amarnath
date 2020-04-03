@@ -43,7 +43,7 @@
                 {{ personDescriptor }}
               </div>
               <div
-                v-if="!room.isCustom && !minStay"
+                v-if="!room.isCustom && !applyMinStay"
                 class="hidden-lg-and-up mt-2 mb-n3"
               >
                 <v-row no-gutters align="center">
@@ -133,7 +133,7 @@
 
             <div
               class="subtitle-2 text-center my-4 warning--text font-weight-bold"
-              v-show="minStay"
+              v-show="applyMinStay"
             >
               Minimum stay for this room is {{ minStay }} nights. <br />
               <a href="#update-dates" class="warning--text"
@@ -142,7 +142,7 @@
             </div>
 
             <selection
-              v-show="!isCustom && !minStay"
+              v-show="!isCustom && !applyMinStay"
               ref="standardSelection"
               class="pb-2 mt-md-n2 mr-md-n2"
               :price="price"
@@ -174,7 +174,7 @@
               instead
             </div>
             <div
-              v-if="customSelected && !minStay"
+              v-if="customSelected && !applyMinStay"
               class="caption hidden-lg-and-up text-center mt-4 mb-4"
             >
               Booking your entire stay in this room? <br />
@@ -188,7 +188,7 @@
               </a>
             </div>
 
-            <div v-if="!room.isCustom && !minStay" class="hidden-md-and-down">
+            <div v-if="!room.isCustom && !applyMinStay" class="hidden-md-and-down">
               <v-row no-gutters align="center">
                 <v-col cols="1">
                   <img
@@ -385,6 +385,14 @@ export default {
           cost: cost,
         };
       });
+    },
+    applyMinStay() {
+      return this.minStay
+        ? !(
+            differenceInDays(new Date(this.checkOut), new Date(this.checkIn)) >=
+            this.minStay
+          )
+        : null;
     },
     oneDayBooking() {
       return (

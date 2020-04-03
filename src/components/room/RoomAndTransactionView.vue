@@ -41,15 +41,15 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2020-04-03",
+      default: "2020-08-14",
     },
     checkOut: {
       type: String,
-      default: "2020-04-04",
+      default: "2020-08-17",
     },
     code: {
       type: String,
-      default: "BRI",
+      default: "FPU",
     },
   },
   components: {

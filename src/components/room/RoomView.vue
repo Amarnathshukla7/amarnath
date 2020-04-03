@@ -143,6 +143,7 @@
 </template>
 
 <script>
+import { differenceInDays } from "date-fns";
 import Card from "./components/card/Card.vue";
 import BookingSummary from "./components/summary/BookingSummary.vue";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
@@ -277,6 +278,9 @@ export default {
     },
     roomsContent() {
       return this.hostel ? this.hostel.rooms : null;
+    },
+    nights() {
+      return differenceInDays(new Date(this.checkOut), new Date(this.checkIn));
     },
     dorms() {
       return this.rooms ? this.rooms.dorms : [];
