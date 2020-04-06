@@ -93,10 +93,11 @@ Afterwards copy the token and do the below.
 $ vi ~/.npmrc
 ```
 
-Copy the below line:
+Copy the below lines:
 
 ```
 //npm.pkg.github.com/:_authToken=PUT_YOUR_TOKEN_HERE
+@bbwmc:registry=https://npm.pkg.github.com/
 ```
 
 Lastly login to the registry:
