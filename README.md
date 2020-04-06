@@ -25,8 +25,38 @@ yarn test:e2e
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Usage
+Install the package (Read access documentation first)
+
+```
+$ yarn add @bbwmc/booking-journey-vue
+```
+
+Import the packages you need:
+```
+import { RoomAndTransactionView, ConfirmationView } from '@bbwmc/booking-journey-vue/dist/BookingComponents.common'
+```
+
+Use each as needed
+
+RoomAndTransactionView:
+
+```
+<RoomAndTransactionView
+  check-in="YYYY-MM-DD"
+  check-out="YYYY-MM-DD"
+  code="BRI"
+  booking-source="STC"
+  stripe-key="stripeKey"
+/>
+```
+
+Confirmation:
+
+```
+<ConfirmationView />
+```
+
 
 ## Dev Notes
 
