@@ -111,7 +111,7 @@ $ yarn login --registry=https://npm.pkg.github.com/
 
 To publish includes a few steps, first make sure you've followed the above steps for authentication.
 
-__Remeber:__ Update the pkg version in the `package.json` file.
+__Remember:__ Update the pkg version in the `package.json` file.
 
 ```
 $ yarn lint
