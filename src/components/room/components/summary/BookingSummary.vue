@@ -39,6 +39,7 @@
               :key="room.code"
               :room="room"
               :index="index"
+              :currency="currency"
               @destroy-room="deleteFromCart"
             ></booking-summary-item>
 
@@ -47,6 +48,7 @@
               :key="`${room.code}-${room.checkIn}`"
               :room="room"
               :index="index"
+              :currency="currency"
               @destroy-room="deleteFromCart"
             ></booking-summary-item>
           </v-card>

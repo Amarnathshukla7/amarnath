@@ -23,7 +23,7 @@
           </v-col>
           <v-col cols="4" class="text-right">
             <div class="mr-2 body-1 mt-n1 font-weight-bold">
-              {{ room.cost | formatPrice }}
+              {{ room.cost | formatPrice(currency) }}
             </div>
           </v-col>
         </v-row>
@@ -42,6 +42,10 @@ export default {
     index: {
       type: Number,
       default: 0,
+    },
+    currency: {
+      type: String,
+      default: "GBP",
     },
     room: {
       type: Object,
