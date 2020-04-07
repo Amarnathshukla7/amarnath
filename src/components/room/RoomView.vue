@@ -72,6 +72,7 @@
                   :check-in="checkIn"
                   :check-out="checkOut"
                   :min-stay="dormMinStay"
+                  :currency="currency"
                   @update-local-cart="updateCart"
                   @cart-error="isError = true"
                 />
@@ -110,6 +111,7 @@
                   :check-in="checkIn"
                   :check-out="checkOut"
                   :min-stay="privateMinStay"
+                  :currency="currency"
                   @update-local-cart="updateCart"
                   @cart-error="isError = true"
                 />

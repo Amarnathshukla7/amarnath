@@ -149,6 +149,7 @@
               :available="available"
               :code="room.code"
               :bed-type="bedType"
+              :currency="currency"
               @room-active="val => (selected = val)"
               @update-local-room-cart="updateCart"
             />
@@ -250,6 +251,7 @@
           :code="room.code"
           :bed-type="bedType"
           :available="date.units"
+          :currency="currency"
           :custom="true"
           @update-local-room-cart="updateCart"
         >
@@ -290,6 +292,10 @@ export default {
     roomContents: {
       type: Array,
       default: null,
+    },
+    currency: {
+      type: String,
+      default: "GBP",
     },
   },
   components: {

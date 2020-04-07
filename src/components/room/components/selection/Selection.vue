@@ -79,6 +79,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    currency: {
+      type: String,
+      default: "GBP",
+    },
   },
   components: {
     UnitSelect,
@@ -92,7 +96,6 @@ export default {
   data() {
     return {
       unitsSelected: null,
-      hostelConf: null,
     };
   },
   watch: {
@@ -115,9 +118,6 @@ export default {
         units: this.unitsSelected,
       };
     },
-    currency() {
-      return this.hostelConf ? this.hostelConf.currency : "GBP";
-    },
   },
   methods: {
     update(value) {
@@ -132,8 +132,6 @@ export default {
       )
         this.unitsSelected = value;
     });
-
-    bus.$on("hostel-config.update", conf => (this.hostelConf = conf));
   },
 };
 </script>
