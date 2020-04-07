@@ -188,7 +188,10 @@
               </a>
             </div>
 
-            <div v-if="!room.isCustom && !applyMinStay" class="hidden-md-and-down">
+            <div
+              v-if="!room.isCustom && !applyMinStay"
+              class="hidden-md-and-down"
+            >
               <v-row no-gutters align="center">
                 <v-col cols="1">
                   <img

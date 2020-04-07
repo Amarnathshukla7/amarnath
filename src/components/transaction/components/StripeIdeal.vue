@@ -1,21 +1,33 @@
 <template>
-  <div id="payment-request-button">
-    <!-- A Stripe Element will be inserted here. -->
+  <div>
+    <v-text-field
+      label="Accountholder name"
+      :rules="rules.name"
+      v-model="name"
+      outlined
+    ></v-text-field>
+    <div id="ideal-bank-element"></div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import VueLoadScript from "vue-load-script-plus";
-import { getStripeKey } from "../helpers/stripe";
-
-Vue.use(VueLoadScript);
+import { create } from "../api/transaction-svc";
 export default {
   props: {
     stripeKey: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
+  },
+  data() {
+    return {
+      stripe: null,
+      name: null,
+      idealBank: null,
+      rules: {
+        name: [v => !!v || "Name is required"],
+      },
+    };
   },
   mounted() {
     const stripeInt = setInterval(() => {
@@ -24,40 +36,42 @@ export default {
         clearInterval(stripeInt);
       }
     }, 500);
-    // this.$loadScript("https://js.stripe.com/v3/").then(() => {
-    //   console.log(window.Stripe);
-    //   this.init();
-    // });
   },
   methods: {
     init() {
-      const Stripe = window.Stripe(this.stripeKey);
+      this.stripe = window.Stripe(this.stripeKey);
+      const elements = this.stripe.elements();
 
-      this.paymentRequest = Stripe.paymentRequest({
-        country: "US",
-        currency: "usd",
-        total: {
-          label: "Demo total",
-          amount: 1099,
+      const options = {
+        // Custom styling can be passed to options when creating an Element
+        style: {
+          base: {
+            backgroundColor: "#eee",
+            padding: "10px 12px",
+            color: "#32325d",
+            fontSize: "16px",
+            "::placeholder": {
+              color: "#aab7c4",
+            },
+          },
         },
-        requestPayerName: true,
-        requestPayerEmail: true,
-      });
+      };
 
-      const elements = Stripe.elements();
-      const prButton = elements.create("paymentRequestButton", {
-        paymentRequest: this.paymentRequest,
-      });
+      this.idealBank = elements.create("idealBank", options);
+      this.idealBank.mount("#ideal-bank-element");
+    },
+    async confirm() {
+      const transaction = await create("stripe", 100);
+      const secret = JSON.parse(transaction.secret_output)["secret"];
 
-      // Check the availability of the Payment Request API first.
-      this.paymentRequest.canMakePayment().then(result => {
-        if (result) {
-          this.$emit("wallet-enabled");
-          prButton.mount("#payment-request-button");
-        } else {
-          document.getElementById("payment-request-button").style.display =
-            "none";
-        }
+      this.stripe.confirmIdealPayment(secret, {
+        payment_method: {
+          ideal: this.idealBank,
+          billing_details: {
+            name: this.name,
+          },
+        },
+        return_url: "http://localhost:8080/confirmation",
       });
     },
   },

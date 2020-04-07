@@ -182,14 +182,19 @@
                 large
                 tile
                 depressed
-                :disabled="signUpSuccessful"
+                v-if="!signUpSuccessful"
                 color="secondary"
                 class="font-weight-bold mt-4"
                 @click="signupToNewsletter"
               >
-                <span v-if="!signUpSuccessful">Sign Up!</span>
-                <span v-else>Successfully Signed Up!</span>
+                <span>Sign Up!</span>
               </v-btn>
+              <div class="mt-4 white--text" v-if="signUpSuccessful">
+                <p class="subheading font-weight-bold">
+                  Successfully Signed Up!
+                </p>
+                <p class="mt-n2 headline font-weight-bold">Code: NEWSTC10</p>
+              </div>
             </v-card-text>
           </v-card>
         </v-col>

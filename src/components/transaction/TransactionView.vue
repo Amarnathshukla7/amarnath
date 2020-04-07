@@ -141,6 +141,15 @@
                                   </v-radio>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="3">
+                                  <v-radio value="ideal">
+                                    <img
+                                      slot="label"
+                                      height="24"
+                                      src="https://storage.googleapis.com/bedsandbars-images/ideal.png"
+                                    />
+                                  </v-radio>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="3">
                                   <v-radio
                                     v-if="isPaypalEnabled"
                                     value="paypal"
@@ -195,6 +204,14 @@
                               ></v-radio>
                               <v-radio :value="100" label="Pay Now"></v-radio>
                             </v-radio-group>
+                          </v-col>
+                        </v-row>
+                        <v-row v-show="showIdeal">
+                          <v-col cols="12">
+                            <stripe-ideal
+                              ref="stripeIdeal"
+                              :stripe-key="stripeKey"
+                            />
                           </v-col>
                         </v-row>
                         <v-row v-show="showCard" no-gutters>
@@ -291,7 +308,7 @@
                             @preq-approved="createPreqReservation"
                           ></stripe-payment-request>
                           <v-btn
-                            v-show="showCard || !data.payMethod"
+                            v-show="showCard || showIdeal || !data.payMethod"
                             class="font-weight-bold"
                             tile
                             x-large
@@ -350,6 +367,7 @@ import PaypalForm from "./components/PaypalForm.vue";
 import StripeForm from "./components/StripeForm.vue";
 import SagePaymentForm from "./components/SagePaymentForm.vue";
 import StripePaymentRequest from "./components/StripePaymentRequest.vue";
+import StripeIdeal from "./components/StripeIdeal.vue";
 
 Vue.use(VStripeElements);
 Vue.use(VueLoadScript);
@@ -363,11 +381,12 @@ export default {
     StripeForm,
     SagePaymentForm,
     StripePaymentRequest,
+    StripeIdeal,
   },
   props: {
     stripeKey: {
       type: String,
-      default: null
+      default: null,
     },
     cart: {
       type: Object,
@@ -419,6 +438,9 @@ export default {
   },
   watch: {
     showPaypal() {
+      this.data.deposit = 100;
+    },
+    showIdeal() {
       this.data.deposit = 100;
     },
   },
@@ -488,6 +510,9 @@ export default {
     showCard() {
       return this.data.payMethod === "card";
     },
+    showIdeal() {
+      return this.data.payMethod === "ideal";
+    },
     breakfast() {
       if (!this.hostel.extras) return null;
 
@@ -548,16 +573,13 @@ export default {
       this.isLoadingOverlay = true;
 
       try {
-        if (this.isStripe) {
+        if (this.showIdeal) {
+          this.$refs.stripeIdeal.confirm();
+        } else if (this.isStripe) {
           const transaction = await this.$refs.stripeContainer.createStripeTransaction();
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
           const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
-          console.log(transaction);
-          this.completeTransaction(transaction, "sagepay");
-        } else if (this.isDigitalWallet) {
-          const transaction = await this.$refs.stripePaymentReqeuest.createStripePaymentRequest();
-          console.log(transaction);
           this.completeTransaction(transaction, "sagepay");
         }
       } catch (e) {
