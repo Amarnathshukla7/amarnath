@@ -204,6 +204,7 @@ import contentful from "../../plugins/contentful";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import { formatPrice } from "../../filters/money";
 import { get } from "idb-keyval";
+import { ownTracking } from "../transaction/helpers/tracking";
 
 export default {
   components: {
@@ -242,6 +243,9 @@ export default {
     });
 
     this.hostel = hostelReq.items[0].fields;
+  },
+  mounted() {
+    ownTracking();
   },
   methods: {
     signupToNewsletter() {
