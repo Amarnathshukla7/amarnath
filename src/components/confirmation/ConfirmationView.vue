@@ -111,7 +111,7 @@
                   Total Paid
                   <span class="float-right mr-6">{{
                     reservation.paid
-                      | formatPrice(reservation.cart.hostel.currency)
+                      | formatPrice(reservation.transaction.currency)
                   }}</span>
                 </v-list-item-title>
               </v-list-item-content>
@@ -254,7 +254,10 @@ export default {
   },
   computed: {
     dueOnArrival() {
-      return this.reservation.cart.total_cost - this.reservation.paid;
+      return (
+        this.reservation.cart.total_cost -
+        (this.reservation.cart.total_cost * this.reservation.deposit) / 100
+      );
     },
   },
 };

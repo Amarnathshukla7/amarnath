@@ -33,7 +33,7 @@ export default {
   props: {
     stripeKey: {
       type: String,
-      default: null,
+      default: "pk_test_97WWfDjUOsVWAzm3y1g8t0BJ00F4iyqoge",
     },
     bookingSource: {
       type: String,
@@ -49,7 +49,7 @@ export default {
     },
     code: {
       type: String,
-      default: "FPU",
+      default: "BRI",
     },
   },
   components: {
