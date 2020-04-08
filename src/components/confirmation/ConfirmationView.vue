@@ -230,6 +230,11 @@ export default {
         }, 17000);
       }
     },
+    reservation(reservation) {
+      if (reservation !== null) {
+        ownTracking(reservation);
+      }
+    },
   },
   async created() {
     this.reservation = await get("reservation");
@@ -243,9 +248,6 @@ export default {
     });
 
     this.hostel = hostelReq.items[0].fields;
-  },
-  mounted() {
-    ownTracking(this.reservation);
   },
   methods: {
     signupToNewsletter() {
