@@ -367,7 +367,7 @@ export default {
   props: {
     stripeKey: {
       type: String,
-      default: null
+      default: null,
     },
     cart: {
       type: Object,
