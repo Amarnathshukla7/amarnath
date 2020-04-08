@@ -245,7 +245,7 @@ export default {
     this.hostel = hostelReq.items[0].fields;
   },
   mounted() {
-    ownTracking();
+    ownTracking(this.reservation);
   },
   methods: {
     signupToNewsletter() {
