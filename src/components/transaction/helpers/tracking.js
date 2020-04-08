@@ -25,7 +25,7 @@ export const wihpTracking = reservation => {
   });
 };
 
-export const ownTracking = (reservation) => {
+export const ownTracking = reservation => {
   window.ga("send", {
     hitType: "event",
     eventCategory: "Booking",
