@@ -16,31 +16,37 @@ export const wihpTracking = reservation => {
     },
   });
 
-  window.gtag("event", "purchase", {
-    send_to: ["AW-668251050/skpSCOOzzMIBEKrn0r4C", "HA-75"],
-    transaction_id: reservation.booking_reference,
-    value: reservation.cart.accommodation_cost / 100,
-    currency: reservation.cart.hostel.currency,
-    items: [],
-  });
+  if (window.gtag) {
+    window.gtag("event", "purchase", {
+      send_to: ["AW-668251050/skpSCOOzzMIBEKrn0r4C", "HA-75"],
+      transaction_id: reservation.booking_reference,
+      value: reservation.cart.accommodation_cost / 100,
+      currency: reservation.cart.hostel.currency,
+      items: [],
+    });
+  }
 };
 
 export const ownTracking = reservation => {
-  window.ga("send", {
-    hitType: "event",
-    eventCategory: "Booking",
-    eventAction: "booking_confirmed",
-    eventLabel: hostel.code,
-    eventValue: reservation.total / 100,
-  });
+  if (window.ga) {
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "Booking",
+      eventAction: "booking_confirmed",
+      eventLabel: hostel.code,
+      eventValue: reservation.total / 100,
+    });
 
-  window.ga("ecommerce:addTransaction", {
-    id: reservation.bookingReference,
-    affiliation: hostel.code,
-    revenue: reservation.total / 100,
-    shipping: 0,
-    tax: 0,
-  });
+    window.ga("ecommerce:addTransaction", {
+      id: reservation.bookingReference,
+      affiliation: hostel.code,
+      revenue: reservation.total / 100,
+      shipping: 0,
+      tax: 0,
+    });
+
+    window.ga("ecommerce:send");
+  }
 
   if (window.uetq) {
     window.uetq.push("event", "click", {
@@ -56,8 +62,6 @@ export const ownTracking = reservation => {
       currency: hostel.currency,
     });
   }
-
-  window.ga("ecommerce:send");
 
   if (window.criteo_q) {
     window.criteo_q = window.criteo_q || [];
