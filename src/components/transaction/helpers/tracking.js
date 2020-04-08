@@ -25,15 +25,16 @@ export const wihpTracking = reservation => {
   });
 };
 
-export const ownTracking = (vm, reservation, rooms) => {
-  vm.$ga.event({
+export const ownTracking = (reservation) => {
+  window.ga("send", {
+    hitType: "event",
     eventCategory: "Booking",
     eventAction: "booking_confirmed",
     eventLabel: hostel.code,
     eventValue: reservation.total / 100,
   });
 
-  vm.$ga.ecommerce.addTransaction({
+  window.ga("ecommerce:addTransaction", {
     id: reservation.bookingReference,
     affiliation: hostel.code,
     revenue: reservation.total / 100,
@@ -56,7 +57,7 @@ export const ownTracking = (vm, reservation, rooms) => {
     });
   }
 
-  vm.$ga.ecommerce.send();
+  window.ga("ecommerce:send");
 
   if (window.criteo_q) {
     window.criteo_q = window.criteo_q || [];
@@ -75,4 +76,6 @@ export const ownTracking = (vm, reservation, rooms) => {
       },
     );
   }
+
+  wihpTracking(reservation);
 };
