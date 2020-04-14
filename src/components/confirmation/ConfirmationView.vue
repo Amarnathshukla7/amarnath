@@ -1,5 +1,5 @@
 <template>
-  <v-app v-if="reservation && hostel">
+  <v-app ref="confView" v-if="reservation && hostel">
     <v-overlay class="text-center" :value="overlay">
       <iframe
         width="1080"
@@ -248,6 +248,9 @@ export default {
     });
 
     this.hostel = hostelReq.items[0].fields;
+  },
+  mounted() {
+    this.$refs.confView.scrollIntoView();
   },
   methods: {
     signupToNewsletter() {
