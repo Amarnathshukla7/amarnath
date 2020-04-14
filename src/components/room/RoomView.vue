@@ -1,5 +1,5 @@
 <template>
-  <main class="room-view">
+  <main ref="roomView" class="room-view">
     <v-overlay class="text-center" :value="isLoading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
@@ -237,8 +237,8 @@ export default {
       this.isLoading = false;
     },
     reset() {
-      if (window) {
-        window.scrollTo(0, 0);
+      if (this.$refs.roomView) {
+        this.$refs.roomView.scrollIntoView();
       }
       this.rooms = null;
       this.cart = null;
@@ -248,7 +248,7 @@ export default {
       this.cart = cart;
     },
     submitBooking(force = false) {
-      window.scrollTo(0, 0);
+      this.$refs.roomView.scrollIntoView();
 
       if (this.isSmallDevice && !force && !this.showSummaryBreakfast) {
         this.showSummaryBreakfast = true;

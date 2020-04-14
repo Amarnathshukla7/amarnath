@@ -1,5 +1,5 @@
 <template>
-  <v-app class="transaction-view">
+  <main ref="transactionView" class="transaction-view">
     <v-overlay class="text-center" :value="isLoadingOverlay" :opacity="0.8">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
       <div style="max-width: 620px" class="heading mt-10 px-6">
@@ -330,7 +330,7 @@
       Please check that all fields in the form are filled out correctly
       <v-btn text @click="formErrorSnackbar = false">Close</v-btn>
     </v-snackbar>
-  </v-app>
+  </main>
 </template>
 
 <script>
@@ -431,6 +431,7 @@ export default {
     this.data.deposit = this.cart.deposit_model_rate || 0;
   },
   mounted() {
+    this.$refs.transactionView.scrollIntoView();
     this.$loadScript("https://js.stripe.com/v3/");
   },
   computed: {
