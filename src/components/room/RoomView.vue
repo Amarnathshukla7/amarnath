@@ -216,6 +216,9 @@ export default {
       this.cart = cart;
     });
   },
+  mounted() {
+    this.$refs.roomView.scrollIntoView();
+  },
   methods: {
     async loadData() {
       if (this.isLoading) return;
