@@ -21,21 +21,23 @@
         >
       </h2>
       <v-row align="center">
-        <v-col cols="6" offset="2">
+        <v-col cols="6" offset="1">
           <number-counter
             class="primary--text mb-3"
             id="breakfast-counter"
             @update-value="val => (qty = val)"
           />
         </v-col>
-        <v-col cols="2" class="text-left">
+        <v-col cols="3" class="text-left">
           <v-btn
             @click="addExtraToCart"
             :disabled="isLoading"
             class="d-inline"
-            icon
+            color="secondary"
           >
-            <v-icon v-if="!isLoading" color="white">mdi-check</v-icon>
+            <span v-if="!isLoading" color="white" class="font-weight-bold">
+              Add/Update
+            </span>
             <v-progress-circular
               v-else
               indeterminate
