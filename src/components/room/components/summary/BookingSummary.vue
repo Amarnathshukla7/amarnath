@@ -138,6 +138,7 @@
       v-if="breakfast && showSummaryBreakfast"
       :currency="currency"
       :content="breakfast"
+      class="breakfast--mobile"
     />
   </div>
 </template>
@@ -364,6 +365,10 @@ export default {
 
   .continue-btn {
     width: 100%;
+  }
+
+  .breakfast--mobile {
+    margin-bottom: 150px;
   }
 
   @media (min-width: 960px) {
