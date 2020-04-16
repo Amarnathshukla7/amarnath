@@ -62,10 +62,10 @@ export default new Vuetify({
       customProperties: true,
     },
     themes: {
-      // light: stc,
+      light: stc,
       // light: fp,
       // light: cph,
-      light: nh,
+      // light: nh,
     },
   },
   icons: {

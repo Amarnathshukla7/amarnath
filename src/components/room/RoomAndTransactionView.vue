@@ -49,7 +49,7 @@ export default {
     },
     code: {
       type: String,
-      default: "BRI",
+      default: "COP",
     },
   },
   components: {

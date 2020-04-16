@@ -154,7 +154,7 @@
                                 </v-col>
                                 <v-col cols="12" sm="6" md="3">
                                   <v-radio
-                                    v-if="digitalWalletEnabled"
+                                    v-if="digitalWalletEnabled && isStripe"
                                     value="digital"
                                   >
                                     <img
@@ -277,6 +277,7 @@
                             @paypal-approved="createPaypalReservation"
                           ></paypal-form>
                           <stripe-payment-request
+                            v-if="isStripe"
                             ref="stripePaymentReqeuest"
                             :form-ref="$refs.form"
                             :cart="cart"
