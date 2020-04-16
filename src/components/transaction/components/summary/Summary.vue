@@ -77,13 +77,13 @@
         </v-col>
       </v-row>
       <v-row class="px-4 py-2 white--text">
-        <v-col cols="6" offset="1" md="8" offset-md="0">
+        <v-col cols="6" offset-md="0">
           <div class="title font-weight-bold">Total price:</div>
           <div class="subtitle-1 font-weight-bold hidden-md-and-up">
             Payable Now:
           </div>
         </v-col>
-        <v-col cols="4" class="text-right">
+        <v-col cols="6" class="text-right">
           <div class="title font-weight-bold">
             {{ cost | formatPrice(currency) }}
           </div>

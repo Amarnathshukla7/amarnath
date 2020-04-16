@@ -216,7 +216,8 @@
                               v-if="isSagepay && !showPaypal"
                               ref="sagepayContainer"
                               :deposit="data.deposit"
-                            ></sage-payment-form>
+                              :hostel-code="hostelConf.hostel_code"
+                            />
                           </v-col>
                         </v-row>
                         <v-row v-show="data.payMethod" no-gutters>

@@ -32,7 +32,7 @@ export const fp = {
 
 export const cph = {
   primary: "#454544",
-  secondary: "#4fb696",
+  secondary: "#ff8700",
   accent: "#4fb696",
   error: "#FF5252",
   info: "#e4e6ea",
@@ -45,7 +45,7 @@ export const cph = {
 
 export const nh = {
   primary: "#454544",
-  secondary: "#199dda",
+  secondary: "#ff8700",
   accent: "#199dda",
   error: "#FF5252",
   info: "#e4e6ea",
@@ -62,10 +62,10 @@ export default new Vuetify({
       customProperties: true,
     },
     themes: {
-      light: stc,
+      // light: stc,
       // light: fp,
       // light: cph,
-      // light: nh,
+      light: nh,
     },
   },
   icons: {

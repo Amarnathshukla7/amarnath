@@ -106,6 +106,10 @@ export default {
       type: Number,
       default: 0,
     },
+    hostelCode: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -183,6 +187,7 @@ export default {
       return axios
         .put(`/transaction-svc/${transaction.id}`, {
           gateway: "sagepay",
+          hostelCode: this.hostelCode,
           payment: {
             cardIdentifier,
             name: this.payment.nameOnCard,
