@@ -192,6 +192,22 @@ export default {
     bookingEntries(entries) {
       if (!entries) return;
 
+      let guests = 0;
+
+      const normalGuests = entries.normal
+        .map(room => room.maxOccupancy * room.qty)
+        .reduce((total, num) => total + num, 0);
+
+      guests += normalGuests;
+
+      const customGuests = entries.custom
+        .map(room => room.maxOccupancy * room.qty)
+        .reduce((total, num) => total + num, 0);
+
+      guests += customGuests;
+
+      this.$emit("guest-count", guests);
+
       entries.normal.forEach(room => this.roomTypePopup(room.code, room.qty));
       entries.custom.forEach(room => this.roomTypePopup(room.code, room.qty));
     },
@@ -310,6 +326,8 @@ export default {
       const normalBook = [];
       const customBook = [];
 
+      const guestCount = 0;
+
       if (!this.cart) return null;
 
       const items = this.cart.items;
@@ -341,9 +359,11 @@ export default {
           }
         });
 
-        normal && rooms.length !== 1
-          ? normalBook.push(this.normalBooking(rooms, roomContent))
-          : customBook.push(...this.customBooking(rooms, roomContent));
+        if (normal && rooms.length !== 1) {
+          normalBook.push(this.normalBooking(rooms, roomContent));
+        } else {
+          customBook.push(...this.customBooking(rooms, roomContent));
+        }
       });
 
       return {

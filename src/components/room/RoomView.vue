@@ -21,7 +21,13 @@
         Close
       </v-btn>
     </v-overlay>
+
     <bread-crumbs />
+
+    <group-bookings-modal
+      :show="showGroupsModal"
+      @hide="showGroupsModal = false"
+    />
 
     <v-container>
       <v-row v-show="!showSummaryBreakfast" no-gutters>
@@ -134,6 +140,7 @@
             @update-cart="cart => (this.cart = cart)"
             @go-to-transaction="submitBooking"
             @back-to-rooms="showSummaryBreakfast = false"
+            @guest-count="checkGuestModal"
             :showSummaryBreakfast="showSummaryBreakfast"
             :hostel="hostel"
             :isSmallDevice="isSmallDevice"
@@ -148,6 +155,7 @@
 import { differenceInDays } from "date-fns";
 import Card from "./components/card/Card.vue";
 import BookingSummary from "./components/summary/BookingSummary.vue";
+import GroupBookingsModal from "./components/GroupBookingsModal.vue";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import FiltersSortBy from "./components/filters/FiltersSortBy.vue";
 import { availability } from "./api/search-svc";
@@ -198,9 +206,12 @@ export default {
     BookingSummary,
     BreadCrumbs,
     FiltersSortBy,
+    GroupBookingsModal,
   },
   data() {
     return {
+      showGroupsModal: false,
+      groupBookingModalAlreadyShown: false,
       openPanel: [0, 1],
       isLoading: false,
       isError: false,
@@ -270,6 +281,12 @@ export default {
         ...rooms,
         ...this.rooms,
       };
+    },
+    checkGuestModal(guests) {
+      if (!this.groupBookingModalAlreadyShown && guests >= 10) {
+        this.groupBookingModalAlreadyShown = true;
+        this.showGroupsModal = true;
+      }
     },
   },
   computed: {
