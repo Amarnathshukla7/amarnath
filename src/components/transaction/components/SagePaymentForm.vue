@@ -129,8 +129,8 @@ export default {
       },
       rules: {
         cardNumber: [
-          v => !!v || "Card number is required",
-          v => {
+          (v) => !!v || "Card number is required",
+          (v) => {
             const pattern = /^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/;
             return (
               pattern.test(v) ||
@@ -139,19 +139,19 @@ export default {
           },
         ],
         cardExpiry: [
-          v => !!v || "Card Expiry is required",
-          v => {
+          (v) => !!v || "Card Expiry is required",
+          (v) => {
             const pattern = /^(0?[1-9]|1[0-2]){1}\/(0?[1-9]|1[0-9]|2[0-9]|3[0-1]){1}$/;
             return pattern.test(v) || "Invalid date format (MM/DD)";
           },
           //
         ],
-        cardSecurityCode: [v => !!v || "CVV is required"],
-        nameOnCard: [v => !!v || "Name on card is required"],
-        address1: [v => !!v || "Address Line 1 is required"],
-        city: [v => !!v || "City is required"],
-        postCode: [v => !!v || "Post Code is required"],
-        country: [v => !!v || "Country is required"],
+        cardSecurityCode: [(v) => !!v || "CVV is required"],
+        nameOnCard: [(v) => !!v || "Name on card is required"],
+        address1: [(v) => !!v || "Address Line 1 is required"],
+        city: [(v) => !!v || "City is required"],
+        postCode: [(v) => !!v || "Post Code is required"],
+        country: [(v) => !!v || "Country is required"],
       },
     };
   },
@@ -182,7 +182,7 @@ export default {
             headers: { Authorization: `Bearer ${secret}` },
           },
         )
-        .then(res => res.data.cardIdentifier);
+        .then((res) => res.data.cardIdentifier);
 
       return axios
         .put(`/transaction-svc/${transaction.id}`, {
@@ -198,7 +198,7 @@ export default {
             country: this.payment.country,
           },
         })
-        .then(res => res.data);
+        .then((res) => res.data);
     },
   },
 };

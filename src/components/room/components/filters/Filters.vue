@@ -47,7 +47,7 @@ export default {
   methods: {
     updateSelected(filter) {
       this.selected = this.selected.includes(filter)
-        ? this.selected.filter(i => i !== filter)
+        ? this.selected.filter((i) => i !== filter)
         : [...this.selected, filter];
     },
     isSelected(filter) {

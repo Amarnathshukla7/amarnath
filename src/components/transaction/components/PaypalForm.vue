@@ -64,14 +64,14 @@ export default {
               const transaction = await create("paypal");
               return JSON.parse(transaction.secret_output)["id"];
             },
-            onApprove: async data => {
+            onApprove: async (data) => {
               this.$emit("paypal-approved", data);
             },
-            onError: err => {
+            onError: (err) => {
               console.log(err);
               this.$emit("paypal-error", err);
             },
-            onCancel: data => {
+            onCancel: (data) => {
               this.$emit("paypal-cancel", data);
             },
           })

@@ -51,7 +51,7 @@
                     <img
                       src="https://storage.googleapis.com/bedsandbars-images/check-green.a92045f4.svg"
                       alt=""
-                      style="width: 20px"
+                      style="width: 20px;"
                     />
                   </v-col>
                   <v-col cols="11">
@@ -150,7 +150,7 @@
               :code="room.code"
               :bed-type="bedType"
               :currency="currency"
-              @room-active="val => (selected = val)"
+              @room-active="(val) => (selected = val)"
               @update-local-room-cart="updateCart"
             />
 
@@ -317,7 +317,7 @@ export default {
     };
   },
   created() {
-    bus.$on("room-filters-changed", filters => {
+    bus.$on("room-filters-changed", (filters) => {
       this.isHidden =
         filters.length === 0 ? false : filter(this.content, filters);
     });
@@ -345,8 +345,8 @@ export default {
     },
     update({ date, units }) {
       const dates = this.dates
-        .filter(data => (date ? data.date === date : true))
-        .map(data => ({
+        .filter((data) => (date ? data.date === date : true))
+        .map((data) => ({
           code: this.room.code,
           date: data.date,
           name: this.room.roomName,
@@ -362,7 +362,7 @@ export default {
     switchToCustom() {
       this.customSelected = true;
 
-      Object.values(this.customDates).forEach(date => {
+      Object.values(this.customDates).forEach((date) => {
         bus.$emit(
           "set-room-amount",
           this.room.code,
@@ -380,7 +380,7 @@ export default {
         end: new Date(subDays(new Date(this.checkOut), 1)),
       });
 
-      return days.map(date => {
+      return days.map((date) => {
         const day = format(new Date(date), "yyyy-MM-dd");
         const units = this.room.dates[day]
           ? this.room.dates[day].numberOfUnits
@@ -409,7 +409,7 @@ export default {
       );
     },
     images() {
-      return this.content.images.map(image => ({
+      return this.content.images.map((image) => ({
         title: image.fields.description,
         url: `${image.fields.file.url}?w=1080&q=85`,
       }));
@@ -451,7 +451,7 @@ export default {
       return parseInt(this.room.maxAvailable, 10);
     },
     dates() {
-      return Object.keys(this.room.dates).map(date => ({
+      return Object.keys(this.room.dates).map((date) => ({
         date,
         units: parseInt(this.room.dates[date].numberOfUnits),
         cost: this.room.dates[date].cost,
@@ -459,7 +459,7 @@ export default {
     },
     content() {
       return this.roomContents.find(
-        room => room.fields.roomCode === this.room.code,
+        (room) => room.fields.roomCode === this.room.code,
       ).fields;
     },
     standardSelected() {

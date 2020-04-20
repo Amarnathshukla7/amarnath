@@ -2,7 +2,7 @@
   <main ref="transactionView" class="transaction-view">
     <v-overlay class="text-center" :value="isLoadingOverlay" :opacity="0.8">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
-      <div style="max-width: 620px" class="heading mt-10 px-6">
+      <div style="max-width: 620px;" class="heading mt-10 px-6">
         Please wait while we confirm your payment and booking. This might take
         up to 30 seconds or more on slow internet connections. Please be patient
       </div>
@@ -101,8 +101,8 @@
                     <v-expansion-panel-content color="white">
                       <discount-code
                         :is-loading="isLoading"
-                        @is-loading="state => (this.isLoading = state)"
-                        @cart-updated="cart => (this.cart = cart)"
+                        @is-loading="(state) => (this.isLoading = state)"
+                        @cart-updated="(cart) => (this.cart = cart)"
                       ></discount-code>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
@@ -405,13 +405,13 @@ export default {
       },
       rules: {
         email: [
-          v => !!v || "E-mail is required",
-          v => /.+@.+/.test(v) || "E-mail must be valid",
+          (v) => !!v || "E-mail is required",
+          (v) => /.+@.+/.test(v) || "E-mail must be valid",
         ],
-        name: [v => !!v || "Name is required"],
-        terms: [v => !!v || "Please accept our terms"],
-        phone: [v => !!v || "Phone Number is required"],
-        country: [v => !!v || "Country is required"],
+        name: [(v) => !!v || "Name is required"],
+        terms: [(v) => !!v || "Please accept our terms"],
+        phone: [(v) => !!v || "Phone Number is required"],
+        country: [(v) => !!v || "Country is required"],
       },
       isLoading: false,
       isLoadingOverlay: false,
@@ -425,7 +425,7 @@ export default {
     },
   },
   created() {
-    bus.$on("cart-transaction-updated", cart => {
+    bus.$on("cart-transaction-updated", (cart) => {
       this.cart = cart;
     });
 
@@ -494,8 +494,9 @@ export default {
     breakfast() {
       if (!this.hostel.extras) return null;
 
-      return this.hostel.extras.find(extra => extra.fields.type === "breakfast")
-        .fields;
+      return this.hostel.extras.find(
+        (extra) => extra.fields.type === "breakfast",
+      ).fields;
     },
     lowerDeposit() {
       return this.cart.deposit_model_rate;

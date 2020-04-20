@@ -60,7 +60,7 @@ export default {
           ? this.$refs.stripeCard.stripe.confirmCardSetup(secret, data)
           : this.$refs.stripeCard.stripe.confirmCardPayment(secret, data);
 
-      return intent.then(res => res[type]);
+      return intent.then((res) => res[type]);
     },
   },
 };

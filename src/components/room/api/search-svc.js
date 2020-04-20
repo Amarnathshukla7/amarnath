@@ -1,9 +1,9 @@
 import axios from "axios";
-import nanoid from "nanoid";
+import cryptoRandomString from "crypto-random-string";
 import { set, get } from "idb-keyval";
 
 const makeToken = async () => {
-  const token = nanoid();
+  const token = cryptoRandomString({ length: 30, type: "url-safe" });
 
   await set("token", {
     token,
@@ -19,25 +19,25 @@ export const availability = async (hostel, start, end) => {
 
   return axios
     .get(`/search-svc/${hostel}/${start}/${end}?token=${token}`)
-    .then(res => {
+    .then((res) => {
       const defaultPlanId = res.data.availability.default;
 
       const plan = res.data.availability.plans.find(
-        plan => plan.planId === defaultPlanId,
+        (plan) => plan.planId === defaultPlanId,
       );
 
       return {
         minstays: plan.minstay,
-        dorms: plan.rooms.filter(room => room.roomType === "dorm"),
-        privates: plan.rooms.filter(room => room.roomType === "private"),
+        dorms: plan.rooms.filter((room) => room.roomType === "dorm"),
+        privates: plan.rooms.filter((room) => room.roomType === "private"),
       };
     });
 };
 
-export const getBreakfastPrice = async breakfastCode => {
+export const getBreakfastPrice = async (breakfastCode) => {
   const { token } = await get("token");
 
-  return axios.get(`/search-svc/cache/${token}`).then(res => {
+  return axios.get(`/search-svc/cache/${token}`).then((res) => {
     return res.data.availability.service[breakfastCode].price;
   });
 };

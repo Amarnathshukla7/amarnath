@@ -1,9 +1,9 @@
 import axios from "axios";
 
 const getRoom = (rooms, code) =>
-  rooms.find(room => room.fields.roomCode === code);
+  rooms.find((room) => room.fields.roomCode === code);
 
-export const wihpTracking = reservation => {
+export const wihpTracking = (reservation) => {
   axios.get("https://secure-hotel-tracker.com/tics/log.php", {
     params: {
       act: "conversion",
@@ -27,7 +27,7 @@ export const wihpTracking = reservation => {
   }
 };
 
-export const ownTracking = reservation => {
+export const ownTracking = (reservation) => {
   if (window.ga) {
     window.ga("send", {
       hitType: "event",

@@ -25,7 +25,7 @@
           <number-counter
             class="primary--text mb-3"
             id="breakfast-counter"
-            @update-value="val => (qty = val)"
+            @update-value="(val) => (qty = val)"
           />
         </v-col>
         <v-col cols="3" class="text-left">

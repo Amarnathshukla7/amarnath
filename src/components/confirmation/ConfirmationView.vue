@@ -140,7 +140,7 @@
             <div class="title font-weight-bold greyish--text">
               {{ hostel.title }}
             </div>
-            <div class="body-2 mx-auto mt-4" style="max-width: 70%">
+            <div class="body-2 mx-auto mt-4" style="max-width: 70%;">
               » {{ hostel.hostelPageRef.fields.tabs[0].fields.phoneNumber }} »
               {{ hostel.confirmationEmail }} » {{ hostel.streetAddress }}
             </div>
@@ -164,7 +164,7 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="6" lg="5" offset-lg="1">
-          <v-card class="accent " tile>
+          <v-card class="accent" tile>
             <v-img
               height="350px"
               src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"

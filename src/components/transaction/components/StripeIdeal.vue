@@ -50,7 +50,7 @@ export default {
       });
 
       // Check the availability of the Payment Request API first.
-      this.paymentRequest.canMakePayment().then(result => {
+      this.paymentRequest.canMakePayment().then((result) => {
         if (result) {
           this.$emit("wallet-enabled");
           prButton.mount("#payment-request-button");

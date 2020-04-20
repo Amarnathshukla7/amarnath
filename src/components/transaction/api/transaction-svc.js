@@ -9,5 +9,5 @@ export const create = async (gateway, deposit = 100) => {
       gateway,
       deposit,
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };

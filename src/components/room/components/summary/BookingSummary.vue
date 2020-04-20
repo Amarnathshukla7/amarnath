@@ -195,21 +195,21 @@ export default {
       let guests = 0;
 
       const normalGuests = entries.normal
-        .map(room => room.maxOccupancy * room.qty)
+        .map((room) => room.maxOccupancy * room.qty)
         .reduce((total, num) => total + num, 0);
 
       guests += normalGuests;
 
       const customGuests = entries.custom
-        .map(room => room.maxOccupancy * room.qty)
+        .map((room) => room.maxOccupancy * room.qty)
         .reduce((total, num) => total + num, 0);
 
       guests += customGuests;
 
       this.$emit("guest-count", guests);
 
-      entries.normal.forEach(room => this.roomTypePopup(room.code, room.qty));
-      entries.custom.forEach(room => this.roomTypePopup(room.code, room.qty));
+      entries.normal.forEach((room) => this.roomTypePopup(room.code, room.qty));
+      entries.custom.forEach((room) => this.roomTypePopup(room.code, room.qty));
     },
   },
   data() {
@@ -223,7 +223,7 @@ export default {
     formatDate,
   },
   created() {
-    bus.$on("cart-updating", state => (this.isCartUpdating = state));
+    bus.$on("cart-updating", (state) => (this.isCartUpdating = state));
   },
   methods: {
     async deleteFromCart(code, date) {
@@ -247,12 +247,12 @@ export default {
         maxOccupancy: rooms[0].max_occupancy,
         type: roomContent.fields.type,
         cost: rooms
-          .map(room => room.price_per_item * room.qty)
+          .map((room) => room.price_per_item * room.qty)
           .reduce((acc, val) => acc + val),
       };
     },
     customBooking(rooms, roomContent) {
-      return rooms.map(room => ({
+      return rooms.map((room) => ({
         name: roomContent.fields.name,
         code: room.code,
         checkIn: room.date,
@@ -303,8 +303,9 @@ export default {
     breakfast() {
       if (!this.hostel.extras) return null;
 
-      return this.hostel.extras.find(extra => extra.fields.type === "breakfast")
-        .fields;
+      return this.hostel.extras.find(
+        (extra) => extra.fields.type === "breakfast",
+      ).fields;
     },
     isCartEmpty() {
       return !(this.cart ? this.cart.items.length >= 1 : false);
@@ -334,16 +335,16 @@ export default {
       const roomCodes = new Set(
         items
           .sort((a, b) => new Date(a.date) - new Date(b.date))
-          .filter(room => room.type === "bed")
-          .map(room => room.code),
+          .filter((room) => room.type === "bed")
+          .map((room) => room.code),
       );
 
-      roomCodes.forEach(roomCode => {
-        const rooms = items.filter(item => item.code === roomCode);
+      roomCodes.forEach((roomCode) => {
+        const rooms = items.filter((item) => item.code === roomCode);
         let normal = true;
 
         const roomContent = this.roomsContent.find(
-          room => room.fields.roomCode == roomCode,
+          (room) => room.fields.roomCode == roomCode,
         );
 
         rooms.forEach((room, idx) => {

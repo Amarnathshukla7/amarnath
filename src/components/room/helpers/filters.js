@@ -8,6 +8,6 @@ export const filter = (room, filters) => {
   };
 
   return !Object.keys(filterList)
-    .filter(filter => filters.includes(filter))
-    .every(filt => filterList[filt]);
+    .filter((filter) => filters.includes(filter))
+    .every((filt) => filterList[filt]);
 };

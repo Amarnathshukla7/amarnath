@@ -137,7 +137,7 @@
             :cart-data="cart"
             :rooms-content="roomsContent"
             :currency="currency"
-            @update-cart="cart => (this.cart = cart)"
+            @update-cart="(cart) => (this.cart = cart)"
             @go-to-transaction="submitBooking"
             @back-to-rooms="showSummaryBreakfast = false"
             @guest-count="checkGuestModal"
@@ -223,7 +223,7 @@ export default {
   created() {
     this.loadData();
 
-    bus.$on("cart-transaction-updated", cart => {
+    bus.$on("cart-transaction-updated", (cart) => {
       this.cart = cart;
     });
   },
