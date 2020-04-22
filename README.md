@@ -85,7 +85,7 @@ To gain access to the registry follow the steps below.
 
 First, create a Personal Access Token. Head to the link and select the following scopes. https://github.com/settings/tokens/new
 
--- Image Here --
+![Scopes](https://github.com/bbwmc/booking-journey-vue/raw/master/Screenshot%202020-04-22%20at%2008.09.27.png)
 
 Afterwards copy the token and do the below.
 
