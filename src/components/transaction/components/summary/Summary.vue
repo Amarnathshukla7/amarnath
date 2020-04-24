@@ -42,7 +42,10 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="py-2 pl-4 other">
+            <v-list-item
+              v-show="stc || breakfastCost > 0"
+              class="py-2 pl-4 other"
+            >
               <v-list-item-content>
                 <v-list-item-title>
                   Breakfast Total
@@ -148,6 +151,12 @@ export default {
   computed: {
     isCartEmpty() {
       return !(this.cart ? this.cart.items.length >= 1 : false);
+    },
+    stc() {
+      return (
+        !this.cart.hostel_code ||
+        !["COP", "NOS"].includes(this.cart.hostel_code)
+      );
     },
     discount() {
       return this.cart.discount;

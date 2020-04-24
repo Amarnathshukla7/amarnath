@@ -557,11 +557,6 @@ export default {
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
           const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
-          console.log(transaction);
-          this.completeTransaction(transaction, "sagepay");
-        } else if (this.isDigitalWallet) {
-          const transaction = await this.$refs.stripePaymentReqeuest.createStripePaymentRequest();
-          console.log(transaction);
           this.completeTransaction(transaction, "sagepay");
         }
       } catch (e) {

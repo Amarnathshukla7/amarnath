@@ -1,103 +1,131 @@
 <template>
-  <v-row mx-4>
-    <v-col cols="12" md="12">
-      <v-text-field
-        class="mb-0"
-        label="Name on Card*"
-        :rules="rules.nameOnCard"
-        v-model="payment.nameOnCard"
-        outlined
-      ></v-text-field>
-    </v-col>
-    <v-col cols="12" md="4">
-      <v-text-field
-        class="mb-0 mt-n6"
-        label="Card Number*"
-        :rules="rules.cardNumber"
-        v-model="card.number"
-        outlined
-      ></v-text-field>
-    </v-col>
-    <v-col cols="12" md="4">
-      <v-text-field
-        class="mb-0 mt-n6"
-        label="Expiry Date*"
-        hint="MM/YY"
-        :rules="rules.cardExpiry"
-        v-model="card.expiry"
-        outlined
-      ></v-text-field>
-    </v-col>
-    <v-col cols="12" md="4">
-      <v-text-field
-        class="mb-0 mt-n6"
-        label="CVV*"
-        hint="On the back of your card"
-        :rules="rules.cardSecurityCode"
-        v-model="card.code"
-        outlined
-      ></v-text-field>
-    </v-col>
-    <v-col cols="12">
-      <v-text-field
-        label="Address Line 1*"
-        class="mt-n6"
-        :rules="rules.address1"
-        v-model="payment.address1"
-        outlined
-      ></v-text-field>
-    </v-col>
-    <v-col cols="12">
-      <v-text-field
-        label="Address Line 2"
-        class="mt-n6"
-        v-model="payment.address2"
-        outlined
-      ></v-text-field>
-    </v-col>
-    <v-col cols="12">
-      <v-text-field
-        label="City*"
-        class="mt-n6"
-        :rules="rules.city"
-        v-model="payment.city"
-        outlined
-      ></v-text-field>
-    </v-col>
-    <v-col cols="12">
-      <v-text-field
-        label="Post Code*"
-        class="mt-n6"
-        :rules="rules.postCode"
-        v-model="payment.postCode"
-        outlined
-      ></v-text-field>
-    </v-col>
-    <v-col cols="12">
-      <v-autocomplete
-        class="mt-n6"
-        :items="countries"
-        label="Country*"
-        :rules="rules.country"
-        v-model="payment.country"
-        outlined
-      ></v-autocomplete>
-    </v-col>
-    <v-col cols="12">
-      <v-text-field
-        v-if="false"
-        class="mt-n6 mb-md-n6"
-        label="State"
-        outlined
-      ></v-text-field>
-    </v-col>
-  </v-row>
+  <section class="sagepay">
+    <v-overlay class="text-center" :value="overlay" width="100%" height="100%">
+      <h1>Processing Payment...</h1>
+      <iframe
+        width="100%"
+        height="100%"
+        src=""
+        name="paymentsageform"
+        class="payment-sageform"
+      ></iframe>
+      <form
+        v-if="threeD"
+        :action="threeD.acsUrl"
+        ref="sageform"
+        method="post"
+        target="paymentsageform"
+        id="postToIframe"
+      >
+        <input type="hidden" name="PaReq" :value="threeD.paReq" />
+        <input type="hidden" name="TermUrl" :value="threeD.url" />
+        <input type="hidden" name="MD" :value="threeD.md" />
+      </form>
+
+      <br />
+      <v-btn x-large icon @click="overlay = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-overlay>
+    <v-row mx-4>
+      <v-col cols="12" md="12">
+        <v-text-field
+          class="mb-0"
+          label="Name on Card*"
+          :rules="rules.nameOnCard"
+          v-model="payment.nameOnCard"
+          outlined
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-text-field
+          class="mb-0 mt-n6"
+          label="Card Number*"
+          :rules="rules.cardNumber"
+          v-model="card.number"
+          outlined
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-text-field
+          class="mb-0 mt-n6"
+          label="Expiry Date*"
+          hint="MM/YY"
+          :rules="rules.cardExpiry"
+          v-model="card.expiry"
+          outlined
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-text-field
+          class="mb-0 mt-n6"
+          label="CVV*"
+          hint="On the back of your card"
+          :rules="rules.cardSecurityCode"
+          v-model="card.code"
+          outlined
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12">
+        <v-text-field
+          label="Address Line 1*"
+          class="mt-n6"
+          :rules="rules.address1"
+          v-model="payment.address1"
+          outlined
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12">
+        <v-text-field
+          label="Address Line 2"
+          class="mt-n6"
+          v-model="payment.address2"
+          outlined
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12">
+        <v-text-field
+          label="City*"
+          class="mt-n6"
+          :rules="rules.city"
+          v-model="payment.city"
+          outlined
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12">
+        <v-text-field
+          label="Post Code*"
+          class="mt-n6"
+          :rules="rules.postCode"
+          v-model="payment.postCode"
+          outlined
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12">
+        <v-autocomplete
+          class="mt-n6"
+          :items="countries"
+          label="Country*"
+          :rules="rules.country"
+          v-model="payment.country"
+          outlined
+        ></v-autocomplete>
+      </v-col>
+      <v-col cols="12">
+        <v-text-field
+          v-if="false"
+          class="mt-n6 mb-md-n6"
+          label="State"
+          outlined
+        ></v-text-field>
+      </v-col>
+    </v-row>
+  </section>
 </template>
 
 <script>
 import axios from "axios";
 import { create } from "../api/transaction-svc";
-
 import countries from "../data/countries.json";
 
 export default {
@@ -113,6 +141,8 @@ export default {
   },
   data() {
     return {
+      overlay: false,
+      threeD: null,
       countries,
       card: {
         number: null,
@@ -164,7 +194,7 @@ export default {
 
       const url =
         process.env.NODE_ENV === "production"
-          ? "https://pi-test.sagepay.com/api/v1/card-identifiers"
+          ? "https://pi-live.sagepay.com/api/v1/card-identifiers"
           : "https://pi-test.sagepay.com/api/v1/card-identifiers";
 
       const cardIdentifier = await axios
@@ -184,7 +214,7 @@ export default {
         )
         .then((res) => res.data.cardIdentifier);
 
-      return axios
+      const result = await axios
         .put(`/transaction-svc/${transaction.id}`, {
           gateway: "sagepay",
           hostelCode: this.hostelCode,
@@ -199,9 +229,24 @@ export default {
           },
         })
         .then((res) => res.data);
+
+      if (result.status === "REDIRECT_3D") {
+        this.threeD = JSON.parse(result.secret_output);
+        this.overlay = true;
+        this.$nextTick(() => {
+          this.$refs.sageform.submit();
+        });
+      }
+
+      return result
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.sagepay .v-overlay__content {
+  width: 100%;
+  height: 100%;
+}
+</style>

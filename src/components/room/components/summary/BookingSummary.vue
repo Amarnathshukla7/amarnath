@@ -66,7 +66,7 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item class="py-2 pl-8 other">
+      <v-list-item v-show="stc || cart.extras_cost > 0" class="py-2 pl-8 other">
         <v-list-item-content>
           <v-list-item-title>
             Breakfast Total
@@ -138,6 +138,7 @@
       v-if="breakfast && showSummaryBreakfast"
       :currency="currency"
       :content="breakfast"
+      :hostel-code="hostel.code"
       class="breakfast--mobile"
     />
   </div>
@@ -292,6 +293,12 @@ export default {
     },
   },
   computed: {
+    stc() {
+      return (
+        !this.cart.hostel_code ||
+        !["COP", "NOS"].includes(this.cart.hostel_code)
+      );
+    },
     cart: {
       get() {
         return this.cartData;

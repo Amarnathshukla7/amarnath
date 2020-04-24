@@ -75,7 +75,10 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="py-2 pl-8 other">
+            <v-list-item
+              v-show="stc || reservation.cart.extras_cost > 0"
+              class="py-2 pl-8 other"
+            >
               <v-list-item-content>
                 <v-list-item-title>
                   Breakfast Total
@@ -262,6 +265,12 @@ export default {
     formatPrice,
   },
   computed: {
+    stc() {
+      return (
+        !this.reservation.cart.hostel_code ||
+        !["COP", "NOS"].includes(this.reservation.cart.hostel_code)
+      );
+    },
     dueOnArrival() {
       return this.reservation.cart.total_cost - this.reservation.paid;
     },
