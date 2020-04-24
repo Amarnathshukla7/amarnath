@@ -37,15 +37,15 @@ export default {
     },
     bookingSource: {
       type: String,
-      default: "HGCDT",
+      default: "STC",
     },
     checkIn: {
       type: String,
-      default: "2020-09-16",
+      default: "2020-11-16",
     },
     checkOut: {
       type: String,
-      default: "2020-09-17",
+      default: "2020-11-17",
     },
     code: {
       type: String,

@@ -589,23 +589,9 @@ export default {
           path,
         });
       } catch (e) {
-        if (this.reservation && this.reservation.status !== "success") {
-          this.isError = true;
-          this.isLoadingOverlay = false;
-          return;
-        }
-
-        await set("reservation", this.reservation);
-
-        const path =
-          window.location.pathname.replace("availability", "") + "confirmation";
-
-        this.$router.push({
-          path,
-        });
+        this.isError = true;
+        this.isLoadingOverlay = false;
       }
-
-      this.isLoadingOverlay = false;
     },
   },
   filters: {
