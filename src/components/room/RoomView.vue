@@ -165,6 +165,10 @@ import { bus } from "../../plugins/bus";
 
 export default {
   props: {
+    roomViewAnchorPoint: {
+      type: String,
+      default: "roomView",
+    },
     bookingSource: {
       type: String,
       default: "STC",
@@ -228,7 +232,11 @@ export default {
     });
   },
   mounted() {
-    this.$refs.roomView.scrollIntoView();
+    if (this.roomViewAnchorPoint) {
+      this.$refs[this.roomViewAnchorPoint].scrollIntoView();
+    } else {
+      this.$refs.roomView.scrollIntoView();
+    }
   },
   methods: {
     async loadData() {
