@@ -50,7 +50,7 @@ export default {
     },
     code: {
       type: String,
-      default: "COP",
+      default: "BRI",
     },
     roomViewAnchorPoint: {
       type: String,

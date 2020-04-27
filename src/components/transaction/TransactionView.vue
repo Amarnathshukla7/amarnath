@@ -217,6 +217,11 @@
                               ref="sagepayContainer"
                               :deposit="data.deposit"
                               :hostel-code="hostelConf.hostel_code"
+                              @payment-failed="payPalError"
+                              @complete-transaction="
+                                (transaction) =>
+                                  completeTransaction(transaction, 'sagepay')
+                              "
                             />
                           </v-col>
                         </v-row>
@@ -557,6 +562,10 @@ export default {
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
           const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
+          if (!transaction) {
+            this.isLoadingOverlay = false;
+            return;
+          }
           this.completeTransaction(transaction, "sagepay");
         }
       } catch (e) {

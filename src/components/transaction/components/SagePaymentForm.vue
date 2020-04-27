@@ -141,6 +141,7 @@ export default {
   },
   data() {
     return {
+      transaction: null,
       overlay: false,
       threeD: null,
       countries,
@@ -214,7 +215,7 @@ export default {
         )
         .then((res) => res.data.cardIdentifier);
 
-      const result = await axios
+      this.transaction = await axios
         .put(`/transaction-svc/${transaction.id}`, {
           gateway: "sagepay",
           hostelCode: this.hostelCode,
@@ -230,16 +231,46 @@ export default {
         })
         .then((res) => res.data);
 
-      if (result.status === "REDIRECT_3D") {
-        this.threeD = JSON.parse(result.secret_output);
+      if (this.transaction.status === "REDIRECT_3D") {
+        this.threeD = JSON.parse(this.transaction.secret_output);
         this.overlay = true;
         this.$nextTick(() => {
           this.$refs.sageform.submit();
         });
+
+        return null;
       }
 
-      return result
+      return this.transaction;
     },
+    receiveMessage(event) {
+      if (
+        [
+          "http://localhost:8000",
+          "https://reservation.svc.bedsandbars.com/",
+        ].includes(event.origin)
+      ) {
+        this.overlay = false;
+        console.log(event.data);
+        if (event.data.status == "OK") {
+          this.$emit("complete-transaction", this.transaction);
+        } else {
+          this.$emit("payment-failed", "Failed to authenticate with bank");
+        }
+      }
+    },
+    addPostMessageListener() {
+      window.addEventListener("message", this.receiveMessage);
+    },
+    removePostMessageListener() {
+      window.removeEventListener("message", this.receiveMessage);
+    },
+  },
+  mounted() {
+    this.addPostMessageListener();
+  },
+  destroyed() {
+    this.removePostMessageListener();
   },
 };
 </script>
