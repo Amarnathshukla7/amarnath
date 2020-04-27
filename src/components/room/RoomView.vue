@@ -233,7 +233,8 @@ export default {
   },
   mounted() {
     if (this.roomViewAnchorPoint) {
-      this.$refs[this.roomViewAnchorPoint].scrollIntoView();
+      const el = document.getElementById(this.roomViewAnchorPoint);
+      if (el) el.scrollIntoView();
     } else {
       this.$refs.roomView.scrollIntoView();
     }
