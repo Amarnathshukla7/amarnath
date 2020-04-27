@@ -100,6 +100,7 @@
       v-if="breakfast"
       :content="breakfast"
       :currency="currency"
+      :hostel-code="cart.hostel_code"
       class="hidden-md-and-down"
     />
   </div>

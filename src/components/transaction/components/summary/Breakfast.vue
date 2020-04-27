@@ -19,9 +19,9 @@
       </h2>
       <h2
         v-else
-        class="mx-2 mt-4 text-justtify secondary--text font-weight-bold headline text-uppercase"
+        class="mx-2 mt-4 text-justtify secondary--text font-weight-bold title text-uppercase"
       >
-        Add Breakfast
+        Include breakfast buffet
       </h2>
       <v-row align="center">
         <v-col cols="6" offset="1">
