@@ -1,5 +1,5 @@
 <template>
-  <v-app ref="confView" v-if="reservation && hostel">
+  <v-app v-if="reservation && hostel">
     <v-overlay class="text-center" :value="overlay">
       <iframe
         width="1080"
@@ -14,7 +14,7 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-overlay>
-    <v-container>
+    <v-container ref="confView">
       <v-row no-gutters>
         <v-col cols="12" class="my-4">
           <bread-crumbs :step="4" />
@@ -236,6 +236,7 @@ export default {
     reservation(reservation) {
       if (reservation !== null) {
         ownTracking(reservation);
+        this.$refs.confView.scrollIntoView();
       }
     },
   },
@@ -251,9 +252,6 @@ export default {
     });
 
     this.hostel = hostelReq.items[0].fields;
-  },
-  mounted() {
-    this.$refs.confView.scrollIntoView();
   },
   methods: {
     signupToNewsletter() {
