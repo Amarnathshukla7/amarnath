@@ -14,7 +14,7 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-overlay>
-    <v-container ref="confView">
+    <v-container>
       <v-row no-gutters>
         <v-col cols="12" class="my-4">
           <bread-crumbs :step="4" />
@@ -236,7 +236,6 @@ export default {
     reservation(reservation) {
       if (reservation !== null) {
         ownTracking(reservation);
-        this.$refs.confView.scrollIntoView();
       }
     },
   },
