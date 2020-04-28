@@ -233,22 +233,35 @@
                             >
                               <label slot="label">
                                 I have read and accept the
-                                <a href="#">terms and conditions</a>.
+                                <a
+                                  :href="termsLink"
+                                  target="_blank"
+                                  @click.stop
+                                >
+                                  terms and conditions</a
+                                >.
                               </label>
                             </v-checkbox>
                           </v-col>
                           <v-col cols="12">
-                            <v-checkbox
-                              class="mt-n3"
-                              v-model="data.newsletter"
-                              label="Sign up for St Christopher’s Inns offers, deals,
-                            latest travel guides, playlists and more. By opting
-                            in, you agree to receive marketing emails from St
-                            Christopher’s Inns Hostels. Your data will not be
-                            shared with any third-party contacts. You can
-                            unsubscribe at any time. All part of our Privacy
-                            Policy."
-                            />
+                            <v-checkbox class="mt-n3" v-model="data.newsletter">
+                              <p slot="label">
+                                Sign up for St Christopher’s Inns offers, deals,
+                                latest travel guides, playlists and more. By
+                                opting in, you agree to receive marketing emails
+                                from St Christopher’s Inns Hostels. Your data
+                                will not be shared with any third-party
+                                contacts. You can unsubscribe at any time. All
+                                part of our
+                                <a
+                                  href="http://www.bedsandbars.com/privacy-and-cookies"
+                                  target="_blank"
+                                  @click.stop
+                                >
+                                  privacy policy</a
+                                >.
+                              </p>
+                            </v-checkbox>
                           </v-col>
                         </v-row>
                       </v-card>
@@ -442,6 +455,11 @@ export default {
     this.$loadScript("https://js.stripe.com/v3/");
   },
   computed: {
+    termsLink() {
+      return ["FPU", "FPD"].includes(this.hostelConf.code)
+        ? "https://www.flyingpig.nl/terms-and-conditions"
+        : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
+    },
     isChrome() {
       return (
         /Chrome/.test(navigator.userAgent) &&
