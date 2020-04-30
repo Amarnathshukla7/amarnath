@@ -16,9 +16,14 @@ const makeToken = async () => {
 
 export const availability = async (hostel, start, end) => {
   const token = await makeToken();
+  const accessToken = localStorage.getItem("auth._token.local");
 
   return axios
-    .get(`/search-svc/${hostel}/${start}/${end}?token=${token}`)
+    .get(`/search-svc/${hostel}/${start}/${end}?token=${token}`, {
+      headers: {
+        ...(accessToken && { Authorization: accessToken }),
+      },
+    })
     .then((res) => {
       const defaultPlanId = res.data.availability.default;
 

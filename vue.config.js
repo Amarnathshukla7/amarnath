@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/search-svc/": {
-        target: "https://search.svc.bedsandbars.com/",
+        target: "http://localhost:5444",
         pathRewrite: { "^/search-svc/": "" },
       },
       "/review-svc/": {
