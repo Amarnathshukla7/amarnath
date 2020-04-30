@@ -1,21 +1,29 @@
+import Vue from "vue";
+import VueLoadScript from "vue-load-script-plus";
 import axios from "axios";
+
+Vue.use(VueLoadScript);
 
 const getRoom = (rooms, code) =>
   rooms.find((room) => room.fields.roomCode === code);
 
 export const wihpTracking = (reservation) => {
   if (reservation.cart.hostel_code in wihpIds) {
-    axios.get("https://secure-hotel-tracker.com/tics/log.php", {
-      params: {
-        act: "conversion",
-        ref: reservation.booking_reference,
-        amount: reservation.cart.accommodation_cost / 100,
-        currency: reservation.cart.hostel.currency,
-        idwihp: "",
-        checkin: reservation.cart.check_in,
-        checkout: reservation.cart.check_out,
-      },
-    });
+    const params = {
+      act: "conversion",
+      ref: reservation.booking_reference,
+      amount: reservation.cart.accommodation_cost / 100,
+      currency: reservation.cart.hostel.currency,
+      idwihp: wihpIds[reservation.cart.hostel_code],
+      checkin: reservation.cart.check_in,
+      checkout: reservation.cart.check_out,
+    };
+
+    const urlParams = new URLSearchParams(params).toString();
+
+    this.$loadScript(
+      "https://secure-hotel-tracker.com/tics/log.php?" + urlParams,
+    );
 
     if (window.gtag) {
       window.gtag("event", "purchase", {
