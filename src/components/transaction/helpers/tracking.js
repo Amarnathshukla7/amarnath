@@ -4,26 +4,28 @@ const getRoom = (rooms, code) =>
   rooms.find((room) => room.fields.roomCode === code);
 
 export const wihpTracking = (reservation) => {
-  axios.get("https://secure-hotel-tracker.com/tics/log.php", {
-    params: {
-      act: "conversion",
-      ref: reservation.booking_reference,
-      amount: reservation.cart.accommodation_cost / 100,
-      currency: reservation.cart.hostel.currency,
-      idwihp: "",
-      checkin: reservation.cart.check_in,
-      checkout: reservation.cart.check_out,
-    },
-  });
-
-  if (window.gtag) {
-    window.gtag("event", "purchase", {
-      send_to: ["AW-668251050/skpSCOOzzMIBEKrn0r4C", "HA-75"],
-      transaction_id: reservation.booking_reference,
-      value: reservation.cart.accommodation_cost / 100,
-      currency: reservation.cart.hostel.currency,
-      items: [],
+  if (reservation.cart.hostel_code in wihpIds) {
+    axios.get("https://secure-hotel-tracker.com/tics/log.php", {
+      params: {
+        act: "conversion",
+        ref: reservation.booking_reference,
+        amount: reservation.cart.accommodation_cost / 100,
+        currency: reservation.cart.hostel.currency,
+        idwihp: "",
+        checkin: reservation.cart.check_in,
+        checkout: reservation.cart.check_out,
+      },
     });
+
+    if (window.gtag) {
+      window.gtag("event", "purchase", {
+        send_to: ["AW-668251050/skpSCOOzzMIBEKrn0r4C", "HA-75"],
+        transaction_id: reservation.booking_reference,
+        value: reservation.cart.accommodation_cost / 100,
+        currency: reservation.cart.hostel.currency,
+        items: [],
+      });
+    }
   }
 };
 
@@ -82,4 +84,18 @@ export const ownTracking = (reservation) => {
   }
 
   wihpTracking(reservation);
+};
+
+const wihpIds = {
+  VIL: 190101,
+  EDO: 190102,
+  EDI: 190103,
+  PAR: 190104,
+  GDN: 190105,
+  BRM: 190106,
+  BER: 190107,
+  WIN: 190108,
+  BCN: 190109,
+  GRE: 190110,
+  HMM: 190111,
 };
