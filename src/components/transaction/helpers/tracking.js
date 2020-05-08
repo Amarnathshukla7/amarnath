@@ -37,13 +37,13 @@ export const wihpTracking = (reservation) => {
 
     if (window.dataLayer) {
       window.dataLayer.push({
-        event: 'bookingMade',
+        event: "bookingMade",
         hotelId: wihpIds[reservation.cart.hostel_code], // This will return the WIHP ID for the hotel
         transactionId: reservation.booking_reference, // This is the booking web reference (e.g. STC-WIN-987654321)
         bookingValue: reservation.cart.accommodation_cost / 100,
         bookingCurrency: reservation.cart.hostel.currency, // This is currently not accurate because we have added currency selection to the booking, will update shortly
         arrivalDate: reservation.cart.check_in,
-        departureDate: reservation.cart.check_out
+        departureDate: reservation.cart.check_out,
       });
     }
   }
