@@ -93,6 +93,7 @@ export const ownTracking = (reservation) => {
 
   if (window.dataLayer) {
     window.dataLayer.push({
+      event: 'bookingMade',
       hotelId: wihpIds[reservation.cart.hostel_code], // This will return the WIHP ID for the hotel
       transactionId: reservation.booking_reference, // This is the booking web reference (e.g. STC-WIN-987654321)
       bookingValue: reservation.cart.accommodation_cost / 100,
