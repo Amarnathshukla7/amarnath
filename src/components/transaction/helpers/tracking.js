@@ -8,6 +8,8 @@ const getRoom = (rooms, code) =>
   rooms.find((room) => room.fields.roomCode === code);
 
 export const wihpTracking = (reservation) => {
+  console.log("wihpTracking called");
+
   if (reservation.cart.hostel_code in wihpIds) {
     const params = {
       act: "conversion",
@@ -50,6 +52,8 @@ export const wihpTracking = (reservation) => {
 };
 
 export const ownTracking = (reservation) => {
+  console.log("ownTracking Called");
+
   if (window.ga) {
     window.ga("send", {
       hitType: "event",
