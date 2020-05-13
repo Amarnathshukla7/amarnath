@@ -8,9 +8,9 @@ const getRoom = (rooms, code) =>
   rooms.find((room) => room.fields.roomCode === code);
 
 export const wihpTracking = (reservation) => {
-  console.log("wihpTracking called");
-
+  
   if (reservation.cart.hostel_code in wihpIds) {
+    console.log("wihpTracking called");
     const params = {
       act: "conversion",
       ref: reservation.booking_reference,
