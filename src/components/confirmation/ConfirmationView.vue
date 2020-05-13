@@ -247,11 +247,13 @@ export default {
 
     this.hostel = hostelReq.items[0].fields;
   },
-  mounted() {
-    console.log(`inside mounted() ${this.reservation}`);
-    if (this.reservation !== null) {
-      ownTracking(this.reservation);
-    }
+  async mounted() {
+    const resInterval = setInterval(() => {
+      if (this.reservation) {
+        clearInterval(resInterval);
+        ownTracking(this.reservation);
+      }
+    }, 500);
   },
   methods: {
     signupToNewsletter() {
