@@ -63,12 +63,16 @@
       </v-expansion-panel>
     </v-expansion-panels>
     <v-card tile flat color="accent" class="">
-      <v-row class="hidden-md-and-down px-4 py-2 white--text">
+      <v-row class="hidden-sm-and-down px-4 py-2 font-weight-bold white--text">
         <v-col cols="8">
           Payable Now:
         </v-col>
         <v-col cols="4" class="text-right">
-          {{ payable | formatPrice(currency) }}
+          {{
+            payable
+              | convertCurrency(selectedCurrencyRate)
+              | formatPrice(selectedCurrency)
+          }}
         </v-col>
       </v-row>
       <v-row class="hidden-md-and-down px-4 py-2 white">
@@ -91,7 +95,11 @@
             {{ cost | formatPrice(currency) }}
           </div>
           <div class="subtitle-1 font-weight-bold hidden-md-and-up">
-            {{ payable | formatPrice(currency) }}
+            {{
+              payable
+                | convertCurrency(selectedCurrencyRate)
+                | formatPrice(selectedCurrency)
+            }}
           </div>
         </v-col>
       </v-row>
@@ -107,7 +115,7 @@
 </template>
 
 <script>
-import { formatPrice } from "../../../../filters/money";
+import { formatPrice, convertCurrency } from "../../../../filters/money";
 import { formatDate } from "../../../../filters/date";
 
 import Breakfast from "./Breakfast.vue";
@@ -123,6 +131,14 @@ export default {
       default: null,
     },
     currency: {
+      type: String,
+      default: "GBP",
+    },
+    selectedCurrencyRate: {
+      type: Number,
+      default: 1,
+    },
+    selectedCurrency: {
       type: String,
       default: "GBP",
     },
@@ -144,6 +160,7 @@ export default {
   filters: {
     formatPrice,
     formatDate,
+    convertCurrency,
   },
   methods: {
     increment() {},

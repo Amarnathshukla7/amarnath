@@ -114,7 +114,7 @@
                   Total Paid
                   <span class="float-right mr-6">{{
                     reservation.paid
-                      | formatPrice(reservation.cart.hostel.currency)
+                      | formatPrice(reservation.transaction.currency)
                   }}</span>
                 </v-list-item-title>
               </v-list-item-content>
@@ -203,10 +203,10 @@
 
 <script>
 import axios from "axios";
+import { get } from "idb-keyval";
 import contentful from "../../plugins/contentful";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import { formatPrice } from "../../filters/money";
-import { get } from "idb-keyval";
 import { ownTracking } from "../transaction/helpers/tracking";
 
 export default {
@@ -272,7 +272,10 @@ export default {
       );
     },
     dueOnArrival() {
-      return this.reservation.cart.total_cost - this.reservation.paid;
+      return (
+        this.reservation.cart.total_cost -
+        (this.reservation.cart.total_cost * this.reservation.deposit) / 100
+      );
     },
   },
 };

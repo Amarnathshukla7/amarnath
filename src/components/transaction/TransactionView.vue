@@ -196,13 +196,41 @@
                               <v-radio :value="100" label="Pay Now"></v-radio>
                             </v-radio-group>
                           </v-col>
+                          <v-col
+                            v-show="data.deposit !== 0 && data.deposit !== null"
+                            cols="12"
+                            md="6"
+                          >
+                            <div
+                              class="subtitle-1 text-left accent--text font-weight-bold"
+                            >
+                              3. Select your preferred currency
+                            </div>
+                            <v-autocomplete
+                              class="mt-2"
+                              :items="currencies"
+                              item-value="key"
+                              item-text="value"
+                              label="Currency"
+                              :rules="rules.country"
+                              v-model="selectedCurrency"
+                              outlined
+                            ></v-autocomplete>
+                          </v-col>
                         </v-row>
                         <v-row v-show="showCard" no-gutters>
                           <v-col cols="12">
                             <div
                               class="subtitle-1 text-left accent--text font-weight-bold"
                             >
-                              3. Card Details
+                              <span
+                                v-if="
+                                  data.deposit === 0 || data.deposit === null
+                                "
+                                >3.
+                              </span>
+                              <span v-else>4. </span>
+                              Card Details
                             </div>
                           </v-col>
                           <v-col cols="12">
@@ -211,11 +239,13 @@
                               ref="stripeContainer"
                               :deposit="data.deposit"
                               :stripe-key="stripeKey"
+                              :selected-currency="selectedCurrency"
                             ></stripe-form>
                             <sage-payment-form
                               v-if="isSagepay && !showPaypal"
                               ref="sagepayContainer"
                               :deposit="data.deposit"
+                              :selected-currency="selectedCurrency"
                               :hostel-code="hostelConf.hostel_code"
                               @payment-failed="payPalError"
                               @complete-transaction="
@@ -281,7 +311,11 @@
                             Payable Now:
                           </div>
                           <div class="headline font-weight-bold d-inline">
-                            {{ payable | formatPrice(hostelConf.currency) }}
+                            {{
+                              payable
+                                | convertCurrency(currencyRate)
+                                | formatPrice(selectedCurrency)
+                            }}
                           </div>
                         </v-col>
                         <v-col cols="12" md="6">
@@ -319,11 +353,15 @@
                             color="secondary"
                             width="90%"
                             @click="cardReservation"
-                            :disabled="!data.payMethod"
+                            :disabled="!data.payMethod || isLoading"
                           >
                             <span v-if="payable > 0">
                               PAY NOW
-                              {{ payable | formatPrice(hostelConf.currency) }}
+                              {{
+                                payable
+                                  | convertCurrency(currencyRate)
+                                  | formatPrice(selectedCurrency)
+                              }}
                             </span>
                             <span v-else>Confirm Booking</span>
                           </v-btn>
@@ -340,6 +378,8 @@
           <booking-summary
             :cart="cart"
             :currency="hostelConf.currency"
+            :selected-currency-rate="currencyRate"
+            :selected-currency="selectedCurrency"
             :payable="payable"
             :breakfast="breakfast"
           ></booking-summary>
@@ -360,7 +400,7 @@ import VStripeElements from "v-stripe-elements/lib";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import BookingSummary from "./components/summary/Summary.vue";
 import countries from "./data/countries.json";
-import { formatPrice } from "../../filters/money";
+import { formatPrice, convertCurrency } from "../../filters/money";
 import { create } from "./api/reservation-svc";
 import { set } from "idb-keyval";
 import { bus } from "../../plugins/bus";
@@ -370,6 +410,7 @@ import PaypalForm from "./components/PaypalForm.vue";
 import StripeForm from "./components/StripeForm.vue";
 import SagePaymentForm from "./components/SagePaymentForm.vue";
 import StripePaymentRequest from "./components/StripePaymentRequest.vue";
+import { getCurrencyRate } from "./api/cart-svc";
 
 Vue.use(VStripeElements);
 Vue.use(VueLoadScript);
@@ -404,6 +445,8 @@ export default {
   },
   data() {
     return {
+      currencyRate: 1,
+      selectedCurrency: this.hostelConf.currency,
       digitalWalletEnabled: false,
       formErrorSnackbar: false,
       reservation: null,
@@ -435,11 +478,38 @@ export default {
       isLoadingOverlay: false,
       isError: false,
       countries,
+      currencies: [
+        {
+          key: "GBP",
+          value: "GBP - British Pound",
+        },
+        {
+          key: "EUR",
+          value: "EUR - Euro",
+        },
+        {
+          key: "USD",
+          value: "USD - US Dollar",
+        },
+        {
+          key: "AUD",
+          value: "AUD - Australian Dollar",
+        },
+        {
+          key: "CAD",
+          value: "CAD - Canadian Dollar",
+        },
+      ],
     };
   },
   watch: {
     showPaypal() {
       this.data.deposit = 100;
+    },
+    async selectedCurrency(curr) {
+      this.isLoading = true;
+      this.currencyRate = await getCurrencyRate(curr);
+      this.isLoading = false;
     },
   },
   created() {
@@ -623,6 +693,7 @@ export default {
   },
   filters: {
     formatPrice,
+    convertCurrency,
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-stripe-card
-    class="stripe_form--field mt-4"
+    class="stripe_form--field mt-2"
     v-if="stripeReady && stripeKey"
     ref="stripeCard"
     :api-key="stripeKey"
@@ -20,6 +20,10 @@ export default {
       default: 0,
     },
     stripeKey: {
+      type: String,
+      default: null,
+    },
+    selectedCurrency: {
       type: String,
       default: null,
     },
@@ -44,7 +48,11 @@ export default {
       }, 500);
     },
     async createStripeTransaction() {
-      const transaction = await create("stripe", this.deposit);
+      const transaction = await create(
+        "stripe",
+        this.deposit,
+        this.selectedCurrency,
+      );
       const secret = JSON.parse(transaction.secret_output)["secret"];
 
       const data = {
