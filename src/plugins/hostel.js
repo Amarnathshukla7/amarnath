@@ -1,6 +1,6 @@
 import contentful from "./contentful";
 
-export const getHostel = async code => {
+export const getHostel = async (code) => {
   const hostelReq = await contentful.getEntries({
     include: 1,
     content_type: "hostel",

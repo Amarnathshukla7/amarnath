@@ -1,5 +1,5 @@
 <template>
-  <main class="room-view">
+  <main ref="roomView" class="room-view">
     <v-overlay class="text-center" :value="isLoading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
@@ -21,7 +21,13 @@
         Close
       </v-btn>
     </v-overlay>
+
     <bread-crumbs />
+
+    <group-bookings-modal
+      :show="showGroupsModal"
+      @hide="showGroupsModal = false"
+    />
 
     <v-container>
       <v-row v-show="!showSummaryBreakfast" no-gutters>
@@ -131,9 +137,10 @@
             :cart-data="cart"
             :rooms-content="roomsContent"
             :currency="currency"
-            @update-cart="cart => (this.cart = cart)"
+            @update-cart="(cart) => (this.cart = cart)"
             @go-to-transaction="submitBooking"
             @back-to-rooms="showSummaryBreakfast = false"
+            @guest-count="checkGuestModal"
             :showSummaryBreakfast="showSummaryBreakfast"
             :hostel="hostel"
             :isSmallDevice="isSmallDevice"
@@ -148,6 +155,7 @@
 import { differenceInDays } from "date-fns";
 import Card from "./components/card/Card.vue";
 import BookingSummary from "./components/summary/BookingSummary.vue";
+import GroupBookingsModal from "./components/GroupBookingsModal.vue";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import FiltersSortBy from "./components/filters/FiltersSortBy.vue";
 import { availability } from "./api/search-svc";
@@ -157,6 +165,10 @@ import { bus } from "../../plugins/bus";
 
 export default {
   props: {
+    roomViewAnchorPoint: {
+      type: String,
+      default: "roomView",
+    },
     bookingSource: {
       type: String,
       default: "STC",
@@ -198,9 +210,12 @@ export default {
     BookingSummary,
     BreadCrumbs,
     FiltersSortBy,
+    GroupBookingsModal,
   },
   data() {
     return {
+      showGroupsModal: false,
+      groupBookingModalAlreadyShown: false,
       openPanel: [0, 1],
       isLoading: false,
       isError: false,
@@ -212,9 +227,17 @@ export default {
   created() {
     this.loadData();
 
-    bus.$on("cart-transaction-updated", cart => {
+    bus.$on("cart-transaction-updated", (cart) => {
       this.cart = cart;
     });
+  },
+  mounted() {
+    if (this.roomViewAnchorPoint) {
+      const el = document.getElementById(this.roomViewAnchorPoint);
+      if (el) el.scrollIntoView();
+    } else {
+      this.$refs.roomView.scrollIntoView();
+    }
   },
   methods: {
     async loadData() {
@@ -237,8 +260,8 @@ export default {
       this.isLoading = false;
     },
     reset() {
-      if (window) {
-        window.scrollTo(0, 0);
+      if (this.$refs.roomView) {
+        this.$refs.roomView.scrollIntoView();
       }
       this.rooms = null;
       this.cart = null;
@@ -248,7 +271,7 @@ export default {
       this.cart = cart;
     },
     submitBooking(force = false) {
-      window.scrollTo(0, 0);
+      this.$refs.roomView.scrollIntoView();
 
       if (this.isSmallDevice && !force && !this.showSummaryBreakfast) {
         this.showSummaryBreakfast = true;
@@ -267,6 +290,12 @@ export default {
         ...rooms,
         ...this.rooms,
       };
+    },
+    checkGuestModal(guests) {
+      if (!this.groupBookingModalAlreadyShown && guests >= 10) {
+        this.groupBookingModalAlreadyShown = true;
+        this.showGroupsModal = true;
+      }
     },
   },
   computed: {

@@ -1,14 +1,14 @@
 import axios from "axios";
 import { get } from "idb-keyval";
 
-export const create = async source => {
+export const create = async (source) => {
   const { token } = await get("token");
 
   return axios
     .post(`/cart-svc/${token}`, {
       source,
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 export const updateOrCreate = async (room, dates) => {
@@ -18,7 +18,7 @@ export const updateOrCreate = async (room, dates) => {
     .post(`/cart-svc/${token}/items`, {
       ...dates,
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 export const destroy = async (room, date) => {
@@ -28,5 +28,5 @@ export const destroy = async (room, date) => {
 
   return axios
     .delete(`/cart-svc/${token}/items/${room}${appendDate}`)
-    .then(res => res.data);
+    .then((res) => res.data);
 };

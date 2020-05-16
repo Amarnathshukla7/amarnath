@@ -1,22 +1,22 @@
 import axios from "axios";
 import { get } from "idb-keyval";
 
-export const discount = async code => {
+export const discount = async (code) => {
   const { token } = await get("token");
 
   return axios
     .put(`/cart-svc/${token}/discounts/${code}`)
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
-export const addExtra = async extra => {
+export const addExtra = async (extra) => {
   const { token } = await get("token");
 
   return axios
     .post(`/cart-svc/${token}/items`, {
       ...extra,
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 export const getCurrencyRate = async currency => {

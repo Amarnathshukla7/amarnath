@@ -1,4 +1,4 @@
-const priceLow = availability => {
+const priceLow = (availability) => {
   const method = (a, b) => {
     return a.avgRoomPrice - b.avgRoomPrice;
   };
@@ -9,7 +9,7 @@ const priceLow = availability => {
   };
 };
 
-const priceHigh = availability => {
+const priceHigh = (availability) => {
   const method = (a, b) => {
     return b.avgRoomPrice - a.avgRoomPrice;
   };
@@ -20,7 +20,7 @@ const priceHigh = availability => {
   };
 };
 
-const availLow = availability => {
+const availLow = (availability) => {
   const method = (a, b) => {
     return Object.keys(a.dates).length - Object.keys(b.dates).length;
   };
@@ -31,7 +31,7 @@ const availLow = availability => {
   };
 };
 
-const availHigh = availability => {
+const availHigh = (availability) => {
   const method = (a, b) => {
     return Object.keys(b.dates).length - Object.keys(a.dates).length;
   };

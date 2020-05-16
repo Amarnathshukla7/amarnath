@@ -1,8 +1,8 @@
 <template>
-  <v-app class="transaction-view">
+  <main ref="transactionView" class="transaction-view">
     <v-overlay class="text-center" :value="isLoadingOverlay" :opacity="0.8">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
-      <div style="max-width: 620px" class="heading mt-10 px-6">
+      <div style="max-width: 620px;" class="heading mt-10 px-6">
         Please wait while we confirm your payment and booking. This might take
         up to 30 seconds or more on slow internet connections. Please be patient
       </div>
@@ -101,8 +101,8 @@
                     <v-expansion-panel-content color="white">
                       <discount-code
                         :is-loading="isLoading"
-                        @is-loading="state => (this.isLoading = state)"
-                        @cart-updated="cart => (this.cart = cart)"
+                        @is-loading="(state) => (this.isLoading = state)"
+                        @cart-updated="(cart) => (this.cart = cart)"
                       ></discount-code>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
@@ -154,7 +154,7 @@
                                 </v-col>
                                 <v-col cols="12" sm="6" md="3">
                                   <v-radio
-                                    v-if="digitalWalletEnabled"
+                                    v-if="digitalWalletEnabled && isStripe"
                                     value="digital"
                                   >
                                     <img
@@ -246,7 +246,13 @@
                               ref="sagepayContainer"
                               :deposit="data.deposit"
                               :selected-currency="selectedCurrency"
-                            ></sage-payment-form>
+                              :hostel-code="hostelConf.hostel_code"
+                              @payment-failed="payPalError"
+                              @complete-transaction="
+                                (transaction) =>
+                                  completeTransaction(transaction, 'sagepay')
+                              "
+                            />
                           </v-col>
                         </v-row>
                         <v-row v-show="data.payMethod" no-gutters>
@@ -257,22 +263,35 @@
                             >
                               <label slot="label">
                                 I have read and accept the
-                                <a href="#">terms and conditions</a>.
+                                <a
+                                  :href="termsLink"
+                                  target="_blank"
+                                  @click.stop
+                                >
+                                  terms and conditions</a
+                                >.
                               </label>
                             </v-checkbox>
                           </v-col>
                           <v-col cols="12">
-                            <v-checkbox
-                              class="mt-n3"
-                              v-model="data.newsletter"
-                              label="Sign up for St Christopher’s Inns offers, deals,
-                            latest travel guides, playlists and more. By opting
-                            in, you agree to receive marketing emails from St
-                            Christopher’s Inns Hostels. Your data will not be
-                            shared with any third-party contacts. You can
-                            unsubscribe at any time. All part of our Privacy
-                            Policy."
-                            />
+                            <v-checkbox class="mt-n3" v-model="data.newsletter">
+                              <p slot="label">
+                                Sign up for St Christopher’s Inns offers, deals,
+                                latest travel guides, playlists and more. By
+                                opting in, you agree to receive marketing emails
+                                from St Christopher’s Inns Hostels. Your data
+                                will not be shared with any third-party
+                                contacts. You can unsubscribe at any time. All
+                                part of our
+                                <a
+                                  href="http://www.bedsandbars.com/privacy-and-cookies"
+                                  target="_blank"
+                                  @click.stop
+                                >
+                                  privacy policy</a
+                                >.
+                              </p>
+                            </v-checkbox>
                           </v-col>
                         </v-row>
                       </v-card>
@@ -311,6 +330,7 @@
                             @paypal-approved="createPaypalReservation"
                           ></paypal-form>
                           <stripe-payment-request
+                            v-if="isStripe"
                             ref="stripePaymentReqeuest"
                             :form-ref="$refs.form"
                             :cart="cart"
@@ -370,7 +390,7 @@
       Please check that all fields in the form are filled out correctly
       <v-btn text @click="formErrorSnackbar = false">Close</v-btn>
     </v-snackbar>
-  </v-app>
+  </main>
 </template>
 
 <script>
@@ -446,13 +466,13 @@ export default {
       },
       rules: {
         email: [
-          v => !!v || "E-mail is required",
-          v => /.+@.+/.test(v) || "E-mail must be valid",
+          (v) => !!v || "E-mail is required",
+          (v) => /.+@.+/.test(v) || "E-mail must be valid",
         ],
-        name: [v => !!v || "Name is required"],
-        terms: [v => !!v || "Please accept our terms"],
-        phone: [v => !!v || "Phone Number is required"],
-        country: [v => !!v || "Country is required"],
+        name: [(v) => !!v || "Name is required"],
+        terms: [(v) => !!v || "Please accept our terms"],
+        phone: [(v) => !!v || "Phone Number is required"],
+        country: [(v) => !!v || "Country is required"],
       },
       isLoading: false,
       isLoadingOverlay: false,
@@ -493,7 +513,7 @@ export default {
     },
   },
   created() {
-    bus.$on("cart-transaction-updated", cart => {
+    bus.$on("cart-transaction-updated", (cart) => {
       this.cart = cart;
     });
 
@@ -501,9 +521,15 @@ export default {
     this.data.deposit = this.cart.deposit_model_rate || 0;
   },
   mounted() {
+    this.$refs.transactionView.scrollIntoView();
     this.$loadScript("https://js.stripe.com/v3/");
   },
   computed: {
+    termsLink() {
+      return ["FPU", "FPD"].includes(this.hostelConf.code)
+        ? "https://www.flyingpig.nl/terms-and-conditions"
+        : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
+    },
     isChrome() {
       return (
         /Chrome/.test(navigator.userAgent) &&
@@ -561,8 +587,9 @@ export default {
     breakfast() {
       if (!this.hostel.extras) return null;
 
-      return this.hostel.extras.find(extra => extra.fields.type === "breakfast")
-        .fields;
+      return this.hostel.extras.find(
+        (extra) => extra.fields.type === "breakfast",
+      ).fields;
     },
     lowerDeposit() {
       return this.cart.deposit_model_rate;
@@ -623,11 +650,10 @@ export default {
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
           const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
-          console.log(transaction);
-          this.completeTransaction(transaction, "sagepay");
-        } else if (this.isDigitalWallet) {
-          const transaction = await this.$refs.stripePaymentReqeuest.createStripePaymentRequest();
-          console.log(transaction);
+          if (!transaction) {
+            this.isLoadingOverlay = false;
+            return;
+          }
           this.completeTransaction(transaction, "sagepay");
         }
       } catch (e) {
@@ -663,8 +689,6 @@ export default {
         this.isError = true;
         this.isLoadingOverlay = false;
       }
-
-      this.isLoadingOverlay = false;
     },
   },
   filters: {

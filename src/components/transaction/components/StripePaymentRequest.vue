@@ -34,8 +34,8 @@ export default {
     },
     stripeKey: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   watch: {
     deposit(deposit) {
@@ -90,11 +90,11 @@ export default {
       });
 
       // Check the availability of the Payment Request API first.
-      this.paymentRequest.canMakePayment().then(result => {
+      this.paymentRequest.canMakePayment().then((result) => {
         if (result) {
           this.$emit("wallet-enabled");
 
-          prButton.on("click", event => {
+          prButton.on("click", (event) => {
             if (!this.formRef.validate()) {
               event.preventDefault();
               this.$emit("show-validation-error");
@@ -109,7 +109,7 @@ export default {
         }
       });
 
-      this.paymentRequest.on("paymentmethod", ev => {
+      this.paymentRequest.on("paymentmethod", (ev) => {
         this.createStripePaymentRequest(ev);
       });
     },
@@ -126,7 +126,7 @@ export default {
           ? this.Stripe.confirmCardSetup(secret, data)
           : this.Stripe.confirmCardPayment(secret, data);
 
-      intent.then(confirmResult => {
+      intent.then((confirmResult) => {
         if (confirmResult.error) {
           ev.complete("fail");
           this.$emit("preq-error");

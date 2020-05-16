@@ -12,6 +12,7 @@
       :check-in="checkIn"
       :check-out="checkOut"
       :booking-source="bookingSource"
+      :roomViewAnchorPoint="roomViewAnchorPoint"
     ></room-view>
     <transaction-view
       v-if="isTransaction && hostel && hostelConf"
@@ -37,19 +38,23 @@ export default {
     },
     bookingSource: {
       type: String,
-      default: "FP",
+      default: "STC",
     },
     checkIn: {
       type: String,
-      default: "2020-08-14",
+      default: "2020-11-16",
     },
     checkOut: {
       type: String,
-      default: "2020-08-17",
+      default: "2020-11-17",
     },
     code: {
       type: String,
       default: "BRI",
+    },
+    roomViewAnchorPoint: {
+      type: String,
+      default: "roomView",
     },
   },
   components: {
@@ -71,6 +76,7 @@ export default {
       this.hostel = await getHostel(code);
       this.hostelConf = await find(code);
       this.isLoading = false;
+      this.view = "room";
     },
   },
   async created() {

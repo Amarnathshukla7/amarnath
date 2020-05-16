@@ -85,7 +85,7 @@ To gain access to the registry follow the steps below.
 
 First, create a Personal Access Token. Head to the link and select the following scopes. https://github.com/settings/tokens/new
 
--- Image Here --
+![Scopes](https://github.com/bbwmc/booking-journey-vue/raw/master/Screenshot%202020-04-22%20at%2008.09.27.png)
 
 Afterwards copy the token and do the below.
 
@@ -111,10 +111,19 @@ $ yarn login --registry=https://npm.pkg.github.com/
 
 To publish includes a few steps, first make sure you've followed the above steps for authentication.
 
-__Remember:__ Update the pkg version in the `package.json` file.
-
 ```
 $ yarn lint
 $ yarn build:lib
 $ yarn publish
 ```
+
+## Upgrade package on website repos (stc, fp, agents, stc-network...)
+
+Example for [st-christophers.co.uk](github.com/bbwmc/st-christophers.co.uk) adjust for other repos
+```
+$ cd st-christophers
+$ yarn upgrade @bbwmc/booking-journey-vue --latest
+```
+
+Always good practice to do this on a PR and check that the deploy preview works as expected.
+

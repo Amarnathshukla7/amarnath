@@ -75,7 +75,10 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="py-2 pl-8 other">
+            <v-list-item
+              v-show="stc || reservation.cart.extras_cost > 0"
+              class="py-2 pl-8 other"
+            >
               <v-list-item-content>
                 <v-list-item-title>
                   Breakfast Total
@@ -140,7 +143,7 @@
             <div class="title font-weight-bold greyish--text">
               {{ hostel.title }}
             </div>
-            <div class="body-2 mx-auto mt-4" style="max-width: 70%">
+            <div class="body-2 mx-auto mt-4" style="max-width: 70%;">
               » {{ hostel.hostelPageRef.fields.tabs[0].fields.phoneNumber }} »
               {{ hostel.confirmationEmail }} » {{ hostel.streetAddress }}
             </div>
@@ -164,7 +167,7 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="6" lg="5" offset-lg="1">
-          <v-card class="accent " tile>
+          <v-card class="accent" tile>
             <v-img
               height="350px"
               src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
@@ -244,8 +247,13 @@ export default {
 
     this.hostel = hostelReq.items[0].fields;
   },
-  mounted() {
-    ownTracking(this.reservation);
+  async mounted() {
+    const resInterval = setInterval(() => {
+      if (this.reservation) {
+        clearInterval(resInterval);
+        ownTracking(this.reservation);
+      }
+    }, 500);
   },
   methods: {
     signupToNewsletter() {
@@ -257,6 +265,12 @@ export default {
     formatPrice,
   },
   computed: {
+    stc() {
+      return (
+        !this.reservation.cart.hostel_code ||
+        !["COP", "NOS"].includes(this.reservation.cart.hostel_code)
+      );
+    },
     dueOnArrival() {
       return (
         this.reservation.cart.total_cost -

@@ -10,13 +10,13 @@ const normalBooking = (rooms, roomContent) => {
     maxOccupancy: rooms[0].max_occupancy,
     type: roomContent.fields.type,
     cost: rooms
-      .map(room => room.price_per_item * room.qty)
+      .map((room) => room.price_per_item * room.qty)
       .reduce((acc, val) => acc + val),
   };
 };
 
 const customBooking = (rooms, roomContent) => {
-  return rooms.map(room => ({
+  return rooms.map((room) => ({
     name: roomContent.fields.name,
     code: room.code,
     checkIn: room.date,
@@ -35,15 +35,15 @@ export function formatRooms(cart, roomsContent) {
   const roomCodes = new Set(
     items
       .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .map(room => room.code),
+      .map((room) => room.code),
   );
 
-  roomCodes.forEach(roomCode => {
-    const rooms = items.filter(item => item.code === roomCode);
+  roomCodes.forEach((roomCode) => {
+    const rooms = items.filter((item) => item.code === roomCode);
     let normal = true;
 
     const roomContent = roomsContent.find(
-      room => room.fields.roomCode == roomCode,
+      (room) => room.fields.roomCode == roomCode,
     );
 
     rooms.forEach((room, idx) => {

@@ -66,7 +66,7 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item class="py-2 pl-8 other">
+      <v-list-item v-show="stc || cart.extras_cost > 0" class="py-2 pl-8 other">
         <v-list-item-content>
           <v-list-item-title>
             Breakfast Total
@@ -138,6 +138,8 @@
       v-if="breakfast && showSummaryBreakfast"
       :currency="currency"
       :content="breakfast"
+      :hostel-code="hostel.code"
+      class="breakfast--mobile"
     />
   </div>
 </template>
@@ -191,8 +193,24 @@ export default {
     bookingEntries(entries) {
       if (!entries) return;
 
-      entries.normal.forEach(room => this.roomTypePopup(room.code, room.qty));
-      entries.custom.forEach(room => this.roomTypePopup(room.code, room.qty));
+      let guests = 0;
+
+      const normalGuests = entries.normal
+        .map((room) => room.maxOccupancy * room.qty)
+        .reduce((total, num) => total + num, 0);
+
+      guests += normalGuests;
+
+      const customGuests = entries.custom
+        .map((room) => room.maxOccupancy * room.qty)
+        .reduce((total, num) => total + num, 0);
+
+      guests += customGuests;
+
+      this.$emit("guest-count", guests);
+
+      entries.normal.forEach((room) => this.roomTypePopup(room.code, room.qty));
+      entries.custom.forEach((room) => this.roomTypePopup(room.code, room.qty));
     },
   },
   data() {
@@ -206,7 +224,7 @@ export default {
     formatDate,
   },
   created() {
-    bus.$on("cart-updating", state => (this.isCartUpdating = state));
+    bus.$on("cart-updating", (state) => (this.isCartUpdating = state));
   },
   methods: {
     async deleteFromCart(code, date) {
@@ -230,12 +248,12 @@ export default {
         maxOccupancy: rooms[0].max_occupancy,
         type: roomContent.fields.type,
         cost: rooms
-          .map(room => room.price_per_item * room.qty)
+          .map((room) => room.price_per_item * room.qty)
           .reduce((acc, val) => acc + val),
       };
     },
     customBooking(rooms, roomContent) {
-      return rooms.map(room => ({
+      return rooms.map((room) => ({
         name: roomContent.fields.name,
         code: room.code,
         checkIn: room.date,
@@ -275,6 +293,12 @@ export default {
     },
   },
   computed: {
+    stc() {
+      return (
+        !this.cart.hostel_code ||
+        !["COP", "NOS"].includes(this.cart.hostel_code)
+      );
+    },
     cart: {
       get() {
         return this.cartData;
@@ -286,8 +310,9 @@ export default {
     breakfast() {
       if (!this.hostel.extras) return null;
 
-      return this.hostel.extras.find(extra => extra.fields.type === "breakfast")
-        .fields;
+      return this.hostel.extras.find(
+        (extra) => extra.fields.type === "breakfast",
+      ).fields;
     },
     isCartEmpty() {
       return !(this.cart ? this.cart.items.length >= 1 : false);
@@ -309,22 +334,24 @@ export default {
       const normalBook = [];
       const customBook = [];
 
+      const guestCount = 0;
+
       if (!this.cart) return null;
 
       const items = this.cart.items;
       const roomCodes = new Set(
         items
           .sort((a, b) => new Date(a.date) - new Date(b.date))
-          .filter(room => room.type === "bed")
-          .map(room => room.code),
+          .filter((room) => room.type === "bed")
+          .map((room) => room.code),
       );
 
-      roomCodes.forEach(roomCode => {
-        const rooms = items.filter(item => item.code === roomCode);
+      roomCodes.forEach((roomCode) => {
+        const rooms = items.filter((item) => item.code === roomCode);
         let normal = true;
 
         const roomContent = this.roomsContent.find(
-          room => room.fields.roomCode == roomCode,
+          (room) => room.fields.roomCode == roomCode,
         );
 
         rooms.forEach((room, idx) => {
@@ -340,9 +367,11 @@ export default {
           }
         });
 
-        normal && rooms.length !== 1
-          ? normalBook.push(this.normalBooking(rooms, roomContent))
-          : customBook.push(...this.customBooking(rooms, roomContent));
+        if (normal && rooms.length !== 1) {
+          normalBook.push(this.normalBooking(rooms, roomContent));
+        } else {
+          customBook.push(...this.customBooking(rooms, roomContent));
+        }
       });
 
       return {
@@ -364,6 +393,10 @@ export default {
 
   .continue-btn {
     width: 100%;
+  }
+
+  .breakfast--mobile {
+    margin-bottom: 150px;
   }
 
   @media (min-width: 960px) {

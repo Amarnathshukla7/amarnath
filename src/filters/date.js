@@ -1,5 +1,5 @@
 import { format } from "date-fns";
 
-export const formatDate = date => {
+export const formatDate = (date) => {
   return format(new Date(date), "EEE d MMM");
 };

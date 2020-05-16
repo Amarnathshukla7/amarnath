@@ -10,5 +10,5 @@ export const create = async (gateway, deposit = 100, currency) => {
       deposit,
       currency,
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };

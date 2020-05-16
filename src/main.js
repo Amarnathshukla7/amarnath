@@ -21,5 +21,5 @@ const router = new VueRouter({
 new Vue({
   vuetify,
   router,
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount("#app");
