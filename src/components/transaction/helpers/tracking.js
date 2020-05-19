@@ -41,7 +41,7 @@ const sendToDataLayer = (vm, reservation, name = "reservationCompleted") => {
   }
 };
 
-const thirdPartyTracking = () => {
+const thirdPartyTracking = (reservation) => {
   if (window.uetq) {
     window.uetq.push("event", "click", {
       event_category: "bookings",
