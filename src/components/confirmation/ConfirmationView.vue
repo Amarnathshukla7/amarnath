@@ -251,7 +251,7 @@ export default {
     const resInterval = setInterval(() => {
       if (this.reservation) {
         clearInterval(resInterval);
-        track(this.reservation);
+        track(this, this.reservation);
       }
     }, 500);
   },
