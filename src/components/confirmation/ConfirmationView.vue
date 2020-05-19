@@ -207,7 +207,7 @@ import { get } from "idb-keyval";
 import contentful from "../../plugins/contentful";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import { formatPrice } from "../../filters/money";
-import { ownTracking } from "../transaction/helpers/tracking";
+import { track } from "../transaction/helpers/tracking";
 
 export default {
   components: {
@@ -251,7 +251,7 @@ export default {
     const resInterval = setInterval(() => {
       if (this.reservation) {
         clearInterval(resInterval);
-        ownTracking(this.reservation);
+        track(this.reservation);
       }
     }, 500);
   },
