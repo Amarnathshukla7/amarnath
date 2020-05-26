@@ -9,8 +9,6 @@ const makeToken = async () => {
     token,
   });
 
-  console.log("new token generated", token);
-
   return token;
 };
 
@@ -25,17 +23,20 @@ export const availability = async (hostel, start, end) => {
       },
     })
     .then((res) => {
-      const defaultPlanId = res.data.availability.default;
+      try {
+        const defaultPlanId = res.data.availability.default;
+        const plan = res.data.availability.plans.find(
+          (plan) => plan.planId === defaultPlanId,
+        );
 
-      const plan = res.data.availability.plans.find(
-        (plan) => plan.planId === defaultPlanId,
-      );
-
-      return {
-        minstays: plan.minstay,
-        dorms: plan.rooms.filter((room) => room.roomType === "dorm"),
-        privates: plan.rooms.filter((room) => room.roomType === "private"),
-      };
+        return {
+          minstays: plan.minstay,
+          dorms: plan.rooms.filter((room) => room.roomType === "dorm"),
+          privates: plan.rooms.filter((room) => room.roomType === "private"),
+        };
+      } catch (e) {
+        return res.data;
+      }
     });
 };
 

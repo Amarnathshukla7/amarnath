@@ -4,19 +4,44 @@
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
 
-    <v-overlay class="text-center" :value="isError" :opacity="0.8">
-      <div class="title">Network Error</div>
-      <div class="body-1 px-6">
-        Please check your connection and click below to try again. If you see
-        this error persistently, it might be because there's no rooms/beds
-        available on your selected dates. Please click "Close", select new dates
-        and click search again
+    <v-overlay
+      class="text-center"
+      :value="isError || availabilityError"
+      :opacity="0.9"
+    >
+      <div v-if="availabilityError" class="headline font-weight-bold mb-4">
+        Search Error
+      </div>
+      <div v-else-if="isError" class="headline font-weight-bold mb-4">
+        Network Error
+      </div>
+
+      <div
+        style="max-width: 600px; line-height: 2;"
+        class="body-1 px-2 font-weight-bold"
+      >
+        <span v-if="availabilityError">
+          Uh oh! There's currently no availability for your selected dates.
+          Please search for different dates or one of our other hostels.
+        </span>
+        <span v-else-if="isError">
+          Please check your connection and click below to try again. If you see
+          this error persistently, it might be because there's no rooms/beds
+          available on your selected dates. Please click "Close", select new
+          dates and click search again
+        </span>
       </div>
       <v-btn class="mt-4 mr-4" @click="loadData">
         <v-icon>mdi-refresh</v-icon>
         Try Again
       </v-btn>
-      <v-btn class="mt-4" @click="isError = false">
+      <v-btn
+        class="mt-4"
+        @click="
+          isError = false;
+          availabilityError = false;
+        "
+      >
         <v-icon>mdi-close</v-icon>
         Close
       </v-btn>
@@ -219,6 +244,7 @@ export default {
       openPanel: [0, 1],
       isLoading: false,
       isError: false,
+      availabilityError: false,
       rooms: null,
       cart: null,
       showSummaryBreakfast: false,
@@ -247,13 +273,22 @@ export default {
       this.reset();
 
       try {
-        this.rooms = await availability(
+        const rooms = await availability(
           this.hostelCode,
           this.checkIn,
           this.checkOut,
         );
+
+        if (rooms.message && rooms.message === "unable to get availablity") {
+          this.availabilityError = true;
+          this.isLoading = false;
+          return;
+        }
+
+        this.rooms = rooms;
         await create(this.bookingSource);
       } catch (e) {
+        console.log(e);
         this.isError = true;
       }
 
@@ -266,6 +301,7 @@ export default {
       this.rooms = null;
       this.cart = null;
       this.isError = false;
+      this.availability = false;
     },
     updateCart(cart) {
       this.cart = cart;
