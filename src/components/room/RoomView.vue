@@ -8,17 +8,24 @@
       class="text-center"
       :value="isError || availabilityError"
       :opacity="0.9"
+      color="white"
     >
-      <div v-if="availabilityError" class="headline font-weight-bold mb-4">
+      <div
+        v-if="availabilityError"
+        class="headline black--text font-weight-bold mb-4"
+      >
         Search Error
       </div>
-      <div v-else-if="isError" class="headline font-weight-bold mb-4">
+      <div
+        v-else-if="isError"
+        class="headline black--text font-weight-bold mb-4"
+      >
         Network Error
       </div>
 
       <div
         style="max-width: 600px; line-height: 2;"
-        class="body-1 px-2 font-weight-bold"
+        class="body-1 px-2 font-weight-bold black--text"
       >
         <span v-if="availabilityError">
           Uh oh! There's currently no availability for your selected dates.
@@ -31,12 +38,12 @@
           dates and click search again
         </span>
       </div>
-      <v-btn class="mt-4 mr-4" @click="loadData">
+      <v-btn class="mt-4 mr-4 font-weight-bold" @click="loadData">
         <v-icon>mdi-refresh</v-icon>
         Try Again
       </v-btn>
       <v-btn
-        class="mt-4"
+        class="mt-4 font-weight-bold"
         @click="
           isError = false;
           availabilityError = false;
