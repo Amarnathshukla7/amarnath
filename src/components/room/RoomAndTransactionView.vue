@@ -42,15 +42,15 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2020-05-16",
+      default: "2020-10-16",
     },
     checkOut: {
       type: String,
-      default: "2020-05-19",
+      default: "2020-10-19",
     },
     code: {
       type: String,
-      default: "GDN",
+      default: "BRI",
     },
     roomViewAnchorPoint: {
       type: String,
