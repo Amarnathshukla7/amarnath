@@ -270,6 +270,7 @@ import { LightGallery } from "vue-light-gallery";
 import { destroy, updateOrCreate } from "../../api/reservation-svc/cart-svc";
 import { bus } from "../../../../plugins/bus";
 import { filter } from "../../helpers/filters";
+import { formatTimezone } from "../../../../helpers/timezone";
 
 import Selection from "../selection/Selection.vue";
 import CustomError from "./CustomError.vue";
@@ -376,8 +377,8 @@ export default {
   computed: {
     customDates() {
       const days = eachDayOfInterval({
-        start: new Date(this.checkIn),
-        end: new Date(subDays(new Date(this.checkOut), 1)),
+        start: formatTimezone(new Date(this.checkIn)),
+        end: formatTimezone(new Date(subDays(new Date(this.checkOut), 1))),
       });
 
       return days.map((date) => {
@@ -398,14 +399,19 @@ export default {
     applyMinStay() {
       return this.minStay
         ? !(
-            differenceInDays(new Date(this.checkOut), new Date(this.checkIn)) >=
-            this.minStay
+            differenceInDays(
+              formatTimezone(new Date(this.checkOut)),
+              formatTimezone(new Date(this.checkIn)),
+            ) >= this.minStay
           )
         : null;
     },
     oneDayBooking() {
       return (
-        differenceInDays(new Date(this.checkOut), new Date(this.checkIn)) <= 1
+        differenceInDays(
+          formatTimezone(new Date(this.checkOut)),
+          formatTimezone(new Date(this.checkIn)),
+        ) <= 1
       );
     },
     images() {

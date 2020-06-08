@@ -194,6 +194,7 @@ import { availability } from "./api/search-svc";
 import { create } from "./api/reservation-svc/cart-svc";
 import sortRooms from "./helpers/sort";
 import { bus } from "../../plugins/bus";
+import { formatTimezone } from "../../helpers/timezone";
 
 export default {
   props: {
@@ -354,7 +355,10 @@ export default {
       return this.hostel ? this.hostel.rooms : null;
     },
     nights() {
-      return differenceInDays(new Date(this.checkOut), new Date(this.checkIn));
+      return differenceInDays(
+        formatTimezone(new Date(this.checkOut)),
+        formatTimezone(new Date(this.checkIn)),
+      );
     },
     dorms() {
       return this.rooms ? this.rooms.dorms : [];

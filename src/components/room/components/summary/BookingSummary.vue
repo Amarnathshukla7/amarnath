@@ -153,6 +153,7 @@ import { bus } from "../../../../plugins/bus";
 
 import BookingSummaryItem from "./BookingSummaryItem.vue";
 import Breakfast from "../../../transaction/components/summary/Breakfast";
+import { formatTimezone } from "../../../../helpers/timezone";
 
 export default {
   props: {
@@ -326,8 +327,8 @@ export default {
       if (!this.cart) return;
 
       return differenceInDays(
-        new Date(this.cart.check_out),
-        new Date(this.cart.check_in),
+        formatTimezone(new Date(this.cart.check_out)),
+        formatTimezone(new Date(this.cart.check_in)),
       );
     },
     bookingEntries() {
@@ -341,7 +342,11 @@ export default {
       const items = this.cart.items;
       const roomCodes = new Set(
         items
-          .sort((a, b) => new Date(a.date) - new Date(b.date))
+          .sort(
+            (a, b) =>
+              formatTimezone(new Date(a.date)) -
+              formatTimezone(new Date(b.date)),
+          )
           .filter((room) => room.type === "bed")
           .map((room) => room.code),
       );
@@ -357,8 +362,8 @@ export default {
         rooms.forEach((room, idx) => {
           if (idx > 0) {
             const diff = differenceInDays(
-              new Date(room.date),
-              new Date(rooms[idx - 1].date),
+              formatTimezone(new Date(room.date)),
+              formatTimezone(new Date(rooms[idx - 1].date)),
             );
 
             const qtyDiff = room.qty === rooms[idx - 1].qty;
@@ -377,7 +382,9 @@ export default {
       return {
         normal: normalBook,
         custom: customBook.sort(
-          (a, b) => new Date(a.checkIn) - new Date(b.checkIn),
+          (a, b) =>
+            formatTimezone(new Date(a.checkIn)) -
+            formatTimezone(new Date(b.checkIn)),
         ),
       };
     },

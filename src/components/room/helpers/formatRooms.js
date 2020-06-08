@@ -1,4 +1,5 @@
 import { differenceInDays } from "date-fns";
+import { formatTimezone } from "../../../plugins/timezone";
 
 const normalBooking = (rooms, roomContent) => {
   return {
@@ -34,7 +35,10 @@ export function formatRooms(cart, roomsContent) {
   const items = cart.items;
   const roomCodes = new Set(
     items
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .sort(
+        (a, b) =>
+          formatTimezone(new Date(a.date)) - formatTimezone(new Date(b.date)),
+      )
       .map((room) => room.code),
   );
 
@@ -49,8 +53,8 @@ export function formatRooms(cart, roomsContent) {
     rooms.forEach((room, idx) => {
       if (idx > 0) {
         const diff = differenceInDays(
-          new Date(room.date),
-          new Date(rooms[idx - 1].date),
+          formatTimezone(new Date(room.date)),
+          formatTimezone(new Date(rooms[idx - 1].date)),
         );
 
         const qtyDiff = room.qty === rooms[idx - 1].qty;

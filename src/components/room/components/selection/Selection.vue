@@ -52,6 +52,7 @@ import UnitSelect from "./UnitSelect.vue";
 import { formatPrice } from "../../../../filters/money";
 import { bus } from "../../../../plugins/bus";
 import { format } from "date-fns/esm";
+import { formatTimezone } from "../../../../helpers/timezone";
 
 export default {
   props: {
@@ -90,7 +91,7 @@ export default {
   filters: {
     formatPrice,
     formatDate(date) {
-      return format(new Date(date), "EEE d MMM");
+      return format(formatTimezone(new Date(date)), "EEE d MMM");
     },
   },
   data() {

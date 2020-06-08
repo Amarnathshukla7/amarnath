@@ -42,11 +42,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2020-10-16",
+      default: "2020-10-10",
     },
     checkOut: {
       type: String,
-      default: "2020-10-19",
+      default: "2020-10-13",
     },
     code: {
       type: String,
