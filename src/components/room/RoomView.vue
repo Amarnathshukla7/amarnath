@@ -265,11 +265,11 @@ export default {
     });
   },
   mounted() {
-    if (this.roomViewAnchorPoint) {
+    if (this.roomViewAnchorPoint === "roomView") {
+      this.$refs.roomView.scrollIntoView();
+    } else {
       const el = document.getElementById(this.roomViewAnchorPoint);
       if (el) el.scrollIntoView();
-    } else {
-      this.$refs.roomView.scrollIntoView();
     }
   },
   methods: {
