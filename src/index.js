@@ -1,5 +1,6 @@
-import RoomAndTransactionView from "./components/room/RoomAndTransactionView.vue";
+import RoomView from "./components/room/RoomView.vue";
+import TransactionView from "./components/transaction/TransactionView.vue";
 import ConfirmationView from "./components/confirmation/ConfirmationView.vue";
 import BreadCrumbs from "./components/shared/BreadCrumbs.vue";
 
-export { RoomAndTransactionView, ConfirmationView, BreadCrumbs };
+export { RoomView, TransactionView, ConfirmationView, BreadCrumbs };
