@@ -145,12 +145,11 @@
 </template>
 
 <script>
-import { differenceInDays } from "date-fns";
+import { differenceInDays, addDays } from "date-fns";
 import { formatPrice } from "../../../../filters/money";
 import { formatDate } from "../../../../filters/date";
 import { destroy } from "../../api/reservation-svc/cart-svc";
 import { bus } from "../../../../plugins/bus";
-
 import BookingSummaryItem from "./BookingSummaryItem.vue";
 import Breakfast from "../../../transaction/components/summary/Breakfast";
 import { formatTimezone } from "../../../../helpers/timezone";
@@ -244,7 +243,7 @@ export default {
         name: roomContent.fields.name,
         code: rooms[0].code,
         checkIn: rooms[0].date,
-        checkOut: rooms[rooms.length - 1].date,
+        checkOut: addDays(new Date(rooms[rooms.length - 1].date), 1),
         qty: rooms[0].qty,
         maxOccupancy: rooms[0].max_occupancy,
         type: roomContent.fields.type,
