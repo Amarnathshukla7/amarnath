@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [0.7.2] - 2020-06-09
 
+### Fixed
+
+- Booking summary was showing incorrect checkIn/Out dates
+
+## [0.7.2] - 2020-06-09
+
 ### Changed
 
 - Anchor point on room view page
