@@ -502,6 +502,24 @@ export default {
   word-break: break-word;
 }
 
+@media screen and (max-width: 1263px) {
+  .v-tooltip__content {
+    text-align: center;
+    left: 20% !important;
+    // right: 0;
+    // margin: auto;
+  }
+}
+
+@media screen and (max-width: 959px) {
+  .v-tooltip__content {
+    text-align: center;
+    left: 9% !important;
+    // right: 0;
+    // margin: auto;
+  }
+}
+
 @media screen and (max-width: 599px) {
   .v-tooltip__content {
     text-align: center;
