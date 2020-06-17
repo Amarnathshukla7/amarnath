@@ -39,7 +39,7 @@
                 }"
               >
                 {{ content.nameDescription }}
-                <v-tooltip v-if="content.note" bottom>
+                <v-tooltip v-if="content.note" bottom right :max-width="280">
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon
                       small
@@ -500,6 +500,15 @@ export default {
 
 .v-card__title {
   word-break: break-word;
+}
+
+@media screen and (max-width: 599px) {
+  .v-tooltip__content {
+    text-align: center;
+    left: 0 !important;
+    right: 0;
+    margin: auto;
+  }
 }
 
 // @media screen and (min-width: 1024px) {
