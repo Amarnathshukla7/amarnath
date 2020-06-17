@@ -30,11 +30,24 @@
             </v-card-title>
 
             <v-card-subtitle class="text-left px-3">
-              <p v-show="content.nameDescription" class="mb-0 ml-1 body-1">
+              <p
+                v-show="content.nameDescription"
+                class="mb-0 ml-1 body-1"
+                :class="{
+                  'white--text': isSelectedAndNotCustom,
+                  'greyish--text': !isSelectedAndNotCustom,
+                }"
+              >
                 {{ content.nameDescription }}
                 <v-tooltip v-if="content.note" bottom>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon small color="accent" dark v-bind="attrs" v-on="on">
+                    <v-icon
+                      small
+                      :color="isSelectedAndNotCustom ? 'white' : 'accent'"
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                    >
                       mdi-information
                     </v-icon>
                   </template>
