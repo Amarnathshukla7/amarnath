@@ -39,7 +39,7 @@
                 }"
               >
                 {{ content.nameDescription }}
-                <v-tooltip v-if="content.note" bottom right :max-width="280">
+                <v-tooltip v-if="content.note" bottom right :max-width="320">
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon
                       small
