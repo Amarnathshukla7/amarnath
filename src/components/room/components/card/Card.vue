@@ -147,6 +147,29 @@
               @click="index = 0"
             ></v-img>
 
+            <div
+              v-show="depositModelRate === 0"
+              class="my-3 my-lg-0 ml-lg-3"
+              :class="{
+                accent: !isSelectedAndNotCustom,
+                tealish: isSelectedAndNotCustom,
+              }"
+            >
+              <p
+                class="text-center py-1 font-weight-bold white--text subtitle-2"
+              >
+                Free cancellation
+                <a
+                  class="text-decoration-none"
+                  :href="termsLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <v-icon color="white">mdi-help-circle-outline</v-icon>
+                </a>
+              </p>
+            </div>
+
             <!-- Custom Booking Alert -->
             <custom-error
               v-if="room.isCustom"
@@ -315,6 +338,14 @@ export default {
       type: String,
       default: "GBP",
     },
+    hostelCode: {
+      type: String,
+      required: true,
+    },
+    depositModelRate: {
+      type: Number,
+      default: null,
+    },
   },
   components: {
     Selection,
@@ -466,6 +497,11 @@ export default {
     },
     price() {
       return this.room.avgRoomPrice;
+    },
+    termsLink() {
+      return ["FPU", "FPD"].includes(this.hostelCode)
+        ? "https://www.flyingpig.nl/terms-and-conditions"
+        : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
     },
     available() {
       return parseInt(this.room.maxAvailable, 10);

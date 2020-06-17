@@ -112,6 +112,8 @@
                     :check-out="checkOut"
                     :min-stay="dormMinStay"
                     :currency="currency"
+                    :deposit-model-rate="depositModelRate"
+                    :hostel-code="hostelCode"
                     @update-local-cart="updateCart"
                     @cart-error="isError = true"
                   />
@@ -151,6 +153,8 @@
                     :check-out="checkOut"
                     :min-stay="privateMinStay"
                     :currency="currency"
+                    :deposit-model-rate="depositModelRate"
+                    :hostel-code="hostelCode"
                     @update-local-cart="updateCart"
                     @cart-error="isError = true"
                   />
@@ -244,6 +248,7 @@ export default {
   },
   data() {
     return {
+      depositModelRate: null,
       hostelConf: null,
       hostel: null,
       showGroupsModal: false,
@@ -295,7 +300,8 @@ export default {
         this.rooms = rooms;
         this.hostel = hostelConf;
         this.hostelConf = hostel;
-        await create(this.bookingSource);
+        const cart = await create(this.bookingSource);
+        this.depositModelRate = cart.deposit_model_rate;
       } catch (e) {
         console.log(e);
         this.isError = true;
