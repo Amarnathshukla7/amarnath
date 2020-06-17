@@ -22,15 +22,27 @@
           <v-col cols="12" lg="6">
             <v-card-title
               pa-2
-              class="font-weight-bold title"
+              class="font-weight-bold title room-card__title"
+              style="word-wrap: break-word;"
               :class="selectedAndCustomStylePrimaryColor"
             >
               {{ content.name }}
             </v-card-title>
 
             <v-card-subtitle class="text-left px-3">
+              <p v-show="content.nameDescription" class="mb-0 ml-1 body-1">
+                {{ content.nameDescription }}
+                <v-tooltip v-if="content.note" bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon small color="accent" dark v-bind="attrs" v-on="on">
+                      mdi-information
+                    </v-icon>
+                  </template>
+                  <span>{{ content.note }}</span>
+                </v-tooltip>
+              </p>
               <v-icon
-                class="hidden-sm pb-1 mr-1"
+                class="hidden-sm pb-1 mr-1 d-inline-block"
                 :class="selectedAndCustomStylePrimaryColor"
               >
                 {{ peopleIcon }}
@@ -233,17 +245,6 @@
       :disable-scroll="true"
       @close="index = null"
     />
-
-    <!-- Normal Booking -->
-    <!-- <selection
-      v-if="!isCustom"
-      class="hidden-md-and-up pb-2"
-      :price="price"
-      :code="room.code"
-      :available="available"
-      @room-active="val => (selected = val)"
-      @update-local-room-cart="updateCart"
-    /> -->
 
     <!-- Custom Booking -->
     <v-row v-show="isCustom" no-gutters justify="center">
@@ -482,6 +483,10 @@ export default {
 
 .active .primary--text {
   color: #fff !important;
+}
+
+.v-card__title {
+  word-break: break-word;
 }
 
 // @media screen and (min-width: 1024px) {

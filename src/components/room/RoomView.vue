@@ -213,7 +213,7 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "BRI",
+      default: "FPU",
     },
     checkIn: {
       type: String,
