@@ -19,10 +19,10 @@ export const addExtra = async (extra) => {
     .then((res) => res.data);
 };
 
-export const getCurrencyRate = async currency => {
+export const getCurrencyRate = async (currency) => {
   const { token } = await get("token");
 
   return axios
     .get(`/cart-svc/${token}/currency/${currency}`)
-    .then(res => res.data.rate);
+    .then((res) => res.data.rate);
 };

@@ -15,6 +15,7 @@ export const stc = {
   warning: "#eb3a3a",
   greyish: "#899495",
   greyback: "#f8f8f8",
+  tealish: "#54B8C7",
 };
 
 export const fp = {
