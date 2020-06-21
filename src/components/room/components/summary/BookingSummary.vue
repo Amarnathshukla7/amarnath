@@ -51,6 +51,16 @@
               :currency="currency"
               @destroy-room="deleteFromCart"
             ></booking-summary-item>
+            <v-list-item v-show="stc && !showSummaryBreakfast" class="py-2">
+              <v-list-item-content>
+                <v-list-item-title>
+                  Breakfast:
+                  <span class="float-right font-weight-bold">
+                    Included for FREE!
+                  </span>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>

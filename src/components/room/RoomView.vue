@@ -217,7 +217,7 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "NQY",
+      default: "BRI",
     },
     checkIn: {
       type: String,
