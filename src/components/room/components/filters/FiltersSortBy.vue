@@ -1,6 +1,6 @@
 <template>
   <v-row class="sort-by--filters my-4" align="start" no-gutters>
-    <v-col cols="12" md="5" class="text-left ml-3">
+    <v-col cols="12" md="6" class="text-left ml-3">
       <v-btn
         @click="showFilters = !showFilters"
         text
