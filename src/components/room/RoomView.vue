@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <main ref="roomView" class="room-view">
-      <v-overlay class="text-center" :value="isLoading">
+      <v-overlay class="text-center" :value="isLoading" z-index="9999">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
 

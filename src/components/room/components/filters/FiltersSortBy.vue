@@ -94,7 +94,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 960px) {
   .sort-by--filters {
     .covid-measures-btn {
       margin-left: 20px;
