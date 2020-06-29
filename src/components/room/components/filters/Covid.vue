@@ -8,28 +8,28 @@
       <img
         v-if="covidIsOpen"
         class="new-icon"
-        src="@/assets/covid-measures/new-corner-light.svg"
+        src="/covid-measures/new-corner-light.svg"
         alt=""
       />
 
       <img
         v-else
         class="new-icon blink"
-        src="@/assets/covid-measures/new-corner.svg"
+        src="/covid-measures/new-corner.svg"
         alt=""
       />
 
       <div class="text-icons">
         <img
           v-if="covidIsOpen"
-          src="@/assets/covid-measures/icon-shield-white.svg"
+          src="/covid-measures/icon-shield-white.svg"
           alt=""
           class="shield"
         />
 
         <img
           v-else
-          src="@/assets/covid-measures/icon-shield.svg"
+          src="/covid-measures/icon-shield.svg"
           alt=""
           class="shield"
         />
@@ -38,14 +38,14 @@
 
         <img
           v-if="covidIsOpen"
-          src="@/assets/covid-measures/minus-icon.svg"
+          src="/covid-measures/minus-icon.svg"
           alt=""
           class="open-toggle"
         />
 
         <img
           v-else
-          src="@/assets/covid-measures/plus-icon.svg"
+          src="/covid-measures/plus-icon.svg"
           alt=""
           class="open-toggle"
         />
@@ -60,70 +60,61 @@
         </p>
         <ul>
           <li>
-            <img src="@/assets/covid-measures/reduced-dorms-icon.svg" alt="" />
+            <img src="/covid-measures/reduced-dorms-icon.svg" alt="" />
 
             <p>Reduced Capacity Dorms</p>
           </li>
 
           <li>
-            <img src="@/assets/covid-measures/private-rooms-icon.svg" alt="" />
+            <img src="/covid-measures/private-rooms-icon.svg" alt="" />
 
             <p>Private Dorms for Groups</p>
           </li>
 
           <li>
-            <img
-              src="@/assets/covid-measures/social-distancing-icon.svg"
-              alt=""
-            />
+            <img src="/covid-measures/social-distancing-icon.svg" alt="" />
 
             <p>Social Distancing</p>
           </li>
 
           <li>
-            <img src="@/assets/covid-measures/hand-hygiene-icon.svg" alt="" />
+            <img src="/covid-measures/hand-hygiene-icon.svg" alt="" />
 
             <p>Hand Hygienization</p>
           </li>
 
           <li>
-            <img src="@/assets/covid-measures/deep-cleaning-icon.svg" alt="" />
+            <img src="/covid-measures/deep-cleaning-icon.svg" alt="" />
 
             <p>Deep Cleaning & Sanitation</p>
           </li>
 
           <li>
-            <img
-              src="@/assets/covid-measures/free-cancellation-icon.svg"
-              alt=""
-            />
+            <img src="/covid-measures/free-cancellation-icon.svg" alt="" />
 
             <p>24hr Free Cancellation</p>
           </li>
 
           <li>
-            <img src="@/assets/covid-measures/free-breakfast-icon.svg" alt="" />
+            <img src="/covid-measures/free-breakfast-icon.svg" alt="" />
 
             <p>Free Breakfast</p>
           </li>
 
           <li>
-            <img src="@/assets/covid-measures/contactless-icon.svg" alt="" />
+            <img src="/covid-measures/contactless-icon.svg" alt="" />
 
             <p>Contactless Check In</p>
           </li>
 
           <li>
-            <img
-              src="@/assets/covid-measures/health-questionnaire-icon.svg"
-              alt=""
-            />
+            <img src="/covid-measures/health-questionnaire-icon.svg" alt="" />
 
             <p>Travel Health Questionaire</p>
           </li>
 
           <li>
-            <img src="@/assets/covid-measures/open-bar-icon.svg" alt="" />
+            <img src="/covid-measures/open-bar-icon.svg" alt="" />
 
             <p>Open Bars & Social Areas</p>
           </li>
@@ -138,6 +129,7 @@ export default {
   data() {
     return {
       covidIsOpen: false,
+      // publicPath: process.env.BASE_URL,
     };
   },
   methods: {
