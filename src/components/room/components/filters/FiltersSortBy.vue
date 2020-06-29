@@ -1,18 +1,18 @@
 <template>
   <v-row class="sort-by--filters my-4" align="start" no-gutters>
-    <v-col cols="12" class="text-left ml-3">
+    <v-col cols="12" md="5" lg="4" class="text-left ml-3">
       <v-btn
         @click="showFilters = !showFilters"
         text
         :tile="true"
         outlined
-        class="mr-4 mb-2"
+        class="mr-5 filters-btn"
       >
         Filters
       </v-btn>
       <v-select
         dense
-        class="d-inline-block"
+        class="d-inline-block sort-select"
         :items="items"
         label="Sort By"
         v-model="sort"
@@ -22,6 +22,9 @@
         item-value="key"
       ></v-select>
     </v-col>
+    <v-col cols="12" md="5" class="mt-2 ml-3">
+      <CovidMeasures class="d-inline-block covid-measures-btn" />
+    </v-col>
     <v-col cols="12">
       <filters v-if="showFilters" />
     </v-col>
@@ -30,10 +33,12 @@
 
 <script>
 import Filters from "./Filters.vue";
+import CovidMeasures from "./Covid.vue";
 
 export default {
   components: {
     Filters,
+    CovidMeasures,
   },
   watch: {
     sort(type) {
@@ -73,6 +78,31 @@ export default {
 
   .v-input__control {
     background-color: #fff;
+  }
+
+  .sort-select .v-input__slot,
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 50px;
+  }
+
+  .sort-select .v-input__slot {
+    margin-top: 10px;
+  }
+
+  .v-select__slot {
+    margin-top: 5px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .sort-by--filters {
+    .covid-measures-btn {
+      margin-left: 20px;
+    }
+
+    .v-select__slot {
+      margin-top: 0;
+    }
   }
 }
 </style>
