@@ -12,21 +12,19 @@ module.exports = {
         pathRewrite: { "^/review-svc/": "" },
       },
       "/cart-svc/": {
-        target: "https://reservation.stage.svc.bedsandbars.com/api/carts/",
+        target: "https://reservation.svc.bedsandbars.com/api/carts/",
         pathRewrite: { "^/cart-svc/": "" },
       },
       "/reservation-svc/": {
-        target:
-          "https://reservation.stage.svc.bedsandbars.com/api/reservations/",
+        target: "https://reservation.svc.bedsandbars.com/api/reservations/",
         pathRewrite: { "^/reservation-svc/": "" },
       },
       "/hostel-svc/": {
-        target: "https://reservation.stage.svc.bedsandbars.com/api/hostels/",
+        target: "https://reservation.svc.bedsandbars.com/api/hostels/",
         pathRewrite: { "^/hostel-svc/": "" },
       },
       "/transaction-svc/": {
-        target:
-          "https://reservation.stage.svc.bedsandbars.com/api/transactions/",
+        target: "https://reservation.svc.bedsandbars.com/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
     },

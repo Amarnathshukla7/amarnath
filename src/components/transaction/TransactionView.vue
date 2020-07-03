@@ -203,6 +203,7 @@
                               </v-radio-group>
                             </v-col>
                             <v-col
+                              v-if="isStripe"
                               v-show="
                                 data.deposit !== 0 && data.deposit !== null
                               "
@@ -233,7 +234,9 @@
                               >
                                 <span
                                   v-if="
-                                    data.deposit === 0 || data.deposit === null
+                                    data.deposit === 0 ||
+                                    data.deposit === null ||
+                                    !isStripe
                                   "
                                   >3.
                                 </span>
