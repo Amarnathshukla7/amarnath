@@ -23,7 +23,10 @@
       ></v-select>
     </v-col>
     <v-col cols="12" md="5" class="mt-2 ml-3">
-      <CovidMeasures class="d-inline-block covid-measures-btn" />
+      <CovidMeasures
+        v-if="showCovidBlock"
+        class="d-inline-block covid-measures-btn"
+      />
     </v-col>
     <v-col cols="12">
       <filters v-if="showFilters" />
@@ -36,6 +39,12 @@ import Filters from "./Filters.vue";
 import CovidMeasures from "./Covid.vue";
 
 export default {
+  props: {
+    hostelCode: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     Filters,
     CovidMeasures,
@@ -57,6 +66,11 @@ export default {
         { key: "avail-high", value: "Highest Availability" },
       ],
     };
+  },
+  computed: {
+    showCovidBlock() {
+      return !["COP"].includes(this.hostelCode);
+    },
   },
 };
 </script>
