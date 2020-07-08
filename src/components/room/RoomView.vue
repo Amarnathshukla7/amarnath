@@ -65,7 +65,7 @@
       <v-container v-if="hostel && hostelConf">
         <v-row v-show="!showSummaryBreakfast" no-gutters>
           <v-col cols="12" offset-xl="2">
-            <filters-sort-by @sort="sort" />
+            <filters-sort-by :hostel-code="hostelCode" @sort="sort" />
           </v-col>
         </v-row>
         <v-row>
