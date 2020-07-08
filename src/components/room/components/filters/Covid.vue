@@ -149,7 +149,7 @@ export default {
   border: 1px solid #2aa6b9;
   color: #2aa6b9;
   background-color: #fff;
-  z-index: 999;
+  /* z-index: 999; */
 }
 
 .covid-btn.open {
