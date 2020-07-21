@@ -6,7 +6,6 @@
     :api-key="stripeKey"
     outlined
     tile
-    :rules="rules.card"
   ></v-stripe-card>
 </template>
 

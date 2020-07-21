@@ -217,7 +217,7 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "PAR",
+      default: "WIN",
     },
     checkIn: {
       type: String,

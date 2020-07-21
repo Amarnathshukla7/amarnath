@@ -396,6 +396,7 @@
               :selected-currency="selectedCurrency"
               :payable="payable"
               :breakfast="breakfast"
+              :deposit="data.deposit"
             ></booking-summary>
           </v-col>
         </v-row>
@@ -450,6 +451,7 @@ export default {
   },
   data() {
     return {
+      cart: null,
       selectedCurrency: null,
       isLoadingReservation: false,
       hostelConf: null,

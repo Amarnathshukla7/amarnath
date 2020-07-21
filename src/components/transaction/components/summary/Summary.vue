@@ -26,9 +26,11 @@
               <v-list-item-content>
                 <v-list-item-title>
                   Loyalty Coupon Code
-                  <span class="float-right">{{
-                    discount | formatPrice(currency)
-                  }}</span>
+
+                  <span class="float-right">
+                    <span v-show="discount > 0">- </span>
+                    {{ discount | formatPrice(currency) }}
+                  </span>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -134,6 +136,10 @@ export default {
       type: String,
       default: "GBP",
     },
+    deposit: {
+      type: Number,
+      default: 0,
+    },
     selectedCurrencyRate: {
       type: Number,
       default: 1,
@@ -188,7 +194,9 @@ export default {
       return this.cart.extras_cost;
     },
     dueOnArrival() {
-      return this.cost - this.payable;
+      if (this.deposit === 100) return 0;
+
+      return this.cost;
     },
   },
 };
