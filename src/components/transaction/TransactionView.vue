@@ -33,7 +33,32 @@
       <bread-crumbs :step="3" />
       <v-container v-if="hostel && hostelConf">
         <v-row>
-          <!-- <v-col cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2"> -->
+          <v-col cols="12" class="hidden-sm-and-up">
+            <v-card flat outlined class="rounded-0">
+              <v-card-title class="mb-4">
+                Your reservation for:
+              </v-card-title>
+              <v-card-subtitle class="reservation-info">
+                <p class="font-weight-bold">
+                  {{ hostelShortName(cart.hostel_code) }}
+                </p>
+                <p>
+                  Arriving:
+                  <span class="font-weight-bold">{{
+                    cart.check_in | formatDate
+                  }}</span>
+                </p>
+                <p>
+                  Departing:
+                  <span class="font-weight-bold">{{
+                    cart.check_out | formatDate
+                  }}</span>
+                </p>
+              </v-card-subtitle>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="12" sm="6" md="7" lg="8" xl="5" offset-xl="2">
             <v-form ref="form" @submit.prevent>
               <v-row no-gutters>
@@ -429,6 +454,8 @@ import StripePaymentRequest from "./components/StripePaymentRequest.vue";
 import { getCurrencyRate } from "./api/cart-svc";
 import { find } from "../room/api/reservation-svc/hostel-svc";
 import { getHostel } from "../../plugins/hostel";
+import { hostelShortName } from "../../helpers/hostelNames";
+import { formatDate } from "../../filters/date";
 
 Vue.use(VStripeElements);
 Vue.use(VueLoadScript);
@@ -755,8 +782,10 @@ export default {
         this.isLoadingReservation = false;
       }
     },
+    hostelShortName,
   },
   filters: {
+    formatDate,
     formatPrice,
     convertCurrency,
   },
@@ -770,5 +799,9 @@ export default {
 
 .transaction-view-panel--margin {
   margin-bottom: 125px;
+}
+
+.v-card__subtitle.reservation-info {
+  font-size: 1rem;
 }
 </style>
