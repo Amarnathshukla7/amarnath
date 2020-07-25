@@ -22,12 +22,12 @@
         item-value="key"
       ></v-select>
     </v-col>
-    <v-col cols="12" md="5" class="mt-2 ml-3">
+    <!-- <v-col cols="12" md="5" class="mt-2 ml-3">
       <CovidMeasures
         v-if="showCovidBlock"
         class="d-inline-block covid-measures-btn"
       />
-    </v-col>
+    </v-col> -->
     <v-col cols="12">
       <filters v-if="showFilters" />
     </v-col>
@@ -47,7 +47,7 @@ export default {
   },
   components: {
     Filters,
-    CovidMeasures,
+    // CovidMeasures,
   },
   watch: {
     sort(type) {

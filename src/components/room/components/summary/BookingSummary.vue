@@ -17,6 +17,8 @@
       flat
       class=""
     >
+      <CovidMeasures />
+
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
@@ -27,7 +29,13 @@
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content color="info" class="pa-0">
-          <v-card flat tile outlined class="pa-0 summary-card">
+          <v-card
+            v-if="bookingEntries"
+            flat
+            tile
+            outlined
+            class="pa-0 summary-card"
+          >
             <v-list-item class="py-2 pl-4 white">
               <v-list-item-content>
                 <v-list-item-title class="font-weight-bold">
@@ -173,6 +181,7 @@ import BookingSummaryItem from "./BookingSummaryItem.vue";
 import Breakfast from "../../../transaction/components/summary/Breakfast";
 import { formatTimezone } from "../../../../helpers/timezone";
 import { hostelShortName } from "../../../../helpers/hostelNames";
+import CovidMeasures from "../../../shared/CovidMeasures";
 
 export default {
   props: {
@@ -208,6 +217,7 @@ export default {
   components: {
     BookingSummaryItem,
     Breakfast,
+    CovidMeasures,
   },
   watch: {
     bookingEntries(entries) {
@@ -235,7 +245,7 @@ export default {
   },
   data() {
     return {
-      open: 0,
+      open: 1,
       isCartUpdating: false,
     };
   },
