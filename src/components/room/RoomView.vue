@@ -85,6 +85,8 @@
               class="room-view-panel--margin"
               multiple
             >
+              <CovidMeasures class="hidden-sm-and-up" />
+
               <v-expansion-panel>
                 <v-expansion-panel-header color="primary">
                   <div
@@ -204,6 +206,7 @@ import { bus } from "../../plugins/bus";
 import { formatTimezone } from "../../helpers/timezone";
 import { find } from "./api/reservation-svc/hostel-svc";
 import { getHostel } from "../../plugins/hostel";
+import CovidMeasures from "../shared/CovidMeasures";
 
 export default {
   props: {
@@ -245,6 +248,7 @@ export default {
     BreadCrumbs,
     FiltersSortBy,
     GroupBookingsModal,
+    CovidMeasures,
   },
   data() {
     return {
@@ -253,7 +257,7 @@ export default {
       hostel: null,
       showGroupsModal: false,
       groupBookingModalAlreadyShown: false,
-      openPanel: [0, 1],
+      openPanel: [1, 2],
       isLoading: false,
       isError: false,
       availabilityError: false,
@@ -436,5 +440,11 @@ export default {
 
 .room-view-panel--margin {
   margin-bottom: 125px;
+}
+
+@media screen and (min-width: 600px) {
+  .v-expansion-panel--active:nth-child(2) {
+    margin-top: 0px !important;
+  }
 }
 </style>

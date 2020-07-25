@@ -15,6 +15,7 @@
       v-model="open"
       tile
       flat
+      multiple
       class=""
     >
       <CovidMeasures />
@@ -245,7 +246,7 @@ export default {
   },
   data() {
     return {
-      open: 1,
+      open: [1],
       isCartUpdating: false,
     };
   },
