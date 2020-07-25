@@ -32,6 +32,9 @@ export default {
     return {
       stripeReady: false,
       paymentRequest: null,
+      rules: {
+        card: [(v) => !!v || "Card is required"],
+      },
     };
   },
   mounted() {

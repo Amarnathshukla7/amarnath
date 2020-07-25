@@ -217,15 +217,15 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "BRI",
+      default: "WIN",
     },
     checkIn: {
       type: String,
-      default: "2020-10-01",
+      default: "2020-11-01",
     },
     checkOut: {
       type: String,
-      default: "2020-10-04",
+      default: "2020-11-04",
     },
   },
   watch: {

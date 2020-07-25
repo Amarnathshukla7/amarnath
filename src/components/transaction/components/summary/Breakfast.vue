@@ -60,7 +60,7 @@
 import NumberCounter from "./NumberCounter.vue";
 import { getBreakfastPrice } from "../../../room/api/search-svc";
 import { formatPrice } from "../../../../filters/money";
-import { addExtra } from "../../api/cart-svc";
+import { addExtra, deleteExtra } from "../../api/cart-svc";
 import { bus } from "../../../../plugins/bus";
 
 export default {
@@ -101,14 +101,17 @@ export default {
       this.isLoading = true;
       bus.$emit("cart-updating", true);
 
-      const cart = await addExtra([
-        {
-          code: this.content.key,
-          name: "breakfast",
-          type: "extra",
-          qty: this.qty,
-        },
-      ]);
+      const cart =
+        this.qty === 0
+          ? await deleteExtra(this.content.key)
+          : await addExtra([
+              {
+                code: this.content.key,
+                name: "breakfast",
+                type: "extra",
+                qty: this.qty,
+              },
+            ]);
 
       bus.$emit("cart-transaction-updated", cart);
 
