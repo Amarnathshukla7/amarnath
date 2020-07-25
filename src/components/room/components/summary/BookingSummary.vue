@@ -27,6 +27,15 @@
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content color="info" class="pa-0">
+          <v-card flat tile outlined class="pa-0 summary-card">
+            <v-list-item class="py-2 pl-4 white">
+              <v-list-item-content>
+                <v-list-item-title class="font-weight-bold">
+                  {{ hostelShortName(cart.hostel_code) }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
           <v-card
             v-if="bookingEntries"
             flat
@@ -163,6 +172,7 @@ import { bus } from "../../../../plugins/bus";
 import BookingSummaryItem from "./BookingSummaryItem.vue";
 import Breakfast from "../../../transaction/components/summary/Breakfast";
 import { formatTimezone } from "../../../../helpers/timezone";
+import { hostelShortName } from "../../../../helpers/hostelNames";
 
 export default {
   props: {
@@ -301,6 +311,7 @@ export default {
         window.alert(rooms[roomCode].msg);
       }
     },
+    hostelShortName,
   },
   computed: {
     stc() {

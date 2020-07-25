@@ -12,6 +12,19 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content color="other" class="pa-0">
           <v-card flat tile color="other" class="pa-0 summary-card">
+            <v-list-item class="py-2 pl-4 other">
+              <v-list-item-content>
+                <v-list-item-subtitle
+                  class="body-1 mb-2 font-weight-bold accent--text"
+                >
+                  {{ cart.check_in | formatDate }} -
+                  {{ cart.check_out | formatDate }}
+                </v-list-item-subtitle>
+                <v-list-item-title>
+                  {{ hostelShortName(cart.hostel_code) }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item class="py-2 pl-4 white">
               <v-list-item-content>
                 <v-list-item-title>
@@ -119,6 +132,7 @@
 <script>
 import { formatPrice, convertCurrency } from "../../../../filters/money";
 import { formatDate } from "../../../../filters/date";
+import { hostelShortName } from "../../../../helpers/hostelNames";
 
 import Breakfast from "./Breakfast.vue";
 
@@ -167,10 +181,12 @@ export default {
     formatPrice,
     formatDate,
     convertCurrency,
+    hostelShortName,
   },
   methods: {
     increment() {},
     decrement() {},
+    hostelShortName: hostelShortName,
   },
   computed: {
     isCartEmpty() {
