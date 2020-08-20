@@ -18,7 +18,7 @@
       multiple
       class=""
     >
-      <CovidMeasures />
+      <CovidMeasures v-show="stc" />
 
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">

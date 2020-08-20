@@ -85,7 +85,10 @@
               class="room-view-panel--margin"
               multiple
             >
-              <CovidMeasures class="hidden-sm-and-up" />
+              <CovidMeasures
+                v-show="bookingSource === 'STC'"
+                class="hidden-sm-and-up"
+              />
 
               <v-expansion-panel>
                 <v-expansion-panel-header color="primary">
