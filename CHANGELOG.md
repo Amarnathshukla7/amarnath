@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [0.8.3] - 2020-08-20
+
+### Fixed
+
+- Only show covid dropdown on STC
+
 ## [0.8.0] - 2020-07-21
 
 ### Fixed
