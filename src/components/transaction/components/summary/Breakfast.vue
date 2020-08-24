@@ -92,7 +92,7 @@ export default {
   async created() {
     this.isLoading = true;
     this.price = await getBreakfastPrice(this.content.key);
-    if (this.price) {
+    if (this.price.error) {
       this.isError = true;
     }
     this.isLoading = false;
