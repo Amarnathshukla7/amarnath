@@ -45,8 +45,8 @@ export const getBreakfastPrice = async (breakfastCode) => {
   const resp = await axios.get(`/search-svc/cache/${token}`);
 
   try {
-    return res.data.availability.service[breakfastCode].price;  
-  } catch (error) { 
+    return resp.data.availability.service[breakfastCode].price;  
+  } catch { 
     return {
       error: true,
     };
