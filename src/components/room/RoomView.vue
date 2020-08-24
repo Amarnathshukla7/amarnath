@@ -223,7 +223,7 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "WIN",
+      default: "BRM",
     },
     checkIn: {
       type: String,

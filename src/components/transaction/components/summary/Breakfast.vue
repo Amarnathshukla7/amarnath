@@ -1,5 +1,5 @@
 <template>
-  <section class="primary white--text breakfast--container mt-8">
+  <section v-if="!isError" class="primary white--text breakfast--container mt-8">
     <div class="price-container primary">
       <p class="subtitle-2">
         For only <br />
@@ -80,6 +80,7 @@ export default {
   },
   data() {
     return {
+      isError: false,
       price: null,
       isLoading: false,
       qty: 0,
@@ -91,6 +92,9 @@ export default {
   async created() {
     this.isLoading = true;
     this.price = await getBreakfastPrice(this.content.key);
+    if (this.price) {
+      this.isError = true;
+    }
     this.isLoading = false;
   },
   filters: {

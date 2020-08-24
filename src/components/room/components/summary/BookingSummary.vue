@@ -40,7 +40,7 @@
             <v-list-item class="py-2 pl-4 white">
               <v-list-item-content>
                 <v-list-item-title class="font-weight-bold">
-                  {{ hostelShortName(cart.hostel_code) }}
+                  {{ hostelShortName(hostel.code) }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -327,8 +327,8 @@ export default {
   computed: {
     stc() {
       return (
-        !this.cart.hostel_code ||
-        !["COP", "NOS"].includes(this.cart.hostel_code)
+        !this.hostel.code ||
+        !["COP", "NOS"].includes(this.hostel.code)
       );
     },
     cart: {
