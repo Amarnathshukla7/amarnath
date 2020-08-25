@@ -596,9 +596,16 @@ export default {
   },
   computed: {
     termsLink() {
-      return ["FPU", "FPD"].includes(this.hostelConf.code)
-        ? "https://www.flyingpig.nl/terms-and-conditions"
-        : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
+      if (["FPU", "FPD"].includes(this.hostelCode)) {
+        return "https://www.flyingpig.nl/terms-and-conditions";
+      } else if (this.hostelCode == "COP") {
+        return "https://www.copenhagendowntown.com/terms";
+      } else {
+        return "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
+      }
+      // return ["FPU", "FPD"].includes(this.hostelConf.code)
+      //   ? "https://www.flyingpig.nl/terms-and-conditions"
+      //   : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
     },
     isChrome() {
       return (
