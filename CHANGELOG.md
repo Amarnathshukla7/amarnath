@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [0.8.8] - 2020-09-01
+
+### Added
+
+- Logic for status endpoint on reservation apis
+
 ## [0.8.7] - 2020-08-20
 
 ### Fixed
