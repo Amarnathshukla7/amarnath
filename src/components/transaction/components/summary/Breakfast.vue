@@ -1,5 +1,8 @@
 <template>
-  <section v-if="!isError" class="primary white--text breakfast--container mt-8">
+  <section
+    v-if="!isError"
+    class="primary white--text breakfast--container mt-8"
+  >
     <div class="price-container primary">
       <p class="subtitle-2">
         For only <br />
