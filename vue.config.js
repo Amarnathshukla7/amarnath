@@ -27,6 +27,10 @@ module.exports = {
         target: "http://reservation.svc.bedsandbars.com/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
+      "/status-svc/": {
+        target: "http://localhost:8000/api/status",
+        pathRewrite: { "^/status-svc/": "" },
+      },
     },
   },
 };

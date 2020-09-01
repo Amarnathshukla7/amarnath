@@ -5,6 +5,12 @@
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
 
+      <v-overlay class="text-center" :value="isStatus" z-index="9999">
+        <div class="headline primary--text font-weight-bold mb-4">
+          {{ status }}
+        </div>
+      </v-overlay>
+
       <v-overlay
         class="text-center"
         :value="isError || availabilityError"
@@ -204,6 +210,7 @@ import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import FiltersSortBy from "./components/filters/FiltersSortBy.vue";
 import { availability } from "./api/search-svc";
 import { create } from "./api/reservation-svc/cart-svc";
+import { getStatus } from "./api/reservation-svc/status-svc";
 import sortRooms from "./helpers/sort";
 import { bus } from "../../plugins/bus";
 import { formatTimezone } from "../../helpers/timezone";
@@ -263,6 +270,8 @@ export default {
       openPanel: [1, 2],
       isLoading: false,
       isError: false,
+      isStatus: false,
+      status: null,
       availabilityError: false,
       rooms: null,
       cart: null,
@@ -290,6 +299,14 @@ export default {
 
       this.isLoading = true;
       this.reset();
+
+      const status = await getStatus();
+      if (status.upgrading) {
+        this.isStatus = true;
+        this.status = status.message;
+        this.isLoading = false;
+        return;
+      }
 
       try {
         const [rooms, hostelConf, hostel] = await Promise.all([
