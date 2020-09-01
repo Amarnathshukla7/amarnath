@@ -5,12 +5,6 @@
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
 
-      <v-overlay class="text-center" :value="isStatus" z-index="9999">
-        <div class="headline primary--text font-weight-bold mb-4">
-          {{ status }}
-        </div>
-      </v-overlay>
-
       <v-overlay
         class="text-center"
         :value="isError || availabilityError"
@@ -62,6 +56,14 @@
       </v-overlay>
 
       <bread-crumbs />
+
+      <div
+        v-if="isStatus"
+        class="headline primary--text font-weight-bold mb-4 text-center mt-8 mx-auto"
+        style="max-width: 620px;"
+      >
+        {{ status }}
+      </div>
 
       <group-bookings-modal
         :show="showGroupsModal"
