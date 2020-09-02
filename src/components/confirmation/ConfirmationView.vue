@@ -143,7 +143,7 @@
             <div class="title font-weight-bold greyish--text">
               {{ hostel.title }}
             </div>
-            <div class="body-2 mx-auto mt-4" style="max-width: 70%;">
+            <div class="body-2 mx-auto mt-4" style="max-width: 70%">
               » {{ hostel.hostelPageRef.fields.tabs[0].fields.phoneNumber }} »
               {{ hostel.confirmationEmail }} » {{ hostel.streetAddress }}
             </div>

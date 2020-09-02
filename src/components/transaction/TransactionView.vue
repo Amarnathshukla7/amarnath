@@ -5,7 +5,7 @@
         <v-progress-circular indeterminate size="64"></v-progress-circular>
         <div
           v-if="isLoadingReservation"
-          style="max-width: 620px;"
+          style="max-width: 620px"
           class="heading mt-10 px-6"
         >
           Please wait while we confirm your payment and booking. This might take
@@ -35,9 +35,7 @@
         <v-row>
           <v-col cols="12" class="hidden-sm-and-up">
             <v-card flat outlined class="rounded-0">
-              <v-card-title class="mb-4">
-                Your reservation for:
-              </v-card-title>
+              <v-card-title class="mb-4"> Your reservation for: </v-card-title>
               <v-card-subtitle class="reservation-info">
                 <p class="font-weight-bold">
                   {{ hostelShortName(cart.hostel_code) }}

@@ -23,7 +23,7 @@
             <v-card-title
               pa-2
               class="font-weight-bold title room-card__title"
-              style="word-wrap: break-word;"
+              style="word-wrap: break-word"
               :class="selectedAndCustomStylePrimaryColor"
             >
               {{ content.name }}
@@ -76,7 +76,7 @@
                     <img
                       src="https://storage.googleapis.com/bedsandbars-images/check-green.a92045f4.svg"
                       alt=""
-                      style="width: 20px;"
+                      style="width: 20px"
                     />
                   </v-col>
                   <v-col cols="11">

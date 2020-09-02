@@ -25,7 +25,7 @@
         </div>
 
         <div
-          style="max-width: 600px; line-height: 2;"
+          style="max-width: 600px; line-height: 2"
           class="body-1 px-2 font-weight-bold black--text"
         >
           <span v-if="availabilityError">
@@ -60,7 +60,7 @@
       <div
         v-if="isStatus"
         class="headline primary--text font-weight-bold mb-4 text-center mt-8 mx-auto"
-        style="max-width: 620px;"
+        style="max-width: 620px"
       >
         {{ status }}
       </div>
@@ -85,7 +85,7 @@
             lg="9"
             xl="6"
             offset-xl="2"
-            style="z-index: 0;"
+            style="z-index: 0"
           >
             <!-- cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2" -->
             <v-expansion-panels

@@ -101,9 +101,7 @@
             <span class="float-right mr-6" v-if="cart.extras_cost > 0">
               {{ cart.extras_cost | formatPrice(currency) }}
             </span>
-            <span class="float-right mr-6" v-else>
-              Included for FREE!
-            </span>
+            <span class="float-right mr-6" v-else> Included for FREE! </span>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>

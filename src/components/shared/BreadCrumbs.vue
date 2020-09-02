@@ -2,18 +2,12 @@
   <figure>
     <div class="breadcrumb-container mt-8">
       <div class="breadcrumb flat">
-        <a href="javascript:void(0)" :class="{ active: step >= 1 }">
-          City
-        </a>
-        <a href="javascript:void(0)" :class="{ active: step >= 2 }">
-          Rooms
-        </a>
+        <a href="javascript:void(0)" :class="{ active: step >= 1 }"> City </a>
+        <a href="javascript:void(0)" :class="{ active: step >= 2 }"> Rooms </a>
         <a href="javascript:void(0)" :class="{ active: step >= 3 }">
           Payment
         </a>
-        <a href="javascript:void(0)" :class="{ active: step >= 4 }">
-          Ready
-        </a>
+        <a href="javascript:void(0)" :class="{ active: step >= 4 }"> Ready </a>
       </div>
     </div>
   </figure>

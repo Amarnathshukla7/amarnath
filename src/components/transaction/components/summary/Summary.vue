@@ -67,9 +67,7 @@
                   <span class="float-right" v-if="breakfastCost > 0">
                     {{ breakfastCost | formatPrice(currency) }}
                   </span>
-                  <span class="float-right" v-else>
-                    Included for FREE!
-                  </span>
+                  <span class="float-right" v-else> Included for FREE! </span>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -79,9 +77,7 @@
     </v-expansion-panels>
     <v-card tile flat color="accent" class="">
       <v-row class="hidden-sm-and-down px-4 py-2 font-weight-bold white--text">
-        <v-col cols="8">
-          Payable Now:
-        </v-col>
+        <v-col cols="8"> Payable Now: </v-col>
         <v-col cols="4" class="text-right">
           {{
             payable
@@ -91,9 +87,7 @@
         </v-col>
       </v-row>
       <v-row class="hidden-md-and-down px-4 py-2 white">
-        <v-col cols="8">
-          Due on arrival:
-        </v-col>
+        <v-col cols="8"> Due on arrival: </v-col>
         <v-col cols="4" class="text-right">
           {{ dueOnArrival | formatPrice(currency) }}
         </v-col>

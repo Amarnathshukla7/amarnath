@@ -18,9 +18,7 @@
         bottom
       >
         <template v-slot:activator="{ on }">
-          <v-icon small v-on="on" color="info" dark>
-            mdi-help
-          </v-icon>
+          <v-icon small v-on="on" color="info" dark> mdi-help </v-icon>
         </template>
         <span>{{ bedType }} unavailable on this night</span>
       </v-tooltip>

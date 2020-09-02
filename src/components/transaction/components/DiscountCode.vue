@@ -25,9 +25,7 @@
             indeterminate
             color="white"
           ></v-progress-circular>
-          <span v-else>
-            APPLY CODE
-          </span>
+          <span v-else> APPLY CODE </span>
         </v-btn>
         <span v-if="success" class="accent--text caption font-weight-bold">
           * Code applied successfully

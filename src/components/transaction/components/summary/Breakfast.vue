@@ -52,9 +52,7 @@
           </v-btn>
         </v-col>
       </v-row>
-      <p class="mx-2 my-2 pb-4">
-        You’ll get breakfast voucher(s) on check-in.
-      </p>
+      <p class="mx-2 my-2 pb-4">You’ll get breakfast voucher(s) on check-in.</p>
     </figure>
   </section>
 </template>
