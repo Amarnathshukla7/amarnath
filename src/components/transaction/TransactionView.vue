@@ -83,6 +83,7 @@
                                 label="Full Name"
                                 :rules="rules.name"
                                 v-model="data.guest.name"
+                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-text-field>
                             </v-col>
@@ -92,6 +93,7 @@
                                 class="mt-n6 mt-md-0"
                                 :rules="rules.email"
                                 v-model="data.guest.email"
+                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-text-field>
                             </v-col>
@@ -101,6 +103,7 @@
                                 label="Phone Number"
                                 :rules="rules.phone"
                                 v-model="data.guest.phone"
+                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-text-field>
                             </v-col>
@@ -111,6 +114,7 @@
                                 label="Country"
                                 :rules="rules.country"
                                 v-model="data.guest.country"
+                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-autocomplete>
                             </v-col>
@@ -443,7 +447,6 @@ import { formatPrice, convertCurrency } from "../../filters/money";
 import { create } from "./api/reservation-svc";
 import { set, get, del } from "idb-keyval";
 import { bus } from "../../plugins/bus";
-
 import DiscountCode from "./components/DiscountCode.vue";
 import PaypalForm from "./components/PaypalForm.vue";
 import StripeForm from "./components/StripeForm.vue";
@@ -476,6 +479,7 @@ export default {
   },
   data() {
     return {
+      guest: null,
       cart: null,
       selectedCurrency: null,
       isLoadingReservation: false,
@@ -569,6 +573,14 @@ export default {
       find(this.cart.hostel_code),
       getHostel(this.cart.hostel_code),
     ]);
+
+    this.guest = this.$store?.$auth?.$state?.user;
+    if (this.guest && this.guest.type === "agent") {
+      this.data.guest.name = this.guest.name;
+      this.data.guest.country = this.guest.country;
+      this.data.guest.email = this.guest.email;
+      this.data.guest.phone = this.guest.phone;
+    }
 
     this.hostelConf = hostelConf;
     this.hostel = hostel;
