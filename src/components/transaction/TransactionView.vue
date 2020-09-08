@@ -423,6 +423,7 @@
               :payable="payable"
               :breakfast="breakfast"
               :deposit="data.deposit"
+              :rooms-content="roomsContent"
             ></booking-summary>
           </v-col>
         </v-row>
