@@ -30,6 +30,9 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-overlay>
+      <!-- <div>
+        {{ hostel }}
+      </div> -->
       <bread-crumbs :step="3" />
       <v-container v-if="hostel && hostelConf">
         <v-row>
@@ -83,7 +86,6 @@
                                 label="Full Name"
                                 :rules="rules.name"
                                 v-model="data.guest.name"
-                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-text-field>
                             </v-col>
@@ -93,7 +95,6 @@
                                 class="mt-n6 mt-md-0"
                                 :rules="rules.email"
                                 v-model="data.guest.email"
-                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-text-field>
                             </v-col>
@@ -103,7 +104,6 @@
                                 label="Phone Number"
                                 :rules="rules.phone"
                                 v-model="data.guest.phone"
-                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-text-field>
                             </v-col>
@@ -114,7 +114,6 @@
                                 label="Country"
                                 :rules="rules.country"
                                 v-model="data.guest.country"
-                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-autocomplete>
                             </v-col>
@@ -575,12 +574,12 @@ export default {
     ]);
 
     this.guest = this.$store?.$auth?.$state?.user;
-    if (this.guest && this.guest.type === "agent") {
-      this.data.guest.name = this.guest.name;
-      this.data.guest.country = this.guest.country;
-      this.data.guest.email = this.guest.email;
-      this.data.guest.phone = this.guest.phone;
-    }
+    // if (this.guest && this.guest.type === "agent") {
+    //   this.data.guest.name = this.guest.name;
+    //   this.data.guest.country = this.guest.country;
+    //   this.data.guest.email = this.guest.email;
+    //   this.data.guest.phone = this.guest.phone;
+    // }
 
     this.hostelConf = hostelConf;
     this.hostel = hostel;
@@ -608,7 +607,7 @@ export default {
     termsLink() {
       if (["FPU", "FPD"].includes(this.hostelCode)) {
         return "https://www.flyingpig.nl/terms-and-conditions";
-      } else if (this.hostelCode == "COP") {
+      } else if (this.hostel.code == "COP") {
         return "https://www.copenhagendowntown.com/terms";
       } else {
         return "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
