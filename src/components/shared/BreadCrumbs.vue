@@ -53,6 +53,7 @@ export default {
 }
 figure {
   margin: initial !important;
+  // background-color: #f8f8f8;
 }
 .breadcrumb-container {
   margin: 0;

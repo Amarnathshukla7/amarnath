@@ -5,7 +5,7 @@
         <v-progress-circular indeterminate size="64"></v-progress-circular>
         <div
           v-if="isLoadingReservation"
-          style="max-width: 620px"
+          style="max-width: 620px;"
           class="heading mt-10 px-6"
         >
           Please wait while we confirm your payment and booking. This might take
