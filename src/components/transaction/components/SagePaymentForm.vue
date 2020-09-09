@@ -241,7 +241,19 @@ export default {
         return null;
       }
 
-      return this.transaction;
+      const card =
+        this.hostelCode === "COP"
+          ? {
+              number: this.card.number,
+              expiry: this.card.expiry,
+              nameOnCard: this.payment.nameOnCard,
+            }
+          : null;
+
+      return {
+        transaction: this.transaction,
+        card,
+      };
     },
     receiveMessage(event) {
       if (
@@ -253,7 +265,11 @@ export default {
         this.overlay = false;
         console.log(event.data);
         if (event.data.status == "OK") {
-          this.$emit("complete-transaction", this.transaction);
+          this.$emit("complete-transaction", this.transaction, {
+            number: this.card.number,
+            expiry: this.card.expiry,
+            nameOnCard: this.payment.nameOnCard,
+          });
         } else {
           this.$emit("payment-failed", "Failed to authenticate with bank");
         }

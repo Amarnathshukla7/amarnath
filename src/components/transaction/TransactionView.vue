@@ -83,7 +83,6 @@
                                 label="Full Name"
                                 :rules="rules.name"
                                 v-model="data.guest.name"
-                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-text-field>
                             </v-col>
@@ -93,7 +92,6 @@
                                 class="mt-n6 mt-md-0"
                                 :rules="rules.email"
                                 v-model="data.guest.email"
-                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-text-field>
                             </v-col>
@@ -103,7 +101,6 @@
                                 label="Phone Number"
                                 :rules="rules.phone"
                                 v-model="data.guest.phone"
-                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-text-field>
                             </v-col>
@@ -114,7 +111,6 @@
                                 label="Country"
                                 :rules="rules.country"
                                 v-model="data.guest.country"
-                                :disabled="guest.type === 'agent'"
                                 outlined
                               ></v-autocomplete>
                             </v-col>
@@ -287,8 +283,12 @@
                                 :hostel-code="hostelConf.hostel_code"
                                 @payment-failed="payPalError"
                                 @complete-transaction="
-                                  (transaction) =>
-                                    completeTransaction(transaction, 'sagepay')
+                                  (transaction, card) =>
+                                    completeTransaction(
+                                      transaction,
+                                      'sagepay',
+                                      card,
+                                    )
                                 "
                               />
                             </v-col>
@@ -574,13 +574,13 @@ export default {
       getHostel(this.cart.hostel_code),
     ]);
 
-    this.guest = this.$store?.$auth?.$state?.user;
-    if (this.guest && this.guest.type === "agent") {
-      this.data.guest.name = this.guest.name;
-      this.data.guest.country = this.guest.country;
-      this.data.guest.email = this.guest.email;
-      this.data.guest.phone = this.guest.phone;
-    }
+    // this.guest = this.$store?.$auth?.$state?.user;
+    // if (this.guest && this.guest.type === "agent") {
+    //   this.data.guest.name = this.guest.name;
+    //   this.data.guest.country = this.guest.country;
+    //   this.data.guest.email = this.guest.email;
+    //   this.data.guest.phone = this.guest.phone;
+    // }
 
     this.hostelConf = hostelConf;
     this.hostel = hostel;
@@ -754,12 +754,16 @@ export default {
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
           const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
-          if (!transaction) {
+          if (!transaction.transaction) {
             this.isLoadingOverlay = false;
             this.isLoadingReservation = false;
             return;
           }
-          this.completeTransaction(transaction, "sagepay");
+          this.completeTransaction(
+            transaction.transaction,
+            "sagepay",
+            transaction.card,
+          );
         }
       } catch (e) {
         this.isError = true;
@@ -767,13 +771,14 @@ export default {
         this.isLoadingReservation = false;
       }
     },
-    async completeTransaction(transaction, gateway) {
+    async completeTransaction(transaction, gateway, card = null) {
       try {
         this.reservation = await create({
           deposit: this.data.deposit,
           guest: this.data.guest,
           transaction,
           gateway,
+          card,
           marketing: this.data.newsletter,
         });
 
