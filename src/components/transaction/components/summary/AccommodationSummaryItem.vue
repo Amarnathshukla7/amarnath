@@ -1,12 +1,12 @@
 <template>
   <v-list-item class="desktop-summary-item pa-0">
     <v-list-item-content class="text-left">
-      <v-list-item-subtitle class="ml-10 body-1 font-weight-bold accent--text">
+      <v-list-item-subtitle class="ml-2 body-1 font-weight-bold accent--text">
         {{ room.checkIn | formatDate }}
         <span v-if="room.checkOut">- {{ room.checkOut | formatDate }}</span>
       </v-list-item-subtitle>
 
-      <v-list-item-title class="font-weight-bold greyish--text">
+      <v-list-item-title class="ml-2 font-weight-bold greyish--text my-3">
         {{ room.name }}
       </v-list-item-title>
 

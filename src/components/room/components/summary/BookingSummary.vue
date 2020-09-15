@@ -324,7 +324,9 @@ export default {
   },
   computed: {
     stc() {
-      return !this.hostel.code || !["COP", "NOS"].includes(this.hostel.code);
+      return (
+        !this.hostel.code || !["COP", "NOS", "PRA"].includes(this.hostel.code)
+      );
     },
     cart: {
       get() {

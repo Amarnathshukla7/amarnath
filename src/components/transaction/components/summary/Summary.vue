@@ -48,18 +48,21 @@
                     </v-list-item-title>
                   </v-list-item-content>
                 </template>
-                <AccommodationSummaryItem
-                  v-for="(room, index) in bookingEntries.normal"
-                  :key="index"
-                  :room="room"
-                  :currency="currency"
-                />
-                <AccommodationSummaryItem
-                  v-for="(room, index) in bookingEntries.custom"
-                  :key="index"
-                  :room="room"
-                  :currency="currency"
-                />
+
+                <v-card flat tile color="info" class="pa-0 summary-card">
+                  <AccommodationSummaryItem
+                    v-for="(room, index) in bookingEntries.normal"
+                    :key="index"
+                    :room="room"
+                    :currency="currency"
+                  />
+                  <AccommodationSummaryItem
+                    v-for="(room, index) in bookingEntries.custom"
+                    :key="index"
+                    :room="room"
+                    :currency="currency"
+                  />
+                </v-card>
               </v-list-group>
 
               <v-list-item class="py-2 pl-4 other">
