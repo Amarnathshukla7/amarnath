@@ -55,12 +55,12 @@
         </v-btn>
       </v-overlay>
 
-      <!-- <SearchSummary
+      <SearchSummary
         :hostel="hostelCode"
         :nights="nights"
         :arrival="checkIn"
         :departure="checkOut"
-      /> -->
+      />
 
       <bread-crumbs />
 
@@ -212,7 +212,7 @@
 <script>
 import { differenceInDays } from "date-fns";
 import { set } from "idb-keyval";
-// import SearchSummary from "./components/search/SearchSummary";
+import SearchSummary from "./components/search/SearchSummary";
 import Card from "./components/card/Card.vue";
 import BookingSummary from "./components/summary/BookingSummary.vue";
 import GroupBookingsModal from "./components/GroupBookingsModal.vue";
@@ -263,7 +263,7 @@ export default {
     },
   },
   components: {
-    // SearchSummary,
+    SearchSummary,
     Card,
     BookingSummary,
     BreadCrumbs,

@@ -1,6 +1,6 @@
 <template>
-  <section class="search-summary">
-    <v-card outlined tile class="search-card my-8">
+  <section class="search-summary px-5">
+    <v-card outlined tile class="search-card my-8 mx-auto pa-5">
       <ul>
         <li class="mr-2 mb-3">
           Searching for: <strong>{{ hostelShortName(hostel) }}</strong>
@@ -55,10 +55,6 @@ export default {
 .search-summary {
   padding: 1px 0;
   background-color: #f8f8f8;
-}
-
-.search-card {
-  width: 90%;
 }
 
 .search-card p:last-of-type {
