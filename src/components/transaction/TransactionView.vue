@@ -286,8 +286,12 @@
                                 :hostel-code="hostelConf.hostel_code"
                                 @payment-failed="payPalError"
                                 @complete-transaction="
-                                  (transaction) =>
-                                    completeTransaction(transaction, 'sagepay')
+                                  (transaction, card) =>
+                                    completeTransaction(
+                                      transaction,
+                                      'sagepay',
+                                      card,
+                                    )
                                 "
                               />
                             </v-col>
@@ -574,7 +578,8 @@ export default {
       getHostel(this.cart.hostel_code),
     ]);
 
-    this.guest = this.$store?.$auth?.$state?.user;
+
+    // this.guest = this.$store?.$auth?.$state?.user;
     // if (this.guest && this.guest.type === "agent") {
     //   this.data.guest.name = this.guest.name;
     //   this.data.guest.country = this.guest.country;
@@ -754,12 +759,16 @@ export default {
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
           const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
-          if (!transaction) {
+          if (!transaction.transaction) {
             this.isLoadingOverlay = false;
             this.isLoadingReservation = false;
             return;
           }
-          this.completeTransaction(transaction, "sagepay");
+          this.completeTransaction(
+            transaction.transaction,
+            "sagepay",
+            transaction.card,
+          );
         }
       } catch (e) {
         this.isError = true;
@@ -767,13 +776,14 @@ export default {
         this.isLoadingReservation = false;
       }
     },
-    async completeTransaction(transaction, gateway) {
+    async completeTransaction(transaction, gateway, card = null) {
       try {
         this.reservation = await create({
           deposit: this.data.deposit,
           guest: this.data.guest,
           transaction,
           gateway,
+          card,
           marketing: this.data.newsletter,
         });
 
