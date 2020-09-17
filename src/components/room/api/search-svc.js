@@ -17,14 +17,11 @@ export const availability = async (hostel, start, end) => {
   const accessToken = localStorage.getItem("auth._token.local");
 
   return axios
-    .get(
-      `https://search.svc.bedsandbars.com/${hostel}/${start}/${end}?token=${token}`,
-      {
-        headers: {
-          ...(accessToken && { Authorization: accessToken }),
-        },
+    .get(`/search-svc/${hostel}/${start}/${end}?token=${token}`, {
+      headers: {
+        ...(accessToken && { Authorization: accessToken }),
       },
-    )
+    })
     .then((res) => {
       try {
         const defaultPlanId = res.data.availability.default;
@@ -45,9 +42,7 @@ export const availability = async (hostel, start, end) => {
 
 export const getBreakfastPrice = async (breakfastCode) => {
   const { token } = await get("token");
-  const resp = await axios.get(
-    `https://search.svc.bedsandbars.com/cache/${token}`,
-  );
+  const resp = await axios.get(`/search-svc/cache/${token}`);
 
   try {
     return resp.data.availability.service[breakfastCode].price;
