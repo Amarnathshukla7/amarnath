@@ -73,7 +73,10 @@
               <v-list-item-content>
                 <v-list-item-title>
                   Breakfast:
-                  <span class="float-right font-weight-bold">
+                  <span v-if="noBreakfast" class="float-right font-weight-bold">
+                    Not included
+                  </span>
+                  <span v-else class="float-right font-weight-bold">
                     Included for FREE!
                   </span>
                 </v-list-item-title>
@@ -327,6 +330,9 @@ export default {
       return (
         !this.hostel.code || !["COP", "NOS", "PRA"].includes(this.hostel.code)
       );
+    },
+    noBreakfast() {
+      return ["PRA"].includes(this.hostel.code);
     },
     cart: {
       get() {
