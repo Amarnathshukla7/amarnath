@@ -91,6 +91,9 @@
                         | formatPrice(reservation.cart.hostel.currency)
                     }}
                   </span>
+                  <span class="float-right mr-6" v-else-if="noBreakfast">
+                    Not included in booking
+                  </span>
                   <span class="float-right mr-6" v-else>
                     Included for FREE!
                   </span>
@@ -270,6 +273,9 @@ export default {
         !this.reservation.cart.hostel_code ||
         !["COP", "NOS"].includes(this.reservation.cart.hostel_code)
       );
+    },
+    noBreakfast() {
+      return ["PRA"].includes(this.reservation.cart.hostel_code);
     },
     dueOnArrival() {
       return (

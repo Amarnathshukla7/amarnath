@@ -55,6 +55,13 @@
         </v-btn>
       </v-overlay>
 
+      <SearchSummary
+        :hostel="hostelCode"
+        :nights="nights"
+        :arrival="checkIn"
+        :departure="checkOut"
+      />
+
       <bread-crumbs />
 
       <div
@@ -205,6 +212,7 @@
 <script>
 import { differenceInDays } from "date-fns";
 import { set } from "idb-keyval";
+import SearchSummary from "./components/search/SearchSummary";
 import Card from "./components/card/Card.vue";
 import BookingSummary from "./components/summary/BookingSummary.vue";
 import GroupBookingsModal from "./components/GroupBookingsModal.vue";
@@ -232,15 +240,15 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "BRM",
+      default: "HMM",
     },
     checkIn: {
       type: String,
-      default: "2020-11-01",
+      default: "2020-12-01",
     },
     checkOut: {
       type: String,
-      default: "2020-11-04",
+      default: "2020-12-03",
     },
   },
   watch: {
@@ -255,6 +263,7 @@ export default {
     },
   },
   components: {
+    SearchSummary,
     Card,
     BookingSummary,
     BreadCrumbs,

@@ -30,6 +30,9 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-overlay>
+      <!-- <div>
+        {{ hostel }}
+      </div> -->
       <bread-crumbs :step="3" />
       <v-container v-if="hostel && hostelConf">
         <v-row>
@@ -424,6 +427,7 @@
               :payable="payable"
               :breakfast="breakfast"
               :deposit="data.deposit"
+              :rooms-content="roomsContent"
             ></booking-summary>
           </v-col>
         </v-row>
@@ -608,7 +612,7 @@ export default {
     termsLink() {
       if (["FPU", "FPD"].includes(this.hostelCode)) {
         return "https://www.flyingpig.nl/terms-and-conditions";
-      } else if (this.hostelCode == "COP") {
+      } else if (this.hostel.code == "COP") {
         return "https://www.copenhagendowntown.com/terms";
       } else {
         return "https://www.st-christophers.co.uk/hostel-terms-and-conditions";

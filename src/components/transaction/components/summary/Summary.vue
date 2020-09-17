@@ -12,65 +12,99 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content color="other" class="pa-0">
           <v-card flat tile color="other" class="pa-0 summary-card">
-            <v-list-item class="py-2 pl-4 other">
-              <v-list-item-content>
-                <v-list-item-subtitle
-                  class="body-1 mb-2 font-weight-bold accent--text"
-                >
-                  {{ cart.check_in | formatDate }} -
-                  {{ cart.check_out | formatDate }}
-                </v-list-item-subtitle>
-                <v-list-item-title>
-                  {{ hostelShortName(cart.hostel_code) }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item class="py-2 pl-4 white">
-              <v-list-item-content>
-                <v-list-item-title>
-                  Accommodation Sub-Total
-                  <span class="float-right">{{
-                    cart.accommodation_cost | formatPrice(currency)
-                  }}</span>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item class="py-2 pl-4 other">
-              <v-list-item-content>
-                <v-list-item-title>
-                  Loyalty Coupon Code
+            <v-list class="pa-0">
+              <v-list-item class="py-2 pl-4 other">
+                <v-list-item-content>
+                  <v-list-item-subtitle
+                    class="body-1 mb-2 font-weight-bold accent--text"
+                  >
+                    {{ cart.check_in | formatDate }} -
+                    {{ cart.check_out | formatDate }}
+                  </v-list-item-subtitle>
+                  <v-list-item-title>
+                    {{ hostelShortName(cart.hostel_code) }}
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <!-- <v-list-item class="py-2 pl-4 white">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Accommodation Sub-Total
+                    <span class="float-right">{{
+                      cart.accommodation_cost | formatPrice(currency)
+                    }}</span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item> -->
 
-                  <span class="float-right">
-                    <span v-show="discount > 0">- </span>
-                    {{ discount | formatPrice(currency) }}
-                  </span>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item class="py-2 pl-4 white">
-              <v-list-item-content>
-                <v-list-item-title>
-                  Tourist Tax Total
-                  <span class="float-right">{{
-                    cart.tourist_tax_cost | formatPrice(currency)
-                  }}</span>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              v-show="stc || breakfastCost > 0"
-              class="py-2 pl-4 other"
-            >
-              <v-list-item-content>
-                <v-list-item-title>
-                  Breakfast Total
-                  <span class="float-right" v-if="breakfastCost > 0">
-                    {{ breakfastCost | formatPrice(currency) }}
-                  </span>
-                  <span class="float-right" v-else> Included for FREE! </span>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+              <v-list-group sub-group>
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      Accommodation Sub-Total
+                      <span class="float-right">{{
+                        cart.accommodation_cost | formatPrice(currency)
+                      }}</span>
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </template>
+
+                <v-card flat tile color="info" class="pa-0 summary-card">
+                  <AccommodationSummaryItem
+                    v-for="(room, index) in bookingEntries.normal"
+                    :key="index"
+                    :room="room"
+                    :currency="currency"
+                  />
+                  <AccommodationSummaryItem
+                    v-for="(room, index) in bookingEntries.custom"
+                    :key="index"
+                    :room="room"
+                    :currency="currency"
+                  />
+                </v-card>
+              </v-list-group>
+
+              <v-list-item class="py-2 pl-4 other">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Loyalty Coupon Code
+
+                    <span class="float-right">
+                      <span v-show="discount > 0">- </span>
+                      {{ discount | formatPrice(currency) }}
+                    </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item class="py-2 pl-4 white">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Tourist Tax Total
+                    <span class="float-right">{{
+                      cart.tourist_tax_cost | formatPrice(currency)
+                    }}</span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                v-show="stc || breakfastCost > 0"
+                class="py-2 pl-4 other"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>
+                    Breakfast Total
+                    <span class="float-right" v-if="breakfastCost > 0">
+                      {{ breakfastCost | formatPrice(currency) }}
+                    </span>
+                    <span class="float-right" v-else-if="noBreakfast">
+                      not included
+                    </span>
+                    <span class="float-right" v-else> Included for FREE! </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -126,7 +160,10 @@
 <script>
 import { formatPrice, convertCurrency } from "../../../../filters/money";
 import { formatDate } from "../../../../filters/date";
+import { formatTimezone } from "../../../../helpers/timezone";
+import { differenceInDays, addDays } from "date-fns";
 import { hostelShortName } from "../../../../helpers/hostelNames";
+import AccommodationSummaryItem from "./AccommodationSummaryItem";
 
 import Breakfast from "./Breakfast.vue";
 
@@ -160,9 +197,14 @@ export default {
       type: Number,
       default: 0,
     },
+    roomsContent: {
+      type: Array,
+      default: null,
+    },
   },
   components: {
     Breakfast,
+    AccommodationSummaryItem,
   },
   data() {
     return {
@@ -181,6 +223,31 @@ export default {
     increment() {},
     decrement() {},
     hostelShortName: hostelShortName,
+    normalBooking(rooms, roomContent) {
+      return {
+        name: roomContent.fields.name,
+        code: rooms[0].code,
+        checkIn: rooms[0].date,
+        checkOut: addDays(new Date(rooms[rooms.length - 1].date), 1),
+        qty: rooms[0].qty,
+        maxOccupancy: rooms[0].max_occupancy,
+        type: roomContent.fields.type,
+        cost: rooms
+          .map((room) => room.price_per_item * room.qty)
+          .reduce((acc, val) => acc + val),
+      };
+    },
+    customBooking(rooms, roomContent) {
+      return rooms.map((room) => ({
+        name: roomContent.fields.name,
+        code: room.code,
+        checkIn: room.date,
+        qty: room.qty,
+        maxOccupancy: room.max_occupancy,
+        type: roomContent.fields.type,
+        cost: room.price_per_item * room.qty,
+      }));
+    },
   },
   computed: {
     isCartEmpty() {
@@ -191,6 +258,9 @@ export default {
         !this.cart.hostel_code ||
         !["COP", "NOS"].includes(this.cart.hostel_code)
       );
+    },
+    noBreakfast() {
+      return ["PRA"].includes(this.cart.hostel_code);
     },
     discount() {
       return this.cart.discount;
@@ -207,6 +277,63 @@ export default {
       if (this.deposit === 100) return 0;
 
       return this.cost;
+    },
+    bookingEntries() {
+      const normalBook = [];
+      const customBook = [];
+
+      const guestCount = 0;
+
+      if (!this.cart) return null;
+
+      const items = this.cart.items;
+      const roomCodes = new Set(
+        items
+          .sort(
+            (a, b) =>
+              formatTimezone(new Date(a.date)) -
+              formatTimezone(new Date(b.date)),
+          )
+          .filter((room) => room.type === "bed")
+          .map((room) => room.code),
+      );
+
+      roomCodes.forEach((roomCode) => {
+        const rooms = items.filter((item) => item.code === roomCode);
+        let normal = true;
+
+        const roomContent = this.roomsContent.find(
+          (room) => room.fields.roomCode == roomCode,
+        );
+
+        rooms.forEach((room, idx) => {
+          if (idx > 0) {
+            const diff = differenceInDays(
+              formatTimezone(new Date(room.date)),
+              formatTimezone(new Date(rooms[idx - 1].date)),
+            );
+
+            const qtyDiff = room.qty === rooms[idx - 1].qty;
+
+            if (diff !== 1 || !qtyDiff) normal = false;
+          }
+        });
+
+        if (normal && rooms.length !== 1) {
+          normalBook.push(this.normalBooking(rooms, roomContent));
+        } else {
+          customBook.push(...this.customBooking(rooms, roomContent));
+        }
+      });
+
+      return {
+        normal: normalBook,
+        custom: customBook.sort(
+          (a, b) =>
+            formatTimezone(new Date(a.checkIn)) -
+            formatTimezone(new Date(b.checkIn)),
+        ),
+      };
     },
   },
 };
