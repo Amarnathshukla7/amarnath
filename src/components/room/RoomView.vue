@@ -240,15 +240,15 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "HMM",
+      default: "PRA",
     },
     checkIn: {
       type: String,
-      default: "2020-12-01",
+      default: "2020-12-08",
     },
     checkOut: {
       type: String,
-      default: "2020-12-03",
+      default: "2020-12-10",
     },
   },
   watch: {

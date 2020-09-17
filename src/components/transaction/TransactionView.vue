@@ -589,6 +589,13 @@ export default {
     this.hostelConf = hostelConf;
     this.hostel = hostel;
 
+    if (this.hostel.code === "PRA") {
+      this.currencies.push({
+        key: "CZK",
+        value: "CZK - Czech koruna",
+      });
+    }
+
     this.selectedCurrency = this.hostelConf.currency;
 
     if (!this.isPaypalEnabled) this.data.payMethod = "card";

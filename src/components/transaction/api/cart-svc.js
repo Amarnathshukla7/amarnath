@@ -32,5 +32,5 @@ export const getCurrencyRate = async (currency) => {
 
   return axios
     .get(`/cart-svc/${token}/currency/${currency}`)
-    .then((res) => parseInt(res.data.rate, 10));
+    .then((res) => parseFloat(res.data.rate));
 };
