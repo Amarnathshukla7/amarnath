@@ -97,6 +97,9 @@
                     <span class="float-right" v-if="breakfastCost > 0">
                       {{ breakfastCost | formatPrice(currency) }}
                     </span>
+                    <span class="float-right" v-else-if="noBreakfast">
+                      not included
+                    </span>
                     <span class="float-right" v-else> Included for FREE! </span>
                   </v-list-item-title>
                 </v-list-item-content>
@@ -255,6 +258,9 @@ export default {
         !this.cart.hostel_code ||
         !["COP", "NOS"].includes(this.cart.hostel_code)
       );
+    },
+    noBreakfast() {
+      return ["PRA"].includes(this.cart.hostel_code);
     },
     discount() {
       return this.cart.discount;

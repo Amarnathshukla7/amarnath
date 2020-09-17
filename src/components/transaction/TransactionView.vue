@@ -578,7 +578,6 @@ export default {
       getHostel(this.cart.hostel_code),
     ]);
 
-
     // this.guest = this.$store?.$auth?.$state?.user;
     // if (this.guest && this.guest.type === "agent") {
     //   this.data.guest.name = this.guest.name;
