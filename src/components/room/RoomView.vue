@@ -240,7 +240,7 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "PRA",
+      default: "HMM",
     },
     checkIn: {
       type: String,
