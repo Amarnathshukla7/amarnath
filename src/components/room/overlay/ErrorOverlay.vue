@@ -30,7 +30,7 @@
         and click search again
       </span>
     </div>
-    <v-btn class="mt-4 mr-4 font-weight-bold" @click="loadData">
+    <v-btn class="mt-4 mr-4 font-weight-bold" @click="$parent.loadData">
       <v-icon>mdi-refresh</v-icon>
       Try Again
     </v-btn>

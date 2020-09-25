@@ -274,6 +274,8 @@ export default {
       this.isLoading = true;
       this.reset();
 
+      await this.$store.dispatch("getJourneyUi");
+
       const status = await getStatus();
       if (status.upgrading) {
         this.isStatus = true;
@@ -387,7 +389,7 @@ export default {
     totalCost() {
       return this.cart ? this.cart.total_cost : 0;
     },
-    ...mapState(["hostelData"]),
+    ...mapState(["journeyUi", "hostelData"]),
   },
 };
 </script>

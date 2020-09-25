@@ -207,7 +207,7 @@
 <script>
 import axios from "axios";
 import { get } from "idb-keyval";
-import contentful from "../../plugins/contentful";
+import { stcSpaceClient } from "../../plugins/contentful";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import { formatPrice } from "../../filters/money";
 import { track } from "../transaction/helpers/tracking";
@@ -240,7 +240,7 @@ export default {
   async created() {
     this.reservation = await get("reservation");
 
-    const hostelReq = await contentful.getEntries({
+    const hostelReq = await stcSpaceClient.getEntries({
       include: 2,
       content_type: "hostel",
       "fields.code": this.reservation.cart.hostel.hostel_code,

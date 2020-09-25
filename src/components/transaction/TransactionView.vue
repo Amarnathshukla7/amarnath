@@ -457,7 +457,7 @@ import StripeForm from "./components/StripeForm.vue";
 import SagePaymentForm from "./components/SagePaymentForm.vue";
 import StripePaymentRequest from "./components/StripePaymentRequest.vue";
 import { getCurrencyRate } from "./api/cart-svc";
-import { find } from "../room/api/reservation-svc/hostel-svc";
+import { find } from "../../api/room/reservation-svc/hostel-svc";
 import { getHostel } from "../../plugins/hostel";
 import { hostelShortName } from "../../helpers/hostelNames";
 import { formatDate } from "../../filters/date";

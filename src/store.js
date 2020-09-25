@@ -1,21 +1,37 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import contentful from "./plugins/contentful";
+import { stcSpaceClient, fpSpaceClient } from "./plugins/contentful";
 
 Vue.use(Vuex);
+const hostelClient = stcSpaceClient();
+const uiClient = fpSpaceClient();
 
 export default new Vuex.Store({
   state: {
+    journeyUi: {},
     hostelData: {},
   },
   mutations: {
+    SET_JOURNEY_UI_CONTENT(state, payload) {
+      state.journeyUi = payload;
+    },
     SET_HOSTEL_CONTENT(state, payload) {
       state.hostelData = payload;
     },
   },
   actions: {
+    async getJourneyUi({ commit }) {
+      await uiClient
+        .getEntries({
+          include: 1,
+          content_type: "bookingEngineUi",
+        })
+        .then((response) => {
+          commit("SET_JOURNEY_UI_CONTENT", response.items[0].fields);
+        });
+    },
     async getHostel({ commit }, code) {
-      const hostelReq = await contentful
+      await hostelClient
         .getEntries({
           include: 1,
           content_type: "hostel",
