@@ -225,8 +225,8 @@ import sortRooms from "./helpers/sort";
 import { bus } from "../../plugins/bus";
 import { formatTimezone } from "../../helpers/timezone";
 import { find } from "./api/reservation-svc/hostel-svc";
-import { getHostel } from "../../plugins/hostel";
 import CovidMeasures from "../shared/CovidMeasures";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -320,9 +320,10 @@ export default {
       }
 
       try {
-        const [rooms, hostelConf, hostel] = await Promise.all([
+        this.$store.dispatch("getHostel", this.hostelCode);
+
+        const [rooms, hostel] = await Promise.all([
           availability(this.hostelCode, this.checkIn, this.checkOut),
-          getHostel(this.hostelCode),
           find(this.hostelCode),
         ]);
 
@@ -333,7 +334,7 @@ export default {
         }
 
         this.rooms = rooms;
-        this.hostel = hostelConf;
+        this.hostel = this.hostelData;
         this.hostelConf = hostel;
         const cart = await create(this.bookingSource);
         this.depositModelRate = cart.deposit_model_rate;
@@ -423,6 +424,7 @@ export default {
     totalCost() {
       return this.cart ? this.cart.total_cost : 0;
     },
+    ...mapState(["hostelData"]),
   },
 };
 </script>
