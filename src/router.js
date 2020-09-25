@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import RoomView from "./components/room/RoomView.vue";
+import RoomView from "./views/RoomView.vue";
 import TransactionView from "./components/transaction/TransactionView.vue";
 import ConfirmationView from "./components/confirmation/ConfirmationView.vue";
 

@@ -48,11 +48,11 @@
 </template>
 
 <script>
-import UnitSelect from "./UnitSelect.vue";
-import { formatPrice } from "../../../../filters/money";
-import { bus } from "../../../../plugins/bus";
+import UnitSelect from "./UnitSelect";
+import { formatPrice } from "../../../filters/money";
+import { bus } from "../../../plugins/bus";
 import { format } from "date-fns/esm";
-import { formatTimezone } from "../../../../helpers/timezone";
+import { formatTimezone } from "../../../helpers/timezone";
 
 export default {
   props: {

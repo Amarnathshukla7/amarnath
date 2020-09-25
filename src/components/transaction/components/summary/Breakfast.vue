@@ -59,7 +59,7 @@
 
 <script>
 import NumberCounter from "./NumberCounter.vue";
-import { getBreakfastPrice } from "../../../room/api/search-svc";
+import { getBreakfastPrice } from "../../../../api/room/search-svc";
 import { formatPrice } from "../../../../filters/money";
 import { addExtra, deleteExtra } from "../../api/cart-svc";
 import { bus } from "../../../../plugins/bus";

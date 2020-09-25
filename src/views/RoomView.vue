@@ -1,59 +1,9 @@
 <template>
   <v-app>
     <main ref="roomView" class="room-view">
-      <v-overlay class="text-center" :value="isLoading" z-index="9999">
-        <v-progress-circular indeterminate size="64"></v-progress-circular>
-      </v-overlay>
+      <LoadingOverlay :loading="isLoading" />
 
-      <v-overlay
-        class="text-center"
-        :value="isError || availabilityError"
-        :opacity="0.9"
-        color="white"
-      >
-        <div
-          v-if="availabilityError"
-          class="headline black--text font-weight-bold mb-4"
-        >
-          Search Error
-        </div>
-        <div
-          v-else-if="isError"
-          class="headline black--text font-weight-bold mb-4"
-        >
-          Network Error
-        </div>
-
-        <div
-          style="max-width: 600px; line-height: 2"
-          class="body-1 px-2 font-weight-bold black--text"
-        >
-          <span v-if="availabilityError">
-            Uh oh! There's currently no availability for your selected dates.
-            Please search for different dates or one of our other hostels.
-          </span>
-          <span v-else-if="isError">
-            Please check your connection and click below to try again. If you
-            see this error persistently, it might be because there's no
-            rooms/beds available on your selected dates. Please click "Close",
-            select new dates and click search again
-          </span>
-        </div>
-        <v-btn class="mt-4 mr-4 font-weight-bold" @click="loadData">
-          <v-icon>mdi-refresh</v-icon>
-          Try Again
-        </v-btn>
-        <v-btn
-          class="mt-4 font-weight-bold"
-          @click="
-            isError = false;
-            availabilityError = false;
-          "
-        >
-          <v-icon>mdi-close</v-icon>
-          Close
-        </v-btn>
-      </v-overlay>
+      <ErrorOverlay :error="isError" :availability-error="availabilityError" />
 
       <SearchSummary
         :hostel="hostelCode"
@@ -62,17 +12,11 @@
         :departure="checkOut"
       />
 
-      <bread-crumbs />
+      <BreadCrumbs />
 
-      <div
-        v-if="isStatus"
-        class="headline primary--text font-weight-bold mb-4 text-center mt-8 mx-auto"
-        style="max-width: 620px"
-      >
-        {{ status }}
-      </div>
+      <Status :is-status="isStatus" :status="status" />
 
-      <group-bookings-modal
+      <GroupBookingsModal
         :show="showGroupsModal"
         @hide="showGroupsModal = false"
       />
@@ -80,9 +24,10 @@
       <v-container v-if="hostel && hostelConf">
         <v-row v-show="!showSummaryBreakfast" no-gutters>
           <v-col cols="12" offset-xl="2">
-            <filters-sort-by :hostel-code="hostelCode" @sort="sort" />
+            <FiltersSortBy :hostel-code="hostelCode" @sort="sort" />
           </v-col>
         </v-row>
+
         <v-row>
           <v-col
             v-show="!showSummaryBreakfast"
@@ -94,7 +39,6 @@
             offset-xl="2"
             style="z-index: 0"
           >
-            <!-- cols="12" md="8" lg="6" offset-lg="1" xl="5" offset-xl="2" -->
             <v-expansion-panels
               v-model="openPanel"
               class="room-view-panel--margin"
@@ -112,10 +56,12 @@
                   >
                     Shared Rooms
                   </div>
+
                   <template v-slot:actions>
                     <v-icon color="white">$expand</v-icon>
                   </template>
                 </v-expansion-panel-header>
+
                 <v-expansion-panel-content ref="sharedRooms" color="info">
                   <p
                     v-if="!isLoading && dorms.length === 0"
@@ -123,7 +69,8 @@
                   >
                     Nothing available
                   </p>
-                  <card
+
+                  <Card
                     v-for="dorm in dorms"
                     :room="dorm"
                     :room-contents="hostel.rooms"
@@ -157,6 +104,7 @@
                     <v-icon color="white">$expand</v-icon>
                   </template>
                 </v-expansion-panel-header>
+
                 <v-expansion-panel-content ref="privateRooms" color="info">
                   <p
                     v-if="!isLoading && privates.length === 0"
@@ -164,7 +112,8 @@
                   >
                     Nothing available
                   </p>
-                  <card
+
+                  <Card
                     v-for="priv in privates"
                     :room="priv"
                     :room-contents="hostel.rooms"
@@ -188,8 +137,9 @@
               </v-expansion-panel>
             </v-expansion-panels>
           </v-col>
+
           <v-col cols="12" sm="5" md="4" lg="3" xl="2">
-            <booking-summary
+            <BookingSummary
               :cost="totalCost"
               :cart-data="cart"
               :rooms-content="roomsContent"
@@ -201,7 +151,7 @@
               :showSummaryBreakfast="showSummaryBreakfast"
               :hostel="hostel"
               :isSmallDevice="isSmallDevice"
-            ></booking-summary>
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -210,23 +160,33 @@
 </template>
 
 <script>
+// Packages
 import { differenceInDays } from "date-fns";
-import { set } from "idb-keyval";
-import SearchSummary from "./components/search/SearchSummary";
-import Card from "./components/card/Card.vue";
-import BookingSummary from "./components/summary/BookingSummary.vue";
-import GroupBookingsModal from "./components/GroupBookingsModal.vue";
-import BreadCrumbs from "../shared/BreadCrumbs.vue";
-import FiltersSortBy from "./components/filters/FiltersSortBy.vue";
-import { availability } from "./api/search-svc";
-import { create } from "./api/reservation-svc/cart-svc";
-import { getStatus } from "./api/reservation-svc/status-svc";
-import sortRooms from "./helpers/sort";
-import { bus } from "../../plugins/bus";
-import { formatTimezone } from "../../helpers/timezone";
-import { find } from "./api/reservation-svc/hostel-svc";
-import CovidMeasures from "../shared/CovidMeasures";
 import { mapState } from "vuex";
+import { set } from "idb-keyval";
+
+// APIs
+import { availability } from "../api/room/search-svc";
+import { create } from "../api/room/reservation-svc/cart-svc";
+import { getStatus } from "../api/room/reservation-svc/status-svc";
+import { find } from "../api/room/reservation-svc/hostel-svc";
+
+// Helpers & Plugins
+import { bus } from "../plugins/bus";
+import { formatTimezone } from "../helpers/timezone";
+import sortRooms from "../helpers/room/sort";
+
+// Components
+import BookingSummary from "../components/room/summary/BookingSummary";
+import BreadCrumbs from "../components/shared/BreadCrumbs";
+import Card from "../components/room/card/Card";
+import CovidMeasures from "../components/shared/CovidMeasures";
+import ErrorOverlay from "../components/room/overlay/ErrorOverlay";
+import FiltersSortBy from "../components/room/filters/FiltersSortBy";
+import GroupBookingsModal from "../components/room/groups/GroupBookingsModal";
+import LoadingOverlay from "../components/room/overlay/LoadingOverlay";
+import SearchSummary from "../components/room/search/SearchSummary";
+import Status from "../components/room/status/Status";
 
 export default {
   props: {
@@ -263,13 +223,16 @@ export default {
     },
   },
   components: {
-    SearchSummary,
-    Card,
     BookingSummary,
     BreadCrumbs,
+    Card,
+    CovidMeasures,
+    ErrorOverlay,
     FiltersSortBy,
     GroupBookingsModal,
-    CovidMeasures,
+    LoadingOverlay,
+    SearchSummary,
+    Status,
   },
   data() {
     return {

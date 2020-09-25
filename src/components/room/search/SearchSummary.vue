@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import { hostelShortName } from "../../../../helpers/hostelNames";
-import { formatDate } from "../../../../filters/date";
+import { hostelShortName } from "../../../helpers/hostelNames";
+import { formatDate } from "../../../filters/date";
 
 export default {
   props: {

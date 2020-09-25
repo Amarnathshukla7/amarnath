@@ -10,6 +10,7 @@
       >
         Filters
       </v-btn>
+
       <v-select
         dense
         class="d-inline-block sort-select"
@@ -22,12 +23,7 @@
         item-value="key"
       ></v-select>
     </v-col>
-    <!-- <v-col cols="12" md="5" class="mt-2 ml-3">
-      <CovidMeasures
-        v-if="showCovidBlock"
-        class="d-inline-block covid-measures-btn"
-      />
-    </v-col> -->
+
     <v-col cols="12">
       <filters v-if="showFilters" />
     </v-col>
@@ -35,7 +31,7 @@
 </template>
 
 <script>
-import Filters from "./Filters.vue";
+import Filters from "./Filters";
 import CovidMeasures from "./Covid.vue";
 
 export default {

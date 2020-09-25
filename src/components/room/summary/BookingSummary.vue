@@ -175,15 +175,15 @@
 
 <script>
 import { differenceInDays, addDays } from "date-fns";
-import { formatPrice } from "../../../../filters/money";
-import { formatDate } from "../../../../filters/date";
-import { destroy } from "../../api/reservation-svc/cart-svc";
-import { bus } from "../../../../plugins/bus";
-import BookingSummaryItem from "./BookingSummaryItem.vue";
-import Breakfast from "../../../transaction/components/summary/Breakfast";
-import { formatTimezone } from "../../../../helpers/timezone";
-import { hostelShortName } from "../../../../helpers/hostelNames";
-import CovidMeasures from "../../../shared/CovidMeasures";
+import { formatPrice } from "../../../filters/money";
+import { formatDate } from "../../../filters/date";
+import { destroy } from "../../../api/room/reservation-svc/cart-svc";
+import { bus } from "../../../plugins/bus";
+import BookingSummaryItem from "../../../components/room/summary/BookingSummaryItem";
+import Breakfast from "../../transaction/components/summary/Breakfast";
+import { formatTimezone } from "../../../helpers/timezone";
+import { hostelShortName } from "../../../helpers/hostelNames";
+import CovidMeasures from "../../../components/shared/CovidMeasures";
 
 export default {
   props: {

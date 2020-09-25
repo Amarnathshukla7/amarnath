@@ -304,13 +304,16 @@
 <script>
 import { eachDayOfInterval, subDays, format, differenceInDays } from "date-fns";
 import { LightGallery } from "vue-light-gallery";
-import { destroy, updateOrCreate } from "../../api/reservation-svc/cart-svc";
-import { bus } from "../../../../plugins/bus";
-import { filter } from "../../helpers/filters";
-import { formatTimezone } from "../../../../helpers/timezone";
+import {
+  destroy,
+  updateOrCreate,
+} from "../../../api/room/reservation-svc/cart-svc";
+import { bus } from "../../../plugins/bus";
+import { filter } from "../../../helpers/room/filters";
+import { formatTimezone } from "../../../helpers/timezone";
 
-import Selection from "../selection/Selection.vue";
-import CustomError from "./CustomError.vue";
+import Selection from "../../../components/room/selection/Selection";
+import CustomError from "./CustomError";
 
 export default {
   props: {
