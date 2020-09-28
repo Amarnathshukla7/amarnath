@@ -3,16 +3,23 @@
     <v-card outlined tile class="search-card my-8 mx-auto pa-5">
       <ul>
         <li class="mr-2 mb-3">
-          Searching for: <strong>{{ hostelShortName(hostel) }}</strong>
+          {{ journeyUi.searchSummary.searchingFor }}:
+          <strong>{{ hostelShortName(hostel) }}</strong>
         </li>
+
         <li class="mr-2 mb-3">
-          For: <strong>{{ nights }} nights</strong>
+          {{ journeyUi.searchSummary.for }}:
+          <strong>{{ nights }} {{ journeyUi.searchSummary.nights }}</strong>
         </li>
+
         <li class="mr-2 mb-3">
-          Arriving: <strong>{{ arrival | formatDate }}</strong>
+          {{ journeyUi.searchSummary.arriving }}:
+          <strong>{{ arrival | formatDate }}</strong>
         </li>
+
         <li>
-          Departing: <strong>{{ departure | formatDate }}</strong>
+          {{ journeyUi.searchSummary.departing }}:
+          <strong>{{ departure | formatDate }}</strong>
         </li>
       </ul>
     </v-card>
@@ -22,6 +29,7 @@
 <script>
 import { hostelShortName } from "../../../helpers/hostelNames";
 import { formatDate } from "../../../filters/date";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -47,6 +55,9 @@ export default {
   },
   methods: {
     hostelShortName,
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
 };
 </script>

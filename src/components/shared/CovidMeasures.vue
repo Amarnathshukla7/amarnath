@@ -6,9 +6,11 @@
         src="/covid-measures/icon-shield-white.svg"
         class="mr-3"
       ></v-img>
+
       <div class="font-weight-bold white--text text-uppercase heading">
-        Covid Measures
+        {{ journeyUi.expansionPanelHeaders.covid }}
       </div>
+
       <template v-slot:actions>
         <v-icon color="white">$expand</v-icon>
       </template>
@@ -84,6 +86,16 @@
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
+
+<script>
+import { mapState } from "vuex";
+
+export default {
+  computed: {
+    ...mapState(["journeyUi"]),
+  },
+};
+</script>
 
 <style scoped>
 .covid-panel p {

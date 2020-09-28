@@ -23,7 +23,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
-            Booking Summary
+            {{ journeyUi.expansionPanelHeaders.summary }}
           </div>
           <template v-slot:actions>
             <v-icon color="white">$expand</v-icon>
@@ -174,6 +174,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { differenceInDays, addDays } from "date-fns";
 import { formatPrice } from "../../../filters/money";
 import { formatDate } from "../../../filters/date";
@@ -422,6 +423,7 @@ export default {
         ),
       };
     },
+    ...mapState(["journeyUi"]),
   },
 };
 </script>

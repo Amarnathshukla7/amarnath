@@ -54,7 +54,7 @@
                   <div
                     class="font-weight-bold white--text text-uppercase heading"
                   >
-                    Shared Rooms
+                    {{ journeyUi.expansionPanelHeaders.shared }}
                   </div>
 
                   <template v-slot:actions>
@@ -67,7 +67,7 @@
                     v-if="!isLoading && dorms.length === 0"
                     class="heading font-weight-bold text-center mt-2"
                   >
-                    Nothing available
+                    {{ journeyUi.roomCard.noAvailabilityDorms }}
                   </p>
 
                   <Card
@@ -98,7 +98,7 @@
                   <div
                     class="font-weight-bold white--text text-uppercase heading"
                   >
-                    Private Rooms
+                    {{ journeyUi.expansionPanelHeaders.private }}
                   </div>
                   <template v-slot:actions>
                     <v-icon color="white">$expand</v-icon>
@@ -110,7 +110,7 @@
                     v-if="!isLoading && privates.length === 0"
                     class="heading font-weight-bold text-center mt-2"
                   >
-                    Nothing available
+                    {{ journeyUi.roomCard.noAvailabilityPrivates }}
                   </p>
 
                   <Card
@@ -204,11 +204,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2020-12-08",
+      default: "2020-12-01",
     },
     checkOut: {
       type: String,
-      default: "2020-12-10",
+      default: "2020-12-03",
     },
   },
   watch: {

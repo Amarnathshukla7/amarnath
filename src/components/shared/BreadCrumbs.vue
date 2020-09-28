@@ -2,18 +2,29 @@
   <figure>
     <div class="breadcrumb-container mt-8">
       <div class="breadcrumb flat">
-        <a href="javascript:void(0)" :class="{ active: step >= 1 }"> City </a>
-        <a href="javascript:void(0)" :class="{ active: step >= 2 }"> Rooms </a>
-        <a href="javascript:void(0)" :class="{ active: step >= 3 }">
-          Payment
+        <a href="javascript:void(0)" :class="{ active: step >= 1 }">
+          {{ journeyUi.breadCrumbs.s1 }}
         </a>
-        <a href="javascript:void(0)" :class="{ active: step >= 4 }"> Ready </a>
+
+        <a href="javascript:void(0)" :class="{ active: step >= 2 }">
+          {{ journeyUi.breadCrumbs.s2 }}
+        </a>
+
+        <a href="javascript:void(0)" :class="{ active: step >= 3 }">
+          {{ journeyUi.breadCrumbs.s3 }}
+        </a>
+
+        <a href="javascript:void(0)" :class="{ active: step >= 4 }">
+          {{ journeyUi.breadCrumbs.s4 }}
+        </a>
       </div>
     </div>
   </figure>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: {
     step: {
@@ -41,6 +52,9 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
 };
 </script>
