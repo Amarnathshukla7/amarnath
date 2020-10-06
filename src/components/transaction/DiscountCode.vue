@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { discount } from "../api/cart-svc";
+import { discount } from "../../api/transaction/cart-svc";
 export default {
   props: {
     isLoading: {

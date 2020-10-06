@@ -158,11 +158,11 @@
 </template>
 
 <script>
-import { formatPrice, convertCurrency } from "../../../../filters/money";
-import { formatDate } from "../../../../filters/date";
-import { formatTimezone } from "../../../../helpers/timezone";
+import { formatPrice, convertCurrency } from "../../../filters/money";
+import { formatDate } from "../../../filters/date";
+import { formatTimezone } from "../../../helpers/timezone";
 import { differenceInDays, addDays } from "date-fns";
-import { hostelShortName } from "../../../../helpers/hostelNames";
+import { hostelShortName } from "../../../helpers/hostelNames";
 import AccommodationSummaryItem from "./AccommodationSummaryItem";
 
 import Breakfast from "./Breakfast.vue";

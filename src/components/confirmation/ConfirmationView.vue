@@ -210,7 +210,7 @@ import { get } from "idb-keyval";
 import { stcSpaceClient } from "../../plugins/contentful";
 import BreadCrumbs from "../shared/BreadCrumbs.vue";
 import { formatPrice } from "../../filters/money";
-import { track } from "../transaction/helpers/tracking";
+import { track } from "../../helpers/transaction/tracking";
 
 export default {
   components: {

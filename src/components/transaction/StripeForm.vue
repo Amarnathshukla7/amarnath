@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { create } from "../api/transaction-svc";
-import { getStripeKey } from "../helpers/stripe";
+import { create } from "../../api/transaction/transaction-svc";
+import { getStripeKey } from "../../helpers/transaction/stripe";
 
 export default {
   props: {

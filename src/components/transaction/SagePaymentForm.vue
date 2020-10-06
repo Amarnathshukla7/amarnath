@@ -125,8 +125,8 @@
 
 <script>
 import axios from "axios";
-import { create } from "../api/transaction-svc";
-import countries from "../data/countries.json";
+import { create } from "../../api/transaction/transaction-svc";
+import countries from "../../data/countries.json";
 
 export default {
   props: {

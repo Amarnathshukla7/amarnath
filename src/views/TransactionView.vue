@@ -441,26 +441,33 @@
 </template>
 
 <script>
+// Packages
+import { set, get, del } from "idb-keyval";
+import VStripeElements from "v-stripe-elements/lib";
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
-import VStripeElements from "v-stripe-elements/lib";
-import BreadCrumbs from "../shared/BreadCrumbs.vue";
-import BookingSummary from "./components/summary/Summary.vue";
-import countries from "./data/countries.json";
-import { formatPrice, convertCurrency } from "../../filters/money";
-import { create } from "./api/reservation-svc";
-import { set, get, del } from "idb-keyval";
-import { bus } from "../../plugins/bus";
-import DiscountCode from "./components/DiscountCode.vue";
-import PaypalForm from "./components/PaypalForm.vue";
-import StripeForm from "./components/StripeForm.vue";
-import SagePaymentForm from "./components/SagePaymentForm.vue";
-import StripePaymentRequest from "./components/StripePaymentRequest.vue";
-import { getCurrencyRate } from "./api/cart-svc";
-import { find } from "../../api/room/reservation-svc/hostel-svc";
-import { getHostel } from "../../plugins/hostel";
-import { hostelShortName } from "../../helpers/hostelNames";
-import { formatDate } from "../../filters/date";
+
+// APIs
+import { getCurrencyRate } from "../api/transaction/cart-svc";
+import { create } from "../api/transaction/reservation-svc";
+import { find } from "../api/room/reservation-svc/hostel-svc";
+
+// Helpers, Plugins, Filters & Data
+import { bus } from "../plugins/bus";
+import countries from "../data/countries";
+import { formatDate } from "../filters/date";
+import { formatPrice, convertCurrency } from "../filters/money";
+import { getHostel } from "../plugins/hostel";
+import { hostelShortName } from "../helpers/hostelNames";
+
+// Components
+import BookingSummary from "../components/transaction/summary/Summary";
+import BreadCrumbs from "../components/shared/BreadCrumbs";
+import DiscountCode from "../components/transaction/DiscountCode";
+import PaypalForm from "../components/transaction/PaypalForm";
+import SagePaymentForm from "../components/transaction/SagePaymentForm";
+import StripeForm from "../components/transaction/StripeForm";
+import StripePaymentRequest from "../components/transaction/StripePaymentRequest";
 
 Vue.use(VStripeElements);
 Vue.use(VueLoadScript);

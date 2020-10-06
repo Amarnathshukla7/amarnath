@@ -59,10 +59,10 @@
 
 <script>
 import NumberCounter from "./NumberCounter.vue";
-import { getBreakfastPrice } from "../../../../api/room/search-svc";
-import { formatPrice } from "../../../../filters/money";
-import { addExtra, deleteExtra } from "../../api/cart-svc";
-import { bus } from "../../../../plugins/bus";
+import { getBreakfastPrice } from "../../../api/room/search-svc";
+import { formatPrice } from "../../../filters/money";
+import { addExtra, deleteExtra } from "../../../api/transaction/cart-svc";
+import { bus } from "../../../plugins/bus";
 
 export default {
   props: {

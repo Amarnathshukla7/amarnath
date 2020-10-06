@@ -7,7 +7,7 @@
 <script>
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
-import { getStripeKey } from "../helpers/stripe";
+import { getStripeKey } from "../../helpers/stripe";
 
 Vue.use(VueLoadScript);
 export default {
