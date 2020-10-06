@@ -8,8 +8,9 @@
       color="accent"
       outlined
     >
-      Back
+      {{ journeyUi.roomsSummary.ctas.backButton }}
     </v-btn>
+
     <v-expansion-panels
       v-show="showSummaryBreakfast || !isSmallDevice"
       v-model="open"
@@ -25,10 +26,12 @@
           <div class="font-weight-bold white--text text-uppercase heading">
             {{ journeyUi.expansionPanelHeaders.summary }}
           </div>
+
           <template v-slot:actions>
             <v-icon color="white">$expand</v-icon>
           </template>
         </v-expansion-panel-header>
+
         <v-expansion-panel-content color="info" class="pa-0">
           <v-card
             v-if="bookingEntries"
@@ -45,6 +48,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-card>
+
           <v-card
             v-if="bookingEntries"
             flat
@@ -69,15 +73,16 @@
               :currency="currency"
               @destroy-room="deleteFromCart"
             ></booking-summary-item>
+
             <v-list-item v-show="stc && !showSummaryBreakfast" class="py-2">
               <v-list-item-content>
                 <v-list-item-title>
-                  Breakfast:
+                  {{ journeyUi.roomsSummary.breakfast.headerStandard }}:
                   <span v-if="noBreakfast" class="float-right font-weight-bold">
-                    Not included
+                    {{ journeyUi.roomsSummary.breakfast.notIncluded }}
                   </span>
                   <span v-else class="float-right font-weight-bold">
-                    Included for FREE!
+                    {{ journeyUi.roomsSummary.breakfast.includedFree }}
                   </span>
                 </v-list-item-title>
               </v-list-item-content>
@@ -86,29 +91,37 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+
     <v-card v-if="showSummaryBreakfast" outlined tile class="mt-8">
       <v-list-item class="py-2 pl-8 white">
         <v-list-item-content>
           <v-list-item-title>
-            Accommodation Sub-Total
-            <span class="float-right mr-6">{{
-              cart.accommodation_cost | formatPrice(currency)
-            }}</span>
+            {{ journeyUi.roomsSummary.accommSubTotal }}
+
+            <span class="float-right mr-6">
+              {{ cart.accommodation_cost | formatPrice(currency) }}
+            </span>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
       <v-list-item v-show="stc || cart.extras_cost > 0" class="py-2 pl-8 other">
         <v-list-item-content>
           <v-list-item-title>
-            Breakfast Total
+            {{ journeyUi.roomsSummary.breakfast.headerTotal }}
+
             <span class="float-right mr-6" v-if="cart.extras_cost > 0">
               {{ cart.extras_cost | formatPrice(currency) }}
             </span>
-            <span class="float-right mr-6" v-else> Included for FREE! </span>
+
+            <span class="float-right mr-6" v-else>
+              {{ journeyUi.roomsSummary.breakfast.includedFree }}
+            </span>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-card>
+
     <v-card
       tile
       flat
@@ -117,14 +130,18 @@
     >
       <v-row no-gutters class="mb-5">
         <v-col cols="6">
-          <div class="heading ml-6 mb-md-6 font-weight-bold">Total price:</div>
+          <div class="heading ml-6 mb-md-6 font-weight-bold">
+            {{ journeyUi.roomsSummary.totalPrice }}:
+          </div>
         </v-col>
+
         <v-col cols="6">
           <div class="heading text-right mr-6 font-weight-bold">
             {{ cost | formatPrice(currency) }}
           </div>
         </v-col>
       </v-row>
+
       <v-row v-if="!transaction" class="text-center" no-gutters>
         <v-col>
           <v-tooltip
@@ -149,20 +166,26 @@
                     indeterminate
                     color="white"
                   ></v-progress-circular>
-                  <span v-if="!isCartUpdating">Confirm Selection</span>
+
+                  <span v-if="!isCartUpdating">
+                    {{ journeyUi.roomsSummary.ctas.confirm }}
+                  </span>
                 </v-btn>
               </div>
             </template>
-            <span v-if="isCartUpdating"
-              >Please hold on while we update your cart</span
-            >
-            <span v-if="isCartEmpty"
-              >Please add a room/bed to your cart before continuing</span
-            >
+
+            <span v-if="isCartUpdating">
+              {{ journeyUi.roomsSummary.cartMessages.updating }}
+            </span>
+
+            <span v-if="isCartEmpty">
+              {{ journeyUi.roomsSummary.cartMessages.empty }}
+            </span>
           </v-tooltip>
         </v-col>
       </v-row>
     </v-card>
+
     <breakfast
       v-if="breakfast && showSummaryBreakfast"
       :currency="currency"
@@ -297,10 +320,10 @@ export default {
       }));
     },
     roomTypePopup(roomCode, qty) {
-      const msg8bed =
-        "In the room type you selected there are 2 double mattresses and 4 single mattresses. Please be aware that with your current selection you will not be placed in the same room";
-      const msg12bed =
-        "In the room type you selected there are 2 double mattresses and 8 single mattresses. Please be aware that with your current selection you will not be placed in the same room.";
+      const msg8bed = this.$store.state.journeyUi.roomsSummary.roomTypeMessages
+        .msg8Bed;
+      const msg12bed = this.$store.state.journeyUi.roomsSummary.roomTypeMessages
+        .msg12Bed;
       const rooms = {
         1000118: {
           qty: 2,

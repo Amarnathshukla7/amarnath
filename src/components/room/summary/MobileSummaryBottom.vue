@@ -7,12 +7,16 @@
   >
     <v-row no-gutters class="mb-5">
       <v-col cols="6">
-        <div class="title font-weight-bold">Total price:</div>
+        <div class="title font-weight-bold">
+          {{ journeyUi.roomsSummary.totalPrice }}:
+        </div>
       </v-col>
+
       <v-col cols="6">
         <div class="title font-weight-bold">{{ cost | formatPrice }}</div>
       </v-col>
     </v-row>
+
     <v-row no-gutters>
       <v-col>
         <v-btn
@@ -23,7 +27,7 @@
           color="secondary"
           class="font-weight-bold title"
         >
-          CONTINUE
+          {{ journeyUi.roomsSummary.ctas.continueMobile }}
         </v-btn>
       </v-col>
     </v-row>
@@ -32,6 +36,7 @@
 
 <script>
 import { formatPrice } from "../../../../filters/money";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -39,6 +44,9 @@ export default {
       type: Number,
       default: 0,
     },
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
   filters: {
     formatPrice,

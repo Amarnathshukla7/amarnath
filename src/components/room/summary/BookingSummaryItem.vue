@@ -5,6 +5,7 @@
         {{ room.checkIn | formatDate }}
         <span v-if="room.checkOut">- {{ room.checkOut | formatDate }}</span>
       </v-list-item-subtitle>
+
       <v-list-item-title class="font-weight-bold greyish--text">
         <v-btn icon @click="destroy">
           <v-icon small>mdi-trash-can</v-icon>
@@ -19,8 +20,11 @@
               <v-icon color="white" small>mdi-account</v-icon>
               x{{ room.maxOccupancy * room.qty }}
             </span>
-            in {{ room.qty }} {{ bedType }}
+            {{ journeyUi.roomsSummary.miscContent.in }}
+            {{ room.qty }}
+            {{ bedType }}
           </v-col>
+
           <v-col cols="6" class="text-right">
             <div class="mr-2 body-1 mt-n1 font-weight-bold">
               {{ room.cost | formatPrice(currency) }}
@@ -36,6 +40,7 @@
 <script>
 import { formatPrice } from "../../../filters/money";
 import { formatDate } from "../../../filters/date";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -72,9 +77,15 @@ export default {
     },
     bedType() {
       if (this.room.qty === 1)
-        return this.room.type === "private" ? "Room" : "Bed";
-      else return this.room.type === "private" ? "Rooms" : "Beds";
+        return this.room.type === "private"
+          ? this.$store.state.journeyUi.roomsSummary.miscContent.room
+          : this.$store.state.journeyUi.roomsSummary.miscContent.bed;
+      else
+        return this.room.type === "private"
+          ? this.$store.state.journeyUi.roomsSummary.miscContent.rooms
+          : this.$store.state.journeyUi.roomsSummary.miscContent.beds;
     },
+    ...mapState(["journeyUi"]),
   },
 };
 </script>
