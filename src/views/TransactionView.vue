@@ -1,42 +1,16 @@
 <template>
   <v-app>
     <main ref="transactionView" class="transaction-view">
-      <v-overlay class="text-center" :value="isLoadingOverlay" :opacity="0.8">
-        <v-progress-circular indeterminate size="64"></v-progress-circular>
-        <div
-          v-if="isLoadingReservation"
-          style="max-width: 620px"
-          class="heading mt-10 px-6"
-        >
-          Please wait while we confirm your payment and booking. This might take
-          up to 30 seconds or more on slow internet connections. Please be
-          patient
-        </div>
-      </v-overlay>
+      <LoadingOverlay />
 
-      <v-overlay :value="isError" opacity=".8" class="text-center">
-        <div class="title">Error</div>
-        <div class="body-1 px-4">
-          <span v-if="isPmsError">
-            Issue occurred creating booking, please refresh this page and try
-            again. Reference:
-            <br />
-            <br />
-            {{ reservation.booking_reference }}
-          </span>
-          <span v-else>Something unexpected went wrong, please try again</span>
-        </div>
-        <v-btn class="mt-4" icon @click="isError = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-overlay>
-      <!-- <div>
-        {{ hostel }}
-      </div> -->
-      <bread-crumbs :step="3" />
+      <ErrorOverlay :reservation="reservation" />
+
+      <BreadCrumbs :step="3" />
+
       <v-container v-if="hostel && hostelConf">
         <v-row>
           <v-col cols="12" class="hidden-sm-and-up">
+            <!-- START - MobileSearchSummary.vue -->
             <v-card flat outlined class="rounded-0">
               <v-card-title class="mb-4"> Your reservation for: </v-card-title>
               <v-card-subtitle class="reservation-info">
@@ -57,8 +31,10 @@
                 </p>
               </v-card-subtitle>
             </v-card>
+            <!-- END - MobileSearchSummary.vue -->
           </v-col>
         </v-row>
+
         <v-row>
           <v-col cols="12" sm="6" md="7" lg="8" xl="5" offset-xl="2">
             <v-form ref="form" @submit.prevent>
@@ -432,6 +408,7 @@
           </v-col>
         </v-row>
       </v-container>
+
       <v-snackbar top v-model="formErrorSnackbar">
         Please check that all fields in the form are filled out correctly
         <v-btn text @click="formErrorSnackbar = false">Close</v-btn>
@@ -464,6 +441,7 @@ import { hostelShortName } from "../helpers/hostelNames";
 import BookingSummary from "../components/transaction/summary/Summary";
 import BreadCrumbs from "../components/shared/BreadCrumbs";
 import DiscountCode from "../components/transaction/DiscountCode";
+import LoadingOverlay from "../components/transaction/overlay/LoadingOverlay";
 import PaypalForm from "../components/transaction/PaypalForm";
 import SagePaymentForm from "../components/transaction/SagePaymentForm";
 import StripeForm from "../components/transaction/StripeForm";
@@ -477,6 +455,7 @@ export default {
     BreadCrumbs,
     BookingSummary,
     DiscountCode,
+    LoadingOverlay,
     PaypalForm,
     StripeForm,
     SagePaymentForm,
