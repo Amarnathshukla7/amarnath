@@ -54,12 +54,14 @@
                   <span>{{ content.note }}</span>
                 </v-tooltip>
               </p>
+
               <v-icon
                 class="hidden-sm pb-1 mr-1 d-inline-block"
                 :class="selectedAndCustomStylePrimaryColor"
               >
                 {{ peopleIcon }}
               </v-icon>
+
               <div
                 class="caption d-inline-block"
                 :class="selectedAndCustomStylePrimaryColor"
@@ -67,6 +69,7 @@
                 Prices are per {{ bedType }} sleeping {{ maxOccupancy }}
                 {{ personDescriptor }}
               </div>
+
               <div
                 v-if="!room.isCustom && !applyMinStay"
                 class="hidden-lg-and-up mt-2 mb-n3"
@@ -79,6 +82,7 @@
                       style="width: 20px"
                     />
                   </v-col>
+
                   <v-col cols="11">
                     <div
                       class="heading font-weight-bold"
@@ -87,7 +91,7 @@
                         'accent--text': !selected,
                       }"
                     >
-                      You're in luck!
+                      {{ journeyUi.roomCard.inLuck.heading }}
                     </div>
                     <div
                       class="caption mb-3"
@@ -96,7 +100,7 @@
                         'accent--text': !selected,
                       }"
                     >
-                      This Room has full availability on your chosen dates
+                      {{ journeyUi.roomCard.inLuck.message }}
                     </div>
                   </v-col>
                 </v-row>
@@ -110,7 +114,7 @@
                   'white--text': selected,
                 }"
               >
-                Want to customise your stay? <br />
+                {{ journeyUi.roomCard.custom.customQuestion }} <br />
                 Switch to
                 <a
                   class="secondary--text"
@@ -125,7 +129,7 @@
                 v-if="customSelected"
                 class="caption greyish--text hidden-md-and-down"
               >
-                Booking your entire stay in this room? <br />
+                {{ journeyUi.roomCard.custom.normalQuestion }} <br />
                 Switch back to
                 <a
                   class="secondary--text"
@@ -158,7 +162,7 @@
               <p
                 class="text-center py-1 font-weight-bold white--text subtitle-2"
               >
-                Free cancellation
+                {{ journeyUi.roomCard.freeCancellation }}
                 <a
                   class="text-decoration-none"
                   :href="termsLink"
@@ -184,9 +188,9 @@
               v-show="applyMinStay"
             >
               Minimum stay for this room is {{ minStay }} nights. <br />
-              <a href="#update-dates" class="warning--text"
-                >Please update your search</a
-              >
+              <a href="#update-dates" class="warning--text">
+                {{ journeyUi.roomCard.minStays.updateSearch }}
+              </a>
             </div>
 
             <selection
@@ -211,7 +215,7 @@
                 'white--text': selected,
               }"
             >
-              Want to customise your stay? <br />
+              {{ journeyUi.roomCard.custom.customQuestion }} <br />
               Switch to
               <a
                 class="secondary--text"
@@ -226,7 +230,7 @@
               v-if="customSelected && !applyMinStay"
               class="caption hidden-lg-and-up text-center mt-4 mb-4"
             >
-              Booking your entire stay in this room? <br />
+              {{ journeyUi.roomCard.custom.normalQuestion }} <br />
               Switch back to
               <a
                 class="secondary--text"
@@ -256,7 +260,7 @@
                       'accent--text': !isSelectedAndNotCustom,
                     }"
                   >
-                    You're in luck!
+                    {{ journeyUi.roomCard.inLuck.heading }}
                   </div>
                   <div
                     class="caption mb-3"
@@ -265,7 +269,7 @@
                       'accent--text': !isSelectedAndNotCustom,
                     }"
                   >
-                    This Room has full availability on your chosen dates
+                    {{ journeyUi.roomCard.inLuck.message }}
                   </div>
                 </v-col>
               </v-row>
@@ -314,6 +318,8 @@ import { formatTimezone } from "../../../helpers/timezone";
 
 import Selection from "../../../components/room/selection/Selection";
 import CustomError from "./CustomError";
+
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -531,6 +537,7 @@ export default {
     standardSelected() {
       return this.$refs.standardSelection.unitsSelected || 0;
     },
+    ...mapState(["journeyUi"]),
   },
 };
 </script>

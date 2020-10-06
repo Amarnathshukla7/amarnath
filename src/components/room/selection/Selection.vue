@@ -37,8 +37,13 @@
                 :class="{ title: date }"
                 >{{ price | formatPrice(currency) }}</span
               >
-              <span v-else-if="price === 0 && date">Sold Out</span>
-              <span v-else>Avg price per night</span>
+              <span v-else-if="price === 0 && date">
+                {{ journeyUi.roomCard.selection.soldOut }}
+              </span>
+
+              <span v-else>
+                {{ journeyUi.roomCard.selection.avgMessage }}
+              </span>
             </div>
           </div>
         </v-col>
@@ -53,6 +58,7 @@ import { formatPrice } from "../../../filters/money";
 import { bus } from "../../../plugins/bus";
 import { format } from "date-fns/esm";
 import { formatTimezone } from "../../../helpers/timezone";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -119,6 +125,7 @@ export default {
         units: this.unitsSelected,
       };
     },
+    ...mapState(["journeyUi"]),
   },
   methods: {
     update(value) {

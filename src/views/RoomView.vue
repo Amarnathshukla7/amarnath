@@ -67,7 +67,7 @@
                     v-if="!isLoading && dorms.length === 0"
                     class="heading font-weight-bold text-center mt-2"
                   >
-                    {{ journeyUi.roomCard.noAvailabilityDorms }}
+                    {{ journeyUi.roomCard.cardLister.noAvailabilityDorms }}
                   </p>
 
                   <Card
@@ -110,7 +110,7 @@
                     v-if="!isLoading && privates.length === 0"
                     class="heading font-weight-bold text-center mt-2"
                   >
-                    {{ journeyUi.roomCard.noAvailabilityPrivates }}
+                    {{ journeyUi.roomCard.cardLister.noAvailabilityPrivates }}
                   </p>
 
                   <Card
