@@ -8,7 +8,7 @@
         outlined
         class="mr-5 filters-btn"
       >
-        Filters
+        {{ journeyUi.filters.filtersBtn }}
       </v-btn>
 
       <v-select
@@ -33,6 +33,7 @@
 <script>
 import Filters from "./Filters";
 import CovidMeasures from "./Covid.vue";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -56,10 +57,22 @@ export default {
       showFilters: false,
       sort: null,
       items: [
-        { key: "price-low", value: "Lowest Price" },
-        { key: "price-high", value: "Highest Price" },
-        { key: "avail-low", value: "Lowest Availability" },
-        { key: "avail-high", value: "Highest Availability" },
+        {
+          key: "price-low",
+          value: this.$store.state.journeyUi.filters.sortOptions.priceLow,
+        },
+        {
+          key: "price-high",
+          value: this.$store.state.journeyUi.filters.sortOptions.priceHigh,
+        },
+        {
+          key: "avail-low",
+          value: this.$store.state.journeyUi.filters.sortOptions.availLow,
+        },
+        {
+          key: "avail-high",
+          value: this.$store.state.journeyUi.filters.sortOptions.availHigh,
+        },
       ],
     };
   },
@@ -67,6 +80,7 @@ export default {
     showCovidBlock() {
       return !["COP"].includes(this.hostelCode);
     },
+    ...mapState(["journeyUi"]),
   },
 };
 </script>

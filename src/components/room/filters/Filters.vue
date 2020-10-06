@@ -24,13 +24,14 @@
 
     <v-btn class="mt-2" color="secondary" @click="selected = []" outlined>
       <v-icon>mdi-close</v-icon>
-      Clear All
+      {{ journeyUi.filters.clearFilters }}
     </v-btn>
   </v-row>
 </template>
 
 <script>
 import { bus } from "../../../plugins/bus";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -53,6 +54,9 @@ export default {
     isSelected(filter) {
       return this.selected.includes(filter);
     },
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
 };
 </script>

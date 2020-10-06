@@ -9,12 +9,11 @@
           </v-btn>
         </v-card-actions>
         <v-card-title class="headline mb-4">
-          BOOKING FOR A GROUP?
+          {{ journeyUi.groupModal.heading }}
         </v-card-title>
 
         <v-card-subtitle>
-          Looks like you're making a booking for 10+ people, please use our
-          dedicated group bookings website
+          {{ journeyUi.groupModal.message }}
         </v-card-subtitle>
 
         <v-row class="px-4">
@@ -22,11 +21,12 @@
             <v-card>
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
-                  <v-card-title class="headline">Sports</v-card-title>
+                  <v-card-title class="headline">
+                    {{ journeyUi.groupModal.groupTypes.sports.heading }}
+                  </v-card-title>
 
                   <v-card-subtitle>
-                    Watching a big game? On tour with your team? Our hostels are
-                    modern and fun, plus we screen live sports
+                    {{ journeyUi.groupModal.groupTypes.sports.message }}
                   </v-card-subtitle>
                 </div>
 
@@ -43,7 +43,7 @@
                   rel="noopener noreferrer"
                   class="mt-n2 ml-2 secondary--text font-weight-bold"
                 >
-                  Click here
+                  {{ journeyUi.groupModal.cta }}
                 </a>
               </v-card-actions>
             </v-card>
@@ -52,11 +52,12 @@
             <v-card>
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
-                  <v-card-title class="headline">Party</v-card-title>
+                  <v-card-title class="headline">
+                    {{ journeyUi.groupModal.groupTypes.party.heading }}
+                  </v-card-title>
 
                   <v-card-subtitle>
-                    Got a stag or hen do coming up? Celebrating a birthday? If
-                    you need some beds, we have you covered
+                    {{ journeyUi.groupModal.groupTypes.party.message }}
                   </v-card-subtitle>
                 </div>
 
@@ -73,7 +74,7 @@
                   rel="noopener noreferrer"
                   class="mt-n2 ml-2 secondary--text font-weight-bold"
                 >
-                  Click here
+                  {{ journeyUi.groupModal.cta }}
                 </a>
               </v-card-actions>
             </v-card>
@@ -82,12 +83,12 @@
             <v-card>
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
-                  <v-card-title class="headline">Student</v-card-title>
+                  <v-card-title class="headline">
+                    {{ journeyUi.groupModal.groupTypes.student.heading }}
+                  </v-card-title>
 
                   <v-card-subtitle>
-                    Whether you’re a university student or school group, our
-                    cities offer bundles for the budding learner. Our hostels
-                    are safe, clean, fun and child-friendly.
+                    {{ journeyUi.groupModal.groupTypes.student.message }}
                   </v-card-subtitle>
                 </div>
 
@@ -104,7 +105,7 @@
                   rel="noopener noreferrer"
                   class="mt-n2 ml-2 secondary--text font-weight-bold"
                 >
-                  Click here
+                  {{ journeyUi.groupModal.cta }}
                 </a>
               </v-card-actions>
             </v-card>
@@ -116,6 +117,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: {
     show: {
@@ -132,6 +135,7 @@ export default {
         this.$emit("hide");
       },
     },
+    ...mapState(["journeyUi"]),
   },
 };
 </script>
