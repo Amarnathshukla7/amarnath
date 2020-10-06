@@ -18,69 +18,68 @@
 
     <v-expansion-panel-content class="covid-panel pa-4">
       <p>
-        In response to COVID-19, these additional safety and sanitation measures
-        have been added to this property.
+        {{ journeyUi.covidMeasures.message }}
       </p>
 
       <ul>
         <li>
           <img src="/covid-measures/reduced-dorms-icon.svg" alt="" />
 
-          <p>Reduced Capacity Dorms</p>
+          <p>{{ journeyUi.covidMeasures.measures.capacity }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/private-rooms-icon.svg" alt="" />
 
-          <p>Private Dorms for Groups</p>
+          <p>{{ journeyUi.covidMeasures.measures.privateGroups }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/social-distancing-icon.svg" alt="" />
 
-          <p>Social Distancing</p>
+          <p>{{ journeyUi.covidMeasures.measures.socialDistance }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/hand-hygiene-icon.svg" alt="" />
 
-          <p>Hand Hygienization</p>
+          <p>{{ journeyUi.covidMeasures.measures.hands }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/deep-cleaning-icon.svg" alt="" />
 
-          <p>Deep Cleaning & Sanitation</p>
+          <p>{{ journeyUi.covidMeasures.measures.clean }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/free-cancellation-icon.svg" alt="" />
 
-          <p>24hr Free Cancellation</p>
+          <p>{{ journeyUi.covidMeasures.measures.cancel }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/free-breakfast-icon.svg" alt="" />
 
-          <p>Free Breakfast</p>
+          <p>{{ journeyUi.covidMeasures.measures.breakfast }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/contactless-icon.svg" alt="" />
 
-          <p>Contactless Check In</p>
+          <p>{{ journeyUi.covidMeasures.measures.contactless }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/health-questionnaire-icon.svg" alt="" />
 
-          <p>Travel Health Questionaire</p>
+          <p>{{ journeyUi.covidMeasures.measures.questionaire }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/open-bar-icon.svg" alt="" />
 
-          <p>Open Bars & Social Areas</p>
+          <p>{{ journeyUi.covidMeasures.measures.bars }}</p>
         </li>
       </ul>
     </v-expansion-panel-content>
