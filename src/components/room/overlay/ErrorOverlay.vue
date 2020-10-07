@@ -31,7 +31,7 @@
 
     <v-btn class="mt-4 mr-4 font-weight-bold" @click="$parent.loadData">
       <v-icon>mdi-refresh</v-icon>
-      {{ journeyUi.errors.ctas.tryAgain }}
+      {{ journeyUi.errors.errorButtons.tryAgain }}
     </v-btn>
 
     <v-btn
@@ -42,7 +42,7 @@
       "
     >
       <v-icon>mdi-close</v-icon>
-      {{ journeyUi.errors.ctas.close }}
+      {{ journeyUi.errors.errorButtons.close }}
     </v-btn>
   </v-overlay>
 </template>

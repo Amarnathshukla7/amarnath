@@ -1,5 +1,5 @@
 <template>
-  <v-overlay :value="$parent.isError" opacity=".8" class="text-center">
+  <v-overlay :value="error" opacity=".8" class="text-center">
     <div class="title">Error</div>
     <div class="body-1 px-4">
       <span v-if="$parent.isPmsError">
@@ -20,6 +20,10 @@
 <script>
 export default {
   props: {
+    error: {
+      type: Boolean,
+      default: false,
+    },
     reservation: {
       type: Object,
       default: null,

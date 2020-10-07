@@ -1,37 +1,23 @@
 <template>
   <v-app>
     <main ref="transactionView" class="transaction-view">
-      <LoadingOverlay />
+      <LoadingOverlay
+        :loading-overlay="isLoadingOverlay"
+        :loading-reservation="isLoadingReservation"
+      />
 
-      <ErrorOverlay :reservation="reservation" />
+      <ErrorOverlay :error="isError" :reservation="reservation" />
 
       <BreadCrumbs :step="3" />
 
       <v-container v-if="hostel && hostelConf">
         <v-row>
           <v-col cols="12" class="hidden-sm-and-up">
-            <!-- START - MobileSearchSummary.vue -->
-            <v-card flat outlined class="rounded-0">
-              <v-card-title class="mb-4"> Your reservation for: </v-card-title>
-              <v-card-subtitle class="reservation-info">
-                <p class="font-weight-bold">
-                  {{ hostelShortName(cart.hostel_code) }}
-                </p>
-                <p>
-                  Arriving:
-                  <span class="font-weight-bold">{{
-                    cart.check_in | formatDate
-                  }}</span>
-                </p>
-                <p>
-                  Departing:
-                  <span class="font-weight-bold">{{
-                    cart.check_out | formatDate
-                  }}</span>
-                </p>
-              </v-card-subtitle>
-            </v-card>
-            <!-- END - MobileSearchSummary.vue -->
+            <MobileSearchSummary
+              :hostel-code="cart.hostel_code"
+              :arrival-date="cart.check_in"
+              :departure-date="cart.check_out"
+            />
           </v-col>
         </v-row>
 
@@ -419,6 +405,7 @@
 
 <script>
 // Packages
+import { mapState } from "vuex";
 import { set, get, del } from "idb-keyval";
 import VStripeElements from "v-stripe-elements/lib";
 import Vue from "vue";
@@ -441,7 +428,9 @@ import { hostelShortName } from "../helpers/hostelNames";
 import BookingSummary from "../components/transaction/summary/Summary";
 import BreadCrumbs from "../components/shared/BreadCrumbs";
 import DiscountCode from "../components/transaction/DiscountCode";
+import ErrorOverlay from "../components/transaction/overlay/ErrorOverlay";
 import LoadingOverlay from "../components/transaction/overlay/LoadingOverlay";
+import MobileSearchSummary from "../components/transaction/search/MobileSearchSummary";
 import PaypalForm from "../components/transaction/PaypalForm";
 import SagePaymentForm from "../components/transaction/SagePaymentForm";
 import StripeForm from "../components/transaction/StripeForm";
@@ -455,7 +444,9 @@ export default {
     BreadCrumbs,
     BookingSummary,
     DiscountCode,
+    ErrorOverlay,
     LoadingOverlay,
+    MobileSearchSummary,
     PaypalForm,
     StripeForm,
     SagePaymentForm,
@@ -559,9 +550,12 @@ export default {
 
     this.cart = await get("cart");
 
-    const [hostelConf, hostel] = await Promise.all([
+    await this.$store.dispatch("getJourneyUi");
+    await this.$store.dispatch("getHostel", this.cart.hostel_code);
+    // const [hostelConf, hostel] = await Promise.all([
+    const [hostelConf] = await Promise.all([
       find(this.cart.hostel_code),
-      getHostel(this.cart.hostel_code),
+      // getHostel(this.cart.hostel_code),
     ]);
 
     // this.guest = this.$store?.$auth?.$state?.user;
@@ -573,7 +567,8 @@ export default {
     // }
 
     this.hostelConf = hostelConf;
-    this.hostel = hostel;
+    // this.hostel = hostel;
+    this.hostel = this.hostelData;
 
     if (this.hostel.code === "PRA") {
       this.currencies.push({
@@ -686,6 +681,7 @@ export default {
         ? "Pay on Arrival"
         : `Pay ${this.lowerDeposit}%`;
     },
+    ...mapState(["journeyUi", "hostelData"]),
   },
   methods: {
     validate() {

@@ -3,20 +3,26 @@
     <main ref="roomView" class="room-view">
       <LoadingOverlay :loading="isLoading" />
 
-      <ErrorOverlay :error="isError" :availability-error="availabilityError" />
+      <ErrorOverlay
+        v-if="uiContent"
+        :error="isError"
+        :availability-error="availabilityError"
+      />
 
       <SearchSummary
+        v-if="uiContent"
         :hostel="hostelCode"
         :nights="nights"
         :arrival="checkIn"
         :departure="checkOut"
       />
 
-      <BreadCrumbs />
+      <BreadCrumbs v-if="uiContent" />
 
-      <Status :is-status="isStatus" :status="status" />
+      <Status v-if="uiContent" :is-status="isStatus" :status="status" />
 
       <GroupBookingsModal
+        v-if="uiContent"
         :show="showGroupsModal"
         @hide="showGroupsModal = false"
       />
@@ -239,6 +245,7 @@ export default {
       depositModelRate: null,
       hostelConf: null,
       hostel: null,
+      uiContent: null,
       showGroupsModal: false,
       groupBookingModalAlreadyShown: false,
       openPanel: [1, 2],
@@ -251,6 +258,10 @@ export default {
       cart: null,
       showSummaryBreakfast: false,
     };
+  },
+  async beforeCreate() {
+    await this.$store.dispatch("getJourneyUi");
+    this.uiContent = this.journeyUi;
   },
   created() {
     this.loadData();
@@ -274,7 +285,7 @@ export default {
       this.isLoading = true;
       this.reset();
 
-      await this.$store.dispatch("getJourneyUi");
+      // this.$store.dispatch("getJourneyUi");
 
       const status = await getStatus();
       if (status.upgrading) {
