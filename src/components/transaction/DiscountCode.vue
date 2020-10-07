@@ -18,7 +18,6 @@
           width="100%"
           x-large
           tile
-          flat
         >
           <v-progress-circular
             v-if="loading"

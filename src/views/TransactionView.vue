@@ -31,6 +31,7 @@
                     multiple
                     class="transaction-view-panel--margin"
                   >
+                    <!-- MAIN GUEST DETAILS -->
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div class="font-weight-bold white--text subtitle-2">
@@ -40,9 +41,11 @@
                           <v-icon color="white">$expand</v-icon>
                         </template>
                       </v-expansion-panel-header>
+
                       <v-expansion-panel-content color="white">
                         <v-card class="mt-4" tile flat>
                           <v-row>
+                            <!-- NAME -->
                             <v-col cols="12" md="6">
                               <v-text-field
                                 label="Full Name"
@@ -51,6 +54,8 @@
                                 outlined
                               ></v-text-field>
                             </v-col>
+
+                            <!-- EMAIL -->
                             <v-col cols="12" md="6">
                               <v-text-field
                                 label="Email"
@@ -60,6 +65,8 @@
                                 outlined
                               ></v-text-field>
                             </v-col>
+
+                            <!-- PHONE -->
                             <v-col cols="12" md="6">
                               <v-text-field
                                 class="mt-n6 mb-md-n6"
@@ -69,6 +76,8 @@
                                 outlined
                               ></v-text-field>
                             </v-col>
+
+                            <!-- COUNTRY -->
                             <v-col cols="12" md="6">
                               <v-autocomplete
                                 class="mt-n6 mb-n6"
@@ -83,6 +92,9 @@
                         </v-card>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
+                    <!-- END: MAIN GUEST DETAILS -->
+
+                    <!-- COUPON CODE -->
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div class="font-weight-bold white--text subtitle-2">
@@ -92,6 +104,7 @@
                           <v-icon color="white">$expand</v-icon>
                         </template>
                       </v-expansion-panel-header>
+
                       <v-expansion-panel-content color="white">
                         <discount-code
                           :is-loading="isLoading"
@@ -100,6 +113,9 @@
                         ></discount-code>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
+                    <!-- END: COUPON CODE -->
+
+                    <!-- PAYMENT -->
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div class="font-weight-bold white--text subtitle-2">
@@ -109,6 +125,7 @@
                           <v-icon color="white">$expand</v-icon>
                         </template>
                       </v-expansion-panel-header>
+
                       <v-expansion-panel-content color="white">
                         <v-card class="mt-4" tile flat>
                           <v-row no-gutters>
@@ -119,6 +136,7 @@
                                 1. How would you like to pay?
                               </div>
                             </v-col>
+
                             <v-col cols="12">
                               <v-radio-group
                                 v-model="data.payMethod"
@@ -134,6 +152,7 @@
                                       />
                                     </v-radio>
                                   </v-col>
+
                                   <v-col cols="12" sm="6" md="3">
                                     <v-radio
                                       v-if="isPaypalEnabled"
@@ -146,6 +165,7 @@
                                       />
                                     </v-radio>
                                   </v-col>
+
                                   <v-col cols="12" sm="6" md="3">
                                     <v-radio
                                       v-if="digitalWalletEnabled && isStripe"
@@ -169,6 +189,7 @@
                               </v-radio-group>
                             </v-col>
                           </v-row>
+
                           <v-row v-show="showDepositChoice" no-gutters>
                             <v-col cols="12">
                               <div
@@ -177,6 +198,7 @@
                                 2. When do you want to pay?
                               </div>
                             </v-col>
+
                             <v-col cols="12">
                               <v-radio-group
                                 v-model="data.deposit"
@@ -190,6 +212,7 @@
                                 <v-radio :value="100" label="Pay Now"></v-radio>
                               </v-radio-group>
                             </v-col>
+
                             <v-col
                               v-if="isStripe"
                               v-show="
@@ -203,6 +226,7 @@
                               >
                                 3. Select your preferred currency
                               </div>
+
                               <v-autocomplete
                                 class="mt-2"
                                 :items="currencies"
@@ -215,6 +239,7 @@
                               ></v-autocomplete>
                             </v-col>
                           </v-row>
+
                           <v-row v-show="showCard" no-gutters>
                             <v-col cols="12">
                               <div
@@ -232,6 +257,7 @@
                                 Card Details
                               </div>
                             </v-col>
+
                             <v-col cols="12">
                               <stripe-form
                                 v-if="isStripe"
@@ -240,6 +266,7 @@
                                 :stripe-key="stripeKey"
                                 :selected-currency="selectedCurrency"
                               ></stripe-form>
+
                               <sage-payment-form
                                 v-if="isSagepay && !showPaypal"
                                 ref="sagepayContainer"
@@ -258,6 +285,7 @@
                               />
                             </v-col>
                           </v-row>
+
                           <v-row v-show="data.payMethod" no-gutters>
                             <v-col cols="12">
                               <v-checkbox
@@ -276,6 +304,7 @@
                                 </label>
                               </v-checkbox>
                             </v-col>
+
                             <v-col cols="12">
                               <v-checkbox
                                 class="mt-n3"
@@ -302,6 +331,8 @@
                           </v-row>
                         </v-card>
                       </v-expansion-panel-content>
+
+                      <!-- PAYABLE NOW -->
                       <v-card
                         flat
                         tile
@@ -324,6 +355,7 @@
                               }}
                             </div>
                           </v-col>
+
                           <v-col cols="12" md="6">
                             <paypal-form
                               v-show="showPaypal"
@@ -335,6 +367,7 @@
                               @paypal-error="payPalError"
                               @paypal-approved="createPaypalReservation"
                             ></paypal-form>
+
                             <stripe-payment-request
                               v-if="isStripe"
                               ref="stripePaymentReqeuest"
@@ -350,6 +383,7 @@
                               @preq-error="payPalError"
                               @preq-approved="createPreqReservation"
                             ></stripe-payment-request>
+
                             <v-btn
                               v-show="showCard || !data.payMethod"
                               class="font-weight-bold"
@@ -374,12 +408,15 @@
                           </v-col>
                         </v-row>
                       </v-card>
+                      <!-- END: PAYABLE NOW -->
                     </v-expansion-panel>
+                    <!-- END: PAYMENT -->
                   </v-expansion-panels>
                 </v-col>
               </v-row>
             </v-form>
           </v-col>
+
           <v-col cols="12" sm="6" md="5" lg="4" xl="3">
             <booking-summary
               :cart="cart"
@@ -497,6 +534,7 @@ export default {
       isLoading: false,
       isLoadingOverlay: false,
       isError: false,
+      uiContentLoaded: null,
       countries,
       currencies: [
         {
@@ -540,6 +578,10 @@ export default {
       this.isLoading = false;
     },
   },
+  async beforeCreate() {
+    await this.$store.dispatch("getJourneyUi");
+    this.uiContentLoaded = this.journeyUi;
+  },
   async created() {
     this.isLoading = true;
     this.isLoadingOverlay = true;
@@ -550,7 +592,6 @@ export default {
 
     this.cart = await get("cart");
 
-    await this.$store.dispatch("getJourneyUi");
     await this.$store.dispatch("getHostel", this.cart.hostel_code);
     // const [hostelConf, hostel] = await Promise.all([
     const [hostelConf] = await Promise.all([

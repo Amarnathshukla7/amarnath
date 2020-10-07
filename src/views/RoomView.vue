@@ -4,25 +4,25 @@
       <LoadingOverlay :loading="isLoading" />
 
       <ErrorOverlay
-        v-if="uiContent"
+        v-if="uiContentLoaded"
         :error="isError"
         :availability-error="availabilityError"
       />
 
       <SearchSummary
-        v-if="uiContent"
+        v-if="uiContentLoaded"
         :hostel="hostelCode"
         :nights="nights"
         :arrival="checkIn"
         :departure="checkOut"
       />
 
-      <BreadCrumbs v-if="uiContent" />
+      <BreadCrumbs v-if="uiContentLoaded" />
 
-      <Status v-if="uiContent" :is-status="isStatus" :status="status" />
+      <Status v-if="uiContentLoaded" :is-status="isStatus" :status="status" />
 
       <GroupBookingsModal
-        v-if="uiContent"
+        v-if="uiContentLoaded"
         :show="showGroupsModal"
         @hide="showGroupsModal = false"
       />
@@ -245,7 +245,7 @@ export default {
       depositModelRate: null,
       hostelConf: null,
       hostel: null,
-      uiContent: null,
+      uiContentLoaded: null,
       showGroupsModal: false,
       groupBookingModalAlreadyShown: false,
       openPanel: [1, 2],
@@ -261,7 +261,7 @@ export default {
   },
   async beforeCreate() {
     await this.$store.dispatch("getJourneyUi");
-    this.uiContent = this.journeyUi;
+    this.uiContentLoaded = this.journeyUi;
   },
   created() {
     this.loadData();

@@ -141,7 +141,8 @@
               </div>
             </v-card-subtitle>
           </v-col>
-          <v-col cols="12" lg="6" :align-self="customSelected ? 'end' : ''">
+          <!-- <v-col cols="12" lg="6" :align-self="customSelected ? 'end' : ''"> -->
+          <v-col cols="12" lg="6">
             <v-img
               class="mx-auto hidden-lg-and-up"
               :src="thumb.src"
