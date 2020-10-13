@@ -43,7 +43,7 @@
                 <template v-slot:activator>
                   <v-list-item-content>
                     <v-list-item-title>
-                      Accommodation Sub-Total
+                      {{ journeyUi.roomsSummary.accommSubTotal }}
                       <span class="float-right">{{
                         cart.accommodation_cost | formatPrice(currency)
                       }}</span>
@@ -70,7 +70,7 @@
               <v-list-item class="py-2 pl-4 other">
                 <v-list-item-content>
                   <v-list-item-title>
-                    Loyalty Coupon Code
+                    {{ journeyUi.roomsSummary.loyalty }}
 
                     <span class="float-right">
                       <span v-show="discount > 0">- </span>
@@ -82,7 +82,7 @@
               <v-list-item class="py-2 pl-4 white">
                 <v-list-item-content>
                   <v-list-item-title>
-                    Tourist Tax Total
+                    {{ journeyUi.roomsSummary.touristTax }}
                     <span class="float-right">{{
                       cart.tourist_tax_cost | formatPrice(currency)
                     }}</span>
@@ -95,14 +95,16 @@
               >
                 <v-list-item-content>
                   <v-list-item-title>
-                    Breakfast Total
+                    {{ journeyUi.roomsSummary.breakfast.headerTotal }}
                     <span class="float-right" v-if="breakfastCost > 0">
                       {{ breakfastCost | formatPrice(currency) }}
                     </span>
                     <span class="float-right" v-else-if="noBreakfast">
-                      not included
+                      {{ journeyUi.roomsSummary.breakfast.notIncluded }}
                     </span>
-                    <span class="float-right" v-else> Included for FREE! </span>
+                    <span class="float-right" v-else>
+                      {{ journeyUi.roomsSummary.breakfast.includedFree }}
+                    </span>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -113,7 +115,7 @@
     </v-expansion-panels>
     <v-card tile flat color="accent" class="">
       <v-row class="hidden-sm-and-down px-4 py-2 font-weight-bold white--text">
-        <v-col cols="8"> Payable Now: </v-col>
+        <v-col cols="8"> {{ journeyUi.roomsSummary.payable.now }}: </v-col>
         <v-col cols="4" class="text-right">
           {{
             payable
@@ -123,16 +125,18 @@
         </v-col>
       </v-row>
       <v-row class="hidden-md-and-down px-4 py-2 white">
-        <v-col cols="8"> Due on arrival: </v-col>
+        <v-col cols="8"> {{ journeyUi.roomsSummary.payable.arrival }}: </v-col>
         <v-col cols="4" class="text-right">
           {{ dueOnArrival | formatPrice(currency) }}
         </v-col>
       </v-row>
       <v-row class="px-4 py-2 white--text">
         <v-col cols="6" offset-md="0">
-          <div class="title font-weight-bold">Total price:</div>
+          <div class="title font-weight-bold">
+            {{ journeyUi.roomsSummary.payable.total }}:
+          </div>
           <div class="subtitle-1 font-weight-bold hidden-md-and-up">
-            Payable Now:
+            {{ journeyUi.roomsSummary.payable.totalNow }}:
           </div>
         </v-col>
         <v-col cols="6" class="text-right">

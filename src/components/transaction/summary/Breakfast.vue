@@ -5,7 +5,7 @@
   >
     <div class="price-container primary">
       <p class="subtitle-2">
-        For only <br />
+        {{ journeyUi.breakfastUpgrade.price }} <br />
         <span class="title font-weight-bold">{{
           price | formatPrice(currency)
         }}</span>
@@ -14,17 +14,17 @@
     <figure class="text-center">
       <v-img :src="image" max-height="250px"></v-img>
       <h2 v-if="stc" class="mx-2 mt-4 text-justtify subtitle-1">
-        UPGRADE TO COOKED BREAKFAST
+        {{ journeyUi.breakfastUpgrade.message }}
         <br />
         <span class="secondary--text font-weight-bold headline">
-          AND SAVE 30%
+          {{ journeyUi.breakfastUpgrade.discount }}
         </span>
       </h2>
       <h2
         v-else
         class="mx-2 mt-4 text-justtify secondary--text font-weight-bold title text-uppercase"
       >
-        Include breakfast buffet
+        {{ journeyUi.breakfastUpgrade.buffet }}
       </h2>
       <v-row align="center">
         <v-col cols="6" offset="1">
@@ -42,7 +42,7 @@
             color="secondary"
           >
             <span v-if="!isLoading" color="white" class="font-weight-bold">
-              Add/Update
+              {{ journeyUi.breakfastUpgrade.addButton }}
             </span>
             <v-progress-circular
               v-else
@@ -52,12 +52,15 @@
           </v-btn>
         </v-col>
       </v-row>
-      <p class="mx-2 my-2 pb-4">You’ll get breakfast voucher(s) on check-in.</p>
+      <p class="mx-2 my-2 pb-4">
+        {{ journeyUi.breakfastUpgrade.voucherMessage }}
+      </p>
     </figure>
   </section>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import NumberCounter from "./NumberCounter.vue";
 import { getBreakfastPrice } from "../../../api/room/search-svc";
 import { formatPrice } from "../../../filters/money";
@@ -131,6 +134,7 @@ export default {
     image() {
       return this.content.image.fields.file.url + "?w=480";
     },
+    ...mapState(["journeyUi"]),
   },
 };
 </script>
