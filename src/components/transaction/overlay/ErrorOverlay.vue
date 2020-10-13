@@ -3,13 +3,12 @@
     <div class="title">Error</div>
     <div class="body-1 px-4">
       <span v-if="$parent.isPmsError">
-        Issue occurred creating booking, please refresh this page and try again.
-        Reference:
+        {{ journeyUi.bookingOverlay.error.pmsError }}:
         <br />
         <br />
         {{ reservation.booking_reference }}
       </span>
-      <span v-else>Something unexpected went wrong, please try again</span>
+      <span v-else>{{ journeyUi.bookingOverlay.error.otherError }}</span>
     </div>
     <v-btn class="mt-4" icon @click="$parent.isError = false">
       <v-icon>mdi-close</v-icon>
@@ -18,6 +17,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: {
     error: {
@@ -28,6 +29,9 @@ export default {
       type: Object,
       default: null,
     },
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
 };
 </script>

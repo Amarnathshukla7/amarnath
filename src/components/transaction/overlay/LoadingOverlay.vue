@@ -7,13 +7,14 @@
       style="max-width: 620px"
       class="heading mt-10 px-6"
     >
-      Please wait while we confirm your payment and booking. This might take up
-      to 30 seconds or more on slow internet connections. Please be patient
+      {{ journeyUi.bookingOverlay.loading.pleaseWait }}
     </div>
   </v-overlay>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   props: {
     loadingOverlay: {
@@ -24,6 +25,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
 };
 </script>
