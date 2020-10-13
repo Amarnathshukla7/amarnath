@@ -1,7 +1,7 @@
 <template>
   <section class="sagepay">
     <v-overlay class="text-center" :value="overlay" width="100%" height="100%">
-      <h1>Processing Payment...</h1>
+      <h1>{{ journeyUi.paymentForm.sagepay.processingMsg }}</h1>
       <iframe
         width="100%"
         height="100%"
@@ -31,7 +31,7 @@
       <v-col cols="12" md="12">
         <v-text-field
           class="mb-0"
-          label="Name on Card*"
+          :label="journeyUi.paymentForm.sagepay.cardName.label"
           :rules="rules.nameOnCard"
           v-model="payment.nameOnCard"
           outlined
@@ -40,7 +40,7 @@
       <v-col cols="12" md="4">
         <v-text-field
           class="mb-0 mt-n6"
-          label="Card Number*"
+          :label="journeyUi.paymentForm.sagepay.cardNumber.label"
           :rules="rules.cardNumber"
           v-model="card.number"
           outlined
@@ -49,7 +49,7 @@
       <v-col cols="12" md="4">
         <v-text-field
           class="mb-0 mt-n6"
-          label="Expiry Date*"
+          :label="journeyUi.paymentForm.sagepay.cardExpiry.label"
           hint="MM/YY"
           :rules="rules.cardExpiry"
           v-model="card.expiry"
@@ -59,7 +59,7 @@
       <v-col cols="12" md="4">
         <v-text-field
           class="mb-0 mt-n6"
-          label="CVV*"
+          :label="journeyUi.paymentForm.sagepay.cardCvv.label"
           hint="On the back of your card"
           :rules="rules.cardSecurityCode"
           v-model="card.code"
@@ -68,7 +68,7 @@
       </v-col>
       <v-col cols="12">
         <v-text-field
-          label="Address Line 1*"
+          :label="journeyUi.paymentForm.sagepay.billingAddress1.label"
           class="mt-n6"
           :rules="rules.address1"
           v-model="payment.address1"
@@ -77,7 +77,7 @@
       </v-col>
       <v-col cols="12">
         <v-text-field
-          label="Address Line 2"
+          :label="journeyUi.paymentForm.sagepay.billingAddress2.label"
           class="mt-n6"
           v-model="payment.address2"
           outlined
@@ -85,7 +85,7 @@
       </v-col>
       <v-col cols="12">
         <v-text-field
-          label="City*"
+          :label="journeyUi.paymentForm.sagepay.billingCity.label"
           class="mt-n6"
           :rules="rules.city"
           v-model="payment.city"
@@ -94,7 +94,7 @@
       </v-col>
       <v-col cols="12">
         <v-text-field
-          label="Post Code*"
+          :label="journeyUi.paymentForm.sagepay.billingPostcode.label"
           class="mt-n6"
           :rules="rules.postCode"
           v-model="payment.postCode"
@@ -105,7 +105,7 @@
         <v-autocomplete
           class="mt-n6"
           :items="countries"
-          label="Country*"
+          :label="journeyUi.paymentForm.sagepay.billingCountry.label"
           :rules="rules.country"
           v-model="payment.country"
           outlined
@@ -115,7 +115,7 @@
         <v-text-field
           v-if="false"
           class="mt-n6 mb-md-n6"
-          label="State"
+          :label="journeyUi.paymentForm.sagepay.billingState.label"
           outlined
         ></v-text-field>
       </v-col>
@@ -125,6 +125,7 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 import { create } from "../../api/transaction/transaction-svc";
 import countries from "../../data/countries.json";
 
@@ -160,29 +161,70 @@ export default {
       },
       rules: {
         cardNumber: [
-          (v) => !!v || "Card number is required",
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.paymentForm.sagepay.cardNumber.rules
+              .required,
           (v) => {
             const pattern = /^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/;
             return (
               pattern.test(v) ||
-              "Invalid card number. Please type without any spaces"
+              this.$store.state.journeyUi.paymentForm.sagepay.cardNumber.rules
+                .invalid
             );
           },
         ],
         cardExpiry: [
-          (v) => !!v || "Card Expiry is required",
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.paymentForm.sagepay.cardExpiry.rules
+              .required,
           (v) => {
             const pattern = /^(0?[1-9]|1[0-2]){1}\/(0?[1-9]|1[0-9]|2[0-9]|3[0-1]){1}$/;
-            return pattern.test(v) || "Invalid date format (MM/DD)";
+            return (
+              pattern.test(v) ||
+              this.$store.state.journeyUi.paymentForm.sagepay.cardExpiry.rules
+                .invalid
+            );
           },
           //
         ],
-        cardSecurityCode: [(v) => !!v || "CVV is required"],
-        nameOnCard: [(v) => !!v || "Name on card is required"],
-        address1: [(v) => !!v || "Address Line 1 is required"],
-        city: [(v) => !!v || "City is required"],
-        postCode: [(v) => !!v || "Post Code is required"],
-        country: [(v) => !!v || "Country is required"],
+        cardSecurityCode: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.paymentForm.sagepay.cardCvv.rules
+              .required,
+        ],
+        nameOnCard: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.paymentForm.sagepay.cardName.rules
+              .required,
+        ],
+        address1: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.paymentForm.sagepay.billingAddress1
+              .rules.required,
+        ],
+        city: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.paymentForm.sagepay.billingCity.rules
+              .required,
+        ],
+        postCode: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.paymentForm.sagepay.billingPostcode
+              .rules.required,
+        ],
+        country: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.paymentForm.sagepay.billingCountry.rules
+              .required,
+        ],
       },
     };
   },
@@ -281,6 +323,9 @@ export default {
     removePostMessageListener() {
       window.removeEventListener("message", this.receiveMessage);
     },
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
   mounted() {
     this.addPostMessageListener();

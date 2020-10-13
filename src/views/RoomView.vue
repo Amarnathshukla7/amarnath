@@ -206,7 +206,7 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "FPU",
+      default: "HMM",
     },
     checkIn: {
       type: String,

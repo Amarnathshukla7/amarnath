@@ -33,7 +33,11 @@ export default {
       stripeReady: false,
       paymentRequest: null,
       rules: {
-        card: [(v) => !!v || "Card is required"],
+        card: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.paymentForm.other.stripe.required,
+        ],
       },
     };
   },

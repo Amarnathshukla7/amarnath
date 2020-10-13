@@ -4,13 +4,13 @@
       <!-- A Stripe Element will be inserted here. -->
     </div>
     <div v-show="deposit === 0" class="caption px-5">
-      NOTE: No money will be taken from your account. This step will simply
-      validate and run fraud checks on your card.
+      {{ journeyUi.paymentForm.other.stripe.authMsg }}
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { create } from "../../api/transaction/transaction-svc";
 import { getStripeKey } from "../../helpers/transaction/stripe";
 
@@ -141,6 +141,9 @@ export default {
         }
       });
     },
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
 };
 </script>
