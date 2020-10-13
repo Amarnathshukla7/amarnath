@@ -3,12 +3,13 @@
     <v-row class="">
       <v-col cols="12" md="6">
         <v-text-field
-          label="Enter code"
+          :label="journeyUi.couponCodeForm.coupon.label"
           outlined
           v-model="code"
           class="mb-n10"
         ></v-text-field>
       </v-col>
+
       <v-col cols="12" md="6" class="mb-n2 mb-md-n6">
         <v-btn
           class="font-weight-bold white--text subtitle-1"
@@ -24,16 +25,19 @@
             indeterminate
             color="white"
           ></v-progress-circular>
-          <span v-else> APPLY CODE </span>
+
+          <span v-else>
+            {{ journeyUi.couponCodeForm.coupon.button }}
+          </span>
         </v-btn>
         <span v-if="success" class="accent--text caption font-weight-bold">
-          * Code applied successfully
+          * {{ journeyUi.couponCodeForm.coupon.messages.success }}
         </span>
         <span
           v-if="errors.length === 1"
           class="warning--text caption font-weight-bold"
         >
-          * Code not found
+          * {{ journeyUi.couponCodeForm.coupon.messages.notFound }}
         </span>
       </v-col>
       <v-col v-if="errors.length > 1">
@@ -51,6 +55,8 @@
 
 <script>
 import { discount } from "../../api/transaction/cart-svc";
+import { mapState } from "vuex";
+
 export default {
   props: {
     isLoading: {
@@ -92,6 +98,7 @@ export default {
         this.$emit("is-loading", val ? val : false);
       },
     },
+    ...mapState(["journeyUi"]),
   },
 };
 </script>

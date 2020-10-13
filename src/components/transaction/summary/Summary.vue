@@ -3,8 +3,10 @@
     <v-expansion-panels v-model="open" tile flat class="d-none d-sm-block">
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
-          <div class="font-weight-bold white--text text-uppercase heading">
-            Your Booking
+          <div
+            class="font-weight-bold white--text text-uppercase heading text-uppercase"
+          >
+            {{ journeyUi.expansionPanelHeaders.transaction.summary }}
           </div>
           <template v-slot:actions>
             <v-icon color="white">$expand</v-icon>
@@ -158,6 +160,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { formatPrice, convertCurrency } from "../../../filters/money";
 import { formatDate } from "../../../filters/date";
 import { formatTimezone } from "../../../helpers/timezone";
@@ -335,6 +338,7 @@ export default {
         ),
       };
     },
+    ...mapState(["journeyUi"]),
   },
 };
 </script>

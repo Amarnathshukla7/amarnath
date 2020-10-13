@@ -6,14 +6,19 @@
         :loading-reservation="isLoadingReservation"
       />
 
-      <ErrorOverlay :error="isError" :reservation="reservation" />
+      <ErrorOverlay
+        v-if="uiContentLoaded"
+        :error="isError"
+        :reservation="reservation"
+      />
 
-      <BreadCrumbs :step="3" />
+      <BreadCrumbs v-if="uiContentLoaded" :step="3" />
 
       <v-container v-if="hostel && hostelConf">
         <v-row>
           <v-col cols="12" class="hidden-sm-and-up">
             <MobileSearchSummary
+              v-if="uiContentLoaded"
               :hostel-code="cart.hostel_code"
               :arrival-date="cart.check_in"
               :departure-date="cart.check_out"
@@ -27,6 +32,7 @@
               <v-row no-gutters>
                 <v-col cols="12">
                   <v-expansion-panels
+                    v-if="uiContentLoaded"
                     v-model="openPanels"
                     multiple
                     class="transaction-view-panel--margin"
@@ -34,8 +40,12 @@
                     <!-- MAIN GUEST DETAILS -->
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
-                        <div class="font-weight-bold white--text subtitle-2">
-                          1/3 MAIN GUEST DETAILS
+                        <div
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                        >
+                          {{
+                            journeyUi.expansionPanelHeaders.transaction.guest
+                          }}
                         </div>
                         <template v-slot:actions>
                           <v-icon color="white">$expand</v-icon>
@@ -48,7 +58,7 @@
                             <!-- NAME -->
                             <v-col cols="12" md="6">
                               <v-text-field
-                                label="Full Name"
+                                :label="journeyUi.guestDetailsForm.name.label"
                                 :rules="rules.name"
                                 v-model="data.guest.name"
                                 outlined
@@ -58,7 +68,7 @@
                             <!-- EMAIL -->
                             <v-col cols="12" md="6">
                               <v-text-field
-                                label="Email"
+                                :label="journeyUi.guestDetailsForm.email.label"
                                 class="mt-n6 mt-md-0"
                                 :rules="rules.email"
                                 v-model="data.guest.email"
@@ -70,7 +80,7 @@
                             <v-col cols="12" md="6">
                               <v-text-field
                                 class="mt-n6 mb-md-n6"
-                                label="Phone Number"
+                                :label="journeyUi.guestDetailsForm.phone.label"
                                 :rules="rules.phone"
                                 v-model="data.guest.phone"
                                 outlined
@@ -82,7 +92,9 @@
                               <v-autocomplete
                                 class="mt-n6 mb-n6"
                                 :items="countries"
-                                label="Country"
+                                :label="
+                                  journeyUi.guestDetailsForm.country.label
+                                "
                                 :rules="rules.country"
                                 v-model="data.guest.country"
                                 outlined
@@ -97,8 +109,12 @@
                     <!-- COUPON CODE -->
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
-                        <div class="font-weight-bold white--text subtitle-2">
-                          2/3 LOYALTY OR COUPON CODE
+                        <div
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                        >
+                          {{
+                            journeyUi.expansionPanelHeaders.transaction.coupon
+                          }}
                         </div>
                         <template v-slot:actions>
                           <v-icon color="white">$expand</v-icon>
@@ -118,8 +134,12 @@
                     <!-- PAYMENT -->
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
-                        <div class="font-weight-bold white--text subtitle-2">
-                          3/3 PAYMENT DETAILS
+                        <div
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                        >
+                          {{
+                            journeyUi.expansionPanelHeaders.transaction.payment
+                          }}
                         </div>
                         <template v-slot:actions>
                           <v-icon color="white">$expand</v-icon>
@@ -133,7 +153,8 @@
                               <div
                                 class="subtitle-1 text-left accent--text font-weight-bold"
                               >
-                                1. How would you like to pay?
+                                <!-- How would you like to pay? -->
+                                1. {{ journeyUi.paymentForm.s1.question }}
                               </div>
                             </v-col>
 
@@ -195,7 +216,8 @@
                               <div
                                 class="subtitle-1 text-left accent--text font-weight-bold"
                               >
-                                2. When do you want to pay?
+                                <!-- When would you like to pay? -->
+                                2. {{ journeyUi.paymentForm.s2.question }}
                               </div>
                             </v-col>
 
@@ -209,7 +231,13 @@
                                   :value="lowerDeposit"
                                   :label="lowerDepositLabel"
                                 ></v-radio>
-                                <v-radio :value="100" label="Pay Now"></v-radio>
+                                <v-radio
+                                  :value="100"
+                                  :label="
+                                    this.$store.state.journeyUi.paymentForm.s2
+                                      .now
+                                  "
+                                ></v-radio>
                               </v-radio-group>
                             </v-col>
 
@@ -224,7 +252,8 @@
                               <div
                                 class="subtitle-1 text-left accent--text font-weight-bold"
                               >
-                                3. Select your preferred currency
+                                <!-- Preferred Currency -->
+                                3. {{ journeyUi.paymentForm.s3.question }}
                               </div>
 
                               <v-autocomplete
@@ -232,7 +261,10 @@
                                 :items="currencies"
                                 item-value="key"
                                 item-text="value"
-                                label="Currency"
+                                :label="
+                                  this.$store.state.journeyUi.paymentForm.s3
+                                    .label
+                                "
                                 :rules="rules.country"
                                 v-model="selectedCurrency"
                                 outlined
@@ -254,7 +286,8 @@
                                   >3.
                                 </span>
                                 <span v-else>4. </span>
-                                Card Details
+                                <!-- Card Details -->
+                                {{ journeyUi.paymentForm.s4.question }}
                               </div>
                             </v-col>
 
@@ -311,13 +344,10 @@
                                 v-model="data.newsletter"
                               >
                                 <p slot="label">
-                                  Sign up for St Christopher’s Inns offers,
-                                  deals, latest travel guides, playlists and
-                                  more. By opting in, you agree to receive
-                                  marketing emails from St Christopher’s Inns
-                                  Hostels. Your data will not be shared with any
-                                  third-party contacts. You can unsubscribe at
-                                  any time. All part of our
+                                  {{
+                                    journeyUi.paymentForm.s5.marketingOptInMsg
+                                  }}
+                                  All part of our
                                   <a
                                     href="http://www.bedsandbars.com/privacy-and-cookies"
                                     target="_blank"
@@ -345,7 +375,7 @@
                         <v-row no-gutters class="text-center">
                           <v-col class="hidden-md-and-down" cols="6">
                             <div class="subtitle-1 font-weight-bold d-inline">
-                              Payable Now:
+                              {{ journeyUi.paymentForm.other.payableNow }}:
                             </div>
                             <div class="headline font-weight-bold d-inline">
                               {{
@@ -396,14 +426,16 @@
                               :disabled="!data.payMethod || isLoading"
                             >
                               <span v-if="payable > 0">
-                                PAY NOW
+                                {{ journeyUi.paymentForm.other.button.payNow }}
                                 {{
                                   payable
                                     | convertCurrency(currencyRate)
                                     | formatPrice(selectedCurrency)
                                 }}
                               </span>
-                              <span v-else>Confirm Booking</span>
+                              <span v-else>{{
+                                journeyUi.paymentForm.other.button.payArrival
+                              }}</span>
                             </v-btn>
                           </v-col>
                         </v-row>
@@ -418,7 +450,7 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="5" lg="4" xl="3">
-            <booking-summary
+            <BookingSummary
               :cart="cart"
               :currency="hostelConf.currency"
               :selected-currency-rate="currencyRate"
@@ -427,14 +459,16 @@
               :breakfast="breakfast"
               :deposit="data.deposit"
               :rooms-content="roomsContent"
-            ></booking-summary>
+            />
           </v-col>
         </v-row>
       </v-container>
 
       <v-snackbar top v-model="formErrorSnackbar">
-        Please check that all fields in the form are filled out correctly
-        <v-btn text @click="formErrorSnackbar = false">Close</v-btn>
+        {{ journeyUi.paymentForm.other.errorBar.errorMsg }}
+        <v-btn text @click="formErrorSnackbar = false">{{
+          journeyUi.paymentForm.other.errorBar.errorButton
+        }}</v-btn>
       </v-snackbar>
     </main>
   </v-app>
@@ -523,13 +557,32 @@ export default {
       },
       rules: {
         email: [
-          (v) => !!v || "E-mail is required",
-          (v) => /.+@.+/.test(v) || "E-mail must be valid",
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.guestDetailsForm.email.rules.required,
+          (v) =>
+            /.+@.+/.test(v) ||
+            this.$store.state.journeyUi.guestDetailsForm.email.rules.required,
         ],
-        name: [(v) => !!v || "Name is required"],
-        terms: [(v) => !!v || "Please accept our terms"],
-        phone: [(v) => !!v || "Phone Number is required"],
-        country: [(v) => !!v || "Country is required"],
+        name: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.guestDetailsForm.name.rules.required,
+        ],
+        terms: [
+          (v) =>
+            !!v || this.$store.state.journeyUi.paymentForm.s5.rules.required,
+        ],
+        phone: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.guestDetailsForm.phone.rules.required,
+        ],
+        country: [
+          (v) =>
+            !!v ||
+            this.$store.state.journeyUi.guestDetailsForm.name.rules.required,
+        ],
       },
       isLoading: false,
       isLoadingOverlay: false,
@@ -719,7 +772,7 @@ export default {
     },
     lowerDepositLabel() {
       return this.lowerDeposit === 0
-        ? "Pay on Arrival"
+        ? this.$store.state.journeyUi.paymentForm.s2.arrival
         : `Pay ${this.lowerDeposit}%`;
     },
     ...mapState(["journeyUi", "hostelData"]),
@@ -741,7 +794,7 @@ export default {
       // Chrome requires returnValue to be set.
       event.returnValue = "";
 
-      return confirm("Are you sure you want to abandon your search?");
+      return confirm(this.$store.state.journeyUi.paymentForm.other.abandon);
     },
     payPalError() {
       this.isError = true;
