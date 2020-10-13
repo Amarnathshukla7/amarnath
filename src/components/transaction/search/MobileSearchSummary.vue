@@ -1,16 +1,21 @@
 <template>
   <v-card flat outlined class="rounded-0">
-    <v-card-title class="mb-4"> Your reservation for: </v-card-title>
+    <v-card-title class="mb-4">
+      {{ journeyUi.mobileSearchSummary.reservation }}:
+    </v-card-title>
+
     <v-card-subtitle class="reservation-info">
       <p class="font-weight-bold">
         {{ hostelShortName(hostelCode) }}
       </p>
+
       <p>
-        Arriving:
+        {{ journeyUi.mobileSearchSummary.arriving }}:
         <span class="font-weight-bold">{{ arrivalDate | formatDate }}</span>
       </p>
+
       <p>
-        Departing:
+        {{ journeyUi.mobileSearchSummary.departing }}:
         <span class="font-weight-bold">{{ departureDate | formatDate }}</span>
       </p>
     </v-card-subtitle>
@@ -18,6 +23,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { formatDate } from "../../../filters/date";
 import { hostelShortName } from "../../../helpers/hostelNames";
 
@@ -41,6 +47,9 @@ export default {
   },
   filters: {
     formatDate,
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
 };
 </script>
