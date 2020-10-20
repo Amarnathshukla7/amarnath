@@ -1,6 +1,7 @@
 <template>
   <v-app v-if="reservation && hostel">
     <EasterEggOverlay v-if="overlay" @close-overlay="overlay = false" />
+
     <v-container>
       <v-row no-gutters>
         <v-col cols="12" class="my-4">
@@ -10,13 +11,13 @@
 
       <v-row>
         <v-col class="text-center">
-          <ThankYou />
+          <ThankYou v-if="uiContentLoaded" />
         </v-col>
       </v-row>
 
-      <v-row class="">
+      <v-row>
         <v-col cols="12" md="6" lg="5" offset-lg="1">
-          <BookingSummary :reservation="reservation" />
+          <BookingSummary v-if="uiContentLoaded" :reservation="reservation" />
         </v-col>
 
         <v-col cols="12" md="6" lg="5">

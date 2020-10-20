@@ -3,15 +3,16 @@
     <div
       class="white--text text-center accent px-4 py-8 font-weight-bold title mx-auto"
     >
-      Your booking reference number is:
+      {{ journeyUi.bookingSummary.bookingReference }}:
       <div class="display-1 font-weight-bold">
         {{ reservation.booking_reference }}
       </div>
     </div>
+
     <v-list-item class="py-2 pl-8 white">
       <v-list-item-content>
         <v-list-item-title>
-          Accommodation Sub-Total
+          {{ journeyUi.bookingSummary.accommodationTotal }}
           <span class="float-right mr-6">{{
             reservation.cart.accommodation_cost
               | formatPrice(reservation.cart.hostel.currency)
@@ -19,10 +20,11 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
     <v-list-item class="py-2 pl-8 other">
       <v-list-item-content>
         <v-list-item-title>
-          Loyalty Coupon Code
+          {{ journeyUi.bookingSummary.loyaltyCode }}
           <span class="float-right mr-6">{{
             reservation.cart.discount
               | formatPrice(reservation.cart.hostel.currency)
@@ -30,10 +32,11 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
     <v-list-item class="py-2 pl-8 white">
       <v-list-item-content>
         <v-list-item-title>
-          Tourist Tax Total
+          {{ journeyUi.bookingSummary.touristTax }}
           <span class="float-right mr-6">{{
             reservation.cart.tourist_tax_cost
               | formatPrice(reservation.cart.hostel.currency)
@@ -41,13 +44,14 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
     <v-list-item
       v-show="stc || reservation.cart.extras_cost > 0"
       class="py-2 pl-8 other"
     >
       <v-list-item-content>
         <v-list-item-title>
-          Breakfast Total
+          {{ journeyUi.bookingSummary.breakfast.heading }}
           <span
             class="float-right mr-6"
             v-if="reservation.cart.extras_cost > 0"
@@ -58,16 +62,19 @@
             }}
           </span>
           <span class="float-right mr-6" v-else-if="noBreakfast">
-            Not included in booking
+            {{ journeyUi.bookingSummary.breakfast.notIncluded }}
           </span>
-          <span class="float-right mr-6" v-else> Included for FREE! </span>
+          <span class="float-right mr-6" v-else>
+            {{ journeyUi.bookingSummary.breakfast.included }}
+          </span>
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
     <v-list-item class="py-2 pl-8 accent">
       <v-list-item-content>
         <v-list-item-title class="white--text font-weight-bold">
-          Total Price
+          {{ journeyUi.bookingSummary.totalPrice }}
           <span class="float-right mr-6">{{
             reservation.cart.total_cost
               | formatPrice(reservation.cart.hostel.currency)
@@ -75,20 +82,22 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
     <v-list-item class="py-2 pl-8 white">
       <v-list-item-content>
         <v-list-item-title>
-          Total Paid
+          {{ journeyUi.bookingSummary.totalPaid }}
           <span class="float-right mr-6">{{
             reservation.paid | formatPrice(reservation.transaction.currency)
           }}</span>
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
+
     <v-list-item class="py-2 pl-8 accent font-weight-bold">
       <v-list-item-content>
         <v-list-item-title class="white--text">
-          Due on arrival
+          {{ journeyUi.bookingSummary.dueOnArrival }}
           <span class="float-right mr-6">{{
             dueOnArrival | formatPrice(reservation.cart.hostel.currency)
           }}</span>
@@ -100,6 +109,7 @@
 
 <script>
 import { formatPrice } from "../../filters/money";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -127,6 +137,7 @@ export default {
         (this.reservation.cart.total_cost * this.reservation.deposit) / 100
       );
     },
+    ...mapState(["journeyUi"]),
   },
 };
 </script>

@@ -1,8 +1,20 @@
 <template>
   <div>
-    <h1 class="display-1 font-weight-bold accent--text">THANKS FOR BOOKING</h1>
+    <h1 class="display-1 text-uppercase font-weight-bold accent--text">
+      {{ journeyUi.thankYouMessage.heading }}
+    </h1>
     <p class="body-2">
-      You will shortly receive a confirmation email with your booking details.
+      {{ journeyUi.thankYouMessage.confirmationMsg }}
     </p>
   </div>
 </template>
+
+<script>
+import { mapState } from "vuex";
+
+export default {
+  computed: {
+    ...mapState(["journeyUi"]),
+  },
+};
+</script>
