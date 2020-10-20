@@ -645,6 +645,19 @@ export default {
 
     this.cart = await get("cart");
 
+    // const devReservation = {
+    //   cart: {
+    //     currency: "GBP",
+    //   },
+    //   // cart: {
+    //   //   hostel: {
+    //   //     currency: "GBP",
+    //   //   },
+    //   // },
+    // };
+
+    // await set("dev-reservation", devReservation);
+
     await this.$store.dispatch("getHostel", this.cart.hostel_code);
     // const [hostelConf, hostel] = await Promise.all([
     const [hostelConf] = await Promise.all([

@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import RoomView from "./views/RoomView.vue";
 import TransactionView from "./views/TransactionView.vue";
-import ConfirmationView from "./components/confirmation/ConfirmationView.vue";
+import ConfirmationView from "./views/ConfirmationView.vue";
 
 Vue.use(VueRouter);
 

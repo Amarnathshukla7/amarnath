@@ -43,5 +43,18 @@ export default new Vuex.Store({
           commit("SET_HOSTEL_CONTENT", response.items[0].fields);
         });
     },
+    async getHostelConfirmationPageData({ commit }, code) {
+      await hostelClient
+        .getEntries({
+          include: 2,
+          content_type: "hostel",
+          "fields.code": code,
+          select:
+            "fields.whatToKnow,fields.hostelPageRef,fields.streetAddress,fields.confirmationEmail,fields.title",
+        })
+        .then((response) => {
+          commit("SET_HOSTEL_CONTENT", response.items[0].fields);
+        });
+    },
   },
 });
