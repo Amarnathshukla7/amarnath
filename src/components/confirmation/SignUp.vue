@@ -5,11 +5,13 @@
       src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     />
     <v-card-text class="text-center">
-      <div class="headline mb-1 white--text font-weight-bold text-center">
-        YOUR NEXT BOOKING
+      <div
+        class="headline mb-1 white--text font-weight-bold text-center text-uppercase"
+      >
+        {{ journeyUi.signUp.heading }}
       </div>
       <div class="body-1 white--text text-center font-weight-bold">
-        Sign up to our newsletter to reveal a 10% discount code below
+        {{ journeyUi.signUp.message }}
       </div>
       <v-btn
         large
@@ -20,8 +22,8 @@
         class="font-weight-bold mt-4"
         @click="signupToNewsletter"
       >
-        <span v-if="!signUpSuccessful">Sign Up!</span>
-        <span v-else>Successfully Signed Up!</span>
+        <span v-if="!signUpSuccessful">{{ journeyUi.signUp.cta.signUp }}</span>
+        <span v-else>{{ journeyUi.signUp.cta.success }}</span>
       </v-btn>
     </v-card-text>
   </v-card>
@@ -29,12 +31,16 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
       signUpSuccessful: false,
     };
+  },
+  computed: {
+    ...mapState(["journeyUi"]),
   },
   methods: {
     signupToNewsletter() {
