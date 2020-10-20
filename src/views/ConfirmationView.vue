@@ -10,13 +10,7 @@
 
       <v-row>
         <v-col class="text-center">
-          <h1 class="display-1 font-weight-bold accent--text">
-            THANKS FOR BOOKING
-          </h1>
-          <p class="body-2">
-            You will shortly receive a confirmation email with your booking
-            details.
-          </p>
+          <ThankYou />
         </v-col>
       </v-row>
 
@@ -26,70 +20,13 @@
         </v-col>
 
         <v-col cols="12" md="6" lg="5">
-          <v-card tile class="text-center" color="greyback">
-            <div
-              @click="packYourBags = packYourBags + 1"
-              class="display-1 font-weight-bold greyish--text text-center pt-6"
-            >
-              PACK YOUR BAGS
-            </div>
-            <div class="body-2">We look forward to welcoming you at:</div>
-            <div class="title font-weight-bold greyish--text">
-              {{ hostel.title }}
-            </div>
-            <div class="body-2 mx-auto mt-4" style="max-width: 70%">
-              » {{ hostel.hostelPageRef.fields.tabs[0].fields.phoneNumber }} »
-              {{ hostel.confirmationEmail }} » {{ hostel.streetAddress }}
-            </div>
-            <div
-              class="map mt-4"
-              v-html="hostel.hostelPageRef.fields.tabs[0].fields.tabsMap"
-            ></div>
-            <v-btn
-              href="https://book.st-christophers.co.uk/manage/index.php?s=entry"
-              target="_blank"
-              width="80%"
-              color="secondary"
-              class="subtitle-1 font-weight-bold my-4"
-              large
-              tile
-              depressed
-              >Manage my booking</v-btn
-            >
-          </v-card>
+          <HostelInfo @pack-bags="packYourBags += 1" :hostel="hostel" />
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" md="6" lg="5" offset-lg="1">
-          <v-card class="accent" tile>
-            <v-img
-              height="350px"
-              src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-            />
-            <v-card-text class="text-center">
-              <div
-                class="headline mb-1 white--text font-weight-bold text-center"
-              >
-                YOUR NEXT BOOKING
-              </div>
-              <div class="body-1 white--text text-center font-weight-bold">
-                Sign up to our newsletter to reveal a 10% discount code below
-              </div>
-              <v-btn
-                large
-                tile
-                depressed
-                :disabled="signUpSuccessful"
-                color="secondary"
-                class="font-weight-bold mt-4"
-                @click="signupToNewsletter"
-              >
-                <span v-if="!signUpSuccessful">Sign Up!</span>
-                <span v-else>Successfully Signed Up!</span>
-              </v-btn>
-            </v-card-text>
-          </v-card>
+          <SignUp />
         </v-col>
       </v-row>
     </v-container>
@@ -97,29 +34,37 @@
 </template>
 
 <script>
-import axios from "axios";
+// Packages
 import { get } from "idb-keyval";
-import { stcSpaceClient } from "../plugins/contentful";
-import BreadCrumbs from "../components/shared/BreadCrumbs.vue";
-import { track } from "../helpers/transaction/tracking";
 import { mapState } from "vuex";
-import EasterEggOverlay from "../components/confirmation/EasterEggOverlay";
+
+// Helpers, Plugins, Filters & Data
+import { stcSpaceClient } from "../plugins/contentful";
+import { track } from "../helpers/transaction/tracking";
+
+// Components
 import BookingSummary from "../components/confirmation/Summary";
+import BreadCrumbs from "../components/shared/BreadCrumbs.vue";
+import EasterEggOverlay from "../components/confirmation/EasterEggOverlay";
+import HostelInfo from "../components/confirmation/HostelInfo";
+import SignUp from "../components/confirmation/SignUp";
+import ThankYou from "../components/confirmation/ThankYou";
 
 export default {
   components: {
+    BookingSummary,
     BreadCrumbs,
     EasterEggOverlay,
-    BookingSummary,
+    HostelInfo,
+    SignUp,
+    ThankYou,
   },
   data() {
     return {
       packYourBags: 0,
       overlay: false,
-      bookingRef: "TEST-STC-BRI-25353491",
       reservation: null,
       hostel: null,
-      signUpSuccessful: false,
       uiContentLoaded: null,
     };
   },
@@ -168,18 +113,6 @@ export default {
     );
 
     this.hostel = this.hostelData;
-
-    // const contentful = stcSpaceClient();
-
-    // const hostelReq = await contentful.getEntries({
-    //   include: 2,
-    //   content_type: "hostel",
-    //   "fields.code": this.reservation.cart.hostel.hostel_code,
-    //   select:
-    //     "fields.whatToKnow,fields.hostelPageRef,fields.streetAddress,fields.confirmationEmail,fields.title",
-    // });
-
-    // this.hostel = hostelReq.items[0].fields;
   },
   async mounted() {
     if (!this.$route.query.dev) {
@@ -190,12 +123,6 @@ export default {
         }
       }, 500);
     }
-  },
-  methods: {
-    signupToNewsletter() {
-      axios.post(`/reservation-svc/${this.reservation.id}/user/marketing`);
-      this.signUpSuccessful = true;
-    },
   },
   computed: {
     ...mapState(["journeyUi", "hostelData"]),
