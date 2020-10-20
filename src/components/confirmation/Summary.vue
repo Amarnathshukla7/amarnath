@@ -114,12 +114,12 @@ export default {
   computed: {
     stc() {
       return (
-        !this.reservation.cart.hostel_code ||
-        !["COP", "NOS"].includes(this.reservation.cart.hostel_code)
+        !this.reservation.cart.hostel.hostel_code ||
+        !["COP", "NOS"].includes(this.reservation.cart.hostel.hostel_code)
       );
     },
     noBreakfast() {
-      return ["PRA"].includes(this.reservation.cart.hostel_code);
+      return ["PRA"].includes(this.reservation.cart.hostel.hostel_code);
     },
     dueOnArrival() {
       return (

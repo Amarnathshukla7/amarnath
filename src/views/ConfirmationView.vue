@@ -4,7 +4,7 @@
     <v-container>
       <v-row no-gutters>
         <v-col cols="12" class="my-4">
-          <bread-crumbs v-if="uiContentLoaded" :step="4" />
+          <BreadCrumbs v-if="uiContentLoaded" :step="4" />
         </v-col>
       </v-row>
 
@@ -79,10 +79,6 @@ export default {
       }
     },
   },
-  async beforeCreate() {
-    await this.$store.dispatch("getJourneyUi");
-    this.uiContentLoaded = this.journeyUi;
-  },
   async created() {
     if (!this.$route.query.dev) {
       this.reservation = await get("reservation");
@@ -96,6 +92,7 @@ export default {
           accommodation_cost: 10_000,
           discount: 1_000,
           tourist_tax_cost: 500,
+          extras_cost: 0,
           total_cost: 9_500,
         },
         transaction: {
@@ -106,6 +103,9 @@ export default {
         deposit: 100,
       };
     }
+
+    await this.$store.dispatch("getJourneyUi");
+    this.uiContentLoaded = this.journeyUi;
 
     await this.$store.dispatch(
       "getHostelConfirmationPageData",
