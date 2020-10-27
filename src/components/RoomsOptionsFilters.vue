@@ -24,19 +24,26 @@
 
     <v-btn class="mt-2" color="secondary" @click="selected = []" outlined>
       <v-icon>mdi-close</v-icon>
-      {{ journeyUi.filters.clearFilters }}
+      {{ content.clearFilters }}
     </v-btn>
   </v-row>
 </template>
 
 <script>
-import { bus } from "../../../plugins/bus";
-import { mapState } from "vuex";
+import { bus } from "../plugins/bus";
 
 export default {
+  emits: ["room-filters-changed"],
+  props: {
+    content: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+  },
   data() {
     return {
-      filters: ["private", "shared", "female", "ensuite", "couples"],
       selected: [],
     };
   },
@@ -56,7 +63,13 @@ export default {
     },
   },
   computed: {
-    ...mapState(["journeyUi"]),
+    filters() {
+      const filters = [];
+      for (const filter in this.content.filterOptions) {
+        filters.push(this.content.filterOptions[filter]);
+      }
+      return filters;
+    },
   },
 };
 </script>

@@ -23,18 +23,27 @@
 
       <TheBreadCrumbs v-if="uiContentLoaded" :content="contentTheBreadCrumbs" />
 
-      <Status v-if="uiContentLoaded" :is-status="isStatus" :status="status" />
-
-      <GroupBookingsModal
+      <RoomsServerStatus
         v-if="uiContentLoaded"
+        :is-status="isStatus"
+        :status="status"
+      />
+
+      <RoomsModalGroupBookings
+        v-if="uiContentLoaded && showGroupsModal"
         :show="showGroupsModal"
-        @hide="showGroupsModal = false"
+        :content="contentRoomsModalGroupBookings"
+        @close-groups-modal="showGroupsModal = false"
       />
 
       <v-container v-if="hostel && hostelConf">
         <v-row v-show="!showSummaryBreakfast" no-gutters>
           <v-col cols="12" offset-xl="2">
-            <FiltersSortBy :hostel-code="hostelCode" @sort="sort" />
+            <RoomsOptionsSort
+              :hostel-code="hostelCode"
+              :content="contentRoomsOptions"
+              @sort="sort"
+            />
           </v-col>
         </v-row>
 
@@ -54,9 +63,10 @@
               class="room-view-panel--margin"
               multiple
             >
-              <CovidMeasures
-                v-show="bookingSource === 'STC'"
+              <TheCovidMeasures
+                v-if="uiContentLoaded && bookingSource === 'STC'"
                 class="hidden-sm-and-up"
+                :content="contentTheCovidMeasures"
               />
 
               <v-expansion-panel>
@@ -190,13 +200,13 @@ import sortRooms from "../helpers/room/sort";
 import BookingSummary from "../components/room/summary/BookingSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import Card from "../components/room/card/Card";
-import CovidMeasures from "../components/shared/CovidMeasures";
+import TheCovidMeasures from "../components/TheCovidMeasures";
 import RoomsOverlayError from "../components/RoomsOverlayError";
-import FiltersSortBy from "../components/room/filters/FiltersSortBy";
-import GroupBookingsModal from "../components/room/groups/GroupBookingsModal";
+import RoomsOptionsSort from "../components/RoomsOptionsSort";
+import RoomsModalGroupBookings from "../components/RoomsModalGroupBookings";
 import RoomsOverlayLoading from "../components/RoomsOverlayLoading";
 import RoomsSearchSummary from "../components/RoomsSearchSummary";
-import Status from "../components/room/status/Status";
+import RoomsServerStatus from "../components/RoomsServerStatus";
 
 export default {
   props: {
@@ -210,7 +220,7 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "VIL",
+      default: "WIN",
     },
     checkIn: {
       type: String,
@@ -236,13 +246,13 @@ export default {
     BookingSummary,
     TheBreadCrumbs,
     Card,
-    CovidMeasures,
+    TheCovidMeasures,
     RoomsOverlayError,
-    FiltersSortBy,
-    GroupBookingsModal,
+    RoomsOptionsSort,
+    RoomsModalGroupBookings,
     RoomsOverlayLoading,
     RoomsSearchSummary,
-    Status,
+    RoomsServerStatus,
   },
   data() {
     return {
@@ -297,9 +307,12 @@ export default {
       return this.cart ? this.cart.total_cost : 0;
     },
     ...mapGetters([
+      "contentTheBreadCrumbs",
+      "contentTheCovidMeasures",
       "contentRoomsOverlayErrors",
       "contentRoomsSearchSummary",
-      "contentTheBreadCrumbs",
+      "contentRoomsModalGroupBookings",
+      "contentRoomsOptions",
     ]),
     ...mapState(["journeyUi", "hostelData"]),
   },

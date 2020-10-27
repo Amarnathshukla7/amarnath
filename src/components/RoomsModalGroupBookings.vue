@@ -1,19 +1,19 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="isShowing" max-width="600">
+    <v-dialog max-width="600" v-model="show">
       <v-card>
         <v-card-actions class="text-right mb-n10">
           <v-spacer></v-spacer>
-          <v-btn icon @click="isShowing = false">
+          <v-btn icon @click="closeModal">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-actions>
         <v-card-title class="headline mb-4">
-          {{ journeyUi.groupModal.heading }}
+          {{ content.heading }}
         </v-card-title>
 
         <v-card-subtitle>
-          {{ journeyUi.groupModal.message }}
+          {{ content.message }}
         </v-card-subtitle>
 
         <v-row class="px-4">
@@ -22,11 +22,11 @@
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
                   <v-card-title class="headline">
-                    {{ journeyUi.groupModal.groupTypes.sports.heading }}
+                    {{ content.groupTypes.sports.heading }}
                   </v-card-title>
 
                   <v-card-subtitle>
-                    {{ journeyUi.groupModal.groupTypes.sports.message }}
+                    {{ content.groupTypes.sports.message }}
                   </v-card-subtitle>
                 </div>
 
@@ -43,7 +43,7 @@
                   rel="noopener noreferrer"
                   class="mt-n2 ml-2 secondary--text font-weight-bold"
                 >
-                  {{ journeyUi.groupModal.cta }}
+                  {{ content.cta }}
                 </a>
               </v-card-actions>
             </v-card>
@@ -53,11 +53,11 @@
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
                   <v-card-title class="headline">
-                    {{ journeyUi.groupModal.groupTypes.party.heading }}
+                    {{ content.groupTypes.party.heading }}
                   </v-card-title>
 
                   <v-card-subtitle>
-                    {{ journeyUi.groupModal.groupTypes.party.message }}
+                    {{ content.groupTypes.party.message }}
                   </v-card-subtitle>
                 </div>
 
@@ -74,7 +74,7 @@
                   rel="noopener noreferrer"
                   class="mt-n2 ml-2 secondary--text font-weight-bold"
                 >
-                  {{ journeyUi.groupModal.cta }}
+                  {{ content.cta }}
                 </a>
               </v-card-actions>
             </v-card>
@@ -84,11 +84,11 @@
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div>
                   <v-card-title class="headline">
-                    {{ journeyUi.groupModal.groupTypes.student.heading }}
+                    {{ content.groupTypes.student.heading }}
                   </v-card-title>
 
                   <v-card-subtitle>
-                    {{ journeyUi.groupModal.groupTypes.student.message }}
+                    {{ content.groupTypes.student.message }}
                   </v-card-subtitle>
                 </div>
 
@@ -105,7 +105,7 @@
                   rel="noopener noreferrer"
                   class="mt-n2 ml-2 secondary--text font-weight-bold"
                 >
-                  {{ journeyUi.groupModal.cta }}
+                  {{ content.cta }}
                 </a>
               </v-card-actions>
             </v-card>
@@ -117,25 +117,24 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
+  emits: ["close-groups-modal"],
   props: {
     show: {
       type: Boolean,
       default: false,
     },
-  },
-  computed: {
-    isShowing: {
-      get() {
-        return this.show;
-      },
-      set() {
-        this.$emit("hide");
+    content: {
+      type: Object,
+      default: () => {
+        return {};
       },
     },
-    ...mapState(["journeyUi"]),
+  },
+  methods: {
+    closeModal() {
+      this.$emit("close-groups-modal");
+    },
   },
 };
 </script>

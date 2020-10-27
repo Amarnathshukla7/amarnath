@@ -18,68 +18,68 @@
 
     <v-expansion-panel-content class="covid-panel pa-4">
       <p>
-        {{ journeyUi.covidMeasures.message }}
+        {{ content.message }}
       </p>
 
       <ul>
         <li>
           <img src="/covid-measures/reduced-dorms-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.capacity }}</p>
+          <p>{{ content.measures.capacity }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/private-rooms-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.privateGroups }}</p>
+          <p>{{ content.measures.privateGroups }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/social-distancing-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.socialDistance }}</p>
+          <p>{{ content.measures.socialDistance }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/hand-hygiene-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.hands }}</p>
+          <p>{{ content.measures.hands }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/deep-cleaning-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.clean }}</p>
+          <p>{{ content.measures.clean }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/free-cancellation-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.cancel }}</p>
+          <p>{{ content.measures.cancel }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/free-breakfast-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.breakfast }}</p>
+          <p>{{ content.measures.breakfast }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/contactless-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.contactless }}</p>
+          <p>{{ content.measures.contactless }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/health-questionnaire-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.questionaire }}</p>
+          <p>{{ content.measures.questionaire }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/open-bar-icon.svg" alt="" />
 
-          <p>{{ journeyUi.covidMeasures.measures.bars }}</p>
+          <p>{{ content.measures.bars }}</p>
         </li>
       </ul>
     </v-expansion-panel-content>
@@ -90,6 +90,14 @@
 import { mapState } from "vuex";
 
 export default {
+  props: {
+    content: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+  },
   computed: {
     ...mapState(["journeyUi"]),
   },

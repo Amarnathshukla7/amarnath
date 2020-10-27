@@ -8,7 +8,7 @@
         outlined
         class="mr-5 filters-btn"
       >
-        {{ journeyUi.filters.filtersBtn }}
+        {{ content.filtersBtn }}
       </v-btn>
 
       <v-select
@@ -25,26 +25,30 @@
     </v-col>
 
     <v-col cols="12">
-      <filters v-if="showFilters" />
+      <RoomsOptionsFilters v-if="showFilters" :content="content" />
     </v-col>
   </v-row>
 </template>
 
 <script>
-import Filters from "./Filters";
-import CovidMeasures from "./Covid.vue";
-import { mapState } from "vuex";
+import RoomsOptionsFilters from "./RoomsOptionsFilters";
 
 export default {
+  emits: ["sort"],
   props: {
     hostelCode: {
       type: String,
       required: true,
     },
+    content: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
   },
   components: {
-    Filters,
-    // CovidMeasures,
+    RoomsOptionsFilters,
   },
   watch: {
     sort(type) {
@@ -59,28 +63,22 @@ export default {
       items: [
         {
           key: "price-low",
-          value: this.$store.state.journeyUi.filters.sortOptions.priceLow,
+          value: this.content.sortOptions.priceLow,
         },
         {
           key: "price-high",
-          value: this.$store.state.journeyUi.filters.sortOptions.priceHigh,
+          value: this.content.sortOptions.priceHigh,
         },
         {
           key: "avail-low",
-          value: this.$store.state.journeyUi.filters.sortOptions.availLow,
+          value: this.content.sortOptions.availLow,
         },
         {
           key: "avail-high",
-          value: this.$store.state.journeyUi.filters.sortOptions.availHigh,
+          value: this.content.sortOptions.availHigh,
         },
       ],
     };
-  },
-  computed: {
-    showCovidBlock() {
-      return !["COP"].includes(this.hostelCode);
-    },
-    ...mapState(["journeyUi"]),
   },
 };
 </script>

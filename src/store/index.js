@@ -61,11 +61,20 @@ export default new Vuex.Store({
     contentTheBreadCrumbs(state) {
       return state.journeyUi.breadCrumbs;
     },
+    contentTheCovidMeasures(state) {
+      return state.journeyUi.covidMeasures;
+    },
     contentRoomsOverlayErrors(state) {
       return state.journeyUi.errors;
     },
     contentRoomsSearchSummary(state) {
       return state.journeyUi.searchSummary;
+    },
+    contentRoomsModalGroupBookings(state) {
+      return state.journeyUi.groupModal;
+    },
+    contentRoomsOptions(state) {
+      return state.journeyUi.filters;
     },
   },
 });

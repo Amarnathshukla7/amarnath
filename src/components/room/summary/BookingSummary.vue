@@ -19,7 +19,7 @@
       multiple
       class=""
     >
-      <CovidMeasures v-show="stc" />
+      <TheCovidMeasures v-if="stc" :content="contentTheCovidMeasures" />
 
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
@@ -197,7 +197,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { differenceInDays, addDays } from "date-fns";
 import { formatPrice } from "../../../filters/money";
 import { formatDate } from "../../../filters/date";
@@ -207,7 +207,7 @@ import BookingSummaryItem from "../../../components/room/summary/BookingSummaryI
 import Breakfast from "../../../components/transaction/summary/Breakfast";
 import { formatTimezone } from "../../../helpers/timezone";
 import { hostelShortName } from "../../../helpers/hostelNames";
-import CovidMeasures from "../../../components/shared/CovidMeasures";
+import TheCovidMeasures from "../../../components/TheCovidMeasures";
 
 export default {
   props: {
@@ -243,7 +243,7 @@ export default {
   components: {
     BookingSummaryItem,
     Breakfast,
-    CovidMeasures,
+    TheCovidMeasures,
   },
   watch: {
     bookingEntries(entries) {
@@ -447,6 +447,7 @@ export default {
       };
     },
     ...mapState(["journeyUi"]),
+    ...mapGetters(["contentTheCovidMeasures"]),
   },
 };
 </script>
