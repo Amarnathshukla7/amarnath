@@ -3,19 +3,19 @@
     <div class="breadcrumb-container mt-8">
       <div class="breadcrumb flat">
         <a href="javascript:void(0)" :class="{ active: step >= 1 }">
-          {{ journeyUi.breadCrumbs.s1 }}
+          {{ content.s1 }}
         </a>
 
         <a href="javascript:void(0)" :class="{ active: step >= 2 }">
-          {{ journeyUi.breadCrumbs.s2 }}
+          {{ content.s2 }}
         </a>
 
         <a href="javascript:void(0)" :class="{ active: step >= 3 }">
-          {{ journeyUi.breadCrumbs.s3 }}
+          {{ content.s3 }}
         </a>
 
         <a href="javascript:void(0)" :class="{ active: step >= 4 }">
-          {{ journeyUi.breadCrumbs.s4 }}
+          {{ content.s4 }}
         </a>
       </div>
     </div>
@@ -30,6 +30,12 @@ export default {
     step: {
       type: Number,
       default: 2,
+    },
+    content: {
+      type: Object,
+      default: () => {
+        return {};
+      },
     },
   },
   data() {

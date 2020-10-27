@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { stcSpaceClient, fpSpaceClient } from "./plugins/contentful";
+import { stcSpaceClient, fpSpaceClient } from "../plugins/contentful";
 
 Vue.use(Vuex);
 const hostelClient = stcSpaceClient();
@@ -55,6 +55,17 @@ export default new Vuex.Store({
         .then((response) => {
           commit("SET_HOSTEL_CONTENT", response.items[0].fields);
         });
+    },
+  },
+  getters: {
+    contentTheBreadCrumbs(state) {
+      return state.journeyUi.breadCrumbs;
+    },
+    contentRoomsOverlayErrors(state) {
+      return state.journeyUi.errors;
+    },
+    contentRoomsSearchSummary(state) {
+      return state.journeyUi.searchSummary;
     },
   },
 });

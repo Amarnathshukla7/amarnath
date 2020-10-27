@@ -1,23 +1,27 @@
 <template>
   <v-app>
     <main ref="roomView" class="room-view">
-      <LoadingOverlay :loading="isLoading" />
+      <RoomsOverlayLoading :loading="isLoading" />
 
-      <ErrorOverlay
+      <RoomsOverlayError
         v-if="uiContentLoaded"
         :error="isError"
         :availability-error="availabilityError"
+        :content="contentRoomsOverlayErrors"
+        @close-overlay="closeErrorOverlay"
+        @reload-data="loadData"
       />
 
-      <SearchSummary
+      <RoomsSearchSummary
         v-if="uiContentLoaded"
         :hostel="hostelCode"
         :nights="nights"
         :arrival="checkIn"
         :departure="checkOut"
+        :content="contentRoomsSearchSummary"
       />
 
-      <BreadCrumbs v-if="uiContentLoaded" />
+      <TheBreadCrumbs v-if="uiContentLoaded" :content="contentTheBreadCrumbs" />
 
       <Status v-if="uiContentLoaded" :is-status="isStatus" :status="status" />
 
@@ -168,7 +172,7 @@
 <script>
 // Packages
 import { differenceInDays } from "date-fns";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { set } from "idb-keyval";
 
 // APIs
@@ -184,14 +188,14 @@ import sortRooms from "../helpers/room/sort";
 
 // Components
 import BookingSummary from "../components/room/summary/BookingSummary";
-import BreadCrumbs from "../components/shared/BreadCrumbs";
+import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import Card from "../components/room/card/Card";
 import CovidMeasures from "../components/shared/CovidMeasures";
-import ErrorOverlay from "../components/room/overlay/ErrorOverlay";
+import RoomsOverlayError from "../components/RoomsOverlayError";
 import FiltersSortBy from "../components/room/filters/FiltersSortBy";
 import GroupBookingsModal from "../components/room/groups/GroupBookingsModal";
-import LoadingOverlay from "../components/room/overlay/LoadingOverlay";
-import SearchSummary from "../components/room/search/SearchSummary";
+import RoomsOverlayLoading from "../components/RoomsOverlayLoading";
+import RoomsSearchSummary from "../components/RoomsSearchSummary";
 import Status from "../components/room/status/Status";
 
 export default {
@@ -206,7 +210,7 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "HMM",
+      default: "VIL",
     },
     checkIn: {
       type: String,
@@ -230,14 +234,14 @@ export default {
   },
   components: {
     BookingSummary,
-    BreadCrumbs,
+    TheBreadCrumbs,
     Card,
     CovidMeasures,
-    ErrorOverlay,
+    RoomsOverlayError,
     FiltersSortBy,
     GroupBookingsModal,
-    LoadingOverlay,
-    SearchSummary,
+    RoomsOverlayLoading,
+    RoomsSearchSummary,
     Status,
   },
   data() {
@@ -259,6 +263,46 @@ export default {
       showSummaryBreakfast: false,
     };
   },
+  computed: {
+    currency() {
+      return this.hostelConf ? this.hostelConf.currency : "GBP";
+    },
+    isSmallDevice() {
+      if (!window) return false;
+
+      return window.innerWidth < 600;
+    },
+    roomsContent() {
+      return this.hostel ? this.hostel.rooms : null;
+    },
+    nights() {
+      return differenceInDays(
+        formatTimezone(new Date(this.checkOut)),
+        formatTimezone(new Date(this.checkIn)),
+      );
+    },
+    dorms() {
+      return this.rooms ? this.rooms.dorms : [];
+    },
+    dormMinStay() {
+      return this.rooms ? this.rooms.minstays.dorm || null : null;
+    },
+    privates() {
+      return this.rooms ? this.rooms.privates : [];
+    },
+    privateMinStay() {
+      return this.rooms ? this.rooms.minstays.private || null : null;
+    },
+    totalCost() {
+      return this.cart ? this.cart.total_cost : 0;
+    },
+    ...mapGetters([
+      "contentRoomsOverlayErrors",
+      "contentRoomsSearchSummary",
+      "contentTheBreadCrumbs",
+    ]),
+    ...mapState(["journeyUi", "hostelData"]),
+  },
   async beforeCreate() {
     await this.$store.dispatch("getJourneyUi");
     this.uiContentLoaded = this.journeyUi;
@@ -279,6 +323,10 @@ export default {
     }
   },
   methods: {
+    closeErrorOverlay() {
+      this.isError = false;
+      this.availabilityError = false;
+    },
     async loadData() {
       if (this.isLoading) return;
 
@@ -366,41 +414,6 @@ export default {
         this.showGroupsModal = true;
       }
     },
-  },
-  computed: {
-    currency() {
-      return this.hostelConf ? this.hostelConf.currency : "GBP";
-    },
-    isSmallDevice() {
-      if (!window) return false;
-
-      return window.innerWidth < 600;
-    },
-    roomsContent() {
-      return this.hostel ? this.hostel.rooms : null;
-    },
-    nights() {
-      return differenceInDays(
-        formatTimezone(new Date(this.checkOut)),
-        formatTimezone(new Date(this.checkIn)),
-      );
-    },
-    dorms() {
-      return this.rooms ? this.rooms.dorms : [];
-    },
-    dormMinStay() {
-      return this.rooms ? this.rooms.minstays.dorm || null : null;
-    },
-    privates() {
-      return this.rooms ? this.rooms.privates : [];
-    },
-    privateMinStay() {
-      return this.rooms ? this.rooms.minstays.private || null : null;
-    },
-    totalCost() {
-      return this.cart ? this.cart.total_cost : 0;
-    },
-    ...mapState(["journeyUi", "hostelData"]),
   },
 };
 </script>

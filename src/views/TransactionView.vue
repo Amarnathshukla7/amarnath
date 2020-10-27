@@ -12,7 +12,11 @@
         :reservation="reservation"
       />
 
-      <BreadCrumbs v-if="uiContentLoaded" :step="3" />
+      <TheBreadCrumbs
+        v-if="uiContentLoaded"
+        :step="3"
+        :content="contentTheBreadCrumbs"
+      />
 
       <v-container v-if="hostel && hostelConf">
         <v-row>
@@ -476,7 +480,7 @@
 
 <script>
 // Packages
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { set, get, del } from "idb-keyval";
 import VStripeElements from "v-stripe-elements/lib";
 import Vue from "vue";
@@ -497,7 +501,7 @@ import { hostelShortName } from "../helpers/hostelNames";
 
 // Components
 import BookingSummary from "../components/transaction/summary/Summary";
-import BreadCrumbs from "../components/shared/BreadCrumbs";
+import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import DiscountCode from "../components/transaction/DiscountCode";
 import ErrorOverlay from "../components/transaction/overlay/ErrorOverlay";
 import LoadingOverlay from "../components/transaction/overlay/LoadingOverlay";
@@ -512,7 +516,7 @@ Vue.use(VueLoadScript);
 
 export default {
   components: {
-    BreadCrumbs,
+    TheBreadCrumbs,
     BookingSummary,
     DiscountCode,
     ErrorOverlay,
@@ -789,6 +793,7 @@ export default {
         : `Pay ${this.lowerDeposit}%`;
     },
     ...mapState(["journeyUi", "hostelData"]),
+    ...mapGetters(["contentTheBreadCrumbs"]),
   },
   methods: {
     validate() {

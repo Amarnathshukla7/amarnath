@@ -5,7 +5,11 @@
     <v-container>
       <v-row no-gutters>
         <v-col cols="12" class="my-4">
-          <BreadCrumbs v-if="uiContentLoaded" :step="4" />
+          <TheBreadCrumbs
+            v-if="uiContentLoaded"
+            :step="4"
+            :content="contentTheBreadCrumbs"
+          />
         </v-col>
       </v-row>
 
@@ -37,7 +41,7 @@
 <script>
 // Packages
 import { get } from "idb-keyval";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 // Helpers, Plugins, Filters & Data
 import { stcSpaceClient } from "../plugins/contentful";
@@ -45,7 +49,7 @@ import { track } from "../helpers/transaction/tracking";
 
 // Components
 import BookingSummary from "../components/confirmation/Summary";
-import BreadCrumbs from "../components/shared/BreadCrumbs.vue";
+import TheBreadCrumbs from "../components/TheBreadCrumbs.vue";
 import EasterEggOverlay from "../components/confirmation/EasterEggOverlay";
 import HostelInfo from "../components/confirmation/HostelInfo";
 import SignUp from "../components/confirmation/SignUp";
@@ -54,7 +58,7 @@ import ThankYou from "../components/confirmation/ThankYou";
 export default {
   components: {
     BookingSummary,
-    BreadCrumbs,
+    TheBreadCrumbs,
     EasterEggOverlay,
     HostelInfo,
     SignUp,
@@ -68,6 +72,10 @@ export default {
       hostel: null,
       uiContentLoaded: null,
     };
+  },
+  computed: {
+    ...mapState(["journeyUi", "hostelData"]),
+    ...mapGetters(["contentTheBreadCrumbs"]),
   },
   watch: {
     packYourBags(val) {
@@ -124,9 +132,6 @@ export default {
         }
       }, 500);
     }
-  },
-  computed: {
-    ...mapState(["journeyUi", "hostelData"]),
   },
 };
 </script>
