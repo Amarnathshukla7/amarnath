@@ -8,7 +8,7 @@
       color="accent"
       outlined
     >
-      {{ journeyUi.roomsSummary.ctas.backButton }}
+      {{ uiContent.ctas.backButton }}
     </v-btn>
 
     <v-expansion-panels
@@ -19,12 +19,16 @@
       multiple
       class=""
     >
-      <TheCovidMeasures v-if="stc" :content="contentTheCovidMeasures" />
+      <TheCovidMeasures
+        v-if="stc"
+        :content="contentTheCovidMeasures"
+        :panel-header="contentRoomsExpansionHeaders.covid"
+      />
 
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
-            {{ journeyUi.expansionPanelHeaders.summary }}
+            {{ uiContent.panelHeading }}
           </div>
 
           <template v-slot:actions>
@@ -56,33 +60,33 @@
             color="info"
             class="pa-0 summary-card"
           >
-            <booking-summary-item
+            <RoomsBookingSummaryItem
               v-for="(room, index) in bookingEntries.normal"
               :key="room.code"
               :room="room"
               :index="index"
               :currency="currency"
               @destroy-room="deleteFromCart"
-            ></booking-summary-item>
+            />
 
-            <booking-summary-item
+            <RoomsBookingSummaryItem
               v-for="(room, index) in bookingEntries.custom"
               :key="`${room.code}-${room.checkIn}`"
               :room="room"
               :index="index"
               :currency="currency"
               @destroy-room="deleteFromCart"
-            ></booking-summary-item>
+            />
 
             <v-list-item v-show="stc && !showSummaryBreakfast" class="py-2">
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ journeyUi.roomsSummary.breakfast.headerStandard }}:
+                  {{ uiContent.breakfast.headerStandard }}:
                   <span v-if="noBreakfast" class="float-right font-weight-bold">
-                    {{ journeyUi.roomsSummary.breakfast.notIncluded }}
+                    {{ uiContent.breakfast.notIncluded }}
                   </span>
                   <span v-else class="float-right font-weight-bold">
-                    {{ journeyUi.roomsSummary.breakfast.includedFree }}
+                    {{ uiContent.breakfast.includedFree }}
                   </span>
                 </v-list-item-title>
               </v-list-item-content>
@@ -96,7 +100,7 @@
       <v-list-item class="py-2 pl-8 white">
         <v-list-item-content>
           <v-list-item-title>
-            {{ journeyUi.roomsSummary.accommSubTotal }}
+            {{ uiContent.accommSubTotal }}
 
             <span class="float-right mr-6">
               {{ cart.accommodation_cost | formatPrice(currency) }}
@@ -108,14 +112,14 @@
       <v-list-item v-show="stc || cart.extras_cost > 0" class="py-2 pl-8 other">
         <v-list-item-content>
           <v-list-item-title>
-            {{ journeyUi.roomsSummary.breakfast.headerTotal }}
+            {{ uiContent.breakfast.headerTotal }}
 
             <span class="float-right mr-6" v-if="cart.extras_cost > 0">
               {{ cart.extras_cost | formatPrice(currency) }}
             </span>
 
             <span class="float-right mr-6" v-else>
-              {{ journeyUi.roomsSummary.breakfast.includedFree }}
+              {{ uiContent.breakfast.includedFree }}
             </span>
           </v-list-item-title>
         </v-list-item-content>
@@ -131,7 +135,7 @@
       <v-row no-gutters class="mb-5">
         <v-col cols="6">
           <div class="heading ml-6 mb-md-6 font-weight-bold">
-            {{ journeyUi.roomsSummary.totalPrice }}:
+            {{ uiContent.totalPrice }}:
           </div>
         </v-col>
 
@@ -168,18 +172,18 @@
                   ></v-progress-circular>
 
                   <span v-if="!isCartUpdating">
-                    {{ journeyUi.roomsSummary.ctas.confirm }}
+                    {{ uiContent.ctas.confirm }}
                   </span>
                 </v-btn>
               </div>
             </template>
 
             <span v-if="isCartUpdating">
-              {{ journeyUi.roomsSummary.cartMessages.updating }}
+              {{ uiContent.cartMessages.updating }}
             </span>
 
             <span v-if="isCartEmpty">
-              {{ journeyUi.roomsSummary.cartMessages.empty }}
+              {{ uiContent.cartMessages.empty }}
             </span>
           </v-tooltip>
         </v-col>
@@ -199,15 +203,15 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import { differenceInDays, addDays } from "date-fns";
-import { formatPrice } from "../../../filters/money";
-import { formatDate } from "../../../filters/date";
-import { destroy } from "../../../api/room/reservation-svc/cart-svc";
-import { bus } from "../../../plugins/bus";
-import BookingSummaryItem from "../../../components/room/summary/BookingSummaryItem";
-import Breakfast from "../../../components/transaction/summary/Breakfast";
-import { formatTimezone } from "../../../helpers/timezone";
-import { hostelShortName } from "../../../helpers/hostelNames";
-import TheCovidMeasures from "../../../components/TheCovidMeasures";
+import { formatPrice } from "../filters/money";
+import { formatDate } from "../filters/date";
+import { destroy } from "../api/room/reservation-svc/cart-svc";
+import { bus } from "../plugins/bus";
+import RoomsBookingSummaryItem from "../components/RoomsBookingSummaryItem";
+import Breakfast from "../components/transaction/summary/Breakfast";
+import { formatTimezone } from "../helpers/timezone";
+import { hostelShortName } from "../helpers/hostelNames";
+import TheCovidMeasures from "../components/TheCovidMeasures";
 
 export default {
   props: {
@@ -239,9 +243,15 @@ export default {
       type: String,
       default: "GBP",
     },
+    uiContent: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
   },
   components: {
-    BookingSummaryItem,
+    RoomsBookingSummaryItem,
     Breakfast,
     TheCovidMeasures,
   },
@@ -320,10 +330,8 @@ export default {
       }));
     },
     roomTypePopup(roomCode, qty) {
-      const msg8bed = this.$store.state.journeyUi.roomsSummary.roomTypeMessages
-        .msg8Bed;
-      const msg12bed = this.$store.state.journeyUi.roomsSummary.roomTypeMessages
-        .msg12Bed;
+      const msg8bed = this.uiContent.roomTypeMessages.msg8Bed;
+      const msg12bed = this.uiContent.roomTypeMessages.msg12Bed;
       const rooms = {
         1000118: {
           qty: 2,
@@ -446,8 +454,8 @@ export default {
         ),
       };
     },
-    ...mapState(["journeyUi"]),
-    ...mapGetters(["contentTheCovidMeasures"]),
+    // ...mapState(["journeyUi"]),
+    ...mapGetters(["contentTheCovidMeasures", "contentRoomsExpansionHeaders"]),
   },
 };
 </script>

@@ -63,114 +63,62 @@
               class="room-view-panel--margin"
               multiple
             >
+              <!-- MOBILE COVID MEASURES -->
               <TheCovidMeasures
                 v-if="uiContentLoaded && bookingSource === 'STC'"
                 class="hidden-sm-and-up"
                 :content="contentTheCovidMeasures"
+                :panel-header="contentRoomsExpansionHeaders.covid"
               />
 
-              <v-expansion-panel>
-                <v-expansion-panel-header color="primary">
-                  <div
-                    class="font-weight-bold white--text text-uppercase heading"
-                  >
-                    {{ journeyUi.expansionPanelHeaders.shared }}
-                  </div>
+              <!-- SHARED ROOMS -->
+              <RoomsListingContainer
+                :loading="isLoading"
+                :panel-header="contentRoomsExpansionHeaders.shared"
+                :rooms-array="dormRooms"
+                :content-array="hostel.rooms"
+                :check-in="checkIn"
+                :check-out="checkOut"
+                :min-stay="dormMinStay"
+                :currency="currency"
+                :deposit-model-rate="depositModelRate"
+                :hostel-code="hostelCode"
+                @update-local-cart="updateCart($event)"
+                @cart-error="isError = true"
+              />
 
-                  <template v-slot:actions>
-                    <v-icon color="white">$expand</v-icon>
-                  </template>
-                </v-expansion-panel-header>
-
-                <v-expansion-panel-content ref="sharedRooms" color="info">
-                  <p
-                    v-if="!isLoading && dorms.length === 0"
-                    class="heading font-weight-bold text-center mt-2"
-                  >
-                    {{ journeyUi.roomCard.cardLister.noAvailabilityDorms }}
-                  </p>
-
-                  <Card
-                    v-for="dorm in dorms"
-                    :room="dorm"
-                    :room-contents="hostel.rooms"
-                    :key="dorm.code"
-                    :check-in="checkIn"
-                    :check-out="checkOut"
-                    :min-stay="dormMinStay"
-                    :currency="currency"
-                    :deposit-model-rate="depositModelRate"
-                    :hostel-code="hostelCode"
-                    @update-local-cart="updateCart"
-                    @cart-error="isError = true"
-                  />
-
-                  <v-skeleton-loader
-                    v-if="isLoading"
-                    class="mx-auto mt-4"
-                    type="card"
-                  ></v-skeleton-loader>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-
-              <v-expansion-panel>
-                <v-expansion-panel-header color="primary">
-                  <div
-                    class="font-weight-bold white--text text-uppercase heading"
-                  >
-                    {{ journeyUi.expansionPanelHeaders.private }}
-                  </div>
-                  <template v-slot:actions>
-                    <v-icon color="white">$expand</v-icon>
-                  </template>
-                </v-expansion-panel-header>
-
-                <v-expansion-panel-content ref="privateRooms" color="info">
-                  <p
-                    v-if="!isLoading && privates.length === 0"
-                    class="heading font-weight-bold text-center mt-2"
-                  >
-                    {{ journeyUi.roomCard.cardLister.noAvailabilityPrivates }}
-                  </p>
-
-                  <Card
-                    v-for="priv in privates"
-                    :room="priv"
-                    :room-contents="hostel.rooms"
-                    :key="priv.code"
-                    :check-in="checkIn"
-                    :check-out="checkOut"
-                    :min-stay="privateMinStay"
-                    :currency="currency"
-                    :deposit-model-rate="depositModelRate"
-                    :hostel-code="hostelCode"
-                    @update-local-cart="updateCart"
-                    @cart-error="isError = true"
-                  />
-
-                  <v-skeleton-loader
-                    v-if="isLoading"
-                    class="mx-auto mt-4"
-                    type="card"
-                  ></v-skeleton-loader>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
+              <!-- PRIVATE ROOMS -->
+              <RoomsListingContainer
+                :loading="isLoading"
+                :panel-header="contentRoomsExpansionHeaders.private"
+                :rooms-array="privateRooms"
+                :content-array="hostel.rooms"
+                :check-in="checkIn"
+                :check-out="checkOut"
+                :min-stay="privateMinStay"
+                :currency="currency"
+                :deposit-model-rate="depositModelRate"
+                :hostel-code="hostelCode"
+                @update-local-cart="updateCart($event)"
+                @cart-error="isError = true"
+              />
             </v-expansion-panels>
           </v-col>
 
           <v-col cols="12" sm="5" md="4" lg="3" xl="2">
-            <BookingSummary
+            <RoomsBookingSummary
               :cost="totalCost"
               :cart-data="cart"
               :rooms-content="roomsContent"
               :currency="currency"
+              :showSummaryBreakfast="showSummaryBreakfast"
+              :hostel="hostel"
+              :isSmallDevice="isSmallDevice"
+              :ui-content="contentTheSummary"
               @update-cart="(cart) => (this.cart = cart)"
               @go-to-transaction="submitBooking"
               @back-to-rooms="showSummaryBreakfast = false"
               @guest-count="checkGuestModal"
-              :showSummaryBreakfast="showSummaryBreakfast"
-              :hostel="hostel"
-              :isSmallDevice="isSmallDevice"
             />
           </v-col>
         </v-row>
@@ -197,12 +145,12 @@ import { formatTimezone } from "../helpers/timezone";
 import sortRooms from "../helpers/room/sort";
 
 // Components
-import BookingSummary from "../components/room/summary/BookingSummary";
+import RoomsBookingSummary from "../components/RoomsBookingSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
-import Card from "../components/room/card/Card";
 import TheCovidMeasures from "../components/TheCovidMeasures";
 import RoomsOverlayError from "../components/RoomsOverlayError";
 import RoomsOptionsSort from "../components/RoomsOptionsSort";
+import RoomsListingContainer from "../components/RoomsListingContainer";
 import RoomsModalGroupBookings from "../components/RoomsModalGroupBookings";
 import RoomsOverlayLoading from "../components/RoomsOverlayLoading";
 import RoomsSearchSummary from "../components/RoomsSearchSummary";
@@ -243,12 +191,12 @@ export default {
     },
   },
   components: {
-    BookingSummary,
+    RoomsBookingSummary,
     TheBreadCrumbs,
-    Card,
     TheCovidMeasures,
     RoomsOverlayError,
     RoomsOptionsSort,
+    RoomsListingContainer,
     RoomsModalGroupBookings,
     RoomsOverlayLoading,
     RoomsSearchSummary,
@@ -291,13 +239,13 @@ export default {
         formatTimezone(new Date(this.checkIn)),
       );
     },
-    dorms() {
+    dormRooms() {
       return this.rooms ? this.rooms.dorms : [];
     },
     dormMinStay() {
       return this.rooms ? this.rooms.minstays.dorm || null : null;
     },
-    privates() {
+    privateRooms() {
       return this.rooms ? this.rooms.privates : [];
     },
     privateMinStay() {
@@ -309,10 +257,12 @@ export default {
     ...mapGetters([
       "contentTheBreadCrumbs",
       "contentTheCovidMeasures",
+      "contentTheSummary",
       "contentRoomsOverlayErrors",
       "contentRoomsSearchSummary",
       "contentRoomsModalGroupBookings",
       "contentRoomsOptions",
+      "contentRoomsExpansionHeaders",
     ]),
     ...mapState(["journeyUi", "hostelData"]),
   },

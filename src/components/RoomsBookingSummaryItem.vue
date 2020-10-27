@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import { formatPrice } from "../../../filters/money";
-import { formatDate } from "../../../filters/date";
+import { formatPrice } from "../filters/money";
+import { formatDate } from "../filters/date";
 import { mapState } from "vuex";
 
 export default {

@@ -64,6 +64,9 @@ export default new Vuex.Store({
     contentTheCovidMeasures(state) {
       return state.journeyUi.covidMeasures;
     },
+    contentTheSummary(state) {
+      return state.journeyUi.roomsSummary;
+    },
     contentRoomsOverlayErrors(state) {
       return state.journeyUi.errors;
     },
@@ -75,6 +78,9 @@ export default new Vuex.Store({
     },
     contentRoomsOptions(state) {
       return state.journeyUi.filters;
+    },
+    contentRoomsExpansionHeaders(state) {
+      return state.journeyUi.expansionPanelHeaders.rooms;
     },
   },
 });

@@ -8,7 +8,7 @@
       ></v-img>
 
       <div class="font-weight-bold white--text text-uppercase heading">
-        {{ journeyUi.expansionPanelHeaders.covid }}
+        {{ panelHeader }}
       </div>
 
       <template v-slot:actions>
@@ -96,6 +96,10 @@ export default {
       default: () => {
         return {};
       },
+    },
+    panelHeader: {
+      type: String,
+      default: "",
     },
   },
   computed: {
