@@ -21,7 +21,7 @@
       <v-container v-if="hostel && hostelConf">
         <v-row>
           <v-col cols="12" class="hidden-sm-and-up">
-            <MobileSearchSummary
+            <TransactionSearchSummaryMobile
               v-if="uiContentLoaded"
               :hostel-code="cart.hostel_code"
               :arrival-date="cart.check_in"
@@ -505,7 +505,7 @@ import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import DiscountCode from "../components/transaction/DiscountCode";
 import TransactionOverlayError from "../components/TransactionOverlayError";
 import TransactionOverlayLoading from "../components/TransactionOverlayLoading";
-import MobileSearchSummary from "../components/transaction/search/MobileSearchSummary";
+import TransactionSearchSummaryMobile from "../components/TransactionSearchSummaryMobile";
 import PaypalForm from "../components/transaction/PaypalForm";
 import SagePaymentForm from "../components/transaction/SagePaymentForm";
 import StripeForm from "../components/transaction/StripeForm";
@@ -521,7 +521,7 @@ export default {
     DiscountCode,
     TransactionOverlayError,
     TransactionOverlayLoading,
-    MobileSearchSummary,
+    TransactionSearchSummaryMobile,
     PaypalForm,
     StripeForm,
     SagePaymentForm,

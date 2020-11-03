@@ -1,7 +1,7 @@
 <template>
   <v-card flat outlined class="rounded-0">
     <v-card-title class="mb-4">
-      {{ journeyUi.mobileSearchSummary.reservation }}:
+      {{ contentTransactionSearch.reservation }}:
     </v-card-title>
 
     <v-card-subtitle class="reservation-info">
@@ -10,12 +10,12 @@
       </p>
 
       <p>
-        {{ journeyUi.mobileSearchSummary.arriving }}:
+        {{ contentTransactionSearch.arriving }}:
         <span class="font-weight-bold">{{ arrivalDate | formatDate }}</span>
       </p>
 
       <p>
-        {{ journeyUi.mobileSearchSummary.departing }}:
+        {{ contentTransactionSearch.departing }}:
         <span class="font-weight-bold">{{ departureDate | formatDate }}</span>
       </p>
     </v-card-subtitle>
@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { formatDate } from "../../../filters/date";
-import { hostelShortName } from "../../../helpers/hostelNames";
+import { mapGetters } from "vuex";
+import { formatDate } from "../filters/date";
+import { hostelShortName } from "../helpers/hostelNames";
 
 export default {
   props: {
@@ -49,7 +49,7 @@ export default {
     formatDate,
   },
   computed: {
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentTransactionSearch"]),
   },
 };
 </script>

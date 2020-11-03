@@ -88,5 +88,8 @@ export default new Vuex.Store({
     contentTransactionOverlays(state) {
       return state.journeyUi.bookingOverlay;
     },
+    contentTransactionSearch(state) {
+      return state.journeyUi.mobileSearchSummary;
+    },
   },
 });
