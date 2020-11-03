@@ -126,11 +126,11 @@
                       </v-expansion-panel-header>
 
                       <v-expansion-panel-content color="white">
-                        <discount-code
+                        <TransactionDiscountCode
                           :is-loading="isLoading"
                           @is-loading="(state) => (this.isLoading = state)"
                           @cart-updated="(cart) => (this.cart = cart)"
-                        ></discount-code>
+                        />
                       </v-expansion-panel-content>
                     </v-expansion-panel>
                     <!-- END: COUPON CODE -->
@@ -502,7 +502,7 @@ import { hostelShortName } from "../helpers/hostelNames";
 // Components
 import BookingSummary from "../components/transaction/summary/Summary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
-import DiscountCode from "../components/transaction/DiscountCode";
+import TransactionDiscountCode from "../components/TransactionDiscountCode";
 import TransactionOverlayError from "../components/TransactionOverlayError";
 import TransactionOverlayLoading from "../components/TransactionOverlayLoading";
 import TransactionSearchSummaryMobile from "../components/TransactionSearchSummaryMobile";
@@ -518,7 +518,7 @@ export default {
   components: {
     TheBreadCrumbs,
     BookingSummary,
-    DiscountCode,
+    TransactionDiscountCode,
     TransactionOverlayError,
     TransactionOverlayLoading,
     TransactionSearchSummaryMobile,

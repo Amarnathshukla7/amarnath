@@ -3,7 +3,7 @@
     <v-row class="">
       <v-col cols="12" md="6">
         <v-text-field
-          :label="journeyUi.couponCodeForm.coupon.label"
+          :label="contentTransactionDiscountCode.coupon.label"
           outlined
           v-model="code"
           class="mb-n10"
@@ -27,17 +27,17 @@
           ></v-progress-circular>
 
           <span v-else>
-            {{ journeyUi.couponCodeForm.coupon.button }}
+            {{ contentTransactionDiscountCode.coupon.button }}
           </span>
         </v-btn>
         <span v-if="success" class="accent--text caption font-weight-bold">
-          * {{ journeyUi.couponCodeForm.coupon.messages.success }}
+          * {{ contentTransactionDiscountCode.coupon.messages.success }}
         </span>
         <span
           v-if="errors.length === 1"
           class="warning--text caption font-weight-bold"
         >
-          * {{ journeyUi.couponCodeForm.coupon.messages.notFound }}
+          * {{ contentTransactionDiscountCode.coupon.messages.notFound }}
         </span>
       </v-col>
       <v-col v-if="errors.length > 1">
@@ -54,8 +54,8 @@
 </template>
 
 <script>
-import { discount } from "../../api/transaction/cart-svc";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+import { discount } from "../api/transaction/cart-svc";
 
 export default {
   props: {
@@ -98,7 +98,7 @@ export default {
         this.$emit("is-loading", val ? val : false);
       },
     },
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentTransactionDiscountCode"]),
   },
 };
 </script>

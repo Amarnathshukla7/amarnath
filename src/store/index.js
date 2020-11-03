@@ -91,5 +91,8 @@ export default new Vuex.Store({
     contentTransactionSearch(state) {
       return state.journeyUi.mobileSearchSummary;
     },
+    contentTransactionDiscountCode(state) {
+      return state.journeyUi.couponCodeForm;
+    },
   },
 });
