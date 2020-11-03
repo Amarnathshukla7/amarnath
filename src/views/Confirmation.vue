@@ -1,6 +1,9 @@
 <template>
   <v-app v-if="reservation && hostel">
-    <EasterEggOverlay v-if="overlay" @close-overlay="overlay = false" />
+    <ConfirmationEasterEggOverlay
+      v-if="overlay"
+      @close-overlay="overlay = false"
+    />
 
     <v-container>
       <v-row no-gutters>
@@ -15,23 +18,29 @@
 
       <v-row>
         <v-col class="text-center">
-          <ThankYou v-if="uiContentLoaded" />
+          <ConfirmationThankYou v-if="uiContentLoaded" />
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" md="6" lg="5" offset-lg="1">
-          <BookingSummary v-if="uiContentLoaded" :reservation="reservation" />
+          <ConfirmationSummary
+            v-if="uiContentLoaded"
+            :reservation="reservation"
+          />
         </v-col>
 
         <v-col cols="12" md="6" lg="5">
-          <HostelInfo @pack-bags="packYourBags += 1" :hostel="hostel" />
+          <ConfirmationHostelInfo
+            @pack-bags="packYourBags += 1"
+            :hostel="hostel"
+          />
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" md="6" lg="5" offset-lg="1">
-          <SignUp />
+          <ConfirmationSignUp />
         </v-col>
       </v-row>
     </v-container>
@@ -48,21 +57,21 @@ import { stcSpaceClient } from "../plugins/contentful";
 import { track } from "../helpers/transaction/tracking";
 
 // Components
-import BookingSummary from "../components/confirmation/Summary";
+import ConfirmationSummary from "../components/ConfirmationSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs.vue";
-import EasterEggOverlay from "../components/confirmation/EasterEggOverlay";
-import HostelInfo from "../components/confirmation/HostelInfo";
-import SignUp from "../components/confirmation/SignUp";
-import ThankYou from "../components/confirmation/ThankYou";
+import ConfirmationEasterEggOverlay from "../components/ConfirmationEasterEggOverlay";
+import ConfirmationHostelInfo from "../components/ConfirmationHostelInfo";
+import ConfirmationSignUp from "../components/ConfirmationSignUp";
+import ConfirmationThankYou from "../components/ConfirmationThankYou";
 
 export default {
   components: {
-    BookingSummary,
+    ConfirmationSummary,
     TheBreadCrumbs,
-    EasterEggOverlay,
-    HostelInfo,
-    SignUp,
-    ThankYou,
+    ConfirmationEasterEggOverlay,
+    ConfirmationHostelInfo,
+    ConfirmationSignUp,
+    ConfirmationThankYou,
   },
   data() {
     return {

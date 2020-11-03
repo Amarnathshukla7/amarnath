@@ -3,7 +3,7 @@
     <div
       class="white--text text-center accent px-4 py-8 font-weight-bold title mx-auto"
     >
-      {{ journeyUi.bookingSummary.bookingReference }}:
+      {{ contentConfirmationSummary.bookingReference }}:
       <div class="display-1 font-weight-bold">
         {{ reservation.booking_reference }}
       </div>
@@ -12,7 +12,7 @@
     <v-list-item class="py-2 pl-8 white">
       <v-list-item-content>
         <v-list-item-title>
-          {{ journeyUi.bookingSummary.accommodationTotal }}
+          {{ contentConfirmationSummary.accommodationTotal }}
           <span class="float-right mr-6">{{
             reservation.cart.accommodation_cost
               | formatPrice(reservation.cart.hostel.currency)
@@ -24,7 +24,7 @@
     <v-list-item class="py-2 pl-8 other">
       <v-list-item-content>
         <v-list-item-title>
-          {{ journeyUi.bookingSummary.loyaltyCode }}
+          {{ contentConfirmationSummary.loyaltyCode }}
           <span class="float-right mr-6">{{
             reservation.cart.discount
               | formatPrice(reservation.cart.hostel.currency)
@@ -36,7 +36,7 @@
     <v-list-item class="py-2 pl-8 white">
       <v-list-item-content>
         <v-list-item-title>
-          {{ journeyUi.bookingSummary.touristTax }}
+          {{ contentConfirmationSummary.touristTax }}
           <span class="float-right mr-6">{{
             reservation.cart.tourist_tax_cost
               | formatPrice(reservation.cart.hostel.currency)
@@ -51,7 +51,7 @@
     >
       <v-list-item-content>
         <v-list-item-title>
-          {{ journeyUi.bookingSummary.breakfast.heading }}
+          {{ contentConfirmationSummary.breakfast.heading }}
           <span
             class="float-right mr-6"
             v-if="reservation.cart.extras_cost > 0"
@@ -62,10 +62,10 @@
             }}
           </span>
           <span class="float-right mr-6" v-else-if="noBreakfast">
-            {{ journeyUi.bookingSummary.breakfast.notIncluded }}
+            {{ contentConfirmationSummary.breakfast.notIncluded }}
           </span>
           <span class="float-right mr-6" v-else>
-            {{ journeyUi.bookingSummary.breakfast.included }}
+            {{ contentConfirmationSummary.breakfast.included }}
           </span>
         </v-list-item-title>
       </v-list-item-content>
@@ -74,7 +74,7 @@
     <v-list-item class="py-2 pl-8 accent">
       <v-list-item-content>
         <v-list-item-title class="white--text font-weight-bold">
-          {{ journeyUi.bookingSummary.totalPrice }}
+          {{ contentConfirmationSummary.totalPrice }}
           <span class="float-right mr-6">{{
             reservation.cart.total_cost
               | formatPrice(reservation.cart.hostel.currency)
@@ -86,7 +86,7 @@
     <v-list-item class="py-2 pl-8 white">
       <v-list-item-content>
         <v-list-item-title>
-          {{ journeyUi.bookingSummary.totalPaid }}
+          {{ contentConfirmationSummary.totalPaid }}
           <span class="float-right mr-6">{{
             reservation.paid | formatPrice(reservation.transaction.currency)
           }}</span>
@@ -97,7 +97,7 @@
     <v-list-item class="py-2 pl-8 accent font-weight-bold">
       <v-list-item-content>
         <v-list-item-title class="white--text">
-          {{ journeyUi.bookingSummary.dueOnArrival }}
+          {{ contentConfirmationSummary.dueOnArrival }}
           <span class="float-right mr-6">{{
             dueOnArrival | formatPrice(reservation.cart.hostel.currency)
           }}</span>
@@ -108,8 +108,8 @@
 </template>
 
 <script>
-import { formatPrice } from "../../filters/money";
-import { mapState } from "vuex";
+import { formatPrice } from "../filters/money";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -137,7 +137,7 @@ export default {
         (this.reservation.cart.total_cost * this.reservation.deposit) / 100
       );
     },
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentConfirmationSummary"]),
   },
 };
 </script>

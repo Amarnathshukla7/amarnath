@@ -8,10 +8,10 @@
       <div
         class="headline mb-1 white--text font-weight-bold text-center text-uppercase"
       >
-        {{ journeyUi.signUp.heading }}
+        {{ contentConfirmationSignUp.heading }}
       </div>
       <div class="body-1 white--text text-center font-weight-bold">
-        {{ journeyUi.signUp.message }}
+        {{ contentConfirmationSignUp.message }}
       </div>
       <v-btn
         large
@@ -22,8 +22,10 @@
         class="font-weight-bold mt-4"
         @click="signupToNewsletter"
       >
-        <span v-if="!signUpSuccessful">{{ journeyUi.signUp.cta.signUp }}</span>
-        <span v-else>{{ journeyUi.signUp.cta.success }}</span>
+        <span v-if="!signUpSuccessful">{{
+          contentConfirmationSignUp.cta.signUp
+        }}</span>
+        <span v-else>{{ contentConfirmationSignUp.cta.success }}</span>
       </v-btn>
     </v-card-text>
   </v-card>
@@ -31,7 +33,7 @@
 
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -40,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentConfirmationSignUp"]),
   },
   methods: {
     signupToNewsletter() {

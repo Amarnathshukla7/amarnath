@@ -100,5 +100,17 @@ export default new Vuex.Store({
     contentTransactionBreakfastUpgrade(state) {
       return state.journeyUi.breakfastUpgrade;
     },
+    contentConfirmationThanks(state) {
+      return state.journeyUi.thankYouMessage;
+    },
+    contentConfirmationSummary(state) {
+      return state.journeyUi.bookingSummary;
+    },
+    contentConfirmationSignUp(state) {
+      return state.journeyUi.signUp;
+    },
+    contentConfirmationHostelInfo(state) {
+      return state.journeyUi.hostelInfo;
+    },
   },
 });

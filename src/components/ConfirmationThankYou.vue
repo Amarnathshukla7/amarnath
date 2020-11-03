@@ -1,20 +1,20 @@
 <template>
   <div>
     <h1 class="display-1 text-uppercase font-weight-bold accent--text">
-      {{ journeyUi.thankYouMessage.heading }}
+      {{ contentConfirmationThanks.heading }}
     </h1>
     <p class="body-2">
-      {{ journeyUi.thankYouMessage.confirmationMsg }}
+      {{ contentConfirmationThanks.confirmationMsg }}
     </p>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentConfirmationThanks"]),
   },
 };
 </script>

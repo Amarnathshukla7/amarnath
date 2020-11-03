@@ -4,10 +4,10 @@
       @click="packBag"
       class="display-1 font-weight-bold greyish--text text-center pt-6 text-uppercase"
     >
-      {{ journeyUi.hostelInfo.heading }}
+      {{ contentConfirmationHostelInfo.heading }}
     </div>
 
-    <div class="body-2">{{ journeyUi.hostelInfo.message }}:</div>
+    <div class="body-2">{{ contentConfirmationHostelInfo.message }}:</div>
 
     <div class="title font-weight-bold greyish--text">
       {{ hostel.title }}
@@ -32,13 +32,13 @@
       large
       tile
       depressed
-      >{{ journeyUi.hostelInfo.manageCta }}</v-btn
+      >{{ contentConfirmationHostelInfo.manageCta }}</v-btn
     >
   </v-card>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -55,7 +55,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentConfirmationHostelInfo"]),
   },
 };
 </script>
