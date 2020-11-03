@@ -5,7 +5,7 @@
   >
     <div class="price-container primary">
       <p class="subtitle-2">
-        {{ journeyUi.breakfastUpgrade.price }} <br />
+        {{ contentTransactionBreakfastUpgrade.price }} <br />
         <span class="title font-weight-bold">{{
           price | formatPrice(currency)
         }}</span>
@@ -14,21 +14,21 @@
     <figure class="text-center">
       <v-img :src="image" max-height="250px"></v-img>
       <h2 v-if="stc" class="mx-2 mt-4 text-justtify subtitle-1">
-        {{ journeyUi.breakfastUpgrade.message }}
+        {{ contentTransactionBreakfastUpgrade.message }}
         <br />
         <span class="secondary--text font-weight-bold headline">
-          {{ journeyUi.breakfastUpgrade.discount }}
+          {{ contentTransactionBreakfastUpgrade.discount }}
         </span>
       </h2>
       <h2
         v-else
         class="mx-2 mt-4 text-justtify secondary--text font-weight-bold title text-uppercase"
       >
-        {{ journeyUi.breakfastUpgrade.buffet }}
+        {{ contentTransactionBreakfastUpgrade.buffet }}
       </h2>
       <v-row align="center">
         <v-col cols="6" offset="1">
-          <number-counter
+          <TransactionSummaryBreakfastCounter
             class="primary--text mb-3"
             id="breakfast-counter"
             @update-value="(val) => (qty = val)"
@@ -42,7 +42,7 @@
             color="secondary"
           >
             <span v-if="!isLoading" color="white" class="font-weight-bold">
-              {{ journeyUi.breakfastUpgrade.addButton }}
+              {{ contentTransactionBreakfastUpgrade.addButton }}
             </span>
             <v-progress-circular
               v-else
@@ -53,19 +53,19 @@
         </v-col>
       </v-row>
       <p class="mx-2 my-2 pb-4">
-        {{ journeyUi.breakfastUpgrade.voucherMessage }}
+        {{ contentTransactionBreakfastUpgrade.voucherMessage }}
       </p>
     </figure>
   </section>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import NumberCounter from "./NumberCounter.vue";
-import { getBreakfastPrice } from "../../../api/room/search-svc";
-import { formatPrice } from "../../../filters/money";
-import { addExtra, deleteExtra } from "../../../api/transaction/cart-svc";
-import { bus } from "../../../plugins/bus";
+import { mapGetters } from "vuex";
+import TransactionSummaryBreakfastCounter from "./TransactionSummaryBreakfastCounter.vue";
+import { getBreakfastPrice } from "../api/room/search-svc";
+import { formatPrice } from "../filters/money";
+import { addExtra, deleteExtra } from "../api/transaction/cart-svc";
+import { bus } from "../plugins/bus";
 
 export default {
   props: {
@@ -91,7 +91,7 @@ export default {
     };
   },
   components: {
-    NumberCounter,
+    TransactionSummaryBreakfastCounter,
   },
   async created() {
     this.isLoading = true;
@@ -134,7 +134,7 @@ export default {
     image() {
       return this.content.image.fields.file.url + "?w=480";
     },
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentTransactionBreakfastUpgrade"]),
   },
 };
 </script>

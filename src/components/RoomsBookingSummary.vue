@@ -190,7 +190,7 @@
       </v-row>
     </v-card>
 
-    <breakfast
+    <TransactionSummaryBreakfast
       v-if="breakfast && showSummaryBreakfast"
       :currency="currency"
       :content="breakfast"
@@ -208,7 +208,7 @@ import { formatDate } from "../filters/date";
 import { destroy } from "../api/room/reservation-svc/cart-svc";
 import { bus } from "../plugins/bus";
 import RoomsBookingSummaryItem from "../components/RoomsBookingSummaryItem";
-import Breakfast from "../components/transaction/summary/Breakfast";
+import TransactionSummaryBreakfast from "./TransactionSummaryBreakfast";
 import { formatTimezone } from "../helpers/timezone";
 import { hostelShortName } from "../helpers/hostelNames";
 import TheCovidMeasures from "../components/TheCovidMeasures";
@@ -252,7 +252,7 @@ export default {
   },
   components: {
     RoomsBookingSummaryItem,
-    Breakfast,
+    TransactionSummaryBreakfast,
     TheCovidMeasures,
   },
   watch: {

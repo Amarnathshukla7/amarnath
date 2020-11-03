@@ -454,7 +454,7 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="5" lg="4" xl="3">
-            <BookingSummary
+            <TransactionSummary
               :cart="cart"
               :currency="hostelConf.currency"
               :selected-currency-rate="currencyRate"
@@ -463,6 +463,7 @@
               :breakfast="breakfast"
               :deposit="data.deposit"
               :rooms-content="roomsContent"
+              :panel-header="contentTransactionPanelHeaders.transaction.summary"
             />
           </v-col>
         </v-row>
@@ -500,7 +501,7 @@ import { getHostel } from "../plugins/hostel";
 import { hostelShortName } from "../helpers/hostelNames";
 
 // Components
-import BookingSummary from "../components/transaction/summary/Summary";
+import TransactionSummary from "../components/TransactionSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import TransactionDiscountCode from "../components/TransactionDiscountCode";
 import TransactionOverlayError from "../components/TransactionOverlayError";
@@ -517,7 +518,7 @@ Vue.use(VueLoadScript);
 export default {
   components: {
     TheBreadCrumbs,
-    BookingSummary,
+    TransactionSummary,
     TransactionDiscountCode,
     TransactionOverlayError,
     TransactionOverlayLoading,
@@ -793,7 +794,7 @@ export default {
         : `Pay ${this.lowerDeposit}%`;
     },
     ...mapState(["journeyUi", "hostelData"]),
-    ...mapGetters(["contentTheBreadCrumbs"]),
+    ...mapGetters(["contentTheBreadCrumbs", "contentTransactionPanelHeaders"]),
   },
   methods: {
     validate() {

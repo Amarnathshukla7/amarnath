@@ -6,12 +6,14 @@
           <div
             class="font-weight-bold white--text text-uppercase heading text-uppercase"
           >
-            {{ journeyUi.expansionPanelHeaders.transaction.summary }}
+            {{ panelHeader }}
           </div>
+
           <template v-slot:actions>
             <v-icon color="white">$expand</v-icon>
           </template>
         </v-expansion-panel-header>
+
         <v-expansion-panel-content color="other" class="pa-0">
           <v-card flat tile color="other" class="pa-0 summary-card">
             <v-list class="pa-0">
@@ -23,6 +25,7 @@
                     {{ cart.check_in | formatDate }} -
                     {{ cart.check_out | formatDate }}
                   </v-list-item-subtitle>
+
                   <v-list-item-title>
                     {{ hostelShortName(cart.hostel_code) }}
                   </v-list-item-title>
@@ -43,7 +46,7 @@
                 <template v-slot:activator>
                   <v-list-item-content>
                     <v-list-item-title>
-                      {{ journeyUi.roomsSummary.accommSubTotal }}
+                      {{ contentTheSummary.accommSubTotal }}
                       <span class="float-right">{{
                         cart.accommodation_cost | formatPrice(currency)
                       }}</span>
@@ -52,13 +55,13 @@
                 </template>
 
                 <v-card flat tile color="info" class="pa-0 summary-card">
-                  <AccommodationSummaryItem
+                  <TransactionSummaryAccommodationItem
                     v-for="(room, index) in bookingEntries.normal"
                     :key="index"
                     :room="room"
                     :currency="currency"
                   />
-                  <AccommodationSummaryItem
+                  <TransactionSummaryAccommodationItem
                     v-for="(room, index) in bookingEntries.custom"
                     :key="index"
                     :room="room"
@@ -70,7 +73,7 @@
               <v-list-item class="py-2 pl-4 other">
                 <v-list-item-content>
                   <v-list-item-title>
-                    {{ journeyUi.roomsSummary.loyalty }}
+                    {{ contentTheSummary.loyalty }}
 
                     <span class="float-right">
                       <span v-show="discount > 0">- </span>
@@ -79,10 +82,11 @@
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+
               <v-list-item class="py-2 pl-4 white">
                 <v-list-item-content>
                   <v-list-item-title>
-                    {{ journeyUi.roomsSummary.touristTax }}
+                    {{ contentTheSummary.touristTax }}
                     <span class="float-right">{{
                       cart.tourist_tax_cost | formatPrice(currency)
                     }}</span>
@@ -95,15 +99,15 @@
               >
                 <v-list-item-content>
                   <v-list-item-title>
-                    {{ journeyUi.roomsSummary.breakfast.headerTotal }}
+                    {{ contentTheSummary.breakfast.headerTotal }}
                     <span class="float-right" v-if="breakfastCost > 0">
                       {{ breakfastCost | formatPrice(currency) }}
                     </span>
                     <span class="float-right" v-else-if="noBreakfast">
-                      {{ journeyUi.roomsSummary.breakfast.notIncluded }}
+                      {{ contentTheSummary.breakfast.notIncluded }}
                     </span>
                     <span class="float-right" v-else>
-                      {{ journeyUi.roomsSummary.breakfast.includedFree }}
+                      {{ contentTheSummary.breakfast.includedFree }}
                     </span>
                   </v-list-item-title>
                 </v-list-item-content>
@@ -115,7 +119,7 @@
     </v-expansion-panels>
     <v-card tile flat color="accent" class="">
       <v-row class="hidden-sm-and-down px-4 py-2 font-weight-bold white--text">
-        <v-col cols="8"> {{ journeyUi.roomsSummary.payable.now }}: </v-col>
+        <v-col cols="8"> {{ contentTheSummary.payable.now }}: </v-col>
         <v-col cols="4" class="text-right">
           {{
             payable
@@ -125,7 +129,7 @@
         </v-col>
       </v-row>
       <v-row class="hidden-md-and-down px-4 py-2 white">
-        <v-col cols="8"> {{ journeyUi.roomsSummary.payable.arrival }}: </v-col>
+        <v-col cols="8"> {{ contentTheSummary.payable.arrival }}: </v-col>
         <v-col cols="4" class="text-right">
           {{ dueOnArrival | formatPrice(currency) }}
         </v-col>
@@ -133,10 +137,10 @@
       <v-row class="px-4 py-2 white--text">
         <v-col cols="6" offset-md="0">
           <div class="title font-weight-bold">
-            {{ journeyUi.roomsSummary.payable.total }}:
+            {{ contentTheSummary.payable.total }}:
           </div>
           <div class="subtitle-1 font-weight-bold hidden-md-and-up">
-            {{ journeyUi.roomsSummary.payable.totalNow }}:
+            {{ contentTheSummary.payable.totalNow }}:
           </div>
         </v-col>
         <v-col cols="6" class="text-right">
@@ -153,7 +157,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <breakfast
+    <TransactionSummaryBreakfast
       v-if="breakfast"
       :content="breakfast"
       :currency="currency"
@@ -164,15 +168,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { formatPrice, convertCurrency } from "../../../filters/money";
-import { formatDate } from "../../../filters/date";
-import { formatTimezone } from "../../../helpers/timezone";
+import { mapGetters } from "vuex";
+import { formatPrice, convertCurrency } from "../filters/money";
+import { formatDate } from "../filters/date";
+import { formatTimezone } from "../helpers/timezone";
 import { differenceInDays, addDays } from "date-fns";
-import { hostelShortName } from "../../../helpers/hostelNames";
-import AccommodationSummaryItem from "./AccommodationSummaryItem";
-
-import Breakfast from "./Breakfast.vue";
+import { hostelShortName } from "../helpers/hostelNames";
+import TransactionSummaryAccommodationItem from "./TransactionSummaryAccommodationItem";
+import TransactionSummaryBreakfast from "./TransactionSummaryBreakfast.vue";
 
 export default {
   props: {
@@ -208,10 +211,14 @@ export default {
       type: Array,
       default: null,
     },
+    panelHeader: {
+      type: String,
+      default: "",
+    },
   },
   components: {
-    Breakfast,
-    AccommodationSummaryItem,
+    TransactionSummaryBreakfast,
+    TransactionSummaryAccommodationItem,
   },
   data() {
     return {
@@ -342,7 +349,7 @@ export default {
         ),
       };
     },
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentTheSummary"]),
   },
 };
 </script>

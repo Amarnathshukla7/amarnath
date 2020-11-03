@@ -91,8 +91,14 @@ export default new Vuex.Store({
     contentTransactionSearch(state) {
       return state.journeyUi.mobileSearchSummary;
     },
+    contentTransactionPanelHeaders(state) {
+      return state.journeyUi.expansionPanelHeaders;
+    },
     contentTransactionDiscountCode(state) {
       return state.journeyUi.couponCodeForm;
+    },
+    contentTransactionBreakfastUpgrade(state) {
+      return state.journeyUi.breakfastUpgrade;
     },
   },
 });
