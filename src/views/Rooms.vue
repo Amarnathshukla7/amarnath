@@ -168,7 +168,7 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "VIL",
+      default: "HMM",
     },
     checkIn: {
       type: String,

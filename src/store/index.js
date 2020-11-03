@@ -112,5 +112,8 @@ export default new Vuex.Store({
     contentConfirmationHostelInfo(state) {
       return state.journeyUi.hostelInfo;
     },
+    contentTransactionPaymentForm(state) {
+      return state.journeyUi.paymentForm;
+    },
   },
 });

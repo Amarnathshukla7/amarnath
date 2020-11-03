@@ -126,7 +126,7 @@
                       </v-expansion-panel-header>
 
                       <v-expansion-panel-content color="white">
-                        <TransactionDiscountCode
+                        <TransactionFormDiscountCode
                           :is-loading="isLoading"
                           @is-loading="(state) => (this.isLoading = state)"
                           @cart-updated="(cart) => (this.cart = cart)"
@@ -296,15 +296,15 @@
                             </v-col>
 
                             <v-col cols="12">
-                              <stripe-form
+                              <TransactionFormPaymentStripeCard
                                 v-if="isStripe"
                                 ref="stripeContainer"
                                 :deposit="data.deposit"
                                 :stripe-key="stripeKey"
                                 :selected-currency="selectedCurrency"
-                              ></stripe-form>
+                              />
 
-                              <sage-payment-form
+                              <TransactionFormPaymentSage
                                 v-if="isSagepay && !showPaypal"
                                 ref="sagepayContainer"
                                 :deposit="data.deposit"
@@ -391,7 +391,7 @@
                           </v-col>
 
                           <v-col cols="12" md="6">
-                            <paypal-form
+                            <TransactionFormPaymentPaypal
                               v-show="showPaypal"
                               :valid="valid"
                               :hostel="hostelConf"
@@ -400,9 +400,9 @@
                               @show-validation-error="validate"
                               @paypal-error="payPalError"
                               @paypal-approved="createPaypalReservation"
-                            ></paypal-form>
+                            />
 
-                            <stripe-payment-request
+                            <TransactionFormPaymentStripePaymentRequest
                               v-if="isStripe"
                               ref="stripePaymentReqeuest"
                               :form-ref="$refs.form"
@@ -416,7 +416,7 @@
                               @show-validation-error="validate"
                               @preq-error="payPalError"
                               @preq-approved="createPreqReservation"
-                            ></stripe-payment-request>
+                            />
 
                             <v-btn
                               v-show="showCard || !data.payMethod"
@@ -503,14 +503,14 @@ import { hostelShortName } from "../helpers/hostelNames";
 // Components
 import TransactionSummary from "../components/TransactionSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
-import TransactionDiscountCode from "../components/TransactionDiscountCode";
+import TransactionFormDiscountCode from "../components/TransactionFormDiscountCode";
 import TransactionOverlayError from "../components/TransactionOverlayError";
 import TransactionOverlayLoading from "../components/TransactionOverlayLoading";
 import TransactionSearchSummaryMobile from "../components/TransactionSearchSummaryMobile";
-import PaypalForm from "../components/transaction/PaypalForm";
-import SagePaymentForm from "../components/transaction/SagePaymentForm";
-import StripeForm from "../components/transaction/StripeForm";
-import StripePaymentRequest from "../components/transaction/StripePaymentRequest";
+import TransactionFormPaymentPaypal from "../components/TransactionFormPaymentPaypal";
+import TransactionFormPaymentSage from "../components/TransactionFormPaymentSage";
+import TransactionFormPaymentStripeCard from "../components/TransactionFormPaymentStripeCard";
+import TransactionFormPaymentStripePaymentRequest from "../components/TransactionFormPaymentStripePaymentRequest";
 
 Vue.use(VStripeElements);
 Vue.use(VueLoadScript);
@@ -519,14 +519,14 @@ export default {
   components: {
     TheBreadCrumbs,
     TransactionSummary,
-    TransactionDiscountCode,
+    TransactionFormDiscountCode,
     TransactionOverlayError,
     TransactionOverlayLoading,
     TransactionSearchSummaryMobile,
-    PaypalForm,
-    StripeForm,
-    SagePaymentForm,
-    StripePaymentRequest,
+    TransactionFormPaymentPaypal,
+    TransactionFormPaymentStripeCard,
+    TransactionFormPaymentSage,
+    TransactionFormPaymentStripePaymentRequest,
   },
   props: {
     stripeKey: {

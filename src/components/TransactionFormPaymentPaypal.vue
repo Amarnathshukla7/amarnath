@@ -5,7 +5,7 @@
 <script>
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
-import { create } from "../../api/transaction/transaction-svc";
+import { create } from "../api/transaction/transaction-svc";
 
 Vue.use(VueLoadScript);
 
