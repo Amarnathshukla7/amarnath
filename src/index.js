@@ -4,4 +4,14 @@ import Confirmation from "./views/Confirmation.vue";
 import TheBreadCrumbs from "./components/TheBreadCrumbs.vue";
 import store from "./store";
 
-export { Rooms, Transaction, Confirmation, TheBreadCrumbs, store };
+function installBookingJourneyStore(localStore) {
+  localStore.registerModule("bookingJourney", store);
+}
+
+export {
+  Rooms,
+  Transaction,
+  Confirmation,
+  TheBreadCrumbs,
+  installBookingJourneyStore,
+};
