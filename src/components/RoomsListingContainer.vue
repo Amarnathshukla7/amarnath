@@ -15,10 +15,10 @@
         v-if="!loading && roomsArray.length === 0"
         class="heading font-weight-bold text-center mt-2"
       >
-        {{ journeyUi.roomCard.cardLister.noAvailabilityDorms }}
+        {{ contentRoomsListingCard.cardLister.noAvailabilityDorms }}
       </p>
 
-      <Card
+      <RoomsListingCard
         v-for="room in roomsArray"
         :room="room"
         :room-contents="contentArray"
@@ -29,6 +29,7 @@
         :currency="currency"
         :deposit-model-rate="depositModelRate"
         :hostel-code="hostelCode"
+        :ui-content="contentRoomsListingCard"
         @update-local-cart="$emit('update-local-cart', $event)"
         @cart-error="isError = true"
       />
@@ -43,7 +44,8 @@
 </template>
 
 <script>
-import Card from "./room/card/Card";
+import { mapGetters } from "vuex";
+import RoomsListingCard from "./RoomsListingCard";
 
 export default {
   emits: ["update-local-cart", "cart-error"],
@@ -92,7 +94,10 @@ export default {
     },
   },
   components: {
-    Card,
+    RoomsListingCard,
+  },
+  computed: {
+    ...mapGetters(["contentRoomsListingCard"]),
   },
 };
 </script>

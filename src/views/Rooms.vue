@@ -168,15 +168,15 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "WIN",
+      default: "BRM",
     },
     checkIn: {
       type: String,
-      default: "2020-12-01",
+      default: "2020-11-02",
     },
     checkOut: {
       type: String,
-      default: "2020-12-03",
+      default: "2020-11-05",
     },
   },
   watch: {

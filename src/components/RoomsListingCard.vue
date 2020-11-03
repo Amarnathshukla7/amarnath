@@ -91,7 +91,7 @@
                         'accent--text': !selected,
                       }"
                     >
-                      {{ journeyUi.roomCard.inLuck.heading }}
+                      {{ uiContent.inLuck.heading }}
                     </div>
                     <div
                       class="caption mb-3"
@@ -100,7 +100,7 @@
                         'accent--text': !selected,
                       }"
                     >
-                      {{ journeyUi.roomCard.inLuck.message }}
+                      {{ uiContent.inLuck.message }}
                     </div>
                   </v-col>
                 </v-row>
@@ -114,7 +114,7 @@
                   'white--text': selected,
                 }"
               >
-                {{ journeyUi.roomCard.custom.customQuestion }} <br />
+                {{ uiContent.custom.customQuestion }} <br />
                 Switch to
                 <a
                   class="secondary--text"
@@ -129,7 +129,7 @@
                 v-if="customSelected"
                 class="caption greyish--text hidden-md-and-down"
               >
-                {{ journeyUi.roomCard.custom.normalQuestion }} <br />
+                {{ uiContent.custom.normalQuestion }} <br />
                 Switch back to
                 <a
                   class="secondary--text"
@@ -163,7 +163,7 @@
               <p
                 class="text-center py-1 font-weight-bold white--text subtitle-2"
               >
-                {{ journeyUi.roomCard.freeCancellation }}
+                {{ uiContent.freeCancellation }}
                 <a
                   class="text-decoration-none"
                   :href="termsLink"
@@ -176,7 +176,7 @@
             </div>
 
             <!-- Custom Booking Alert -->
-            <custom-error
+            <RoomsListingCustomError
               v-if="room.isCustom"
               :class="{
                 white: !selected,
@@ -190,11 +190,11 @@
             >
               Minimum stay for this room is {{ minStay }} nights. <br />
               <a href="#update-dates" class="warning--text">
-                {{ journeyUi.roomCard.minStays.updateSearch }}
+                {{ uiContent.minStays.updateSearch }}
               </a>
             </div>
 
-            <selection
+            <RoomsListingCardSelect
               v-show="!isCustom && !applyMinStay"
               ref="standardSelection"
               class="pb-2 mt-md-n2 mr-md-n2"
@@ -216,7 +216,7 @@
                 'white--text': selected,
               }"
             >
-              {{ journeyUi.roomCard.custom.customQuestion }} <br />
+              {{ uiContent.custom.customQuestion }} <br />
               Switch to
               <a
                 class="secondary--text"
@@ -231,7 +231,7 @@
               v-if="customSelected && !applyMinStay"
               class="caption hidden-lg-and-up text-center mt-4 mb-4"
             >
-              {{ journeyUi.roomCard.custom.normalQuestion }} <br />
+              {{ uiContent.custom.normalQuestion }} <br />
               Switch back to
               <a
                 class="secondary--text"
@@ -261,7 +261,7 @@
                       'accent--text': !isSelectedAndNotCustom,
                     }"
                   >
-                    {{ journeyUi.roomCard.inLuck.heading }}
+                    {{ uiContent.inLuck.heading }}
                   </div>
                   <div
                     class="caption mb-3"
@@ -270,7 +270,7 @@
                       'accent--text': !isSelectedAndNotCustom,
                     }"
                   >
-                    {{ journeyUi.roomCard.inLuck.message }}
+                    {{ uiContent.inLuck.message }}
                   </div>
                 </v-col>
               </v-row>
@@ -290,7 +290,7 @@
     <!-- Custom Booking -->
     <v-row v-show="isCustom" no-gutters justify="center">
       <v-col cols="12" lg="4" v-for="date in customDates" :key="date.date">
-        <selection
+        <RoomsListingCardSelect
           :date="date.date"
           :price="date.cost"
           :code="room.code"
@@ -299,41 +299,53 @@
           :currency="currency"
           :custom="true"
           @update-local-room-cart="updateCart"
-        >
-        </selection>
+        />
       </v-col>
     </v-row>
   </v-card>
 </template>
 
 <script>
+// Packages
 import { eachDayOfInterval, subDays, format, differenceInDays } from "date-fns";
 import { LightGallery } from "vue-light-gallery";
-import {
-  destroy,
-  updateOrCreate,
-} from "../../../api/room/reservation-svc/cart-svc";
-import { bus } from "../../../plugins/bus";
-import { filter } from "../../../helpers/room/filters";
-import { formatTimezone } from "../../../helpers/timezone";
 
-import Selection from "../../../components/room/selection/Selection";
-import CustomError from "./CustomError";
+// APIs
+import { destroy, updateOrCreate } from "../api/room/reservation-svc/cart-svc";
 
-import { mapState } from "vuex";
+// Plugins & Helpers
+import { bus } from "../plugins/bus";
+import { filter } from "../helpers/room/filters";
+import { formatTimezone } from "../helpers/timezone";
+
+// Components
+import RoomsListingCardSelect from "./RoomsListingCardSelect";
+import RoomsListingCustomError from "./RoomsListingCustomError";
 
 export default {
   props: {
-    minStay: {
-      type: Number,
-      default: null,
-    },
     checkIn: {
       type: String,
       default: null,
     },
     checkOut: {
       type: String,
+      default: null,
+    },
+    currency: {
+      type: String,
+      default: "GBP",
+    },
+    depositModelRate: {
+      type: Number,
+      default: null,
+    },
+    hostelCode: {
+      type: String,
+      required: true,
+    },
+    minStay: {
+      type: Number,
       default: null,
     },
     room: {
@@ -344,23 +356,17 @@ export default {
       type: Array,
       default: null,
     },
-    currency: {
-      type: String,
-      default: "GBP",
-    },
-    hostelCode: {
-      type: String,
-      required: true,
-    },
-    depositModelRate: {
-      type: Number,
-      default: null,
+    uiContent: {
+      type: Object,
+      default: () => {
+        return {};
+      },
     },
   },
   components: {
-    Selection,
-    CustomError,
     LightGallery,
+    RoomsListingCardSelect,
+    RoomsListingCustomError,
   },
   data() {
     return {
@@ -538,7 +544,6 @@ export default {
     standardSelected() {
       return this.$refs.standardSelection.unitsSelected || 0;
     },
-    ...mapState(["journeyUi"]),
   },
 };
 </script>

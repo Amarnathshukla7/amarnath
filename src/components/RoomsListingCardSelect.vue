@@ -9,14 +9,14 @@
     >
       <v-row no-gutters>
         <v-col cols="7" md="7">
-          <unit-select
+          <RoomsListingCardSelectUnit
             class="pb-2"
             :class="{ 'pb-md-0': !custom }"
             :units="available"
             :value="unitsSelected"
             :bed-type="bedType"
             @update-value="update"
-          ></unit-select>
+          />
         </v-col>
         <v-col cols="5" md="5">
           <div
@@ -38,11 +38,11 @@
                 >{{ price | formatPrice(currency) }}</span
               >
               <span v-else-if="price === 0 && date">
-                {{ journeyUi.roomCard.selection.soldOut }}
+                {{ contentRoomsListingCard.selection.soldOut }}
               </span>
 
               <span v-else>
-                {{ journeyUi.roomCard.selection.avgMessage }}
+                {{ contentRoomsListingCard.selection.avgMessage }}
               </span>
             </div>
           </div>
@@ -53,12 +53,12 @@
 </template>
 
 <script>
-import UnitSelect from "./UnitSelect";
-import { formatPrice } from "../../../filters/money";
-import { bus } from "../../../plugins/bus";
+import RoomsListingCardSelectUnit from "./RoomsListingCardSelectUnit";
+import { formatPrice } from "../filters/money";
+import { bus } from "../plugins/bus";
 import { format } from "date-fns/esm";
-import { formatTimezone } from "../../../helpers/timezone";
-import { mapState } from "vuex";
+import { formatTimezone } from "../helpers/timezone";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -92,7 +92,7 @@ export default {
     },
   },
   components: {
-    UnitSelect,
+    RoomsListingCardSelectUnit,
   },
   filters: {
     formatPrice,
@@ -125,7 +125,7 @@ export default {
         units: this.unitsSelected,
       };
     },
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentRoomsListingCard"]),
   },
   methods: {
     update(value) {

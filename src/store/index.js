@@ -82,5 +82,8 @@ export default new Vuex.Store({
     contentRoomsExpansionHeaders(state) {
       return state.journeyUi.expansionPanelHeaders.rooms;
     },
+    contentRoomsListingCard(state) {
+      return state.journeyUi.roomCard;
+    },
   },
 });
