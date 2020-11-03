@@ -3,12 +3,12 @@
     <div class="title">Error</div>
     <div class="body-1 px-4">
       <span v-if="$parent.isPmsError">
-        {{ journeyUi.bookingOverlay.error.pmsError }}:
+        {{ contentTransactionOverlays.error.pmsError }}:
         <br />
         <br />
         {{ reservation.booking_reference }}
       </span>
-      <span v-else>{{ journeyUi.bookingOverlay.error.otherError }}</span>
+      <span v-else>{{ contentTransactionOverlays.error.otherError }}</span>
     </div>
     <v-btn class="mt-4" icon @click="$parent.isError = false">
       <v-icon>mdi-close</v-icon>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -31,7 +31,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentTransactionOverlays"]),
   },
 };
 </script>

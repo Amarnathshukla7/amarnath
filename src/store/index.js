@@ -85,5 +85,8 @@ export default new Vuex.Store({
     contentRoomsListingCard(state) {
       return state.journeyUi.roomCard;
     },
+    contentTransactionOverlays(state) {
+      return state.journeyUi.bookingOverlay;
+    },
   },
 });

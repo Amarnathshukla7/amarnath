@@ -7,13 +7,13 @@
       style="max-width: 620px"
       class="heading mt-10 px-6"
     >
-      {{ journeyUi.bookingOverlay.loading.pleaseWait }}
+      {{ contentTransactionOverlays.loading.pleaseWait }}
     </div>
   </v-overlay>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -27,7 +27,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["journeyUi"]),
+    ...mapGetters(["contentTransactionOverlays"]),
   },
 };
 </script>

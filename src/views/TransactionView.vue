@@ -1,12 +1,12 @@
 <template>
   <v-app>
     <main ref="transactionView" class="transaction-view">
-      <LoadingOverlay
+      <TransactionOverlayLoading
         :loading-overlay="isLoadingOverlay"
         :loading-reservation="isLoadingReservation"
       />
 
-      <ErrorOverlay
+      <TransactionOverlayError
         v-if="uiContentLoaded"
         :error="isError"
         :reservation="reservation"
@@ -503,8 +503,8 @@ import { hostelShortName } from "../helpers/hostelNames";
 import BookingSummary from "../components/transaction/summary/Summary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import DiscountCode from "../components/transaction/DiscountCode";
-import ErrorOverlay from "../components/transaction/overlay/ErrorOverlay";
-import LoadingOverlay from "../components/transaction/overlay/LoadingOverlay";
+import TransactionOverlayError from "../components/TransactionOverlayError";
+import TransactionOverlayLoading from "../components/TransactionOverlayLoading";
 import MobileSearchSummary from "../components/transaction/search/MobileSearchSummary";
 import PaypalForm from "../components/transaction/PaypalForm";
 import SagePaymentForm from "../components/transaction/SagePaymentForm";
@@ -519,8 +519,8 @@ export default {
     TheBreadCrumbs,
     BookingSummary,
     DiscountCode,
-    ErrorOverlay,
-    LoadingOverlay,
+    TransactionOverlayError,
+    TransactionOverlayLoading,
     MobileSearchSummary,
     PaypalForm,
     StripeForm,
