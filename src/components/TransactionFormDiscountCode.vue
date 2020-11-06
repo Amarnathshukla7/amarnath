@@ -98,7 +98,7 @@ export default {
         this.$emit("is-loading", val ? val : false);
       },
     },
-    ...mapGetters(["contentTransactionDiscountCode"]),
+    ...mapGetters("bookingEngine", ["contentTransactionDiscountCode"]),
   },
 };
 </script>

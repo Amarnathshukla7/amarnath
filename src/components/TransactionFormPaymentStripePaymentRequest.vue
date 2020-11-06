@@ -143,7 +143,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["contentTransactionPaymentForm"]),
+    ...mapGetters("bookingEngine", ["contentTransactionPaymentForm"]),
   },
 };
 </script>

@@ -55,7 +55,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["contentConfirmationHostelInfo"]),
+    ...mapGetters("bookingEngine", ["contentConfirmationHostelInfo"]),
   },
 };
 </script>

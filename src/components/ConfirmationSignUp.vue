@@ -42,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["contentConfirmationSignUp"]),
+    ...mapGetters("bookingEngine", ["contentConfirmationSignUp"]),
   },
   methods: {
     signupToNewsletter() {

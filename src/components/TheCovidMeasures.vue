@@ -102,9 +102,6 @@ export default {
       default: "",
     },
   },
-  computed: {
-    ...mapState(["journeyUi"]),
-  },
 };
 </script>
 

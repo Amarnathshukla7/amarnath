@@ -16,7 +16,7 @@ import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["contentRoomsListingCard"]),
+    ...mapGetters("bookingEngine", ["contentRoomsListingCard"]),
   },
 };
 </script>

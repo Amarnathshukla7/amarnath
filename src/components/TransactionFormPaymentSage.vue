@@ -323,7 +323,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["contentTransactionPaymentForm"]),
+    ...mapGetters("bookingEngine", ["contentTransactionPaymentForm"]),
   },
   mounted() {
     this.addPostMessageListener();

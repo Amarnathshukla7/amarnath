@@ -134,7 +134,7 @@ export default {
     image() {
       return this.content.image.fields.file.url + "?w=480";
     },
-    ...mapGetters(["contentTransactionBreakfastUpgrade"]),
+    ...mapGetters("bookingEngine", ["contentTransactionBreakfastUpgrade"]),
   },
 };
 </script>

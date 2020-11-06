@@ -47,9 +47,7 @@
                         <div
                           class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
-                          {{
-                            journeyUi.expansionPanelHeaders.transaction.guest
-                          }}
+                          {{ contentTransactionPanelHeaders.transaction.guest }}
                         </div>
                         <template v-slot:actions>
                           <v-icon color="white">$expand</v-icon>
@@ -62,7 +60,9 @@
                             <!-- NAME -->
                             <v-col cols="12" md="6">
                               <v-text-field
-                                :label="journeyUi.guestDetailsForm.name.label"
+                                :label="
+                                  contentTransactionGuestDetails.name.label
+                                "
                                 :rules="rules.name"
                                 v-model="data.guest.name"
                                 outlined
@@ -72,7 +72,9 @@
                             <!-- EMAIL -->
                             <v-col cols="12" md="6">
                               <v-text-field
-                                :label="journeyUi.guestDetailsForm.email.label"
+                                :label="
+                                  contentTransactionGuestDetails.email.label
+                                "
                                 class="mt-n6 mt-md-0"
                                 :rules="rules.email"
                                 v-model="data.guest.email"
@@ -84,7 +86,9 @@
                             <v-col cols="12" md="6">
                               <v-text-field
                                 class="mt-n6 mb-md-n6"
-                                :label="journeyUi.guestDetailsForm.phone.label"
+                                :label="
+                                  contentTransactionGuestDetails.phone.label
+                                "
                                 :rules="rules.phone"
                                 v-model="data.guest.phone"
                                 outlined
@@ -97,7 +101,7 @@
                                 class="mt-n6 mb-n6"
                                 :items="countries"
                                 :label="
-                                  journeyUi.guestDetailsForm.country.label
+                                  contentTransactionGuestDetails.country.label
                                 "
                                 :rules="rules.country"
                                 v-model="data.guest.country"
@@ -117,7 +121,7 @@
                           class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           {{
-                            journeyUi.expansionPanelHeaders.transaction.coupon
+                            contentTransactionPanelHeaders.transaction.coupon
                           }}
                         </div>
                         <template v-slot:actions>
@@ -142,7 +146,7 @@
                           class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           {{
-                            journeyUi.expansionPanelHeaders.transaction.payment
+                            contentTransactionPanelHeaders.transaction.payment
                           }}
                         </div>
                         <template v-slot:actions>
@@ -158,7 +162,8 @@
                                 class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- How would you like to pay? -->
-                                1. {{ journeyUi.paymentForm.s1.question }}
+                                1.
+                                {{ contentTransactionPaymentForm.s1.question }}
                               </div>
                             </v-col>
 
@@ -221,7 +226,8 @@
                                 class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- When would you like to pay? -->
-                                2. {{ journeyUi.paymentForm.s2.question }}
+                                2.
+                                {{ contentTransactionPaymentForm.s2.question }}
                               </div>
                             </v-col>
 
@@ -237,10 +243,7 @@
                                 ></v-radio>
                                 <v-radio
                                   :value="100"
-                                  :label="
-                                    this.$store.state.journeyUi.paymentForm.s2
-                                      .now
-                                  "
+                                  :label="contentTransactionPaymentForm.s2.now"
                                 ></v-radio>
                               </v-radio-group>
                             </v-col>
@@ -257,7 +260,8 @@
                                 class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- Preferred Currency -->
-                                3. {{ journeyUi.paymentForm.s3.question }}
+                                3.
+                                {{ contentTransactionPaymentForm.s3.question }}
                               </div>
 
                               <v-autocomplete
@@ -265,10 +269,7 @@
                                 :items="currencies"
                                 item-value="key"
                                 item-text="value"
-                                :label="
-                                  this.$store.state.journeyUi.paymentForm.s3
-                                    .label
-                                "
+                                :label="contentTransactionPaymentForm.s3.label"
                                 :rules="rules.country"
                                 v-model="selectedCurrency"
                                 outlined
@@ -291,7 +292,7 @@
                                 </span>
                                 <span v-else>4. </span>
                                 <!-- Card Details -->
-                                {{ journeyUi.paymentForm.s4.question }}
+                                {{ contentTransactionPaymentForm.s4.question }}
                               </div>
                             </v-col>
 
@@ -349,7 +350,8 @@
                               >
                                 <p slot="label">
                                   {{
-                                    journeyUi.paymentForm.s5.marketingOptInMsg
+                                    contentTransactionPaymentForm.s5
+                                      .marketingOptInMsg
                                   }}
                                   All part of our
                                   <a
@@ -379,7 +381,9 @@
                         <v-row no-gutters class="text-center">
                           <v-col class="hidden-md-and-down" cols="6">
                             <div class="subtitle-1 font-weight-bold d-inline">
-                              {{ journeyUi.paymentForm.other.payableNow }}:
+                              {{
+                                contentTransactionPaymentForm.other.payableNow
+                              }}:
                             </div>
                             <div class="headline font-weight-bold d-inline">
                               {{
@@ -430,7 +434,10 @@
                               :disabled="!data.payMethod || isLoading"
                             >
                               <span v-if="payable > 0">
-                                {{ journeyUi.paymentForm.other.button.payNow }}
+                                {{
+                                  contentTransactionPaymentForm.other.button
+                                    .payNow
+                                }}
                                 {{
                                   payable
                                     | convertCurrency(currencyRate)
@@ -438,7 +445,8 @@
                                 }}
                               </span>
                               <span v-else>{{
-                                journeyUi.paymentForm.other.button.payArrival
+                                contentTransactionPaymentForm.other.button
+                                  .payArrival
                               }}</span>
                             </v-btn>
                           </v-col>
@@ -470,9 +478,9 @@
       </v-container>
 
       <v-snackbar top v-model="formErrorSnackbar">
-        {{ journeyUi.paymentForm.other.errorBar.errorMsg }}
+        {{ contentTransactionPaymentForm.other.errorBar.errorMsg }}
         <v-btn text @click="formErrorSnackbar = false">{{
-          journeyUi.paymentForm.other.errorBar.errorButton
+          contentTransactionPaymentForm.other.errorBar.errorButton
         }}</v-btn>
       </v-snackbar>
     </main>
@@ -563,30 +571,23 @@ export default {
       rules: {
         email: [
           (v) =>
-            !!v ||
-            this.$store.state.journeyUi.guestDetailsForm.email.rules.required,
+            !!v || this.contentTransactionGuestDetails.email.rules.required,
           (v) =>
             /.+@.+/.test(v) ||
-            this.$store.state.journeyUi.guestDetailsForm.email.rules.required,
+            this.contentTransactionGuestDetails.email.rules.required,
         ],
         name: [
-          (v) =>
-            !!v ||
-            this.$store.state.journeyUi.guestDetailsForm.name.rules.required,
+          (v) => !!v || this.contentTransactionGuestDetails.name.rules.required,
         ],
         terms: [
-          (v) =>
-            !!v || this.$store.state.journeyUi.paymentForm.s5.rules.required,
+          (v) => !!v || this.contentTransactionPaymentForm.s5.rules.required,
         ],
         phone: [
           (v) =>
-            !!v ||
-            this.$store.state.journeyUi.guestDetailsForm.phone.rules.required,
+            !!v || this.contentTransactionGuestDetails.phone.rules.required,
         ],
         country: [
-          (v) =>
-            !!v ||
-            this.$store.state.journeyUi.guestDetailsForm.name.rules.required,
+          (v) => !!v || this.contentTransactionGuestDetails.name.rules.required,
         ],
       },
       isLoading: false,
@@ -637,7 +638,7 @@ export default {
     },
   },
   async beforeCreate() {
-    await this.$store.dispatch("getJourneyUi");
+    await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.journeyUi;
   },
   async created() {
@@ -663,7 +664,10 @@ export default {
 
     // await set("dev-reservation", devReservation);
 
-    await this.$store.dispatch("getHostel", this.cart.hostel_code);
+    await this.$store.dispatch(
+      "bookingEngine/getHostel",
+      this.cart.hostel_code,
+    );
     // const [hostelConf, hostel] = await Promise.all([
     const [hostelConf] = await Promise.all([
       find(this.cart.hostel_code),
@@ -790,11 +794,16 @@ export default {
     },
     lowerDepositLabel() {
       return this.lowerDeposit === 0
-        ? this.$store.state.journeyUi.paymentForm.s2.arrival
+        ? this.contentTransactionPaymentForm.s2.arrival
         : `Pay ${this.lowerDeposit}%`;
     },
-    ...mapState(["journeyUi", "hostelData"]),
-    ...mapGetters(["contentTheBreadCrumbs", "contentTransactionPanelHeaders"]),
+    ...mapState("bookingEngine", ["journeyUi", "hostelData"]),
+    ...mapGetters("bookingEngine", [
+      "contentTheBreadCrumbs",
+      "contentTransactionPanelHeaders",
+      "contentTransactionGuestDetails",
+      "contentTransactionPaymentForm",
+    ]),
   },
   methods: {
     validate() {
@@ -813,7 +822,7 @@ export default {
       // Chrome requires returnValue to be set.
       event.returnValue = "";
 
-      return confirm(this.$store.state.journeyUi.paymentForm.other.abandon);
+      return confirm(contentTransactionPaymentForm.other.abandon);
     },
     payPalError() {
       this.isError = true;

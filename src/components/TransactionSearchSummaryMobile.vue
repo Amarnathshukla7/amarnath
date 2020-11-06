@@ -49,7 +49,7 @@ export default {
     formatDate,
   },
   computed: {
-    ...mapGetters(["contentTransactionSearch"]),
+    ...mapGetters("bookingEngine", ["contentTransactionSearch"]),
   },
 };
 </script>

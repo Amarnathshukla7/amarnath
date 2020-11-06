@@ -125,7 +125,7 @@ export default {
         units: this.unitsSelected,
       };
     },
-    ...mapGetters(["contentRoomsListingCard"]),
+    ...mapGetters("bookingEngine", ["contentRoomsListingCard"]),
   },
   methods: {
     update(value) {

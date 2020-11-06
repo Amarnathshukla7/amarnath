@@ -349,7 +349,7 @@ export default {
         ),
       };
     },
-    ...mapGetters(["contentTheSummary"]),
+    ...mapGetters("bookingEngine", ["contentTheSummary"]),
   },
 };
 </script>

@@ -130,7 +130,7 @@
 <script>
 // Packages
 import { differenceInDays } from "date-fns";
-import { mapState, mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { set } from "idb-keyval";
 
 // APIs
@@ -254,7 +254,8 @@ export default {
     totalCost() {
       return this.cart ? this.cart.total_cost : 0;
     },
-    ...mapGetters([
+    ...mapGetters("bookingEngine", [
+      "contentHostelData",
       "contentTheBreadCrumbs",
       "contentTheCovidMeasures",
       "contentTheSummary",
@@ -264,11 +265,14 @@ export default {
       "contentRoomsOptions",
       "contentRoomsExpansionHeaders",
     ]),
-    ...mapState(["journeyUi", "hostelData"]),
+    // ...mapActions("bookingEngine", ["getJourneyUi", "getHostel"]),
+    // ...mapState(["journeyUi", "hostelData"]),
   },
   async beforeCreate() {
-    await this.$store.dispatch("getJourneyUi");
-    this.uiContentLoaded = this.journeyUi;
+    await this.$store.dispatch("bookingEngine/getJourneyUi");
+    // this.getJourneyUi();
+    // this.uiContentLoaded = this.journeyUi;
+    this.uiContentLoaded = this.contentTheBreadCrumbs;
   },
   created() {
     this.loadData();
@@ -307,7 +311,8 @@ export default {
       }
 
       try {
-        this.$store.dispatch("getHostel", this.hostelCode);
+        this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
+        // this.getHostel(this.hostelCode);
 
         const [rooms, hostel] = await Promise.all([
           availability(this.hostelCode, this.checkIn, this.checkOut),
@@ -321,7 +326,7 @@ export default {
         }
 
         this.rooms = rooms;
-        this.hostel = this.hostelData;
+        this.hostel = this.contentHostelData;
         this.hostelConf = hostel;
         const cart = await create(this.bookingSource);
         this.depositModelRate = cart.deposit_model_rate;

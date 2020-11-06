@@ -27,7 +27,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["contentTransactionOverlays"]),
+    ...mapGetters("bookingEngine", ["contentTransactionOverlays"]),
   },
 };
 </script>

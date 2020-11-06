@@ -20,7 +20,7 @@
               <v-icon color="white" small>mdi-account</v-icon>
               x{{ room.maxOccupancy * room.qty }}
             </span>
-            {{ journeyUi.roomsSummary.miscContent.in }}
+            {{ contentTheSummary.miscContent.in }}
             {{ room.qty }}
             {{ bedType }}
           </v-col>
@@ -40,7 +40,7 @@
 <script>
 import { formatPrice } from "../filters/money";
 import { formatDate } from "../filters/date";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -78,14 +78,14 @@ export default {
     bedType() {
       if (this.room.qty === 1)
         return this.room.type === "private"
-          ? this.$store.state.journeyUi.roomsSummary.miscContent.room
-          : this.$store.state.journeyUi.roomsSummary.miscContent.bed;
+          ? this.contentTheSummary.miscContent.room
+          : this.contentTheSummary.miscContent.bed;
       else
         return this.room.type === "private"
-          ? this.$store.state.journeyUi.roomsSummary.miscContent.rooms
-          : this.$store.state.journeyUi.roomsSummary.miscContent.beds;
+          ? this.contentTheSummary.miscContent.rooms
+          : this.contentTheSummary.miscContent.beds;
     },
-    ...mapState(["journeyUi"]),
+    ...mapGetters("bookingEngine", ["contentTheSummary"]),
   },
 };
 </script>

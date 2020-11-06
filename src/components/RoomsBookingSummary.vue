@@ -455,7 +455,10 @@ export default {
       };
     },
     // ...mapState(["journeyUi"]),
-    ...mapGetters(["contentTheCovidMeasures", "contentRoomsExpansionHeaders"]),
+    ...mapGetters("bookingEngine", [
+      "contentTheCovidMeasures",
+      "contentRoomsExpansionHeaders",
+    ]),
   },
 };
 </script>

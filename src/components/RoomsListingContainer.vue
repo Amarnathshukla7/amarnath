@@ -97,7 +97,7 @@ export default {
     RoomsListingCard,
   },
   computed: {
-    ...mapGetters(["contentRoomsListingCard"]),
+    ...mapGetters("bookingEngine", ["contentRoomsListingCard"]),
   },
 };
 </script>

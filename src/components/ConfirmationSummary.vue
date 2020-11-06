@@ -137,7 +137,7 @@ export default {
         (this.reservation.cart.total_cost * this.reservation.deposit) / 100
       );
     },
-    ...mapGetters(["contentConfirmationSummary"]),
+    ...mapGetters("bookingEngine", ["contentConfirmationSummary"]),
   },
 };
 </script>

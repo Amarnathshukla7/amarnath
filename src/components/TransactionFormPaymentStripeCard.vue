@@ -12,6 +12,7 @@
 <script>
 import { create } from "../api/transaction/transaction-svc";
 import { getStripeKey } from "../helpers/transaction/stripe";
+import { mapGetters, maptGetters } from "vuex";
 
 export default {
   props: {
@@ -35,14 +36,16 @@ export default {
       rules: {
         card: [
           (v) =>
-            !!v ||
-            this.$store.state.journeyUi.paymentForm.other.stripe.required,
+            !!v || this.contentTransactionPaymentForm.other.stripe.required,
         ],
       },
     };
   },
   mounted() {
     this.loadScript();
+  },
+  computed: {
+    ...mapGetters("bookingEngine", ["contentTransactionPaymentForm"]),
   },
   methods: {
     loadScript() {

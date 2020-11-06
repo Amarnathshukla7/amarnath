@@ -83,8 +83,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["journeyUi", "hostelData"]),
-    ...mapGetters(["contentTheBreadCrumbs"]),
+    ...mapState("bookingEngine", ["journeyUi", "hostelData"]),
+    ...mapGetters("bookingEngine", ["contentTheBreadCrumbs"]),
   },
   watch: {
     packYourBags(val) {
@@ -122,11 +122,11 @@ export default {
       };
     }
 
-    await this.$store.dispatch("getJourneyUi");
+    await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.journeyUi;
 
     await this.$store.dispatch(
-      "getHostelConfirmationPageData",
+      "bookingEngine/getHostelConfirmationPageData",
       this.reservation.cart.hostel.hostel_code,
     );
 
