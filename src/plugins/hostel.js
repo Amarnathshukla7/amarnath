@@ -1,7 +1,9 @@
-import contentful from "./contentful";
+import { stcSpaceClient } from "./contentful";
+
+const hostelClient = stcSpaceClient();
 
 export const getHostel = async (code) => {
-  const hostelReq = await contentful.getEntries({
+  const hostelReq = await hostelClient.getEntries({
     include: 1,
     content_type: "hostel",
     "fields.code": code,
