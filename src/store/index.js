@@ -6,7 +6,7 @@ Vue.use(Vuex);
 const hostelClient = stcSpaceClient();
 const uiClient = fpSpaceClient();
 
-const bookingEngine = {
+export const bookingEngine = {
   namespaced: true,
   state: () => ({
     journeyUi: {},
@@ -124,8 +124,6 @@ const bookingEngine = {
     },
   },
 };
-
-module.exports = bookingEngine;
 
 export default new Vuex.Store({
   modules: {
