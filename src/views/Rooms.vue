@@ -210,7 +210,7 @@ export default {
       uiContentLoaded: null,
       showGroupsModal: false,
       groupBookingModalAlreadyShown: false,
-      openPanel: [1, 2],
+      openPanel: [0, 1],
       isLoading: false,
       isError: false,
       isStatus: false,
