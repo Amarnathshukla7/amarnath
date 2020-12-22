@@ -249,7 +249,7 @@
                             </v-col>
 
                             <v-col
-                              v-if="isStripe"
+                              v-if="isStripe && showCurrencySelector"
                               v-show="
                                 data.deposit !== 0 && data.deposit !== null
                               "
@@ -286,7 +286,8 @@
                                   v-if="
                                     data.deposit === 0 ||
                                     data.deposit === null ||
-                                    !isStripe
+                                    !isStripe ||
+                                    !showCurrencySelector
                                   "
                                   >3.
                                 </span>
@@ -298,10 +299,10 @@
 
                             <v-col cols="12">
                               <TransactionFormPaymentStripeCard
-                                v-if="isStripe"
+                                v-if="isStripe && stripeApiKey"
                                 ref="stripeContainer"
                                 :deposit="data.deposit"
-                                :stripe-key="stripeKey"
+                                :stripe-key="stripeApiKey"
                                 :selected-currency="selectedCurrency"
                               />
 
@@ -412,7 +413,7 @@
                               :form-ref="$refs.form"
                               :cart="cart"
                               :currency="hostelConf.currency"
-                              :stripe-key="stripeKey"
+                              :stripe-key="stripeApiKey"
                               :deposit="data.deposit"
                               v-show="showWallet"
                               class="mx-auto"
@@ -539,7 +540,7 @@ export default {
   props: {
     stripeKey: {
       type: String,
-      default: "pk_test_97WWfDjUOsVWAzm3y1g8t0BJ00F4iyqoge",
+      default: null,
     },
   },
   data() {
@@ -725,6 +726,11 @@ export default {
       //   ? "https://www.flyingpig.nl/terms-and-conditions"
       //   : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
     },
+    showCurrencySelector() {
+      return (
+        this.cart.booking_source !== "HCDT" && this.cart.hosel_code !== "COP"
+      );
+    },
     isChrome() {
       return (
         /Chrome/.test(navigator.userAgent) &&
@@ -736,6 +742,14 @@ export default {
         /Safari/.test(navigator.userAgent) &&
         /Apple Computer, Inc./.test(navigator.vendor)
       );
+    },
+    stripeApiKey() {
+      if (this.stripeKey) return this.stripeKey;
+      if (!this.hostelData) return null;
+      if (this.hostelConf.hostel_code === "COP")
+        return "pk_test_51HcV22DcMXoM7M9zDYGv1smb0vkCgNqRE9RAoWwU2FvFaGbK9ukpEiWco3DerkKsSNrInwZKLLHraXjoe0kkwKna00vuwhlOu4";
+
+      return "pk_test_97WWfDjUOsVWAzm3y1g8t0BJ00F4iyqoge";
     },
     showDepositChoice() {
       return (

@@ -164,19 +164,19 @@ export default {
     },
     bookingSource: {
       type: String,
-      default: "STC",
+      default: "HCDT",
     },
     hostelCode: {
       type: String,
-      default: "HMM",
+      default: "COP",
     },
     checkIn: {
       type: String,
-      default: "2021-02-02",
+      default: "2021-04-02",
     },
     checkOut: {
       type: String,
-      default: "2021-02-05",
+      default: "2021-04-05",
     },
   },
   watch: {
