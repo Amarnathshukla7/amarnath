@@ -727,9 +727,7 @@ export default {
       //   : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
     },
     showCurrencySelector() {
-      return (
-        this.cart.booking_source !== "HCDT" && this.cart.hosel_code !== "COP"
-      );
+      return this.cart.hosel_code !== "COP";
     },
     isChrome() {
       return (
