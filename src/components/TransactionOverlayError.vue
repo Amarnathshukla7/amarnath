@@ -2,7 +2,7 @@
   <v-overlay :value="error" opacity=".8" class="text-center">
     <div class="title">Error</div>
     <div class="body-1 px-4">
-      <span v-if="$parent.isPmsError">
+      <span v-if="$parent.$parent.isPmsError">
         {{ contentTransactionOverlays.error.pmsError }}:
         <br />
         <br />
@@ -10,7 +10,7 @@
       </span>
       <span v-else>{{ contentTransactionOverlays.error.otherError }}</span>
     </div>
-    <v-btn class="mt-4" icon @click="$parent.isError = false">
+    <v-btn class="mt-4" icon @click="$parent.$parent.isError = false">
       <v-icon>mdi-close</v-icon>
     </v-btn>
   </v-overlay>
