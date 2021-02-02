@@ -23,6 +23,8 @@
 
       <TheBreadCrumbs v-if="uiContentLoaded" :content="contentTheBreadCrumbs" />
 
+      <TheLanguagePicker />
+
       <RoomsServerStatus
         v-if="uiContentLoaded"
         :is-status="isStatus"
@@ -148,6 +150,7 @@ import sortRooms from "../helpers/room/sort";
 import RoomsBookingSummary from "../components/RoomsBookingSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import TheCovidMeasures from "../components/TheCovidMeasures";
+import TheLanguagePicker from "../components/TheLanguagePicker";
 import RoomsOverlayError from "../components/RoomsOverlayError";
 import RoomsOptionsSort from "../components/RoomsOptionsSort";
 import RoomsListingContainer from "../components/RoomsListingContainer";
@@ -189,11 +192,15 @@ export default {
     checkOut() {
       this.loadData();
     },
+    "$store.state.bookingEngine.userLanguage": function () {
+      this.loadData();
+    },
   },
   components: {
     RoomsBookingSummary,
     TheBreadCrumbs,
     TheCovidMeasures,
+    TheLanguagePicker,
     RoomsOverlayError,
     RoomsOptionsSort,
     RoomsListingContainer,

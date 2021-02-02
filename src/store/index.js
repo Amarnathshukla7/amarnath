@@ -1,18 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { getUserLocale, getUserLocales } from "get-user-locale";
 import { stcSpaceClient, fpSpaceClient } from "../plugins/contentful";
+import { getUserLocale, getUserLocales } from "get-user-locale";
 import { formatLocale } from "../filters/locale";
 
 Vue.use(Vuex);
 const hostelClient = stcSpaceClient();
 const uiClient = fpSpaceClient();
+const browserLocale = formatLocale(getUserLocales()[0]);
 
 export const bookingEngine = {
   namespaced: true,
   state: () => ({
     journeyUi: {},
     hostelData: {},
+    userLanguage: browserLocale,
   }),
   mutations: {
     SET_JOURNEY_UI_CONTENT(state, payload) {
@@ -20,6 +22,9 @@ export const bookingEngine = {
     },
     SET_HOSTEL_CONTENT(state, payload) {
       state.hostelData = payload;
+    },
+    SET_USER_LANGUAGE(state, payload) {
+      state.userLanguage = payload;
     },
   },
   actions: {
@@ -34,12 +39,11 @@ export const bookingEngine = {
         });
     },
     async getHostel({ commit }, code) {
-      const userLocales = getUserLocales();
-      console.log("User locale(s): " + userLocales);
       await hostelClient
         .getEntries({
           include: 1,
-          locale: formatLocale(userLocales[0]),
+          locale: this.state.bookingEngine.userLanguage,
+          // locale: "es",
           content_type: "hostel",
           "fields.code": code,
           select:
