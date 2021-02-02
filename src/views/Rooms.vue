@@ -192,8 +192,9 @@ export default {
     checkOut() {
       this.loadData();
     },
-    "$store.state.bookingEngine.userLanguage": function () {
-      this.loadData();
+    "$store.state.bookingEngine.userLanguage": async function () {
+      await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
+      this.hostel = this.contentHostelData;
     },
   },
   components: {
