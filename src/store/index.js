@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { getUserLocale, getUserLocales } from "get-user-locale";
 import { stcSpaceClient, fpSpaceClient } from "../plugins/contentful";
+import { formatLocale } from "../filters/locale";
 
 Vue.use(Vuex);
 const hostelClient = stcSpaceClient();
@@ -32,9 +34,12 @@ export const bookingEngine = {
         });
     },
     async getHostel({ commit }, code) {
+      const userLocales = getUserLocales();
+      console.log("User locale(s): " + userLocales);
       await hostelClient
         .getEntries({
           include: 1,
+          locale: formatLocale(userLocales[0]),
           content_type: "hostel",
           "fields.code": code,
           select:
