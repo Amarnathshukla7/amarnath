@@ -35,7 +35,6 @@ export default {
   data() {
     return {
       showText: true,
-      // TODO set default to equal a prop with browserLanguage (eg could default to German)
       selectedLanguage: this.userLanguage,
       languages: [
         {
@@ -72,12 +71,14 @@ export default {
       required: true,
     },
   },
+  emits: ["languageChange"],
   watch: {
     selectedLanguage() {
-      this.$store.commit(
-        "bookingEngine/SET_USER_LANGUAGE",
-        this.selectedLanguage,
-      );
+      //   this.$store.commit(
+      //     "bookingEngine/SET_USER_LANGUAGE",
+      //     this.selectedLanguage,
+      //   );
+      this.$emit("languageChange", this.selectedLanguage);
     },
   },
 };

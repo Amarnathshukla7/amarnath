@@ -131,6 +131,9 @@ export const bookingEngine = {
     contentConfirmationHostelInfo(state) {
       return state.journeyUi.hostelInfo;
     },
+    getUserLanguage(state) {
+      return state.userLanguage;
+    },
   },
 };
 

@@ -41,6 +41,7 @@
           <v-col cols="1" offset-xl="">
             <TheLanguagePicker
               :userLanguage="$store.state.bookingEngine.userLanguage"
+              @languageChange="handleLanguageChange"
             />
           </v-col>
           <v-col cols="11" offset-xl="2">
@@ -196,10 +197,10 @@ export default {
     checkOut() {
       this.loadData();
     },
-    "$store.state.bookingEngine.userLanguage": async function () {
-      await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
-      this.hostel = this.contentHostelData;
-    },
+    // "$store.state.bookingEngine.userLanguage": async function () {
+    //   await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
+    //   this.hostel = this.contentHostelData;
+    // },
   },
   components: {
     RoomsBookingSummary,
@@ -231,6 +232,7 @@ export default {
       rooms: null,
       cart: null,
       showSummaryBreakfast: false,
+      userLanguage: null,
     };
   },
   computed: {
@@ -276,6 +278,7 @@ export default {
       "contentRoomsModalGroupBookings",
       "contentRoomsOptions",
       "contentRoomsExpansionHeaders",
+      "getUserLanguage",
     ]),
     // ...mapActions("bookingEngine", ["getJourneyUi", "getHostel"]),
     // ...mapState(["journeyUi", "hostelData"]),
@@ -339,6 +342,7 @@ export default {
 
         this.rooms = rooms;
         this.hostel = this.contentHostelData;
+        this.userLanguage = this.getUserLanguage;
         this.hostelConf = hostel;
         const cart = await create(this.bookingSource);
         this.depositModelRate = cart.deposit_model_rate;
@@ -393,6 +397,12 @@ export default {
         this.groupBookingModalAlreadyShown = true;
         this.showGroupsModal = true;
       }
+    },
+    async handleLanguageChange(code) {
+      this.$store.commit("bookingEngine/SET_USER_LANGUAGE", code);
+      await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
+      this.hostel = this.contentHostelData;
+      console.log("New language code: " + code);
     },
   },
 };
