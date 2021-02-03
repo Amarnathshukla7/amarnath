@@ -1,12 +1,25 @@
 <template>
   <section>
-    <button
+    <!-- <button
       v-for="language in languages"
       :key="language.code"
       @click="setUserLanguage(language.code)"
     >
-      {{ language.name }}
-    </button>
+      {{ language.text }}
+    </button> -->
+    <v-select
+      :items="languages"
+      item-text="text"
+      item-value="code"
+      v-model="selectedLanguage"
+    >
+      <template #selection="{ item }">
+        <img :src="item.flag" />
+      </template>
+      <template #item="{ item }">
+        <img :src="item.flag" /> {{ showText ? item.text : "" }}
+      </template>
+    </v-select>
   </section>
 </template>
 
@@ -14,33 +27,50 @@
 export default {
   data() {
     return {
+      showText: true,
+      // TODO set default to equal a prop with browserLanguage (eg could default to German)
+      selectedLanguage: this.userLanguage,
       languages: [
         {
-          name: "English",
+          text: "English",
           code: "en-GB",
-          flag: "",
+          flag:
+            "https://images.ctfassets.net/4mnpckaz5cg6/7blI7R03OeOjpLZRmxJqgs/3603dd177b3be067c3c81f3f5a96851e/british-flag.svg",
         },
         {
-          name: "French",
+          text: "Français",
           code: "fr",
-          flag: "",
+          flag:
+            "https://images.ctfassets.net/4mnpckaz5cg6/2U2SDTBhtXCUaOROaCMhVx/a41103c3c31e1b780ab390fbcba3a729/french-flag.svg",
         },
         {
-          name: "German",
+          text: "Deutsch",
           code: "de",
-          flag: "",
+          flag:
+            "https://images.ctfassets.net/4mnpckaz5cg6/c3j2VkwHW17Cpf52q9yp2/dd92f2e003a5763060e775100d8b1f2a/german-flag.svg",
         },
         {
-          name: "Spanish",
+          text: "Español",
           code: "es",
-          flag: "",
+          flag:
+            "https://images.ctfassets.net/4mnpckaz5cg6/1kqHQeUE4QEsw0K2qMfdqp/55c3f271c1154ed83f7a47a818a5289c/spanish-flag.svg",
         },
       ],
     };
   },
-  methods: {
-    setUserLanguage(code) {
-      this.$store.commit("bookingEngine/SET_USER_LANGUAGE", code);
+  props: {
+    userLanguage: {
+      type: String,
+      default: null,
+      required: true,
+    },
+  },
+  watch: {
+    selectedLanguage() {
+      this.$store.commit(
+        "bookingEngine/SET_USER_LANGUAGE",
+        this.selectedLanguage,
+      );
     },
   },
 };
@@ -51,5 +81,12 @@ button {
   border: solid 1px black;
   padding: 1rem;
   margin: 0 1rem;
+}
+</style>
+
+<style>
+.v-text-field > .v-input__control > .v-input__slot:before,
+.v-text-field > .v-input__control > .v-input__slot:after {
+  content: none;
 }
 </style>

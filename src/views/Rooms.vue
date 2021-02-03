@@ -23,8 +23,6 @@
 
       <TheBreadCrumbs v-if="uiContentLoaded" :content="contentTheBreadCrumbs" />
 
-      <TheLanguagePicker />
-
       <RoomsServerStatus
         v-if="uiContentLoaded"
         :is-status="isStatus"
@@ -40,7 +38,12 @@
 
       <v-container v-if="hostel && hostelConf">
         <v-row v-show="!showSummaryBreakfast" no-gutters>
-          <v-col cols="12" offset-xl="2">
+          <v-col cols="2" offset-xl="2">
+            <TheLanguagePicker
+              :userLanguage="$store.state.bookingEngine.userLanguage"
+            />
+          </v-col>
+          <v-col cols="10" offset-xl="2">
             <RoomsOptionsSort
               :hostel-code="hostelCode"
               :content="contentRoomsOptions"
@@ -171,7 +174,8 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "COP",
+      // default: "COP",
+      default: "OAS",
     },
     checkIn: {
       type: String,
