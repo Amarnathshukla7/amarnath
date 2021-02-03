@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { stcSpaceClient, fpSpaceClient } from "../plugins/contentful";
-import { getUserLocale, getUserLocales } from "get-user-locale";
-import { formatLocale } from "../filters/locale";
+import { getUserLocales } from "get-user-locale";
+import { formatLocale } from "../helpers/locale";
 
 Vue.use(Vuex);
 const hostelClient = stcSpaceClient();
