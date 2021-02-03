@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section id="the-language-picker">
     <!-- <button
       v-for="language in languages"
       :key="language.code"
@@ -12,12 +12,19 @@
       item-text="text"
       item-value="code"
       v-model="selectedLanguage"
+      append-icon=""
+      large
     >
       <template #selection="{ item }">
-        <img :src="item.flag" />
+        <img class="the-language-picker-selection-image" :src="item.flag" />
       </template>
       <template #item="{ item }">
-        <img :src="item.flag" /> {{ showText ? item.text : "" }}
+        <img
+          class="the-language-picker-dropdown-item-image"
+          :src="item.flag"
+        /><span class="the-language-picker-dropdown-item-text">
+          {{ showText ? item.text : "" }}</span
+        >
       </template>
     </v-select>
   </section>
@@ -85,8 +92,25 @@ button {
 </style>
 
 <style>
-.v-text-field > .v-input__control > .v-input__slot:before,
-.v-text-field > .v-input__control > .v-input__slot:after {
+#the-language-picker .v-text-field > .v-input__control > .v-input__slot:before,
+#the-language-picker .v-text-field > .v-input__control > .v-input__slot:after {
   content: none;
+}
+
+#the-language-picker .v-select__selections {
+  justify-content: center;
+}
+
+#the-language-picker .v-select__selections input {
+  display: none;
+}
+
+#app .the-language-picker-selection-image {
+  height: 2.25em;
+}
+
+#app .the-language-picker-dropdown-item-image {
+  margin-right: 0.5rem;
+  height: 2.25em;
 }
 </style>
