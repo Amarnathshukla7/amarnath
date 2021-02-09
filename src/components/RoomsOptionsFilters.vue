@@ -1,8 +1,8 @@
 <template>
-  <v-row dense no-gutters justify="start" align-content="start">
+  <v-row no-gutters justify="start" align-content="start">
     <v-col
       cols="4"
-      sm="2"
+      sm="3"
       md="1"
       class="mt-2 mr-md-6"
       v-for="filter in filters"
