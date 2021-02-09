@@ -38,13 +38,13 @@
 
       <v-container v-if="hostel && hostelConf">
         <v-row v-show="!showSummaryBreakfast" no-gutters>
-          <v-col cols="1" offset-xl="">
+          <v-col v-if="true" cols="2" sm="1" offset-xl="2">
             <TheLanguagePicker
               :userLanguage="$store.state.bookingEngine.userLanguage"
               @languageChange="handleLanguageChange"
             />
           </v-col>
-          <v-col cols="11" offset-xl="2">
+          <v-col cols="9" sm="10" xl="8" class="ml-3">
             <RoomsOptionsSort
               :hostel-code="hostelCode"
               :content="contentRoomsOptions"

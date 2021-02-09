@@ -91,7 +91,7 @@ export default {
   .v-input {
     // padding: 10px 15px 2px;
     border-radius: 0;
-    width: 250px;
+    width: 100px;
   }
 
   .v-input__slot {
@@ -114,16 +114,24 @@ export default {
   .v-select__slot {
     margin-top: 5px;
   }
+  .v-text-field--outlined fieldset {
+    bottom: -3px;
+    top: -2px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .sort-by--filters {
+    .v-input {
+      width: 250px;
+    }
+  }
 }
 
 @media screen and (min-width: 960px) {
   .sort-by--filters {
     .covid-measures-btn {
       margin-left: 20px;
-    }
-
-    .v-select__slot {
-      margin-top: 0;
     }
   }
 }
