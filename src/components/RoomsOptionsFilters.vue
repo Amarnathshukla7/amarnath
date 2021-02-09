@@ -2,9 +2,9 @@
   <v-row no-gutters justify="start" align-content="start">
     <v-col
       cols="4"
-      sm="3"
+      sm="2"
       md="1"
-      class="mt-2 mr-md-6"
+      class="mt-2 mr-8 mr-md-12"
       v-for="filter in filters"
       :key="filter"
     >
@@ -14,7 +14,7 @@
         icon="mdi-check-bold"
         overlap
         :value="isSelected(filter)"
-        class="mr-3"
+        class="mr-3 mr-md-6"
       >
         <v-btn @click="updateSelected(filter)" text outlined>{{
           filter
@@ -22,7 +22,12 @@
       </v-badge>
     </v-col>
 
-    <v-btn class="mt-2" color="secondary" @click="selected = []" outlined>
+    <v-btn
+      class="mt-2"
+      color="secondary"
+      @click="selected = []"
+      outlined
+    >
       <v-icon>mdi-close</v-icon>
       {{ content.clearFilters }}
     </v-btn>
