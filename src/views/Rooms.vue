@@ -172,11 +172,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2021-04-02",
+      default: "2021-08-02",
     },
     checkOut: {
       type: String,
-      default: "2021-04-05",
+      default: "2021-08-05",
     },
   },
   watch: {
