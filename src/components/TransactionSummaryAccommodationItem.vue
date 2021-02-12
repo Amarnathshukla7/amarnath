@@ -2,8 +2,10 @@
   <v-list-item class="desktop-summary-item pa-0">
     <v-list-item-content class="text-left">
       <v-list-item-subtitle class="ml-2 body-1 font-weight-bold accent--text">
-        {{ room.checkIn | formatDate }}
-        <span v-if="room.checkOut">- {{ room.checkOut | formatDate }}</span>
+        {{ room.checkIn | formatDate(language) }}
+        <span v-if="room.checkOut"
+          >- {{ room.checkOut | formatDate(language) }}</span
+        >
       </v-list-item-subtitle>
 
       <v-list-item-title class="ml-2 font-weight-bold greyish--text my-3">
@@ -44,6 +46,10 @@ export default {
     currency: {
       type: String,
       default: "GBP",
+    },
+    language: {
+      type: String,
+      default: "en-GB",
     },
     room: {
       type: Object,
