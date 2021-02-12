@@ -203,6 +203,7 @@
               :code="room.code"
               :bed-type="bedType"
               :currency="currency"
+              :language="language"
               @room-active="(val) => (selected = val)"
               @update-local-room-cart="updateCart"
             />
@@ -321,6 +322,7 @@
           :bed-type="bedType"
           :available="date.units"
           :currency="currency"
+          :language="language"
           :custom="true"
           @update-local-room-cart="updateCart"
         />
@@ -349,7 +351,7 @@ import TranslationWithAnchor from "./TranslationWithAnchor";
 
 export default {
   props: {
-    betterContent: {
+    content: {
       type: Object,
       default: null,
     },
@@ -365,6 +367,10 @@ export default {
       type: String,
       default: "GBP",
     },
+    language: {
+      type: String,
+      default: "en-GB",
+    },
     depositModelRate: {
       type: Number,
       default: null,
@@ -379,11 +385,6 @@ export default {
     },
     room: {
       type: Object,
-      default: null,
-    },
-    roomContents: {
-      type: Array,
-      // type: Object,
       default: null,
     },
     uiContent: {
@@ -566,13 +567,6 @@ export default {
         units: parseInt(this.room.dates[date].numberOfUnits),
         cost: this.room.dates[date].cost,
       }));
-    },
-    content() {
-      return this.roomContents.find(
-        // return this.roomContents["en-GB"].find(
-        // ^ for locale: "*" in index.js
-        (room) => room.fields.roomCode === this.room.code,
-      ).fields;
     },
     standardSelected() {
       return this.$refs.standardSelection.unitsSelected || 0;
