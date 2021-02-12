@@ -241,6 +241,30 @@
                 normal booking
               </a>
             </div>
+            <div
+              v-if="!oneDayBooking"
+              v-show="!customSelected && !room.isCustom"
+              class="caption hidden-lg-and-up text-center mb-4"
+              :class="{
+                'greyish--text': !selected,
+                'white--text': selected,
+              }"
+            >
+              <TranslationWithAnchor
+                :text="'Switch to @@@custom booking@@@ instead'"
+                @linkClicked="switchToCustom"
+              />
+            </div>
+            <div
+              v-if="customSelected && !applyMinStay"
+              class="caption hidden-lg-and-up text-center mt-4 mb-4"
+            >
+              {{ uiContent.custom.normalQuestion }} <br />
+              <TranslationWithAnchor
+                :text="'Switch back to @@@normal booking@@@'"
+                @linkClicked="customSelected = false"
+              />
+            </div>
 
             <div
               v-if="!room.isCustom && !applyMinStay"
@@ -321,9 +345,14 @@ import { formatTimezone } from "../helpers/timezone";
 // Components
 import RoomsListingCardSelect from "./RoomsListingCardSelect";
 import RoomsListingCustomError from "./RoomsListingCustomError";
+import TranslationWithAnchor from "./TranslationWithAnchor";
 
 export default {
   props: {
+    betterContent: {
+      type: Object,
+      default: null,
+    },
     checkIn: {
       type: String,
       default: null,
@@ -354,6 +383,7 @@ export default {
     },
     roomContents: {
       type: Array,
+      // type: Object,
       default: null,
     },
     uiContent: {
@@ -367,6 +397,7 @@ export default {
     LightGallery,
     RoomsListingCardSelect,
     RoomsListingCustomError,
+    TranslationWithAnchor,
   },
   data() {
     return {
@@ -538,6 +569,8 @@ export default {
     },
     content() {
       return this.roomContents.find(
+        // return this.roomContents["en-GB"].find(
+        // ^ for locale: "*" in index.js
         (room) => room.fields.roomCode === this.room.code,
       ).fields;
     },
