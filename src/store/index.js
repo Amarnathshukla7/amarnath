@@ -32,6 +32,7 @@ export const bookingEngine = {
       await uiClient
         .getEntries({
           include: 1,
+          locale: this.state.bookingEngine.userLanguage,
           content_type: "bookingEngineUi",
         })
         .then((response) => {
@@ -43,7 +44,6 @@ export const bookingEngine = {
         .getEntries({
           include: 1,
           locale: this.state.bookingEngine.userLanguage,
-          // locale: "es",
           content_type: "hostel",
           "fields.code": code,
           select:
