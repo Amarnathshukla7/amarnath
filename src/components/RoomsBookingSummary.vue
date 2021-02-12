@@ -66,6 +66,7 @@
               :room="room"
               :index="index"
               :currency="currency"
+              :language="language"
               @destroy-room="deleteFromCart"
             />
 
@@ -75,6 +76,7 @@
               :room="room"
               :index="index"
               :currency="currency"
+              :language="language"
               @destroy-room="deleteFromCart"
             />
 
@@ -242,6 +244,10 @@ export default {
     currency: {
       type: String,
       default: "GBP",
+    },
+    language: {
+      type: String,
+      default: "en-GB",
     },
     uiContent: {
       type: Object,

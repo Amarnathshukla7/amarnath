@@ -26,6 +26,7 @@
               :hostel-code="cart.hostel_code"
               :arrival-date="cart.check_in"
               :departure-date="cart.check_out"
+              :language="userLanguage"
             />
           </v-col>
         </v-row>
@@ -466,6 +467,7 @@
             <TransactionSummary
               :cart="cart"
               :currency="hostelConf.currency"
+              :language="userLanguage"
               :selected-currency-rate="currencyRate"
               :selected-currency="selectedCurrency"
               :payable="payable"
@@ -548,6 +550,7 @@ export default {
       guest: null,
       cart: null,
       selectedCurrency: null,
+      userLanguage: "en-GB",
       isLoadingReservation: false,
       hostelConf: null,
       hostel: null,
@@ -651,6 +654,7 @@ export default {
     });
 
     this.cart = await get("cart");
+    this.userLanguage = this.getUserLanguage;
 
     // const devReservation = {
     //   cart: {
@@ -815,6 +819,7 @@ export default {
       "contentTransactionPanelHeaders",
       "contentTransactionGuestDetails",
       "contentTransactionPaymentForm",
+      "getUserLanguage",
     ]),
   },
   methods: {

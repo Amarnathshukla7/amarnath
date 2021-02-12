@@ -22,12 +22,7 @@
       </v-badge>
     </v-col>
 
-    <v-btn
-      class="mt-2"
-      color="secondary"
-      @click="selected = []"
-      outlined
-    >
+    <v-btn class="mt-2" color="secondary" @click="selected = []" outlined>
       <v-icon>mdi-close</v-icon>
       {{ content.clearFilters }}
     </v-btn>

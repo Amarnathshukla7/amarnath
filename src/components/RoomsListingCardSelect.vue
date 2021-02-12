@@ -27,7 +27,7 @@
               class="font-weight-bold"
               :class="{ title: !date, 'subtitle-2': date }"
             >
-              <span v-if="date">{{ date | formatDate }}</span>
+              <span v-if="date">{{ date | formatDate(language) }}</span>
               <span v-else>{{ price | formatPrice(currency) }}</span>
             </div>
             <div class="font-weight-bold caption mb-0">
@@ -56,8 +56,7 @@
 import RoomsListingCardSelectUnit from "./RoomsListingCardSelectUnit";
 import { formatPrice } from "../filters/money";
 import { bus } from "../plugins/bus";
-import { format } from "date-fns/esm";
-import { formatTimezone } from "../helpers/timezone";
+import { formatDate } from "../filters/date";
 import { mapGetters } from "vuex";
 
 export default {
@@ -90,15 +89,17 @@ export default {
       type: String,
       default: "GBP",
     },
+    language: {
+      type: String,
+      default: "en-GB",
+    },
   },
   components: {
     RoomsListingCardSelectUnit,
   },
   filters: {
     formatPrice,
-    formatDate(date) {
-      return format(formatTimezone(new Date(date)), "EEE d MMM");
-    },
+    formatDate,
   },
   data() {
     return {

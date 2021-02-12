@@ -14,12 +14,12 @@
 
         <li class="mr-2 mb-3">
           {{ content.arriving }}:
-          <strong>{{ arrival | formatDate }}</strong>
+          <strong>{{ arrival | formatDate(language) }}</strong>
         </li>
 
         <li>
           {{ content.departing }}:
-          <strong>{{ departure | formatDate }}</strong>
+          <strong>{{ departure | formatDate(language) }}</strong>
         </li>
       </ul>
     </v-card>
@@ -47,6 +47,10 @@ export default {
     departure: {
       type: String,
       default: null,
+    },
+    language: {
+      type: String,
+      default: "en-GB",
     },
     content: {
       type: Object,

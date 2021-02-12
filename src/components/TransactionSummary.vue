@@ -22,8 +22,8 @@
                   <v-list-item-subtitle
                     class="body-1 mb-2 font-weight-bold accent--text"
                   >
-                    {{ cart.check_in | formatDate }} -
-                    {{ cart.check_out | formatDate }}
+                    {{ cart.check_in | formatDate(language) }} -
+                    {{ cart.check_out | formatDate(language) }}
                   </v-list-item-subtitle>
 
                   <v-list-item-title>
@@ -60,12 +60,14 @@
                     :key="index"
                     :room="room"
                     :currency="currency"
+                    :language="language"
                   />
                   <TransactionSummaryAccommodationItem
                     v-for="(room, index) in bookingEntries.custom"
                     :key="index"
                     :room="room"
                     :currency="currency"
+                    :language="language"
                   />
                 </v-card>
               </v-list-group>
@@ -190,6 +192,10 @@ export default {
     currency: {
       type: String,
       default: "GBP",
+    },
+    language: {
+      type: String,
+      default: "en-GB",
     },
     deposit: {
       type: Number,

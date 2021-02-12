@@ -18,6 +18,7 @@
         :nights="nights"
         :arrival="checkIn"
         :departure="checkOut"
+        :language="userLanguage"
         :content="contentRoomsSearchSummary"
       />
 
@@ -40,7 +41,7 @@
         <v-row v-show="!showSummaryBreakfast" no-gutters>
           <v-col v-if="true" cols="2" sm="1" offset-xl="2">
             <TheLanguagePicker
-              :userLanguage="$store.state.bookingEngine.userLanguage"
+              :userLanguage="userLanguage"
               @languageChange="handleLanguageChange"
             />
           </v-col>
@@ -87,6 +88,7 @@
                 :check-out="checkOut"
                 :min-stay="dormMinStay"
                 :currency="currency"
+                :language="userLanguage"
                 :deposit-model-rate="depositModelRate"
                 :hostel-code="hostelCode"
                 @update-local-cart="updateCart($event)"
@@ -120,6 +122,7 @@
               :showSummaryBreakfast="showSummaryBreakfast"
               :hostel="hostel"
               :isSmallDevice="isSmallDevice"
+              :language="userLanguage"
               :ui-content="contentTheSummary"
               @update-cart="(cart) => (this.cart = cart)"
               @go-to-transaction="submitBooking"
@@ -402,7 +405,9 @@ export default {
       this.$store.commit("bookingEngine/SET_USER_LANGUAGE", code);
       await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
       this.hostel = this.contentHostelData;
-      console.log("New language code: " + code);
+      this.userLanguage = this.getUserLanguage;
+      await this.$store.dispatch("bookingEngine/getJourneyUi");
+      this.uiContentLoaded = this.contentTheBreadCrumbs;
     },
   },
 };
