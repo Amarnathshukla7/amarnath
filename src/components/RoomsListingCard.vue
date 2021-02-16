@@ -121,9 +121,13 @@
                   href="javascript:void(0)"
                   @click="switchToCustom"
                 >
-                  custom booking
-                </a>
+                  custom booking</a
+                >
                 instead
+                <TranslationWithAnchor
+                  :text="'Switch to @@@custom booking@@@ instead'"
+                  @linkClicked="switchToCustom"
+                />
               </div>
               <div
                 v-if="customSelected"
@@ -138,6 +142,10 @@
                 >
                   normal booking
                 </a>
+                <TranslationWithAnchor
+                  :text="'Switch back to @@@normal booking@@@'"
+                  @linkClicked="customSelected = false"
+                />
               </div>
             </v-card-subtitle>
           </v-col>
