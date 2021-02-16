@@ -15,6 +15,7 @@
             :units="available"
             :value="unitsSelected"
             :bed-type="bedType"
+            :unavailableText="unavailableText"
             @update-value="update"
           />
         </v-col>
@@ -92,6 +93,10 @@ export default {
     language: {
       type: String,
       default: "en-GB",
+    },
+    unavailableText: {
+      type: Object,
+      default: null,
     },
   },
   components: {

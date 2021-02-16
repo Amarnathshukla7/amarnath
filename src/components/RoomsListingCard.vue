@@ -211,6 +211,7 @@
               :bed-type="bedType"
               :currency="currency"
               :language="language"
+              :unavailableText="uiContent.unavailable"
               @room-active="(val) => (selected = val)"
               @update-local-room-cart="updateCart"
             />
@@ -330,6 +331,7 @@
           :available="date.units"
           :currency="currency"
           :language="language"
+          :unavailableText="uiContent.unavailable"
           :custom="true"
           @update-local-room-cart="updateCart"
         />

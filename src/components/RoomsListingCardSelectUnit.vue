@@ -20,7 +20,7 @@
         <template v-slot:activator="{ on }">
           <v-icon small v-on="on" color="info" dark> mdi-help </v-icon>
         </template>
-        <span>{{ bedType }} unavailable on this night</span>
+        <span>{{ unavailableText[bedType] }}</span>
       </v-tooltip>
     </v-select>
   </div>
@@ -41,6 +41,10 @@ export default {
     },
     value: {
       type: Number,
+      default: null,
+    },
+    unavailableText: {
+      type: Object,
       default: null,
     },
   },
