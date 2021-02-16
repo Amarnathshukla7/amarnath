@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   props: {
     bedType: {
@@ -51,7 +53,9 @@ export default {
   },
   computed: {
     placehold() {
-      return `0 ${this.bedType}s`;
+      return this.bedType === "room"
+        ? `0 ${this.contentTheSummary.miscContent.rooms}`
+        : `0 ${this.contentTheSummary.miscContent.beds}`;
     },
     soldOut() {
       return this.units === 0;
@@ -69,6 +73,7 @@ export default {
         .fill(null)
         .map((x, i) => i + 1);
     },
+    ...mapGetters("bookingEngine", ["contentTheSummary"]),
   },
 };
 </script>
