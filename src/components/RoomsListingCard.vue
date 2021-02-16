@@ -114,6 +114,7 @@
                 }"
               >
                 {{ uiContent.custom.customQuestion }} <br />
+                <!-- TODO remove hard-coding -->
                 Switch to
                 <a
                   class="secondary--text"
@@ -124,7 +125,7 @@
                 >
                 instead
                 <TranslationWithAnchor
-                  :text="'Switch to @@@custom booking@@@ instead'"
+                  :text="uiContent.custom.customCtaText"
                   @linkClicked="switchToCustom"
                 />
               </div>
@@ -133,6 +134,7 @@
                 class="caption greyish--text hidden-md-and-down"
               >
                 {{ uiContent.custom.normalQuestion }} <br />
+                <!-- TODO remove hard-coding -->
                 Switch back to
                 <a
                   class="secondary--text"
@@ -142,7 +144,7 @@
                   normal booking
                 </a>
                 <TranslationWithAnchor
-                  :text="'Switch back to @@@normal booking@@@'"
+                  :text="uiContent.custom.normalCtaText"
                   @linkClicked="customSelected = false"
                 />
               </div>
@@ -226,6 +228,7 @@
               }"
             >
               {{ uiContent.custom.customQuestion }} <br />
+              <!-- TODO remove hard-coding -->
               Switch to
               <a
                 class="secondary--text"
@@ -241,6 +244,7 @@
               class="caption hidden-lg-and-up text-center mt-4 mb-4"
             >
               {{ uiContent.custom.normalQuestion }} <br />
+              <!-- TODO remove hard-coding -->
               Switch back to
               <a
                 class="secondary--text"
@@ -260,7 +264,7 @@
               }"
             >
               <TranslationWithAnchor
-                :text="'Switch to @@@custom booking@@@ instead'"
+                :text="uiContent.custom.customCtaText"
                 @linkClicked="switchToCustom"
               />
             </div>
@@ -270,7 +274,7 @@
             >
               {{ uiContent.custom.normalQuestion }} <br />
               <TranslationWithAnchor
-                :text="'Switch back to @@@normal booking@@@'"
+                :text="uiContent.custom.normalCtaText"
                 @linkClicked="customSelected = false"
               />
             </div>
