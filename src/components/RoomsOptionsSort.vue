@@ -15,7 +15,7 @@
         dense
         class="d-inline-block sort-select"
         :items="items"
-        label="Sort By"
+        :label="content.sortLabel"
         v-model="sort"
         outlined
         clearable
@@ -60,7 +60,11 @@ export default {
     return {
       showFilters: false,
       sort: null,
-      items: [
+    };
+  },
+  computed: {
+    items() {
+      return [
         {
           key: "price-low",
           value: this.content.sortOptions.priceLow,
@@ -77,8 +81,8 @@ export default {
           key: "avail-high",
           value: this.content.sortOptions.availHigh,
         },
-      ],
-    };
+      ];
+    },
   },
 };
 </script>
