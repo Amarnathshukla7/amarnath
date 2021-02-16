@@ -332,6 +332,7 @@
                                 v-model="data.terms"
                                 :rules="rules.terms"
                               >
+                                <!-- TODO remove hard-coding -->
                                 <label slot="label">
                                   I have read and accept the
                                   <a
@@ -345,7 +346,10 @@
                                 <label slot="label">
                                   <TranslationWithAnchor
                                     styleClass=""
-                                    text="I have read and accept the @@@terms and conditions@@@."
+                                    :text="
+                                      contentTransactionPaymentForm.s5
+                                        .termsAndConditionsMsg
+                                    "
                                     :link="termsLink"
                                     target="_blank"
                                   />
