@@ -66,7 +66,7 @@
                 :class="selectedAndCustomStylePrimaryColor"
                 v-if="uiContent.notePricesPer"
               >
-                {{ completeNotePricesPer }}
+                {{ finalNotePricesPer }}
               </div>
 
               <div
@@ -195,7 +195,7 @@
               class="subtitle-2 text-center my-4 warning--text font-weight-bold"
               v-show="applyMinStay"
             >
-              Minimum stay for this room is {{ minStay }} nights. <br />
+              {{ finalMinStayText }} <br />
               <a href="#update-dates" class="warning--text">
                 {{ uiContent.minStays.updateSearch }}
               </a>
@@ -580,7 +580,7 @@ export default {
     standardSelected() {
       return this.$refs.standardSelection.unitsSelected || 0;
     },
-    completeNotePricesPer() {
+    finalNotePricesPer() {
       const start =
         this.room.roomType === "private"
           ? this.uiContent.notePricesPer.pricesPerRoom
@@ -590,6 +590,9 @@ export default {
           ? this.uiContent.notePricesPer.person
           : this.uiContent.notePricesPer.people;
       return `${start} ${this.maxOccupancy} ${personDescriptor}`;
+    },
+    finalMinStayText() {
+      return this.uiContent.minStayText.replace("@@@", this.minStay.toString());
     },
   },
 };
