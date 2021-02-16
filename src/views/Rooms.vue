@@ -378,8 +378,8 @@ export default {
 
       this.isLoading = true;
       await set("cart", this.cart);
-      console.log("cart");
-      console.log(this.cart);
+      // console.log("cart");
+      // console.log(this.cart);
 
       this.$router.push({
         path: window.location.pathname.replace("availability", "") + "payment",

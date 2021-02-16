@@ -52,7 +52,7 @@ export default {
   },
   watch: {
     sort(type) {
-      console.log(type);
+      // console.log(type);
       this.$emit("sort", type);
     },
   },
