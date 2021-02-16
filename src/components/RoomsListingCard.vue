@@ -61,13 +61,12 @@
               >
                 {{ peopleIcon }}
               </v-icon>
-
               <div
                 class="caption d-inline-block"
                 :class="selectedAndCustomStylePrimaryColor"
+                v-if="uiContent.notePricesPer"
               >
-                Prices are per {{ bedType }} sleeping {{ maxOccupancy }}
-                {{ personDescriptor }}
+                {{ completeNotePricesPer }}
               </div>
 
               <div
@@ -578,6 +577,17 @@ export default {
     },
     standardSelected() {
       return this.$refs.standardSelection.unitsSelected || 0;
+    },
+    completeNotePricesPer() {
+      const start =
+        this.room.roomType === "private"
+          ? this.uiContent.notePricesPer.pricesPerRoom
+          : this.uiContent.notePricesPer.pricesPerBed;
+      const personDescriptor =
+        this.maxOccupancy === 1
+          ? this.uiContent.notePricesPer.person
+          : this.uiContent.notePricesPer.people;
+      return `${start} ${this.maxOccupancy} ${personDescriptor}`;
     },
   },
 };
