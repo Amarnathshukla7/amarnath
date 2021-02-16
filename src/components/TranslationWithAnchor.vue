@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <span>
     {{ splitText[0] }}
     <a
-      class="secondary--text"
-      href="javascript:void(0)"
-      @click="$emit('linkClicked')"
+      :class="styleClass"
+      :href="href"
+      :target="target"
+      @click.stop="$emit('linkClicked')"
     >
-      {{ splitText[1] }}
-    </a>
+      {{ splitText[1] }}</a
+    >
     {{ splitText[2] }}
-  </div>
+  </span>
 </template>
 
 <script>
@@ -19,11 +20,26 @@ export default {
       type: String,
       required: true,
     },
+    styleClass: {
+      type: String,
+      default: "secondary--text",
+    },
+    link: {
+      type: String,
+      default: null,
+    },
+    target: {
+      type: String,
+      default: null,
+    },
   },
   emits: ["linkClicked"],
   computed: {
     splitText() {
       return this.text.split("@@@");
+    },
+    href() {
+      return this.link || "javascript:void(0)";
     },
   },
 };

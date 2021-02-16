@@ -342,6 +342,14 @@
                                     terms and conditions</a
                                   >.
                                 </label>
+                                <label slot="label">
+                                  <TranslationWithAnchor
+                                    styleClass=""
+                                    text="I have read and accept the @@@terms and conditions@@@."
+                                    :link="termsLink"
+                                    target="_blank"
+                                  />
+                                </label>
                               </v-checkbox>
                             </v-col>
 
@@ -512,8 +520,9 @@ import { getHostel } from "../plugins/hostel";
 import { hostelShortName } from "../helpers/hostelNames";
 
 // Components
-import TransactionSummary from "../components/TransactionSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
+import TranslationWithAnchor from "../components/TranslationWithAnchor";
+import TransactionSummary from "../components/TransactionSummary";
 import TransactionFormDiscountCode from "../components/TransactionFormDiscountCode";
 import TransactionOverlayError from "../components/TransactionOverlayError";
 import TransactionOverlayLoading from "../components/TransactionOverlayLoading";
@@ -529,6 +538,7 @@ Vue.use(VueLoadScript);
 export default {
   components: {
     TheBreadCrumbs,
+    TranslationWithAnchor,
     TransactionSummary,
     TransactionFormDiscountCode,
     TransactionOverlayError,
