@@ -429,6 +429,7 @@
                             <v-btn
                               v-show="showCard || !data.payMethod"
                               class="font-weight-bold"
+                              id="pay-method-btn"
                               tile
                               x-large
                               py-2
@@ -961,5 +962,12 @@ export default {
 
 .v-card__subtitle.reservation-info {
   font-size: 1rem;
+}
+</style>
+
+<style>
+#pay-method-btn .v-btn__content {
+  width: 100%;
+  white-space: normal;
 }
 </style>
