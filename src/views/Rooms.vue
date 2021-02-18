@@ -179,6 +179,7 @@ export default {
     hostelCode: {
       type: String,
       // default: "COP",
+      // default: "XYZ",
       default: "OAS",
     },
     checkIn: {
@@ -226,7 +227,7 @@ export default {
       uiContentLoaded: null,
       showGroupsModal: false,
       groupBookingModalAlreadyShown: false,
-      openPanel: [0, 1],
+      openPanel: [0, 1, 2],
       isLoading: false,
       isError: false,
       isStatus: false,
