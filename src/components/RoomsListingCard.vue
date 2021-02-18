@@ -209,22 +209,6 @@
               }"
             >
               {{ uiContent.custom.customQuestion }} <br />
-            </div>
-            <div
-              v-if="customSelected && !applyMinStay"
-              class="caption hidden-lg-and-up text-center mt-4 mb-4"
-            >
-              {{ uiContent.custom.normalQuestion }} <br />
-            </div>
-            <div
-              v-if="!oneDayBooking"
-              v-show="!customSelected && !room.isCustom"
-              class="caption hidden-lg-and-up text-center mb-4"
-              :class="{
-                'greyish--text': !selected,
-                'white--text': selected,
-              }"
-            >
               <TranslationWithAnchor
                 :text="uiContent.custom.customCtaText"
                 @linkClicked="switchToCustom"

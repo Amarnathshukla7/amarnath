@@ -6,8 +6,7 @@
       :href="href"
       :target="target"
       @click.stop="$emit('linkClicked')"
-    >
-      {{ splitText[1] }}</a
+      >{{ splitText[1] }}</a
     >{{ splitText[2] }}
   </span>
 </template>
