@@ -2,17 +2,17 @@
   <v-row no-gutters justify="start" align-content="start">
     <v-col cols="12" class="d-flex flex-wrap">
       <v-badge
-        v-for="filter in filters"
-        :key="filter"
+        v-for="(translation, filterOption) in content.filterOptions"
+        :key="filterOption"
         bordered
         color="secondary"
         icon="mdi-check-bold"
         overlap
-        :value="isSelected(filter)"
+        :value="isSelected(filterOption)"
         class="mb-2 mr-4"
       >
-        <v-btn @click="updateSelected(filter)" text outlined>{{
-          filter
+        <v-btn @click="updateSelected(filterOption)" text outlined>{{
+          translation
         }}</v-btn>
       </v-badge>
     </v-col>
@@ -55,15 +55,6 @@ export default {
     },
     isSelected(filter) {
       return this.selected.includes(filter);
-    },
-  },
-  computed: {
-    filters() {
-      const filters = [];
-      for (const filter in this.content.filterOptions) {
-        filters.push(this.content.filterOptions[filter]);
-      }
-      return filters;
     },
   },
 };
