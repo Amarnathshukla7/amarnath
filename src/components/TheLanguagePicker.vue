@@ -108,7 +108,7 @@ button {
 
 #app .the-language-picker-selection-image {
   height: 2.25em;
-  margin-top: 1.25em;
+  margin-top: 7px;
 }
 
 #app .the-language-picker-dropdown-item-image {

@@ -1,19 +1,19 @@
 <template>
   <v-row class="sort-by--filters my-4" align="start" no-gutters>
-    <v-col cols="12" md="6" class="text-left">
+    <v-col cols="12" md="6" class="text-left d-flex flex-wrap">
       <v-btn
         @click="showFilters = !showFilters"
         text
         :tile="true"
         outlined
-        class="mr-5 filters-btn"
+        class="mr-5 mb-2 filters-btn"
       >
         {{ content.filtersBtn }}
       </v-btn>
 
       <v-select
         dense
-        class="d-inline-block sort-select"
+        class="d-inline-block sort-select mb-1"
         :items="items"
         :label="content.sortLabel"
         v-model="sort"
@@ -95,7 +95,8 @@ export default {
   .v-input {
     // padding: 10px 15px 2px;
     border-radius: 0;
-    width: 100px;
+    width: 250px;
+    max-width: 250px;
   }
 
   .v-input__slot {
@@ -111,24 +112,8 @@ export default {
     height: 50px;
   }
 
-  .sort-select .v-input__slot {
-    margin-top: 10px;
-  }
-
   .v-select__slot {
     margin-top: 5px;
-  }
-  .v-text-field--outlined fieldset {
-    bottom: -3px;
-    top: -2px;
-  }
-}
-
-@media screen and (min-width: 600px) {
-  .sort-by--filters {
-    .v-input {
-      width: 250px;
-    }
   }
 }
 

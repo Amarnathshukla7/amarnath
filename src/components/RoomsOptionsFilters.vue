@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters justify="start" align-content="start">
-    <v-col cols="12" class="d-flex flex-wrap mt-2">
+    <v-col cols="12" class="d-flex flex-wrap">
       <v-badge
         v-for="filter in filters"
         :key="filter"
@@ -9,7 +9,7 @@
         icon="mdi-check-bold"
         overlap
         :value="isSelected(filter)"
-        class="mt-2 mr-8 mr-md-12"
+        class="mb-2 mr-8 mr-md-12"
       >
         <v-btn @click="updateSelected(filter)" text outlined>{{
           filter
@@ -17,7 +17,7 @@
       </v-badge>
     </v-col>
 
-    <v-btn class="mt-2" color="secondary" @click="selected = []" outlined>
+    <v-btn color="secondary" @click="selected = []" outlined>
       <v-icon>mdi-close</v-icon>
       {{ content.clearFilters }}
     </v-btn>
