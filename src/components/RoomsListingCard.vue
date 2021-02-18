@@ -114,16 +114,6 @@
                 }"
               >
                 {{ uiContent.custom.customQuestion }} <br />
-                <!-- TODO remove hard-coding -->
-                Switch to
-                <a
-                  class="secondary--text"
-                  href="javascript:void(0)"
-                  @click="switchToCustom"
-                >
-                  custom booking</a
-                >
-                instead
                 <TranslationWithAnchor
                   :text="uiContent.custom.customCtaText"
                   @linkClicked="switchToCustom"
@@ -134,15 +124,6 @@
                 class="caption greyish--text hidden-md-and-down"
               >
                 {{ uiContent.custom.normalQuestion }} <br />
-                <!-- TODO remove hard-coding -->
-                Switch back to
-                <a
-                  class="secondary--text"
-                  href="javascript:void(0)"
-                  @click="customSelected = false"
-                >
-                  normal booking
-                </a>
                 <TranslationWithAnchor
                   :text="uiContent.custom.normalCtaText"
                   @linkClicked="customSelected = false"
@@ -228,31 +209,12 @@
               }"
             >
               {{ uiContent.custom.customQuestion }} <br />
-              <!-- TODO remove hard-coding -->
-              Switch to
-              <a
-                class="secondary--text"
-                href="javascript:void(0)"
-                @click="switchToCustom"
-              >
-                custom booking
-              </a>
-              instead
             </div>
             <div
               v-if="customSelected && !applyMinStay"
               class="caption hidden-lg-and-up text-center mt-4 mb-4"
             >
               {{ uiContent.custom.normalQuestion }} <br />
-              <!-- TODO remove hard-coding -->
-              Switch back to
-              <a
-                class="secondary--text"
-                href="javascript:void(0)"
-                @click="customSelected = false"
-              >
-                normal booking
-              </a>
             </div>
             <div
               v-if="!oneDayBooking"
