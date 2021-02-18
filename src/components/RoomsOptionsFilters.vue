@@ -1,20 +1,15 @@
 <template>
   <v-row no-gutters justify="start" align-content="start">
-    <v-col
-      cols="4"
-      sm="2"
-      md="1"
-      class="mt-2 mr-8 mr-md-12"
-      v-for="filter in filters"
-      :key="filter"
-    >
+    <v-col cols="12" class="d-flex flex-wrap mt-2">
       <v-badge
+        v-for="filter in filters"
+        :key="filter"
         bordered
         color="secondary"
         icon="mdi-check-bold"
         overlap
         :value="isSelected(filter)"
-        class="mr-3 mr-md-6"
+        class="mt-2 mr-8 mr-md-12"
       >
         <v-btn @click="updateSelected(filter)" text outlined>{{
           filter
