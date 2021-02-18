@@ -9,7 +9,7 @@
         icon="mdi-check-bold"
         overlap
         :value="isSelected(filter)"
-        class="mb-2 mr-8 mr-md-12"
+        class="mb-2 mr-4"
       >
         <v-btn @click="updateSelected(filter)" text outlined>{{
           filter
