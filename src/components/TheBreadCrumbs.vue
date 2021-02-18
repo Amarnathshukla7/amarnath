@@ -145,9 +145,9 @@ figure {
   background: var(--v-accent-base);
   color: #fff !important;
 }
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 360px) {
   .breadcrumb a {
-    font-size: 10px;
+    font-size: 9px;
   }
 }
 @media screen and (max-width: 400px) {
