@@ -26,7 +26,11 @@
           >
             <div
               class="font-weight-bold"
-              :class="{ title: !date, 'subtitle-2': date }"
+              :class="{
+                'subtitle-1': !date,
+                'text-sm-h6': !date,
+                'subtitle-2': date,
+              }"
             >
               <span v-if="date">{{ date | formatDate(language) }}</span>
               <span v-else>{{ price | formatPrice(currency) }}</span>
