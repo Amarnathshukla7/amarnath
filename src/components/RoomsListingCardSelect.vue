@@ -35,7 +35,7 @@
               <span
                 class="font-weight-bold"
                 v-if="date && price > 0"
-                :class="{ title: date }"
+                :class="{ title: date, 'custom-title': custom }"
                 >{{ price | formatPrice(currency) }}</span
               >
               <span v-else-if="price === 0 && date">
@@ -161,5 +161,11 @@ export default {
 
 .custom-card.theme--light.v-card.v-card--outlined {
   border: 1px solid var(--v-accent-base) !important;
+}
+
+@media screen and (min-width: 1264px) {
+  .custom-card .date--price .title.custom-title {
+    font-size: 1.15rem !important;
+  }
 }
 </style>
