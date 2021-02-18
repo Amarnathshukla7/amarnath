@@ -332,17 +332,6 @@
                                 v-model="data.terms"
                                 :rules="rules.terms"
                               >
-                                <!-- TODO remove hard-coding -->
-                                <label slot="label">
-                                  I have read and accept the
-                                  <a
-                                    :href="termsLink"
-                                    target="_blank"
-                                    @click.stop
-                                  >
-                                    terms and conditions</a
-                                  >.
-                                </label>
                                 <label slot="label">
                                   <TranslationWithAnchor
                                     styleClass=""
@@ -367,14 +356,15 @@
                                     contentTransactionPaymentForm.s5
                                       .marketingOptInMsg
                                   }}
-                                  All part of our
-                                  <a
-                                    href="http://www.bedsandbars.com/privacy-and-cookies"
+                                  <TranslationWithAnchor
+                                    styleClass=""
+                                    :text="
+                                      contentTransactionPaymentForm.s5
+                                        .privacyPolicyMsg
+                                    "
+                                    link="http://www.bedsandbars.com/privacy-and-cookies"
                                     target="_blank"
-                                    @click.stop
-                                  >
-                                    privacy policy</a
-                                  >.
+                                  />
                                 </p>
                               </v-checkbox>
                             </v-col>
