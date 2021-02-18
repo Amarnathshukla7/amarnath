@@ -31,7 +31,7 @@
               <span v-if="date">{{ date | formatDate(language) }}</span>
               <span v-else>{{ price | formatPrice(currency) }}</span>
             </div>
-            <div class="font-weight-bold caption mb-0">
+            <div class="font-weight-bold caption mb-0 d-flex justify-center">
               <span
                 class="font-weight-bold"
                 v-if="date && price > 0"
@@ -42,7 +42,7 @@
                 {{ contentRoomsListingCard.selection.soldOut }}
               </span>
 
-              <span v-else>
+              <span v-else class="text-center">
                 {{ contentRoomsListingCard.selection.avgMessage }}
               </span>
             </div>
