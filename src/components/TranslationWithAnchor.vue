@@ -1,15 +1,14 @@
 <template>
   <span>
-    {{ splitText[0] }}
-    <a
+    {{ splitText[0]
+    }}<a
       :class="styleClass"
       :href="href"
       :target="target"
       @click.stop="$emit('linkClicked')"
     >
       {{ splitText[1] }}</a
-    >
-    {{ splitText[2] }}
+    >{{ splitText[2] }}
   </span>
 </template>
 
