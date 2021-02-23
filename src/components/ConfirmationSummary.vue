@@ -71,10 +71,10 @@
       <v-list-item-content>
         <v-list-item-title>
           <v-row no-gutters>
-            <v-col cols="8">{{
+            <v-col cols="7">{{
               contentConfirmationSummary.breakfast.heading
             }}</v-col>
-            <v-col cols="4">
+            <v-col cols="5">
               <span
                 class="float-right mr-6"
                 v-if="reservation.cart.extras_cost > 0"
@@ -84,10 +84,10 @@
                     | formatPrice(reservation.cart.hostel.currency)
                 }}
               </span>
-              <span class="float-right mr-6" v-else-if="noBreakfast">
+              <span class="float-right text-right mr-6" v-else-if="noBreakfast">
                 {{ contentConfirmationSummary.breakfast.notIncluded }}
               </span>
-              <span class="float-right mr-6" v-else>
+              <span class="float-right text-right mr-6" v-else>
                 {{ contentConfirmationSummary.breakfast.included }}
               </span>
             </v-col>
