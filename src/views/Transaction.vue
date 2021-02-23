@@ -266,6 +266,7 @@
                               </div>
 
                               <v-autocomplete
+                                v-if="currencies"
                                 class="mt-2"
                                 :items="currencies"
                                 item-value="key"
@@ -513,6 +514,7 @@ import { formatDate } from "../filters/date";
 import { formatPrice, convertCurrency } from "../filters/money";
 import { getHostel } from "../plugins/hostel";
 import { hostelShortName } from "../helpers/hostelNames";
+import { getCurrencies } from "../data/currencies";
 
 // Components
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
@@ -604,28 +606,7 @@ export default {
       isError: false,
       uiContentLoaded: null,
       countries,
-      currencies: [
-        {
-          key: "GBP",
-          value: "GBP - British Pound",
-        },
-        {
-          key: "EUR",
-          value: "EUR - Euro",
-        },
-        {
-          key: "USD",
-          value: "USD - US Dollar",
-        },
-        {
-          key: "AUD",
-          value: "AUD - Australian Dollar",
-        },
-        {
-          key: "CAD",
-          value: "CAD - Canadian Dollar",
-        },
-      ],
+      currencies: null,
     };
   },
   watch: {
@@ -695,15 +676,9 @@ export default {
     this.hostelConf = hostelConf;
     // this.hostel = hostel;
     this.hostel = this.hostelData;
-
-    if (this.hostel.code === "PRA") {
-      this.currencies.push({
-        key: "CZK",
-        value: "CZK - Czech koruna",
-      });
-    }
-
     this.selectedCurrency = this.hostelConf.currency;
+
+    this.currencies = getCurrencies(this.hostel.code);
 
     if (!this.isPaypalEnabled) this.data.payMethod = "card";
     this.data.deposit = this.cart.deposit_model_rate || 0;
@@ -731,12 +706,9 @@ export default {
       } else {
         return "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
       }
-      // return ["FPU", "FPD"].includes(this.hostelConf.code)
-      //   ? "https://www.flyingpig.nl/terms-and-conditions"
-      //   : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
     },
     showCurrencySelector() {
-      return this.cart.hosel_code !== "COP";
+      return !["NOS"].includes(this.cart.hostel_code);
     },
     isChrome() {
       return (
