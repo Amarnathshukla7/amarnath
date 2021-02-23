@@ -147,7 +147,7 @@ figure {
 }
 @media screen and (max-width: 360px) {
   .breadcrumb a {
-    font-size: 9px;
+    font-size: 8px;
   }
 }
 @media screen and (max-width: 400px) {
