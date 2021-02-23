@@ -542,7 +542,9 @@ export default {
       return `${start} ${this.maxOccupancy} ${personDescriptor}`;
     },
     finalMinStayText() {
-      return this.uiContent.minStayText.replace("@@@", this.minStay.toString());
+      return this.minStay
+        ? this.uiContent.minStayText.replace("@@@", this.minStay)
+        : "";
     },
   },
 };
