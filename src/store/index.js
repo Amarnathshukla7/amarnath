@@ -1,20 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { stcSpaceClient, fpSpaceClient } from "../plugins/contentful";
-import { getUserLocales } from "get-user-locale";
-import { formatLocale } from "../helpers/locale";
 
 Vue.use(Vuex);
 const hostelClient = stcSpaceClient();
 const uiClient = fpSpaceClient();
-const browserLocale = formatLocale(getUserLocales()[0]);
 
 export const bookingEngine = {
   namespaced: true,
   state: () => ({
     journeyUi: {},
     hostelData: {},
-    userLanguage: browserLocale,
+    userLanguage: "en-GB",
   }),
   mutations: {
     SET_JOURNEY_UI_CONTENT(state, payload) {

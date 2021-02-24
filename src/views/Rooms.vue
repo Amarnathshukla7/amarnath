@@ -141,6 +141,7 @@
 import { differenceInDays } from "date-fns";
 import { mapActions, mapGetters } from "vuex";
 import { set } from "idb-keyval";
+import { getUserLocales } from "get-user-locale";
 
 // APIs
 import { availability } from "../api/room/search-svc";
@@ -152,6 +153,7 @@ import { find } from "../api/room/reservation-svc/hostel-svc";
 import { bus } from "../plugins/bus";
 import { formatTimezone } from "../helpers/timezone";
 import sortRooms from "../helpers/room/sort";
+import { getBestLocale } from "../helpers/locale";
 
 // Components
 import RoomsBookingSummary from "../components/RoomsBookingSummary";
@@ -288,6 +290,8 @@ export default {
     // ...mapState(["journeyUi", "hostelData"]),
   },
   async beforeCreate() {
+    const browserLocaleCode = getBestLocale(getUserLocales());
+    this.$store.commit("bookingEngine/SET_USER_LANGUAGE", browserLocaleCode);
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     // this.getJourneyUi();
     // this.uiContentLoaded = this.journeyUi;
