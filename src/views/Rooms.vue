@@ -38,8 +38,12 @@
       />
 
       <v-container v-if="hostel && hostelConf">
-        <v-row v-show="!showSummaryBreakfast" no-gutters>
-          <v-col v-if="true" cols="2" sm="1" offset-xl="2">
+        <v-row
+          class="language-picker-and-room-options"
+          v-show="!showSummaryBreakfast"
+          no-gutters
+        >
+          <v-col v-if="true" cols="2" sm="1">
             <TheLanguagePicker
               :userLanguage="userLanguage"
               @languageChange="handleLanguageChange"
@@ -464,6 +468,11 @@ export default {
 
 .room-view-panel--margin {
   margin-bottom: 125px;
+}
+
+.language-picker-and-room-options {
+  margin: auto;
+  max-width: 1161px;
 }
 
 @media screen and (min-width: 600px) {
