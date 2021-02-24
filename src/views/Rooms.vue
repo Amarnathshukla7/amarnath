@@ -294,9 +294,14 @@ export default {
     // ...mapState(["journeyUi", "hostelData"]),
   },
   async beforeCreate() {
-    if (!this.$store.state.bookingEngine.userLanguage) {
+    if (this.$store.state.bookingEngine.userLanguage === "en-GB") {
       const browserLocaleCode = getBestLocale(getUserLocales());
-      this.$store.commit("bookingEngine/SET_USER_LANGUAGE", browserLocaleCode);
+      if (browserLocaleCode !== "en-GB") {
+        this.$store.commit(
+          "bookingEngine/SET_USER_LANGUAGE",
+          browserLocaleCode,
+        );
+      }
     }
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     // this.getJourneyUi();
