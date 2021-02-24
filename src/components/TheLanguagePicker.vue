@@ -67,7 +67,7 @@ export default {
   props: {
     userLanguage: {
       type: String,
-      default: null,
+      default: "en-GB",
       required: true,
     },
   },

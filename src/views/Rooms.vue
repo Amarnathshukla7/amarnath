@@ -290,8 +290,10 @@ export default {
     // ...mapState(["journeyUi", "hostelData"]),
   },
   async beforeCreate() {
-    const browserLocaleCode = getBestLocale(getUserLocales());
-    this.$store.commit("bookingEngine/SET_USER_LANGUAGE", browserLocaleCode);
+    if (this.$store.state.bookingEngine.userLanguage === "en-US") {
+      const browserLocaleCode = getBestLocale(getUserLocales());
+      this.$store.commit("bookingEngine/SET_USER_LANGUAGE", browserLocaleCode);
+    }
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     // this.getJourneyUi();
     // this.uiContentLoaded = this.journeyUi;
