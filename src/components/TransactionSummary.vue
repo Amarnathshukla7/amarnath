@@ -45,8 +45,8 @@
               <v-list-group sub-group>
                 <template v-slot:activator>
                   <v-list-item-content>
-                    <v-list-item-title>
-                      {{ contentTheSummary.accommSubTotal }}
+                    <v-list-item-title class="summary-list-item d-flex">
+                      <span>{{ contentTheSummary.accommSubTotal }}</span>
                       <span class="float-right">{{
                         cart.accommodation_cost | formatPrice(currency)
                       }}</span>
@@ -87,8 +87,8 @@
 
               <v-list-item class="py-2 pl-4 white">
                 <v-list-item-content>
-                  <v-list-item-title>
-                    {{ contentTheSummary.touristTax }}
+                  <v-list-item-title class="summary-list-item d-flex">
+                    <span>{{ contentTheSummary.touristTax }}</span>
                     <span class="float-right">{{
                       cart.tourist_tax_cost | formatPrice(currency)
                     }}</span>
@@ -100,15 +100,15 @@
                 class="py-2 pl-4 other"
               >
                 <v-list-item-content>
-                  <v-list-item-title>
-                    {{ contentTheSummary.breakfast.headerTotal }}
+                  <v-list-item-title class="summary-list-item d-flex">
+                    <span>{{ contentTheSummary.breakfast.headerTotal }}</span>
                     <span class="float-right" v-if="breakfastCost > 0">
                       {{ breakfastCost | formatPrice(currency) }}
                     </span>
-                    <span class="float-right" v-else-if="noBreakfast">
+                    <span class="float-right text-end" v-else-if="noBreakfast">
                       {{ contentTheSummary.breakfast.notIncluded }}
                     </span>
-                    <span class="float-right" v-else>
+                    <span class="float-right text-end" v-else>
                       {{ contentTheSummary.breakfast.includedFree }}
                     </span>
                   </v-list-item-title>
@@ -368,6 +368,11 @@ export default {
 
   .continue-btn {
     width: 100%;
+  }
+  .summary-list-item {
+    white-space: normal;
+    justify-content: space-between;
+    gap: 10px;
   }
 
   @media (min-width: 960px) {

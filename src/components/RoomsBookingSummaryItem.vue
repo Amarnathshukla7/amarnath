@@ -8,11 +8,13 @@
         >
       </v-list-item-subtitle>
 
-      <v-list-item-title class="font-weight-bold greyish--text">
+      <v-list-item-title
+        class="delete-room-name-container font-weight-bold greyish--text d-flex align-center"
+      >
         <v-btn icon @click="destroy">
           <v-icon small>mdi-trash-can</v-icon>
         </v-btn>
-        {{ room.name }}
+        <span class="white-space-normal">{{ room.name }}</span>
       </v-list-item-title>
 
       <v-list-item-subtitle v-if="isSelected">
@@ -96,4 +98,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.delete-room-name-container {
+  white-space: normal;
+  gap: 3px;
+}
+</style>

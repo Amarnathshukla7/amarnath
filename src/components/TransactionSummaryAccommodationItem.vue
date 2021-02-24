@@ -8,7 +8,9 @@
         >
       </v-list-item-subtitle>
 
-      <v-list-item-title class="ml-2 font-weight-bold greyish--text my-3">
+      <v-list-item-title
+        class="room-name ml-2 font-weight-bold greyish--text my-3"
+      >
         {{ room.name }}
       </v-list-item-title>
 
@@ -81,4 +83,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.room-name {
+  white-space: normal;
+}
+</style>
