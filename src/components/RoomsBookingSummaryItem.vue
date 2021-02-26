@@ -2,15 +2,19 @@
   <v-list-item class="desktop-summary-item pa-0">
     <v-list-item-content class="text-left">
       <v-list-item-subtitle class="ml-10 body-1 font-weight-bold accent--text">
-        {{ room.checkIn | formatDate }}
-        <span v-if="room.checkOut">- {{ room.checkOut | formatDate }}</span>
+        {{ room.checkIn | formatDate(language) }}
+        <span v-if="room.checkOut"
+          >- {{ room.checkOut | formatDate(language) }}</span
+        >
       </v-list-item-subtitle>
 
-      <v-list-item-title class="font-weight-bold greyish--text">
+      <v-list-item-title
+        class="delete-room-name-container font-weight-bold greyish--text d-flex align-center"
+      >
         <v-btn icon @click="destroy">
           <v-icon small>mdi-trash-can</v-icon>
         </v-btn>
-        {{ room.name }}
+        <span class="white-space-normal">{{ room.name }}</span>
       </v-list-item-title>
 
       <v-list-item-subtitle v-if="isSelected">
@@ -52,6 +56,10 @@ export default {
       type: String,
       default: "GBP",
     },
+    language: {
+      type: String,
+      default: "en-GB",
+    },
     room: {
       type: Object,
       default: null,
@@ -90,4 +98,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.delete-room-name-container {
+  white-space: normal;
+  gap: 3px;
+}
+</style>

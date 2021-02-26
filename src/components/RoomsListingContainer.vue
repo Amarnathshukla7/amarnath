@@ -20,6 +20,7 @@
 
       <RoomsListingCard
         v-for="room in roomsArray"
+        :content="getRoomContent(contentArray, room.code)"
         :room="room"
         :room-contents="contentArray"
         :key="room.code"
@@ -27,6 +28,7 @@
         :check-out="checkOut"
         :min-stay="minStay"
         :currency="currency"
+        :language="language"
         :deposit-model-rate="depositModelRate"
         :hostel-code="hostelCode"
         :ui-content="contentRoomsListingCard"
@@ -84,6 +86,10 @@ export default {
       type: String,
       default: "GBP",
     },
+    language: {
+      type: String,
+      default: "en-GB",
+    },
     depositModelRate: {
       type: Number,
       default: null,
@@ -91,6 +97,12 @@ export default {
     hostelCode: {
       type: String,
       required: true,
+    },
+  },
+  methods: {
+    getRoomContent(contentArray, roomCode) {
+      return contentArray.find((room) => room.fields.roomCode === roomCode)
+        .fields;
     },
   },
   components: {

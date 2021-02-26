@@ -11,12 +11,16 @@
 
       <p>
         {{ contentTransactionSearch.arriving }}:
-        <span class="font-weight-bold">{{ arrivalDate | formatDate }}</span>
+        <span class="font-weight-bold">{{
+          arrivalDate | formatDate(language)
+        }}</span>
       </p>
 
       <p>
         {{ contentTransactionSearch.departing }}:
-        <span class="font-weight-bold">{{ departureDate | formatDate }}</span>
+        <span class="font-weight-bold">{{
+          departureDate | formatDate(language)
+        }}</span>
       </p>
     </v-card-subtitle>
   </v-card>
@@ -40,6 +44,10 @@ export default {
     departureDate: {
       type: String,
       default: null,
+    },
+    language: {
+      type: String,
+      default: "en-GB",
     },
   },
   methods: {

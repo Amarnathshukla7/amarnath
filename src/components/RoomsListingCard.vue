@@ -61,13 +61,12 @@
               >
                 {{ peopleIcon }}
               </v-icon>
-
               <div
                 class="caption d-inline-block"
                 :class="selectedAndCustomStylePrimaryColor"
+                v-if="uiContent.notePricesPer"
               >
-                Prices are per {{ bedType }} sleeping {{ maxOccupancy }}
-                {{ personDescriptor }}
+                {{ finalNotePricesPer }}
               </div>
 
               <div
@@ -115,29 +114,20 @@
                 }"
               >
                 {{ uiContent.custom.customQuestion }} <br />
-                Switch to
-                <a
-                  class="secondary--text"
-                  href="javascript:void(0)"
-                  @click="switchToCustom"
-                >
-                  custom booking
-                </a>
-                instead
+                <TranslationWithAnchor
+                  :text="uiContent.custom.customCtaText"
+                  @linkClicked="switchToCustom"
+                />
               </div>
               <div
                 v-if="customSelected"
                 class="caption greyish--text hidden-md-and-down"
               >
                 {{ uiContent.custom.normalQuestion }} <br />
-                Switch back to
-                <a
-                  class="secondary--text"
-                  href="javascript:void(0)"
-                  @click="customSelected = false"
-                >
-                  normal booking
-                </a>
+                <TranslationWithAnchor
+                  :text="uiContent.custom.normalCtaText"
+                  @linkClicked="customSelected = false"
+                />
               </div>
             </v-card-subtitle>
           </v-col>
@@ -188,7 +178,7 @@
               class="subtitle-2 text-center my-4 warning--text font-weight-bold"
               v-show="applyMinStay"
             >
-              Minimum stay for this room is {{ minStay }} nights. <br />
+              {{ finalMinStayText }} <br />
               <a href="#update-dates" class="warning--text">
                 {{ uiContent.minStays.updateSearch }}
               </a>
@@ -203,6 +193,8 @@
               :code="room.code"
               :bed-type="bedType"
               :currency="currency"
+              :language="language"
+              :unavailableText="uiContent.unavailable"
               @room-active="(val) => (selected = val)"
               @update-local-room-cart="updateCart"
             />
@@ -217,29 +209,20 @@
               }"
             >
               {{ uiContent.custom.customQuestion }} <br />
-              Switch to
-              <a
-                class="secondary--text"
-                href="javascript:void(0)"
-                @click="switchToCustom"
-              >
-                custom booking
-              </a>
-              instead
+              <TranslationWithAnchor
+                :text="uiContent.custom.customCtaText"
+                @linkClicked="switchToCustom"
+              />
             </div>
             <div
               v-if="customSelected && !applyMinStay"
               class="caption hidden-lg-and-up text-center mt-4 mb-4"
             >
               {{ uiContent.custom.normalQuestion }} <br />
-              Switch back to
-              <a
-                class="secondary--text"
-                href="javascript:void(0)"
-                @click="customSelected = false"
-              >
-                normal booking
-              </a>
+              <TranslationWithAnchor
+                :text="uiContent.custom.normalCtaText"
+                @linkClicked="customSelected = false"
+              />
             </div>
 
             <div
@@ -297,6 +280,8 @@
           :bed-type="bedType"
           :available="date.units"
           :currency="currency"
+          :language="language"
+          :unavailableText="uiContent.unavailable"
           :custom="true"
           @update-local-room-cart="updateCart"
         />
@@ -321,9 +306,14 @@ import { formatTimezone } from "../helpers/timezone";
 // Components
 import RoomsListingCardSelect from "./RoomsListingCardSelect";
 import RoomsListingCustomError from "./RoomsListingCustomError";
+import TranslationWithAnchor from "./TranslationWithAnchor";
 
 export default {
   props: {
+    content: {
+      type: Object,
+      default: null,
+    },
     checkIn: {
       type: String,
       default: null,
@@ -335,6 +325,10 @@ export default {
     currency: {
       type: String,
       default: "GBP",
+    },
+    language: {
+      type: String,
+      default: "en-GB",
     },
     depositModelRate: {
       type: Number,
@@ -352,10 +346,6 @@ export default {
       type: Object,
       default: null,
     },
-    roomContents: {
-      type: Array,
-      default: null,
-    },
     uiContent: {
       type: Object,
       default: () => {
@@ -367,6 +357,7 @@ export default {
     LightGallery,
     RoomsListingCardSelect,
     RoomsListingCustomError,
+    TranslationWithAnchor,
   },
   data() {
     return {
@@ -536,13 +527,24 @@ export default {
         cost: this.room.dates[date].cost,
       }));
     },
-    content() {
-      return this.roomContents.find(
-        (room) => room.fields.roomCode === this.room.code,
-      ).fields;
-    },
     standardSelected() {
       return this.$refs.standardSelection.unitsSelected || 0;
+    },
+    finalNotePricesPer() {
+      const start =
+        this.room.roomType === "private"
+          ? this.uiContent.notePricesPer.pricesPerRoom
+          : this.uiContent.notePricesPer.pricesPerBed;
+      const personDescriptor =
+        this.maxOccupancy === 1
+          ? this.uiContent.notePricesPer.person
+          : this.uiContent.notePricesPer.people;
+      return `${start} ${this.maxOccupancy} ${personDescriptor}`;
+    },
+    finalMinStayText() {
+      return this.minStay
+        ? this.uiContent.minStayText.replace("@@@", this.minStay)
+        : "";
     },
   },
 };

@@ -1,21 +1,21 @@
 <template>
   <v-row class="sort-by--filters my-4" align="start" no-gutters>
-    <v-col cols="12" md="6" class="text-left ml-3">
+    <v-col cols="12" md="6" class="text-left d-flex flex-wrap">
       <v-btn
         @click="showFilters = !showFilters"
         text
         :tile="true"
         outlined
-        class="mr-5 filters-btn"
+        class="mr-5 mb-2 filters-btn"
       >
         {{ content.filtersBtn }}
       </v-btn>
 
       <v-select
         dense
-        class="d-inline-block sort-select"
+        class="d-inline-block sort-select mb-1"
         :items="items"
-        label="Sort By"
+        :label="content.sortLabel"
         v-model="sort"
         outlined
         clearable
@@ -52,7 +52,7 @@ export default {
   },
   watch: {
     sort(type) {
-      console.log(type);
+      // console.log(type);
       this.$emit("sort", type);
     },
   },
@@ -60,7 +60,11 @@ export default {
     return {
       showFilters: false,
       sort: null,
-      items: [
+    };
+  },
+  computed: {
+    items() {
+      return [
         {
           key: "price-low",
           value: this.content.sortOptions.priceLow,
@@ -77,8 +81,8 @@ export default {
           key: "avail-high",
           value: this.content.sortOptions.availHigh,
         },
-      ],
-    };
+      ];
+    },
   },
 };
 </script>
@@ -92,6 +96,7 @@ export default {
     // padding: 10px 15px 2px;
     border-radius: 0;
     width: 250px;
+    max-width: 250px;
   }
 
   .v-input__slot {
@@ -107,10 +112,6 @@ export default {
     height: 50px;
   }
 
-  .sort-select .v-input__slot {
-    margin-top: 10px;
-  }
-
   .v-select__slot {
     margin-top: 5px;
   }
@@ -120,10 +121,6 @@ export default {
   .sort-by--filters {
     .covid-measures-btn {
       margin-left: 20px;
-    }
-
-    .v-select__slot {
-      margin-top: 0;
     }
   }
 }

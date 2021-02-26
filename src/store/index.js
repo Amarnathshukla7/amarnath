@@ -11,6 +11,7 @@ export const bookingEngine = {
   state: () => ({
     journeyUi: {},
     hostelData: {},
+    userLanguage: "en-GB",
   }),
   mutations: {
     SET_JOURNEY_UI_CONTENT(state, payload) {
@@ -19,12 +20,16 @@ export const bookingEngine = {
     SET_HOSTEL_CONTENT(state, payload) {
       state.hostelData = payload;
     },
+    SET_USER_LANGUAGE(state, payload) {
+      state.userLanguage = payload;
+    },
   },
   actions: {
     async getJourneyUi({ commit }) {
       await uiClient
         .getEntries({
           include: 1,
+          locale: this.state.bookingEngine.userLanguage,
           content_type: "bookingEngineUi",
         })
         .then((response) => {
@@ -35,6 +40,7 @@ export const bookingEngine = {
       await hostelClient
         .getEntries({
           include: 1,
+          locale: this.state.bookingEngine.userLanguage,
           content_type: "hostel",
           "fields.code": code,
           select:
@@ -121,6 +127,9 @@ export const bookingEngine = {
     },
     contentConfirmationHostelInfo(state) {
       return state.journeyUi.hostelInfo;
+    },
+    getUserLanguage(state) {
+      return state.userLanguage;
     },
   },
 };

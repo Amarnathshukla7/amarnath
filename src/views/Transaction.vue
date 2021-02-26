@@ -26,6 +26,7 @@
               :hostel-code="cart.hostel_code"
               :arrival-date="cart.check_in"
               :departure-date="cart.check_out"
+              :language="userLanguage"
             />
           </v-col>
         </v-row>
@@ -333,14 +334,15 @@
                                 :rules="rules.terms"
                               >
                                 <label slot="label">
-                                  I have read and accept the
-                                  <a
-                                    :href="termsLink"
+                                  <TranslationWithAnchor
+                                    styleClass=""
+                                    :text="
+                                      contentTransactionPaymentForm.s5
+                                        .termsAndConditionsMsg
+                                    "
+                                    :link="termsLink"
                                     target="_blank"
-                                    @click.stop
-                                  >
-                                    terms and conditions</a
-                                  >.
+                                  />
                                 </label>
                               </v-checkbox>
                             </v-col>
@@ -355,14 +357,15 @@
                                     contentTransactionPaymentForm.s5
                                       .marketingOptInMsg
                                   }}
-                                  All part of our
-                                  <a
-                                    href="http://www.bedsandbars.com/privacy-and-cookies"
+                                  <TranslationWithAnchor
+                                    styleClass=""
+                                    :text="
+                                      contentTransactionPaymentForm.s5
+                                        .privacyPolicyMsg
+                                    "
+                                    link="http://www.bedsandbars.com/privacy-and-cookies"
                                     target="_blank"
-                                    @click.stop
-                                  >
-                                    privacy policy</a
-                                  >.
+                                  />
                                 </p>
                               </v-checkbox>
                             </v-col>
@@ -427,6 +430,7 @@
                             <v-btn
                               v-show="showCard || !data.payMethod"
                               class="font-weight-bold"
+                              id="pay-method-btn"
                               tile
                               x-large
                               py-2
@@ -467,6 +471,7 @@
             <TransactionSummary
               :cart="cart"
               :currency="hostelConf.currency"
+              :language="userLanguage"
               :selected-currency-rate="currencyRate"
               :selected-currency="selectedCurrency"
               :payable="payable"
@@ -512,8 +517,9 @@ import { hostelShortName } from "../helpers/hostelNames";
 import { getCurrencies } from "../data/currencies";
 
 // Components
-import TransactionSummary from "../components/TransactionSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
+import TranslationWithAnchor from "../components/TranslationWithAnchor";
+import TransactionSummary from "../components/TransactionSummary";
 import TransactionFormDiscountCode from "../components/TransactionFormDiscountCode";
 import TransactionOverlayError from "../components/TransactionOverlayError";
 import TransactionOverlayLoading from "../components/TransactionOverlayLoading";
@@ -529,6 +535,7 @@ Vue.use(VueLoadScript);
 export default {
   components: {
     TheBreadCrumbs,
+    TranslationWithAnchor,
     TransactionSummary,
     TransactionFormDiscountCode,
     TransactionOverlayError,
@@ -550,6 +557,7 @@ export default {
       guest: null,
       cart: null,
       selectedCurrency: null,
+      userLanguage: "en-GB",
       isLoadingReservation: false,
       hostelConf: null,
       hostel: null,
@@ -632,6 +640,7 @@ export default {
     });
 
     this.cart = await get("cart");
+    this.userLanguage = this.getUserLanguage;
 
     // const devReservation = {
     //   cart: {
@@ -787,6 +796,7 @@ export default {
       "contentTransactionPanelHeaders",
       "contentTransactionGuestDetails",
       "contentTransactionPaymentForm",
+      "getUserLanguage",
     ]),
   },
   methods: {
@@ -924,5 +934,12 @@ export default {
 
 .v-card__subtitle.reservation-info {
   font-size: 1rem;
+}
+</style>
+
+<style>
+#pay-method-btn .v-btn__content {
+  width: 100%;
+  white-space: normal;
 }
 </style>

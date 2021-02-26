@@ -19,7 +19,9 @@
         <v-row class="px-4">
           <v-col cols="12">
             <v-card>
-              <div class="d-flex flex-no-wrap justify-space-between">
+              <div
+                class="d-flex flex-no-wrap justify-space-between modal-group-card"
+              >
                 <div>
                   <v-card-title class="headline">
                     {{ content.groupTypes.sports.heading }}
@@ -50,7 +52,9 @@
           </v-col>
           <v-col cols="12">
             <v-card>
-              <div class="d-flex flex-no-wrap justify-space-between">
+              <div
+                class="d-flex flex-no-wrap justify-space-between modal-group-card"
+              >
                 <div>
                   <v-card-title class="headline">
                     {{ content.groupTypes.party.heading }}
@@ -81,7 +85,9 @@
           </v-col>
           <v-col cols="12">
             <v-card>
-              <div class="d-flex flex-no-wrap justify-space-between">
+              <div
+                class="d-flex flex-no-wrap justify-space-between modal-group-card"
+              >
                 <div>
                   <v-card-title class="headline">
                     {{ content.groupTypes.student.heading }}
@@ -139,4 +145,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@media screen and (max-width: 380px) {
+  .modal-group-card {
+    flex-wrap: wrap;
+  }
+}
+</style>

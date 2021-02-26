@@ -1,28 +1,23 @@
 <template>
-  <v-row dense no-gutters justify="start" align-content="start">
-    <v-col
-      cols="4"
-      sm="2"
-      md="1"
-      class="mt-2 mr-md-6"
-      v-for="filter in filters"
-      :key="filter"
-    >
+  <v-row no-gutters justify="start" align-content="start">
+    <v-col cols="12" class="d-flex flex-wrap">
       <v-badge
+        v-for="(translation, filterOption) in content.filterOptions"
+        :key="filterOption"
         bordered
         color="secondary"
         icon="mdi-check-bold"
         overlap
-        :value="isSelected(filter)"
-        class="mr-3"
+        :value="isSelected(filterOption)"
+        class="mb-2 mr-4"
       >
-        <v-btn @click="updateSelected(filter)" text outlined>{{
-          filter
+        <v-btn @click="updateSelected(filterOption)" text outlined>{{
+          translation
         }}</v-btn>
       </v-badge>
     </v-col>
 
-    <v-btn class="mt-2" color="secondary" @click="selected = []" outlined>
+    <v-btn color="secondary" @click="selected = []" outlined>
       <v-icon>mdi-close</v-icon>
       {{ content.clearFilters }}
     </v-btn>
@@ -60,15 +55,6 @@ export default {
     },
     isSelected(filter) {
       return this.selected.includes(filter);
-    },
-  },
-  computed: {
-    filters() {
-      const filters = [];
-      for (const filter in this.content.filterOptions) {
-        filters.push(this.content.filterOptions[filter]);
-      }
-      return filters;
     },
   },
 };

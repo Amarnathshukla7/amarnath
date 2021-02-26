@@ -15,6 +15,7 @@
             :units="available"
             :value="unitsSelected"
             :bed-type="bedType"
+            :unavailableText="unavailableText"
             @update-value="update"
           />
         </v-col>
@@ -25,23 +26,27 @@
           >
             <div
               class="font-weight-bold"
-              :class="{ title: !date, 'subtitle-2': date }"
+              :class="{
+                'subtitle-1': !date,
+                'text-sm-h6': !date,
+                'subtitle-2': date,
+              }"
             >
-              <span v-if="date">{{ date | formatDate }}</span>
+              <span v-if="date">{{ date | formatDate(language) }}</span>
               <span v-else>{{ price | formatPrice(currency) }}</span>
             </div>
-            <div class="font-weight-bold caption mb-0">
+            <div class="font-weight-bold caption mb-0 d-flex justify-center">
               <span
                 class="font-weight-bold"
                 v-if="date && price > 0"
-                :class="{ title: date }"
+                :class="{ title: date, 'custom-title': custom }"
                 >{{ price | formatPrice(currency) }}</span
               >
               <span v-else-if="price === 0 && date">
                 {{ contentRoomsListingCard.selection.soldOut }}
               </span>
 
-              <span v-else>
+              <span v-else class="text-center">
                 {{ contentRoomsListingCard.selection.avgMessage }}
               </span>
             </div>
@@ -56,8 +61,7 @@
 import RoomsListingCardSelectUnit from "./RoomsListingCardSelectUnit";
 import { formatPrice } from "../filters/money";
 import { bus } from "../plugins/bus";
-import { format } from "date-fns/esm";
-import { formatTimezone } from "../helpers/timezone";
+import { formatDate } from "../filters/date";
 import { mapGetters } from "vuex";
 
 export default {
@@ -90,15 +94,21 @@ export default {
       type: String,
       default: "GBP",
     },
+    language: {
+      type: String,
+      default: "en-GB",
+    },
+    unavailableText: {
+      type: Object,
+      default: null,
+    },
   },
   components: {
     RoomsListingCardSelectUnit,
   },
   filters: {
     formatPrice,
-    formatDate(date) {
-      return format(formatTimezone(new Date(date)), "EEE d MMM");
-    },
+    formatDate,
   },
   data() {
     return {
@@ -155,5 +165,11 @@ export default {
 
 .custom-card.theme--light.v-card.v-card--outlined {
   border: 1px solid var(--v-accent-base) !important;
+}
+
+@media screen and (min-width: 1264px) {
+  .custom-card .date--price .title.custom-title {
+    font-size: 1.15rem !important;
+  }
 }
 </style>

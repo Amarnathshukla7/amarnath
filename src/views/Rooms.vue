@@ -18,6 +18,7 @@
         :nights="nights"
         :arrival="checkIn"
         :departure="checkOut"
+        :language="userLanguage"
         :content="contentRoomsSearchSummary"
       />
 
@@ -37,8 +38,18 @@
       />
 
       <v-container v-if="hostel && hostelConf">
-        <v-row v-show="!showSummaryBreakfast" no-gutters>
-          <v-col cols="12" offset-xl="2">
+        <v-row
+          class="language-picker-and-room-options"
+          v-show="!showSummaryBreakfast"
+          no-gutters
+        >
+          <v-col v-if="true" cols="2" sm="1">
+            <TheLanguagePicker
+              :userLanguage="userLanguage"
+              @languageChange="handleLanguageChange"
+            />
+          </v-col>
+          <v-col cols="9" sm="10" xl="8" class="ml-3">
             <RoomsOptionsSort
               :hostel-code="hostelCode"
               :content="contentRoomsOptions"
@@ -81,6 +92,7 @@
                 :check-out="checkOut"
                 :min-stay="dormMinStay"
                 :currency="currency"
+                :language="userLanguage"
                 :deposit-model-rate="depositModelRate"
                 :hostel-code="hostelCode"
                 @update-local-cart="updateCart($event)"
@@ -114,6 +126,7 @@
               :showSummaryBreakfast="showSummaryBreakfast"
               :hostel="hostel"
               :isSmallDevice="isSmallDevice"
+              :language="userLanguage"
               :ui-content="contentTheSummary"
               @update-cart="(cart) => (this.cart = cart)"
               @go-to-transaction="submitBooking"
@@ -132,6 +145,7 @@
 import { differenceInDays } from "date-fns";
 import { mapActions, mapGetters } from "vuex";
 import { set } from "idb-keyval";
+import { getUserLocales } from "get-user-locale";
 
 // APIs
 import { availability } from "../api/room/search-svc";
@@ -143,11 +157,13 @@ import { find } from "../api/room/reservation-svc/hostel-svc";
 import { bus } from "../plugins/bus";
 import { formatTimezone } from "../helpers/timezone";
 import sortRooms from "../helpers/room/sort";
+import { getBestLocale } from "../helpers/locale";
 
 // Components
 import RoomsBookingSummary from "../components/RoomsBookingSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import TheCovidMeasures from "../components/TheCovidMeasures";
+import TheLanguagePicker from "../components/TheLanguagePicker";
 import RoomsOverlayError from "../components/RoomsOverlayError";
 import RoomsOptionsSort from "../components/RoomsOptionsSort";
 import RoomsListingContainer from "../components/RoomsListingContainer";
@@ -168,7 +184,9 @@ export default {
     },
     hostelCode: {
       type: String,
-      default: "COP",
+      // default: "COP",
+      // default: "XYZ",
+      default: "OAS",
     },
     checkIn: {
       type: String,
@@ -189,11 +207,16 @@ export default {
     checkOut() {
       this.loadData();
     },
+    // "$store.state.bookingEngine.userLanguage": async function () {
+    //   await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
+    //   this.hostel = this.contentHostelData;
+    // },
   },
   components: {
     RoomsBookingSummary,
     TheBreadCrumbs,
     TheCovidMeasures,
+    TheLanguagePicker,
     RoomsOverlayError,
     RoomsOptionsSort,
     RoomsListingContainer,
@@ -210,7 +233,7 @@ export default {
       uiContentLoaded: null,
       showGroupsModal: false,
       groupBookingModalAlreadyShown: false,
-      openPanel: [0, 1],
+      openPanel: [0, 1, 2],
       isLoading: false,
       isError: false,
       isStatus: false,
@@ -219,6 +242,7 @@ export default {
       rooms: null,
       cart: null,
       showSummaryBreakfast: false,
+      userLanguage: null,
     };
   },
   computed: {
@@ -264,11 +288,21 @@ export default {
       "contentRoomsModalGroupBookings",
       "contentRoomsOptions",
       "contentRoomsExpansionHeaders",
+      "getUserLanguage",
     ]),
     // ...mapActions("bookingEngine", ["getJourneyUi", "getHostel"]),
     // ...mapState(["journeyUi", "hostelData"]),
   },
   async beforeCreate() {
+    if (this.$store.state.bookingEngine.userLanguage === "en-GB") {
+      const browserLocaleCode = getBestLocale(getUserLocales());
+      if (browserLocaleCode !== "en-GB") {
+        this.$store.commit(
+          "bookingEngine/SET_USER_LANGUAGE",
+          browserLocaleCode,
+        );
+      }
+    }
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     // this.getJourneyUi();
     // this.uiContentLoaded = this.journeyUi;
@@ -327,6 +361,7 @@ export default {
 
         this.rooms = rooms;
         this.hostel = this.contentHostelData;
+        this.userLanguage = this.getUserLanguage;
         this.hostelConf = hostel;
         const cart = await create(this.bookingSource);
         this.depositModelRate = cart.deposit_model_rate;
@@ -359,8 +394,8 @@ export default {
 
       this.isLoading = true;
       await set("cart", this.cart);
-      console.log("cart");
-      console.log(this.cart);
+      // console.log("cart");
+      // console.log(this.cart);
 
       this.$router.push({
         path: window.location.pathname.replace("availability", "") + "payment",
@@ -381,6 +416,14 @@ export default {
         this.groupBookingModalAlreadyShown = true;
         this.showGroupsModal = true;
       }
+    },
+    async handleLanguageChange(code) {
+      this.$store.commit("bookingEngine/SET_USER_LANGUAGE", code);
+      await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
+      this.hostel = this.contentHostelData;
+      this.userLanguage = this.getUserLanguage;
+      await this.$store.dispatch("bookingEngine/getJourneyUi");
+      this.uiContentLoaded = this.contentTheBreadCrumbs;
     },
   },
 };
@@ -430,6 +473,11 @@ export default {
 
 .room-view-panel--margin {
   margin-bottom: 125px;
+}
+
+.language-picker-and-room-options {
+  margin: auto;
+  max-width: 1161px;
 }
 
 @media screen and (min-width: 600px) {
