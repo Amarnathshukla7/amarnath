@@ -83,13 +83,25 @@
             <v-list-item v-show="stc && !showSummaryBreakfast" class="py-2">
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ uiContent.breakfast.headerStandard }}:
-                  <span v-if="noBreakfast" class="float-right font-weight-bold">
-                    {{ uiContent.breakfast.notIncluded }}
-                  </span>
-                  <span v-else class="float-right font-weight-bold">
-                    {{ uiContent.breakfast.includedFree }}
-                  </span>
+                  <v-row no-gutters class="white-space-normal">
+                    <v-col cols="7">
+                      {{ uiContent.breakfast.headerStandard }}:
+                    </v-col>
+                    <v-col cols="5">
+                      <span
+                        v-if="noBreakfast"
+                        class="float-right font-weight-bold text-end"
+                      >
+                        {{ uiContent.breakfast.notIncluded }}
+                      </span>
+                      <span
+                        v-else
+                        class="float-right font-weight-bold text-end"
+                      >
+                        {{ uiContent.breakfast.includedFree }}
+                      </span>
+                    </v-col>
+                  </v-row>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -114,15 +126,22 @@
       <v-list-item v-show="stc || cart.extras_cost > 0" class="py-2 pl-8 other">
         <v-list-item-content>
           <v-list-item-title>
-            {{ uiContent.breakfast.headerTotal }}
+            <v-row no-gutters class="white-space-normal">
+              <v-col cols="7">{{ uiContent.breakfast.headerTotal }}</v-col>
 
-            <span class="float-right mr-6" v-if="cart.extras_cost > 0">
-              {{ cart.extras_cost | formatPrice(currency) }}
-            </span>
+              <v-col cols="5">
+                <span
+                  class="float-right mr-6 text-end"
+                  v-if="cart.extras_cost > 0"
+                >
+                  {{ cart.extras_cost | formatPrice(currency) }}
+                </span>
 
-            <span class="float-right mr-6" v-else>
-              {{ uiContent.breakfast.includedFree }}
-            </span>
+                <span class="float-right mr-6 text-end" v-else>
+                  {{ uiContent.breakfast.includedFree }}
+                </span>
+              </v-col>
+            </v-row>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -470,6 +489,10 @@ export default {
 </script>
 
 <style lang="scss">
+.white-space-normal {
+  white-space: normal;
+}
+
 .desktop-summary-room {
   .v-expansion-panel-content__wrap {
     padding: 0 !important;
