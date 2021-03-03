@@ -384,7 +384,7 @@
                         }"
                       >
                         <v-row no-gutters class="text-center">
-                          <v-col class="hidden-md-and-down" cols="6">
+                          <v-col class="hidden-md-and-down pt-3" cols="6">
                             <div class="subtitle-1 font-weight-bold d-inline">
                               {{
                                 contentTransactionPaymentForm.other.payableNow
