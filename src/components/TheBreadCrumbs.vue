@@ -1,6 +1,6 @@
 <template>
   <figure>
-    <div class="breadcrumb-container mt-8" :class="{ confirmation: step >= 4 }">
+    <div class="breadcrumb-container mt-8">
       <div class="breadcrumb flat">
         <a href="javascript:void(0)" :class="{ active: step >= 1 }">
           {{ content.s1 }}
@@ -145,16 +145,13 @@ figure {
   background: var(--v-accent-base);
   color: #fff !important;
 }
-@media screen and (max-width: 350px) {
-  .breadcrumb-container.confirmation .breadcrumb a {
+@media screen and (max-width: 360px) {
+  .breadcrumb a {
     font-size: 8px;
   }
-  .breadcrumb a {
-    font-size: 9px;
-  }
 }
-@media screen and (min-width: 351px) and (max-width: 380px) {
-  .breadcrumb-container.confirmation .breadcrumb a {
+@media screen and (min-width: 361px) and (max-width: 385px) {
+  .breadcrumb a {
     font-size: 10px;
   }
 }
