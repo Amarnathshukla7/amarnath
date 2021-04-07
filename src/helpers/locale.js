@@ -12,9 +12,9 @@ export const getBestLocale = (userLocales) => {
   if (preferredLang) {
     const languageCode = preferredLang.split("-")[0];
     if (languageCode === "en") {
-      return "en-GB"
+      return "en-GB";
     } else {
-      return languageCode
+      return languageCode;
     }
   } else {
     return "en-GB";
