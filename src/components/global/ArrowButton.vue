@@ -3,6 +3,7 @@
     <a :href="buttonUrl" :target="newTab ? '_blank' : ''">
       {{ buttonText }}
       <img
+        v-if="!noArrow"
         :class="arrowDirection"
         src="../../assets/arrow-right-thin-fff.png"
         alt=""
@@ -27,6 +28,10 @@ export default {
       default: true
     },
     newTab: {
+      type: Boolean,
+      default: false      
+    },
+    noArrow: {
       type: Boolean,
       default: false      
     }

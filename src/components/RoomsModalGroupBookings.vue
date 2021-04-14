@@ -16,7 +16,7 @@
           {{ content.text }}
         </v-card-subtitle>
 
-        <ArrowButton class="ml-5" :button-text="content.cta" :new-tab="true" button-url="https://www.st-christophers.co.uk/groups" />
+        <CtaButton class="ml-5" :button-text="content.cta" new-tab no-arrow button-url="https://www.st-christophers.co.uk/groups" />
       </v-card>
     </v-dialog>
   </v-row>
@@ -25,7 +25,7 @@
 <script>
 export default {
   components: {
-    ArrowButton: () => import('./global/ArrowButton')
+    CtaButton: () => import('./global/ArrowButton')
   },
   emits: ["close-groups-modal"],
   props: {
