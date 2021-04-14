@@ -184,9 +184,9 @@ export default {
     },
     hostelCode: {
       type: String,
-      // default: "COP",
+      default: "COP",
       // default: "XYZ",
-      default: "OAS",
+      // default: "OAS",
     },
     checkIn: {
       type: String,
