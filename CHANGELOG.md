@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [0.10.14] 2021-05-13
+
+### Added
+
+- Nosda stripe key
+
+### Fix
+
+- No images for a room would cause a crash 
+
 ## [0.9.94] - 2020-12-23
 
 ### Added

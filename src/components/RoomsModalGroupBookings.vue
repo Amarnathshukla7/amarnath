@@ -16,7 +16,12 @@
           {{ content.text }}
         </v-card-subtitle>
 
-        <a class="cta ml-6" href="https://www.st-christophers.co.uk/groups" target="_blank">{{ content.cta }}</a>
+        <a
+          class="cta ml-6"
+          href="https://www.st-christophers.co.uk/groups"
+          target="_blank"
+          >{{ content.cta }}</a
+        >
       </v-card>
     </v-dialog>
   </v-row>
