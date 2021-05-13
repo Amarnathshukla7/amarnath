@@ -728,6 +728,9 @@ export default {
       if (this.hostelConf.hostel_code === "COP")
         return "pk_test_51HcV22DcMXoM7M9zDYGv1smb0vkCgNqRE9RAoWwU2FvFaGbK9ukpEiWco3DerkKsSNrInwZKLLHraXjoe0kkwKna00vuwhlOu4";
 
+      if (this.hostelConf.hostel_code === "NOS")
+        return "pk_test_51INyuSHeze1xG3057GE0Dm9l61vY4l834jdngWTQUJO3daEhujhmBUG0sLsEtnRkxHFdnBjPZp2B0xgS5vIKPojH00nWvs0IGE";
+
       return "pk_test_97WWfDjUOsVWAzm3y1g8t0BJ00F4iyqoge";
     },
     showDepositChoice() {
