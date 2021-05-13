@@ -467,6 +467,14 @@ export default {
       );
     },
     images() {
+      if (!this.content.images)
+        return [
+          {
+            title: "No Image",
+            url: `https://via.placeholder.com/1080`,
+          },
+        ];
+
       return this.content.images.map((image) => ({
         title: image.fields.description,
         url: `${image.fields.file.url}?w=1080&q=85`,
