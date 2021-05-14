@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/search-svc/": {
-        target: "https://search.svc.bedsandbars.com/",
+        target: "https://search-svc-labmweueeq-nw.a.run.app/",
         pathRewrite: { "^/search-svc/": "" },
       },
       "/review-svc/": {
@@ -12,23 +12,23 @@ module.exports = {
         pathRewrite: { "^/review-svc/": "" },
       },
       "/cart-svc/": {
-        target: "http://reservation.svc.bedsandbars.com/api/carts/",
+        target: "http://localhost/api/carts/",
         pathRewrite: { "^/cart-svc/": "" },
       },
       "/reservation-svc/": {
-        target: "http://reservation.svc.bedsandbars.com/api/reservations/",
+        target: "http://localhost/api/reservations/",
         pathRewrite: { "^/reservation-svc/": "" },
       },
       "/hostel-svc/": {
-        target: "http://reservation.svc.bedsandbars.com/api/hostels/",
+        target: "http://localhost/api/hostels/",
         pathRewrite: { "^/hostel-svc/": "" },
       },
       "/transaction-svc/": {
-        target: "http://reservation.svc.bedsandbars.com/api/transactions/",
+        target: "http://localhost/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
       "/status-svc/": {
-        target: "http://reservation.svc.bedsandbars.com/api/status",
+        target: "http://localhost/api/status",
         pathRewrite: { "^/status-svc/": "" },
       },
     },
