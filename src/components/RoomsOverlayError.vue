@@ -27,6 +27,13 @@
     >
       <span v-if="availabilityError" :key="content.searchError.message">
         {{ content.searchError.message }}
+
+        <span v-if="hostelCode === 'NOS'">
+          <br />
+          <br />
+          NosDa hostel is currently only open for reservations over the weekend
+          from the 25th of June 2021 onwards
+        </span>
       </span>
 
       <span v-else-if="error" :key="content.networkError.message">
@@ -63,6 +70,10 @@ export default {
       default: () => {
         return {};
       },
+    },
+    hostelCode: {
+      type: String,
+      default: null,
     },
   },
   methods: {

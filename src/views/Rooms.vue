@@ -8,6 +8,7 @@
         :error="isError"
         :availability-error="availabilityError"
         :content="contentRoomsOverlayErrors"
+        :hostel-code="hostelCode"
         @close-overlay="closeErrorOverlay"
         @reload-data="loadData"
       />
@@ -180,21 +181,21 @@ export default {
     },
     bookingSource: {
       type: String,
-      default: "HCDT",
+      default: "STC",
     },
     hostelCode: {
       type: String,
-      default: "COP",
+      default: "BRI",
       // default: "XYZ",
       // default: "OAS",
     },
     checkIn: {
       type: String,
-      default: "2021-08-02",
+      default: "2023-08-02",
     },
     checkOut: {
       type: String,
-      default: "2021-08-05",
+      default: "2023-08-05",
     },
   },
   watch: {
