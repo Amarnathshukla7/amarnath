@@ -186,6 +186,7 @@ export default {
     hostelCode: {
       type: String,
       default: "BRI",
+      // default: "COP",
       // default: "XYZ",
       // default: "OAS",
     },
