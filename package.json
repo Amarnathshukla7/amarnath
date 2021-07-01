@@ -13,6 +13,8 @@
   },
   "devDependencies": {
     "@mdi/font": "^5.3.45",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/vue": "^5.8.0",
     "@vue/cli-plugin-babel": "^4.4.4",
     "@vue/cli-plugin-e2e-cypress": "^4.4.4",
     "@vue/cli-plugin-eslint": "^4.4.4",
