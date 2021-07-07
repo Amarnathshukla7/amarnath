@@ -1,31 +1,19 @@
 # Booking Journey Vue Compoents
 
 ## Project setup
+
 ```
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 yarn serve
 ```
 
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
 ## Usage
+
 Install the package (Read access documentation first)
 
 ```
@@ -33,6 +21,7 @@ $ yarn add @bbwmc/booking-journey-vue
 ```
 
 Import the packages you need:
+
 ```
 import { RoomAndTransactionView, ConfirmationView } from '@bbwmc/booking-journey-vue/dist/BookingComponents.common'
 ```
@@ -57,12 +46,12 @@ Confirmation:
 <ConfirmationView />
 ```
 
-
 ## Dev Notes
 
 ### Test Payment Request Button
 
 #### Install Ngrok
+
 ```
 $ brew install ngrok
 ```
@@ -70,11 +59,13 @@ $ brew install ngrok
 Signup for an account https://ngrok.com/
 
 Run the auth command:
+
 ```
 $ ngrok authtoken REPLACE_ME_WITH_REAL_TOKEN
 ```
 
 Run the ngork command (replace 8080 if running the project on a different port)
+
 ```
 $ ngrok http --host-header=rewrite 8080
 ```
@@ -108,7 +99,6 @@ $ yarn login --registry=https://npm.pkg.github.com/
 
 ## Publish
 
-
 To publish includes a few steps, first make sure you've followed the above steps for authentication.
 
 ```
@@ -120,6 +110,7 @@ $ yarn publish
 ## Upgrade package on website repos (stc, fp, agents, stc-network...)
 
 Example for [st-christophers.co.uk](github.com/bbwmc/st-christophers.co.uk) adjust for other repos
+
 ```
 $ cd st-christophers
 $ yarn upgrade @bbwmc/booking-journey-vue --latest
@@ -127,3 +118,32 @@ $ yarn upgrade @bbwmc/booking-journey-vue --latest
 
 Always good practice to do this on a PR and check that the deploy preview works as expected.
 
+## Development
+
+This package uses both cypress.io and extended version of jest with (vue-test-utils, jsdom, testing-library). These packages are required, jest have some of the depricated functionalities that are super useful when testing. Due to this we are compeleting testing tool with testing-library.
+
+### Run your unit tests
+
+If you want to run your tests continuously add the --watch flag.
+
+```
+yarn test:unit
+```
+
+### Run your end-to-end tests
+
+```
+yarn test:e2e
+```
+
+### Lints and fixes files
+
+```
+yarn lint
+```
+
+### Resources
+
+- [Better Specs (Aggressively recommended)](https://www.betterspecs.org/)
+- [Testing Library](https://testing-library.com/docs/vue-testing-library/intro)
+- [jest-dom] - (https://github.com/testing-library/jest-dom#tobevisible)
