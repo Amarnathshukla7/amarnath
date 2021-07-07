@@ -819,7 +819,7 @@ export default {
       // Chrome requires returnValue to be set.
       event.returnValue = "";
 
-      return confirm(contentTransactionPaymentForm.other.abandon);
+      return confirm(this.contentTransactionPaymentForm.other.abandon);
     },
     payPalError() {
       this.isError = true;
