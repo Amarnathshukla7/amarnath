@@ -142,6 +142,18 @@ yarn test:e2e
 yarn lint
 ```
 
+### Translations/Locale
+
+The translation mechanism implemented using [i18n](https://kazupon.github.io/vue-i18n/introduction.html) All the translations are available under src/locales/{lang}.json. Never update the translation files manually, all the
+translations are pull from contentful service.
+
+#### Finding missing translations
+yarn i18n:report --type=missing
+
+#### Finding unused translations
+yarn i18n:report --type=unused
+
+
 ### Resources
 
 - [Better Specs (Aggressively recommended)](https://www.betterspecs.org/)

@@ -15,7 +15,7 @@
         v-if="!loading && roomsArray.length === 0"
         class="heading font-weight-bold text-center mt-2"
       >
-        {{ contentRoomsListingCard.cardLister.noAvailabilityDorms }}
+        {{ $t("journeyUi.roomCard.cardLister.noAvailabilityDorms") }}
       </p>
 
       <RoomsListingCard
@@ -28,10 +28,8 @@
         :check-out="checkOut"
         :min-stay="minStay"
         :currency="currency"
-        :language="language"
         :deposit-model-rate="depositModelRate"
         :hostel-code="hostelCode"
-        :ui-content="contentRoomsListingCard"
         @update-local-cart="$emit('update-local-cart', $event)"
         @cart-error="isError = true"
       />
@@ -86,10 +84,6 @@ export default {
       type: String,
       default: "GBP",
     },
-    language: {
-      type: String,
-      default: "en-GB",
-    },
     depositModelRate: {
       type: Number,
       default: null,
@@ -107,9 +101,6 @@ export default {
   },
   components: {
     RoomsListingCard,
-  },
-  computed: {
-    ...mapGetters("bookingEngine", ["contentRoomsListingCard"]),
   },
 };
 </script>

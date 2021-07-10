@@ -2,9 +2,9 @@
   <v-list-item class="desktop-summary-item pa-0">
     <v-list-item-content class="text-left">
       <v-list-item-subtitle class="ml-2 body-1 font-weight-bold accent--text">
-        {{ room.checkIn | formatDate(language) }}
+        {{ room.checkIn | formatDate($i18n.locale) }}
         <span v-if="room.checkOut"
-          >- {{ room.checkOut | formatDate(language) }}</span
+          >- {{ room.checkOut | formatDate($i18n.locale) }}</span
         >
       </v-list-item-subtitle>
 
@@ -21,7 +21,7 @@
               <v-icon color="white" small>mdi-account</v-icon>
               x{{ room.maxOccupancy * room.qty }}
             </span>
-            {{ contentTheSummary.miscContent.in }} {{ room.qty }}
+            {{ $t("journeyUi.roomsSummary.miscContent.in") }} {{ room.qty }}
             {{ bedType }}
           </v-col>
           <v-col cols="6" class="text-right">
@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { formatPrice } from "../filters/money";
 import { formatDate } from "../filters/date";
 
@@ -50,10 +49,6 @@ export default {
     currency: {
       type: String,
       default: "GBP",
-    },
-    language: {
-      type: String,
-      default: "en-GB",
     },
     room: {
       type: Object,
@@ -71,14 +66,13 @@ export default {
     bedType() {
       if (this.room.qty === 1)
         return this.room.type === "private"
-          ? this.contentTheSummary.miscContent.room
-          : this.contentTheSummary.miscContent.bed;
+          ? this.$t("journeyUi.roomsSummary.miscContent.room")
+          : this.$t("journeyUi.roomsSummary.miscContent.bed");
       else
         return this.room.type === "private"
-          ? this.contentTheSummary.miscContent.rooms
-          : this.contentTheSummary.miscContent.beds;
+          ? this.$t("journeyUi.roomsSummary.miscContent.rooms")
+          : this.$t("journeyUi.roomsSummary.miscContent.beds");
     },
-    ...mapGetters("bookingEngine", ["contentTheSummary"]),
   },
 };
 </script>

@@ -18,68 +18,68 @@
 
     <v-expansion-panel-content class="covid-panel pa-4">
       <p>
-        {{ content.message }}
+        {{ $t("journeyUi.covidMeasures.message") }}
       </p>
 
       <ul>
         <li>
           <img src="/covid-measures/reduced-dorms-icon.svg" alt="" />
 
-          <p>{{ content.measures.capacity }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.capacity") }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/private-rooms-icon.svg" alt="" />
 
-          <p>{{ content.measures.privateGroups }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.privateGroups") }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/social-distancing-icon.svg" alt="" />
 
-          <p>{{ content.measures.socialDistance }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.socialDistance") }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/hand-hygiene-icon.svg" alt="" />
 
-          <p>{{ content.measures.hands }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.hands") }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/deep-cleaning-icon.svg" alt="" />
 
-          <p>{{ content.measures.clean }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.clean") }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/free-cancellation-icon.svg" alt="" />
 
-          <p>{{ content.measures.cancel }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.cancel") }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/free-breakfast-icon.svg" alt="" />
 
-          <p>{{ content.measures.breakfast }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.breakfast") }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/contactless-icon.svg" alt="" />
 
-          <p>{{ content.measures.contactless }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.contactless") }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/health-questionnaire-icon.svg" alt="" />
 
-          <p>{{ content.measures.questionaire }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.questionaire") }}</p>
         </li>
 
         <li>
           <img src="/covid-measures/open-bar-icon.svg" alt="" />
 
-          <p>{{ content.measures.bars }}</p>
+          <p>{{ $t("journeyUi.covidMeasures.measures.bars") }}</p>
         </li>
       </ul>
     </v-expansion-panel-content>
@@ -91,12 +91,6 @@ import { mapState } from "vuex";
 
 export default {
   props: {
-    content: {
-      type: Object,
-      default: () => {
-        return {};
-      },
-    },
     panelHeader: {
       type: String,
       default: "",

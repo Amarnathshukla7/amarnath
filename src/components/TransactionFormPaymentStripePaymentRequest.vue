@@ -4,7 +4,7 @@
       <!-- A Stripe Element will be inserted here. -->
     </div>
     <div v-show="deposit === 0" class="caption px-5">
-      {{ contentTransactionPaymentForm.other.stripe.authMsg }}
+      {{ $t("journeyUi.paymentForm.other.stripe.authMsg") }}
     </div>
   </div>
 </template>
@@ -141,9 +141,6 @@ export default {
         }
       });
     },
-  },
-  computed: {
-    ...mapGetters("bookingEngine", ["contentTransactionPaymentForm"]),
   },
 };
 </script>

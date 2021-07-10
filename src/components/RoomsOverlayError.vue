@@ -7,26 +7,29 @@
   >
     <div
       v-if="availabilityError"
-      :key="content.searchError.heading"
+      :key="$t('journeyUi.errors.searchError.heading')"
       class="headline black--text font-weight-bold mb-4"
     >
-      {{ content.searchError.heading }}
+      {{ $t("journeyUi.errors.heading") }}
     </div>
 
     <div
       v-else-if="error"
-      :key="content.networkError.heading"
+      :key="$t('journeyUi.networkError.heading')"
       class="headline black--text font-weight-bold mb-4"
     >
-      {{ content.networkError.heading }}
+      {{ $t("journeyUi.errors.networkError.heading") }}
     </div>
 
     <div
       style="max-width: 600px; line-height: 2"
       class="body-1 px-2 font-weight-bold black--text"
     >
-      <span v-if="availabilityError" :key="content.searchError.message">
-        {{ content.searchError.message }}
+      <span
+        v-if="availabilityError"
+        :key="$t('journeyUi.errors.searchError.message')"
+      >
+        {{ $t("journeyUi.errors.searchError.message") }}
 
         <span v-if="hostelCode === 'NOS'">
           <br />
@@ -36,19 +39,22 @@
         </span>
       </span>
 
-      <span v-else-if="error" :key="content.networkError.message">
-        {{ content.networkError.message }}
+      <span
+        v-else-if="error"
+        :key="$t('journeyUi.errors.networkError.message')"
+      >
+        {{ $t("journeyUi.errors.networkError.message") }}
       </span>
     </div>
 
     <v-btn class="mt-4 mr-4 font-weight-bold" @click="reloadData">
       <v-icon>mdi-refresh</v-icon>
-      {{ content.errorButtons.tryAgain }}
+      {{ $t("journeyUi.errors.errorButtons.tryAgain") }}
     </v-btn>
 
     <v-btn class="mt-4 font-weight-bold" @click="closeOverlay">
       <v-icon>mdi-close</v-icon>
-      {{ content.errorButtons.close }}
+      {{ $t("journeyUi.errors.errorButtons.close") }}
     </v-btn>
   </v-overlay>
 </template>
@@ -64,12 +70,6 @@ export default {
     availabilityError: {
       type: Boolean,
       default: false,
-    },
-    content: {
-      type: Object,
-      default: () => {
-        return {};
-      },
     },
     hostelCode: {
       type: String,

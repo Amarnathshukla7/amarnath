@@ -8,26 +8,19 @@
     <v-container>
       <v-row no-gutters>
         <v-col cols="12" class="my-4">
-          <TheBreadCrumbs
-            v-if="uiContentLoaded"
-            :step="4"
-            :content="contentTheBreadCrumbs"
-          />
+          <TheBreadCrumbs :step="4" />
         </v-col>
       </v-row>
 
       <v-row>
         <v-col class="text-center">
-          <ConfirmationThankYou v-if="uiContentLoaded" />
+          <ConfirmationThankYou />
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" md="6" lg="5" offset-lg="1">
-          <ConfirmationSummary
-            v-if="uiContentLoaded"
-            :reservation="reservation"
-          />
+          <ConfirmationSummary :reservation="reservation" />
         </v-col>
 
         <v-col cols="12" md="6" lg="5">
@@ -79,12 +72,10 @@ export default {
       overlay: false,
       reservation: null,
       hostel: null,
-      uiContentLoaded: null,
     };
   },
   computed: {
-    ...mapState("bookingEngine", ["journeyUi", "hostelData"]),
-    ...mapGetters("bookingEngine", ["contentTheBreadCrumbs"]),
+    ...mapState("bookingEngine", ["hostelData"]),
   },
   watch: {
     packYourBags(val) {
@@ -121,9 +112,6 @@ export default {
         deposit: 100,
       };
     }
-
-    await this.$store.dispatch("bookingEngine/getJourneyUi");
-    this.uiContentLoaded = this.journeyUi;
 
     await this.$store.dispatch(
       "bookingEngine/getHostelConfirmationPageData",

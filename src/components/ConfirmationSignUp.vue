@@ -8,10 +8,10 @@
       <div
         class="headline mb-1 white--text font-weight-bold text-center text-uppercase"
       >
-        {{ contentConfirmationSignUp.heading }}
+        {{ $t("journeyUi.signUp.heading") }}
       </div>
       <div class="body-1 white--text text-center font-weight-bold">
-        {{ contentConfirmationSignUp.message }}
+        {{ $t("journeyUi.signUp.message") }}
       </div>
       <v-btn
         large
@@ -23,9 +23,9 @@
         @click="signupToNewsletter"
       >
         <span v-if="!signUpSuccessful">{{
-          contentConfirmationSignUp.cta.signUp
+          $t("journeyUi.signUp.cta.signUp")
         }}</span>
-        <span v-else>{{ contentConfirmationSignUp.cta.success }}</span>
+        <span v-else>{{ $t("journeyUi.signUp.cta.success") }}</span>
       </v-btn>
     </v-card-text>
   </v-card>
@@ -40,9 +40,6 @@ export default {
     return {
       signUpSuccessful: false,
     };
-  },
-  computed: {
-    ...mapGetters("bookingEngine", ["contentConfirmationSignUp"]),
   },
   methods: {
     signupToNewsletter() {

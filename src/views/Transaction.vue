@@ -6,27 +6,17 @@
         :loading-reservation="isLoadingReservation"
       />
 
-      <TransactionOverlayError
-        v-if="uiContentLoaded"
-        :error="isError"
-        :reservation="reservation"
-      />
+      <TransactionOverlayError :error="isError" :reservation="reservation" />
 
-      <TheBreadCrumbs
-        v-if="uiContentLoaded"
-        :step="3"
-        :content="contentTheBreadCrumbs"
-      />
+      <TheBreadCrumbs :step="3" />
 
       <v-container v-if="hostel && hostelConf">
         <v-row>
           <v-col cols="12" class="hidden-sm-and-up">
             <TransactionSearchSummaryMobile
-              v-if="uiContentLoaded"
               :hostel-code="cart.hostel_code"
               :arrival-date="cart.check_in"
               :departure-date="cart.check_out"
-              :language="userLanguage"
             />
           </v-col>
         </v-row>
@@ -37,7 +27,6 @@
               <v-row no-gutters>
                 <v-col cols="12">
                   <v-expansion-panels
-                    v-if="uiContentLoaded"
                     v-model="openPanels"
                     multiple
                     class="transaction-view-panel--margin"
@@ -48,7 +37,11 @@
                         <div
                           class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
-                          {{ contentTransactionPanelHeaders.transaction.guest }}
+                          {{
+                            $t(
+                              "journeyUi.expansionPanelHeaders.transaction.guest",
+                            )
+                          }}
                         </div>
                         <template v-slot:actions>
                           <v-icon color="white">$expand</v-icon>
@@ -62,7 +55,7 @@
                             <v-col cols="12" md="6">
                               <v-text-field
                                 :label="
-                                  contentTransactionGuestDetails.name.label
+                                  $t('journeyUi.guestDetailsForm.name.label')
                                 "
                                 :rules="rules.name"
                                 v-model="data.guest.name"
@@ -74,7 +67,7 @@
                             <v-col cols="12" md="6">
                               <v-text-field
                                 :label="
-                                  contentTransactionGuestDetails.email.label
+                                  $t('journeyUi.guestDetailsForm.email.label')
                                 "
                                 class="mt-n6 mt-md-0"
                                 :rules="rules.email"
@@ -88,7 +81,7 @@
                               <v-text-field
                                 class="mt-n6 mb-md-n6"
                                 :label="
-                                  contentTransactionGuestDetails.phone.label
+                                  $t('journeyUi.guestDetailsForm.phone.label')
                                 "
                                 :rules="rules.phone"
                                 v-model="data.guest.phone"
@@ -102,7 +95,7 @@
                                 class="mt-n6 mb-n6"
                                 :items="countries"
                                 :label="
-                                  contentTransactionGuestDetails.country.label
+                                  $t('journeyUi.guestDetailsForm.country.label')
                                 "
                                 :rules="rules.country"
                                 v-model="data.guest.country"
@@ -122,7 +115,9 @@
                           class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           {{
-                            contentTransactionPanelHeaders.transaction.coupon
+                            $t(
+                              "journeyUi.expansionPanelHeaders.transaction.coupon",
+                            )
                           }}
                         </div>
                         <template v-slot:actions>
@@ -147,7 +142,9 @@
                           class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           {{
-                            contentTransactionPanelHeaders.transaction.payment
+                            $t(
+                              "journeyUi.expansionPanelHeaders.transaction.payment",
+                            )
                           }}
                         </div>
                         <template v-slot:actions>
@@ -164,7 +161,7 @@
                               >
                                 <!-- How would you like to pay? -->
                                 1.
-                                {{ contentTransactionPaymentForm.s1.question }}
+                                {{ $t("journeyUi.paymentForm.s1.question") }}
                               </div>
                             </v-col>
 
@@ -228,7 +225,7 @@
                               >
                                 <!-- When would you like to pay? -->
                                 2.
-                                {{ contentTransactionPaymentForm.s2.question }}
+                                {{ $t("journeyUi.paymentForm.s2.question") }}
                               </div>
                             </v-col>
 
@@ -244,7 +241,7 @@
                                 ></v-radio>
                                 <v-radio
                                   :value="100"
-                                  :label="contentTransactionPaymentForm.s2.now"
+                                  :label="$t('journeyUi.paymentForm.s2.now')"
                                 ></v-radio>
                               </v-radio-group>
                             </v-col>
@@ -262,7 +259,7 @@
                               >
                                 <!-- Preferred Currency -->
                                 3.
-                                {{ contentTransactionPaymentForm.s3.question }}
+                                {{ $t("journeyUi.paymentForm.s3.question") }}
                               </div>
 
                               <v-autocomplete
@@ -271,7 +268,7 @@
                                 :items="currencies"
                                 item-value="key"
                                 item-text="value"
-                                :label="contentTransactionPaymentForm.s3.label"
+                                :label="$t('journeyUi.paymentForm.s3.label')"
                                 :rules="rules.country"
                                 v-model="selectedCurrency"
                                 outlined
@@ -295,7 +292,7 @@
                                 </span>
                                 <span v-else>4. </span>
                                 <!-- Card Details -->
-                                {{ contentTransactionPaymentForm.s4.question }}
+                                {{ $t("journeyUi.paymentForm.s4.question") }}
                               </div>
                             </v-col>
 
@@ -337,8 +334,9 @@
                                   <TranslationWithAnchor
                                     styleClass=""
                                     :text="
-                                      contentTransactionPaymentForm.s5
-                                        .termsAndConditionsMsg
+                                      $t(
+                                        'journeyUi.paymentForm.s5.termsAndConditionsMsg',
+                                      )
                                     "
                                     :link="termsLink"
                                     target="_blank"
@@ -354,14 +352,16 @@
                               >
                                 <p slot="label">
                                   {{
-                                    contentTransactionPaymentForm.s5
-                                      .marketingOptInMsg
+                                    $t(
+                                      "journeyUi.paymentForm.s5.marketingOptInMsg",
+                                    )
                                   }}
                                   <TranslationWithAnchor
                                     styleClass=""
                                     :text="
-                                      contentTransactionPaymentForm.s5
-                                        .privacyPolicyMsg
+                                      $t(
+                                        'journeyUi.paymentForm.s5.privacyPolicyMsg',
+                                      )
                                     "
                                     link="http://www.bedsandbars.com/privacy-and-cookies"
                                     target="_blank"
@@ -387,7 +387,7 @@
                           <v-col class="hidden-md-and-down pt-3" cols="6">
                             <div class="subtitle-1 font-weight-bold d-inline">
                               {{
-                                contentTransactionPaymentForm.other.payableNow
+                                $t("journeyUi.paymentForm.other.payableNow")
                               }}:
                             </div>
                             <div class="headline font-weight-bold d-inline">
@@ -441,8 +441,9 @@
                             >
                               <span v-if="payable > 0">
                                 {{
-                                  contentTransactionPaymentForm.other.button
-                                    .payNow
+                                  $t(
+                                    "journeyUi.paymentForm.other.button.payNow",
+                                  )
                                 }}
                                 {{
                                   payable
@@ -451,8 +452,9 @@
                                 }}
                               </span>
                               <span v-else>{{
-                                contentTransactionPaymentForm.other.button
-                                  .payArrival
+                                $t(
+                                  "journeyUi.paymentForm.other.button.payArrival",
+                                )
                               }}</span>
                             </v-btn>
                           </v-col>
@@ -471,23 +473,24 @@
             <TransactionSummary
               :cart="cart"
               :currency="hostelConf.currency"
-              :language="userLanguage"
               :selected-currency-rate="currencyRate"
               :selected-currency="selectedCurrency"
               :payable="payable"
               :breakfast="breakfast"
               :deposit="data.deposit"
               :rooms-content="roomsContent"
-              :panel-header="contentTransactionPanelHeaders.transaction.summary"
+              :panel-header="
+                $t('journeyUi.expansionPanelHeaders.transaction.summary')
+              "
             />
           </v-col>
         </v-row>
       </v-container>
 
       <v-snackbar top v-model="formErrorSnackbar">
-        {{ contentTransactionPaymentForm.other.errorBar.errorMsg }}
+        {{ $t("journeyUi.paymentForm.other.errorBar.errorMsg") }}
         <v-btn text @click="formErrorSnackbar = false">{{
-          contentTransactionPaymentForm.other.errorBar.errorButton
+          $t("journeyUi.paymentForm.other.errorBar.errorButton")
         }}</v-btn>
       </v-snackbar>
     </main>
@@ -557,7 +560,6 @@ export default {
       guest: null,
       cart: null,
       selectedCurrency: null,
-      userLanguage: "en-GB",
       isLoadingReservation: false,
       hostelConf: null,
       hostel: null,
@@ -582,29 +584,30 @@ export default {
       rules: {
         email: [
           (v) =>
-            !!v || this.contentTransactionGuestDetails.email.rules.required,
+            !!v || this.$t("journeyUi.guestDetailsForm.email.rules.required"),
           (v) =>
             /.+@.+/.test(v) ||
-            this.contentTransactionGuestDetails.email.rules.required,
+            this.$t("journeyUi.guestDetailsForm.email.rules.required"),
         ],
         name: [
-          (v) => !!v || this.contentTransactionGuestDetails.name.rules.required,
+          (v) =>
+            !!v || this.$t("journeyUi.guestDetailsForm.name.rules.required"),
         ],
         terms: [
-          (v) => !!v || this.contentTransactionPaymentForm.s5.rules.required,
+          (v) => !!v || this.$t("journeyUi.paymentForm.s5.rules.required"),
         ],
         phone: [
           (v) =>
-            !!v || this.contentTransactionGuestDetails.phone.rules.required,
+            !!v || this.$t("journeyUi.guestDetailsForm.phone.rules.required"),
         ],
         country: [
-          (v) => !!v || this.contentTransactionGuestDetails.name.rules.required,
+          (v) =>
+            !!v || this.$t("journeyUi.guestDetailsForm.name.rules.required"),
         ],
       },
       isLoading: false,
       isLoadingOverlay: false,
       isError: false,
-      uiContentLoaded: null,
       countries,
       currencies: null,
     };
@@ -627,10 +630,6 @@ export default {
       this.isLoading = false;
     },
   },
-  async beforeCreate() {
-    await this.$store.dispatch("bookingEngine/getJourneyUi");
-    this.uiContentLoaded = this.journeyUi;
-  },
   async created() {
     this.isLoading = true;
     this.isLoadingOverlay = true;
@@ -640,41 +639,15 @@ export default {
     });
 
     this.cart = await get("cart");
-    this.userLanguage = this.getUserLanguage;
-
-    // const devReservation = {
-    //   cart: {
-    //     currency: "GBP",
-    //   },
-    //   // cart: {
-    //   //   hostel: {
-    //   //     currency: "GBP",
-    //   //   },
-    //   // },
-    // };
-
-    // await set("dev-reservation", devReservation);
 
     await this.$store.dispatch(
       "bookingEngine/getHostel",
       this.cart.hostel_code,
     );
-    // const [hostelConf, hostel] = await Promise.all([
-    const [hostelConf] = await Promise.all([
-      find(this.cart.hostel_code),
-      // getHostel(this.cart.hostel_code),
-    ]);
 
-    // this.guest = this.$store?.$auth?.$state?.user;
-    // if (this.guest && this.guest.type === "agent") {
-    //   this.data.guest.name = this.guest.name;
-    //   this.data.guest.country = this.guest.country;
-    //   this.data.guest.email = this.guest.email;
-    //   this.data.guest.phone = this.guest.phone;
-    // }
+    const [hostelConf] = await Promise.all([find(this.cart.hostel_code)]);
 
     this.hostelConf = hostelConf;
-    // this.hostel = hostel;
     this.hostel = this.hostelData;
     this.selectedCurrency = this.hostelConf.currency;
 
@@ -790,17 +763,10 @@ export default {
     },
     lowerDepositLabel() {
       return this.lowerDeposit === 0
-        ? this.contentTransactionPaymentForm.s2.arrival
+        ? this.$t("journeyUi.paymentForm.s2.arrival")
         : `Pay ${this.lowerDeposit}%`;
     },
-    ...mapState("bookingEngine", ["journeyUi", "hostelData"]),
-    ...mapGetters("bookingEngine", [
-      "contentTheBreadCrumbs",
-      "contentTransactionPanelHeaders",
-      "contentTransactionGuestDetails",
-      "contentTransactionPaymentForm",
-      "getUserLanguage",
-    ]),
+    ...mapState("bookingEngine", ["hostelData"]),
   },
   methods: {
     validate() {
@@ -819,7 +785,7 @@ export default {
       // Chrome requires returnValue to be set.
       event.returnValue = "";
 
-      return confirm(this.contentTransactionPaymentForm.other.abandon);
+      return confirm(this.$t("journeyUi.paymentForm.other.abandon"));
     },
     payPalError() {
       this.isError = true;

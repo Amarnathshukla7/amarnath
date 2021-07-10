@@ -3,7 +3,7 @@
     <div
       class="white--text text-center accent px-4 py-8 font-weight-bold title mx-auto"
     >
-      {{ contentConfirmationSummary.bookingReference }}:
+      {{ $t("journeyUi.bookingSummary.bookingReference") }}:
       <div class="display-1 font-weight-bold">
         {{ reservation.booking_reference }}
       </div>
@@ -14,7 +14,7 @@
         <v-list-item-title>
           <v-row no-gutters>
             <v-col cols="8">{{
-              contentConfirmationSummary.accommodationTotal
+              $t("journeyUi.bookingSummary.accommodationTotal")
             }}</v-col>
             <v-col cols="4">
               <span class="float-right mr-6">{{
@@ -31,7 +31,9 @@
       <v-list-item-content>
         <v-list-item-title>
           <v-row no-gutters>
-            <v-col cols="8">{{ contentConfirmationSummary.loyaltyCode }}</v-col>
+            <v-col cols="8">{{
+              $t("journeyUi.bookingSummary.loyaltyCode")
+            }}</v-col>
             <v-col cols="4">
               <span class="float-right mr-6">{{
                 reservation.cart.discount
@@ -47,7 +49,9 @@
       <v-list-item-content>
         <v-list-item-title>
           <v-row no-gutters>
-            <v-col cols="8">{{ contentConfirmationSummary.touristTax }}</v-col>
+            <v-col cols="8">{{
+              $t("journeyUi.bookingSummary.touristTax")
+            }}</v-col>
             <v-col cols="4">
               <span class="float-right mr-6">{{
                 reservation.cart.tourist_tax_cost
@@ -55,7 +59,7 @@
               }}</span>
             </v-col>
           </v-row>
-          <!-- {{ contentConfirmationSummary.touristTax }}
+          <!-- {{ $t("journeyUi.bookingSummary.touristTax") }}
           <span class="float-right mr-6">{{
             reservation.cart.tourist_tax_cost
               | formatPrice(reservation.cart.hostel.currency)
@@ -72,7 +76,7 @@
         <v-list-item-title>
           <v-row no-gutters>
             <v-col cols="7">{{
-              contentConfirmationSummary.breakfast.heading
+              $t("journeyUi.bookingSummary.breakfast.heading")
             }}</v-col>
             <v-col cols="5">
               <span
@@ -85,10 +89,10 @@
                 }}
               </span>
               <span class="float-right text-right mr-6" v-else-if="noBreakfast">
-                {{ contentConfirmationSummary.breakfast.notIncluded }}
+                {{ $t("journeyUi.bookingSummary.breakfast.notIncluded") }}
               </span>
               <span class="float-right text-right mr-6" v-else>
-                {{ contentConfirmationSummary.breakfast.included }}
+                {{ $t("journeyUi.bookingSummary.breakfast.included") }}
               </span>
             </v-col>
           </v-row>
@@ -100,7 +104,9 @@
       <v-list-item-content>
         <v-list-item-title class="white--text font-weight-bold">
           <v-row no-gutters>
-            <v-col cols="8">{{ contentConfirmationSummary.totalPrice }}</v-col>
+            <v-col cols="8">{{
+              $t("journeyUi.bookingSummary.totalPrice")
+            }}</v-col>
             <v-col cols="4">
               <span class="float-right mr-6">{{
                 reservation.cart.total_cost
@@ -116,7 +122,9 @@
       <v-list-item-content>
         <v-list-item-title>
           <v-row no-gutters>
-            <v-col cols="8">{{ contentConfirmationSummary.totalPaid }}</v-col>
+            <v-col cols="8">{{
+              $t("journeyUi.bookingSummary.totalPaid")
+            }}</v-col>
             <v-col cols="4">
               <span class="float-right mr-6">{{
                 reservation.paid | formatPrice(reservation.transaction.currency)
@@ -132,7 +140,7 @@
         <v-list-item-title class="white--text">
           <v-row no-gutters>
             <v-col cols="8">{{
-              contentConfirmationSummary.dueOnArrival
+              $t("journeyUi.bookingSummary.dueOnArrival")
             }}</v-col>
             <v-col cols="4">
               <span class="float-right mr-6">{{
@@ -148,7 +156,6 @@
 
 <script>
 import { formatPrice } from "../filters/money";
-import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -176,7 +183,6 @@ export default {
         (this.reservation.cart.total_cost * this.reservation.deposit) / 100
       );
     },
-    ...mapGetters("bookingEngine", ["contentConfirmationSummary"]),
   },
 };
 </script>

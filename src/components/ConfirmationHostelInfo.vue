@@ -4,10 +4,10 @@
       @click="packBag"
       class="display-1 font-weight-bold greyish--text text-center pt-6 text-uppercase"
     >
-      {{ contentConfirmationHostelInfo.heading }}
+      {{ $t("journeyUi.hostelInfo.heading") }}
     </div>
 
-    <div class="body-2">{{ contentConfirmationHostelInfo.message }}:</div>
+    <div class="body-2">{{ $t("journeyUi.hostelInfo.message") }}:</div>
 
     <div class="title font-weight-bold greyish--text">
       {{ hostel.title }}
@@ -32,7 +32,7 @@
       large
       tile
       depressed
-      >{{ contentConfirmationHostelInfo.manageCta }}</v-btn
+      >{{ $t("journeyUi.hostelInfo.manageCta") }}</v-btn
     >
   </v-card>
 </template>
@@ -53,9 +53,6 @@ export default {
       console.log("pack");
       this.$emit("pack-bags");
     },
-  },
-  computed: {
-    ...mapGetters("bookingEngine", ["contentConfirmationHostelInfo"]),
   },
 };
 </script>

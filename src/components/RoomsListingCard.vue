@@ -64,7 +64,7 @@
               <div
                 class="caption d-inline-block"
                 :class="selectedAndCustomStylePrimaryColor"
-                v-if="uiContent.notePricesPer"
+                v-if="$t('journeyUi.roomCard.notePricesPer')"
               >
                 {{ finalNotePricesPer }}
               </div>
@@ -90,7 +90,7 @@
                         'accent--text': !selected,
                       }"
                     >
-                      {{ uiContent.inLuck.heading }}
+                      {{ $t("journeyUi.roomCard.inLuck.heading") }}
                     </div>
                     <div
                       class="caption mb-3"
@@ -99,7 +99,7 @@
                         'accent--text': !selected,
                       }"
                     >
-                      {{ uiContent.inLuck.message }}
+                      {{ $t("journeyUi.roomCard.inLuck.message") }}
                     </div>
                   </v-col>
                 </v-row>
@@ -113,9 +113,9 @@
                   'white--text': selected,
                 }"
               >
-                {{ uiContent.custom.customQuestion }} <br />
+                {{ $t("journeyUi.roomCard.custom.customQuestion") }} <br />
                 <TranslationWithAnchor
-                  :text="uiContent.custom.customCtaText"
+                  :text="$t('journeyUi.roomCard.custom.customCtaText')"
                   @linkClicked="switchToCustom"
                 />
               </div>
@@ -123,9 +123,9 @@
                 v-if="customSelected"
                 class="caption greyish--text hidden-md-and-down"
               >
-                {{ uiContent.custom.normalQuestion }} <br />
+                {{ $t("journeyUi.roomCard.custom.normalQuestion") }} <br />
                 <TranslationWithAnchor
-                  :text="uiContent.custom.normalCtaText"
+                  :text="$t('journeyUi.roomCard.custom.normalCtaText')"
                   @linkClicked="customSelected = false"
                 />
               </div>
@@ -153,7 +153,7 @@
               <p
                 class="text-center py-1 font-weight-bold white--text subtitle-2"
               >
-                {{ uiContent.freeCancellation }}
+                {{ $t("journeyUi.roomCard.freeCancellation") }}
                 <a
                   class="text-decoration-none"
                   :href="termsLink"
@@ -179,9 +179,9 @@
               v-show="applyMinStay"
             >
               {{ finalMinStayText }} <br />
-              <a href="#update-dates" class="warning--text">
-                {{ uiContent.minStays.updateSearch }}
-              </a>
+              <a href="#update-dates" class="warning--text">{{
+                $t("journeyUi.roomCard.minStays.updateSearch")
+              }}</a>
             </div>
 
             <RoomsListingCardSelect
@@ -193,8 +193,7 @@
               :code="room.code"
               :bed-type="bedType"
               :currency="currency"
-              :language="language"
-              :unavailableText="uiContent.unavailable"
+              :unavailableText="$t('journeyUi.roomCard.unavailable')"
               @room-active="(val) => (selected = val)"
               @update-local-room-cart="updateCart"
             />
@@ -208,9 +207,9 @@
                 'white--text': selected,
               }"
             >
-              {{ uiContent.custom.customQuestion }} <br />
+              {{ $t("journeyUi.roomCard.custom.customQuestion") }} <br />
               <TranslationWithAnchor
-                :text="uiContent.custom.customCtaText"
+                :text="$t('journeyUi.roomCard.custom.customCtaText')"
                 @linkClicked="switchToCustom"
               />
             </div>
@@ -218,9 +217,9 @@
               v-if="customSelected && !applyMinStay"
               class="caption hidden-lg-and-up text-center mt-4 mb-4"
             >
-              {{ uiContent.custom.normalQuestion }} <br />
+              {{ $t("journeyUi.roomCard.custom.normalQuestion") }} <br />
               <TranslationWithAnchor
-                :text="uiContent.custom.normalCtaText"
+                :text="$t('journeyUi.roomCard.custom.normalCtaText')"
                 @linkClicked="customSelected = false"
               />
             </div>
@@ -244,7 +243,7 @@
                       'accent--text': !isSelectedAndNotCustom,
                     }"
                   >
-                    {{ uiContent.inLuck.heading }}
+                    {{ $t("journeyUi.roomCard.inLuck.heading") }}
                   </div>
                   <div
                     class="caption mb-3"
@@ -253,7 +252,7 @@
                       'accent--text': !isSelectedAndNotCustom,
                     }"
                   >
-                    {{ uiContent.inLuck.message }}
+                    {{ $t("journeyUi.roomCard.inLuck.message") }}
                   </div>
                 </v-col>
               </v-row>
@@ -280,8 +279,7 @@
           :bed-type="bedType"
           :available="date.units"
           :currency="currency"
-          :language="language"
-          :unavailableText="uiContent.unavailable"
+          :unavailableText="$t('journeyUi.roomCard.unavailable')"
           :custom="true"
           @update-local-room-cart="updateCart"
         />
@@ -326,10 +324,6 @@ export default {
       type: String,
       default: "GBP",
     },
-    language: {
-      type: String,
-      default: "en-GB",
-    },
     depositModelRate: {
       type: Number,
       default: null,
@@ -345,12 +339,6 @@ export default {
     room: {
       type: Object,
       default: null,
-    },
-    uiContent: {
-      type: Object,
-      default: () => {
-        return {};
-      },
     },
   },
   components: {
@@ -521,9 +509,6 @@ export default {
       } else {
         return "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
       }
-      // return ["FPU", "FPD"].includes(this.hostelCode)
-      //   ? "https://www.flyingpig.nl/terms-and-conditions"
-      //   : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
     },
     available() {
       return parseInt(this.room.maxAvailable, 10);
@@ -541,17 +526,17 @@ export default {
     finalNotePricesPer() {
       const start =
         this.room.roomType === "private"
-          ? this.uiContent.notePricesPer.pricesPerRoom
-          : this.uiContent.notePricesPer.pricesPerBed;
+          ? this.$t("journeyUi.roomCard.notePricesPer.pricesPerRoom")
+          : this.$t("journeyUi.roomCard.notePricesPer.pricesPerBed");
       const personDescriptor =
         this.maxOccupancy === 1
-          ? this.uiContent.notePricesPer.person
-          : this.uiContent.notePricesPer.people;
+          ? this.$t("journeyUi.roomCard.notePricesPer.person")
+          : this.$t("journeyUi.roomCard.notePricesPer.people");
       return `${start} ${this.maxOccupancy} ${personDescriptor}`;
     },
     finalMinStayText() {
       return this.minStay
-        ? this.uiContent.minStayText.replace("@@@", this.minStay)
+        ? this.$t("journeyUi.roomCard.minStayText").replace("@@@", this.minStay)
         : "";
     },
   },
@@ -575,8 +560,6 @@ export default {
   .v-tooltip__content {
     text-align: center;
     left: 20% !important;
-    // right: 0;
-    // margin: auto;
   }
 }
 
@@ -584,8 +567,6 @@ export default {
   .v-tooltip__content {
     text-align: center;
     left: 9% !important;
-    // right: 0;
-    // margin: auto;
   }
 }
 
@@ -597,19 +578,4 @@ export default {
     margin: auto;
   }
 }
-
-// @media screen and (min-width: 1024px) {
-//   .room-card .v-image {
-//     margin-top: -175px;
-//   }
-// }
-
-// .v-expansion-panel-content__wrap {
-//   padding: 0 12px 16px;
-// }
-
-// .v-expansion-panel-header__icon {
-//   background-color: var(--v-primary-base);
-//   padding: 10px;
-// }
 </style>

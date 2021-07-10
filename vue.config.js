@@ -1,6 +1,12 @@
-// const fs = require("fs");
-
 module.exports = {
+  pluginOptions: {
+    i18n: {
+      locale: "en",
+      fallbackLocale: "en",
+      localeDir: "src/locales",
+      enableInSFC: true,
+    },
+  },
   devServer: {
     proxy: {
       "/search-svc/": {
@@ -12,23 +18,23 @@ module.exports = {
         pathRewrite: { "^/review-svc/": "" },
       },
       "/cart-svc/": {
-        target: "http://localhost/api/carts/",
+        target: "https://reservation.bnb-platform.com/api/carts/",
         pathRewrite: { "^/cart-svc/": "" },
       },
       "/reservation-svc/": {
-        target: "http://localhost/api/reservations/",
+        target: "https://reservation.bnb-platform.com/api/reservations/",
         pathRewrite: { "^/reservation-svc/": "" },
       },
       "/hostel-svc/": {
-        target: "http://localhost/api/hostels/",
+        target: "https://reservation.bnb-platform.com/api/hostels/",
         pathRewrite: { "^/hostel-svc/": "" },
       },
       "/transaction-svc/": {
-        target: "http://localhost/api/transactions/",
+        target: "https://reservation.bnb-platform.com/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
       "/status-svc/": {
-        target: "http://localhost/api/status",
+        target: "https://reservation.bnb-platform.com/api/status",
         pathRewrite: { "^/status-svc/": "" },
       },
     },

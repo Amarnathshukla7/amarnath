@@ -4,37 +4,26 @@
       <RoomsOverlayLoading :loading="isLoading" />
 
       <RoomsOverlayError
-        v-if="uiContentLoaded"
         :error="isError"
         :availability-error="availabilityError"
-        :content="contentRoomsOverlayErrors"
         :hostel-code="hostelCode"
         @close-overlay="closeErrorOverlay"
         @reload-data="loadData"
       />
 
       <RoomsSearchSummary
-        v-if="uiContentLoaded"
         :hostel="hostelCode"
         :nights="nights"
         :arrival="checkIn"
         :departure="checkOut"
-        :language="userLanguage"
-        :content="contentRoomsSearchSummary"
       />
 
-      <TheBreadCrumbs v-if="uiContentLoaded" :content="contentTheBreadCrumbs" />
+      <TheBreadCrumbs />
 
-      <RoomsServerStatus
-        v-if="uiContentLoaded"
-        :is-status="isStatus"
-        :status="status"
-      />
+      <RoomsServerStatus :is-status="isStatus" :status="status" />
 
       <RoomsModalGroupBookings
-        v-if="uiContentLoaded && showGroupsModal"
         :show="showGroupsModal"
-        :content="contentRoomsModalGroupBookings"
         @close-groups-modal="showGroupsModal = false"
       />
 
@@ -51,11 +40,7 @@
             />
           </v-col>
           <v-col cols="9" sm="10" xl="8" class="ml-3">
-            <RoomsOptionsSort
-              :hostel-code="hostelCode"
-              :content="contentRoomsOptions"
-              @sort="sort"
-            />
+            <RoomsOptionsSort :hostel-code="hostelCode" @sort="sort" />
           </v-col>
         </v-row>
 
@@ -77,23 +62,25 @@
             >
               <!-- MOBILE COVID MEASURES -->
               <TheCovidMeasures
-                v-if="uiContentLoaded && bookingSource === 'STC'"
+                v-if="bookingSource === 'STC'"
                 class="hidden-sm-and-up"
-                :content="contentTheCovidMeasures"
-                :panel-header="contentRoomsExpansionHeaders.covid"
+                :panel-header="
+                  $t('journeyUi.expansionPanelHeaders.rooms.covid')
+                "
               />
 
               <!-- SHARED ROOMS -->
               <RoomsListingContainer
                 :loading="isLoading"
-                :panel-header="contentRoomsExpansionHeaders.shared"
+                :panel-header="
+                  $t('journeyUi.expansionPanelHeaders.rooms.shared')
+                "
                 :rooms-array="dormRooms"
                 :content-array="hostel.rooms"
                 :check-in="checkIn"
                 :check-out="checkOut"
                 :min-stay="dormMinStay"
                 :currency="currency"
-                :language="userLanguage"
                 :deposit-model-rate="depositModelRate"
                 :hostel-code="hostelCode"
                 @update-local-cart="updateCart($event)"
@@ -103,7 +90,9 @@
               <!-- PRIVATE ROOMS -->
               <RoomsListingContainer
                 :loading="isLoading"
-                :panel-header="contentRoomsExpansionHeaders.private"
+                :panel-header="
+                  $t('journeyUi.expansionPanelHeaders.rooms.private')
+                "
                 :rooms-array="privateRooms"
                 :content-array="hostel.rooms"
                 :check-in="checkIn"
@@ -128,7 +117,6 @@
               :hostel="hostel"
               :isSmallDevice="isSmallDevice"
               :language="userLanguage"
-              :ui-content="contentTheSummary"
               @update-cart="(cart) => (this.cart = cart)"
               @go-to-transaction="submitBooking"
               @back-to-rooms="showSummaryBreakfast = false"
@@ -191,11 +179,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2023-08-02",
+      default: "2021-08-02",
     },
     checkOut: {
       type: String,
-      default: "2023-08-05",
+      default: "2021-08-05",
     },
   },
   watch: {
@@ -231,7 +219,6 @@ export default {
       depositModelRate: null,
       hostelConf: null,
       hostel: null,
-      uiContentLoaded: null,
       showGroupsModal: false,
       groupBookingModalAlreadyShown: false,
       openPanel: [0, 1, 2],
@@ -279,20 +266,7 @@ export default {
     totalCost() {
       return this.cart ? this.cart.total_cost : 0;
     },
-    ...mapGetters("bookingEngine", [
-      "contentHostelData",
-      "contentTheBreadCrumbs",
-      "contentTheCovidMeasures",
-      "contentTheSummary",
-      "contentRoomsOverlayErrors",
-      "contentRoomsSearchSummary",
-      "contentRoomsModalGroupBookings",
-      "contentRoomsOptions",
-      "contentRoomsExpansionHeaders",
-      "getUserLanguage",
-    ]),
-    // ...mapActions("bookingEngine", ["getJourneyUi", "getHostel"]),
-    // ...mapState(["journeyUi", "hostelData"]),
+    ...mapGetters("bookingEngine", ["contentHostelData", "getUserLanguage"]),
   },
   async beforeCreate() {
     if (this.$store.state.bookingEngine.userLanguage === "en-GB") {
@@ -304,10 +278,6 @@ export default {
         );
       }
     }
-    await this.$store.dispatch("bookingEngine/getJourneyUi");
-    // this.getJourneyUi();
-    // this.uiContentLoaded = this.journeyUi;
-    this.uiContentLoaded = this.contentTheBreadCrumbs;
   },
   created() {
     this.loadData();
@@ -334,8 +304,6 @@ export default {
 
       this.isLoading = true;
       this.reset();
-
-      // this.$store.dispatch("getJourneyUi");
 
       const status = await getStatus();
       if (status.upgrading) {
@@ -419,12 +387,11 @@ export default {
       }
     },
     async handleLanguageChange(code) {
+      console.log(`Language changed to ${code}`);
       this.$store.commit("bookingEngine/SET_USER_LANGUAGE", code);
       await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
       this.hostel = this.contentHostelData;
       this.userLanguage = this.getUserLanguage;
-      await this.$store.dispatch("bookingEngine/getJourneyUi");
-      this.uiContentLoaded = this.contentTheBreadCrumbs;
     },
   },
 };

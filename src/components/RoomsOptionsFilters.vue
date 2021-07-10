@@ -2,7 +2,9 @@
   <v-row no-gutters justify="start" align-content="start">
     <v-col cols="12" class="d-flex flex-wrap">
       <v-badge
-        v-for="(translation, filterOption) in content.filterOptions"
+        v-for="(translation, filterOption) in $t(
+          'journeyUi.filters.filterOptions',
+        )"
         :key="filterOption"
         bordered
         color="secondary"
@@ -19,7 +21,7 @@
 
     <v-btn color="secondary" @click="selected = []" outlined>
       <v-icon>mdi-close</v-icon>
-      {{ content.clearFilters }}
+      {{ $t("journeyUi.filters.clearFilters") }}
     </v-btn>
   </v-row>
 </template>
@@ -29,14 +31,6 @@ import { bus } from "../plugins/bus";
 
 export default {
   emits: ["room-filters-changed"],
-  props: {
-    content: {
-      type: Object,
-      default: () => {
-        return {};
-      },
-    },
-  },
   data() {
     return {
       selected: [],

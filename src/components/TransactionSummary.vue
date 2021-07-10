@@ -22,8 +22,8 @@
                   <v-list-item-subtitle
                     class="body-1 mb-2 font-weight-bold accent--text"
                   >
-                    {{ cart.check_in | formatDate(language) }} -
-                    {{ cart.check_out | formatDate(language) }}
+                    {{ cart.check_in | formatDate($i18n.locale) }} -
+                    {{ cart.check_out | formatDate($i18n.locale) }}
                   </v-list-item-subtitle>
 
                   <v-list-item-title>
@@ -46,7 +46,9 @@
                 <template v-slot:activator>
                   <v-list-item-content>
                     <v-list-item-title class="summary-list-item d-flex">
-                      <span>{{ contentTheSummary.accommSubTotal }}</span>
+                      <span>{{
+                        $t("journeyUi.roomsSummary.accommSubTotal")
+                      }}</span>
                       <span class="float-right">{{
                         cart.accommodation_cost | formatPrice(currency)
                       }}</span>
@@ -60,14 +62,12 @@
                     :key="index"
                     :room="room"
                     :currency="currency"
-                    :language="language"
                   />
                   <TransactionSummaryAccommodationItem
                     v-for="(room, index) in bookingEntries.custom"
                     :key="index"
                     :room="room"
                     :currency="currency"
-                    :language="language"
                   />
                 </v-card>
               </v-list-group>
@@ -75,7 +75,7 @@
               <v-list-item class="py-2 pl-4 other">
                 <v-list-item-content>
                   <v-list-item-title>
-                    {{ contentTheSummary.loyalty }}
+                    {{ $t("journeyUi.roomsSummary.loyalty") }}
 
                     <span class="float-right">
                       <span v-show="discount > 0">- </span>
@@ -88,7 +88,7 @@
               <v-list-item class="py-2 pl-4 white">
                 <v-list-item-content>
                   <v-list-item-title class="summary-list-item d-flex">
-                    <span>{{ contentTheSummary.touristTax }}</span>
+                    <span>{{ $t("journeyUi.roomsSummary.touristTax") }}</span>
                     <span class="float-right">{{
                       cart.tourist_tax_cost | formatPrice(currency)
                     }}</span>
@@ -101,15 +101,17 @@
               >
                 <v-list-item-content>
                   <v-list-item-title class="summary-list-item d-flex">
-                    <span>{{ contentTheSummary.breakfast.headerTotal }}</span>
+                    <span>{{
+                      $t("journeyUi.roomsSummary.breakfast.headerTotal")
+                    }}</span>
                     <span class="float-right" v-if="breakfastCost > 0">
                       {{ breakfastCost | formatPrice(currency) }}
                     </span>
                     <span class="float-right text-end" v-else-if="noBreakfast">
-                      {{ contentTheSummary.breakfast.notIncluded }}
+                      {{ $t("journeyUi.roomsSummary.breakfast.notIncluded") }}
                     </span>
                     <span class="float-right text-end" v-else>
-                      {{ contentTheSummary.breakfast.includedFree }}
+                      {{ $t("journeyUi.roomsSummary.breakfast.includedFree") }}
                     </span>
                   </v-list-item-title>
                 </v-list-item-content>
@@ -121,7 +123,9 @@
     </v-expansion-panels>
     <v-card tile flat color="accent" class="">
       <v-row class="hidden-sm-and-down px-4 py-2 font-weight-bold white--text">
-        <v-col cols="8"> {{ contentTheSummary.payable.now }}: </v-col>
+        <v-col cols="8">
+          {{ $t("journeyUi.roomsSummary.payable.now") }}:
+        </v-col>
         <v-col cols="4" class="text-right">
           {{
             payable
@@ -131,7 +135,9 @@
         </v-col>
       </v-row>
       <v-row class="hidden-md-and-down px-4 py-2 white">
-        <v-col cols="8"> {{ contentTheSummary.payable.arrival }}: </v-col>
+        <v-col cols="8">
+          {{ $t("journeyUi.roomsSummary.payable.arrival") }}:
+        </v-col>
         <v-col cols="4" class="text-right">
           {{ dueOnArrival | formatPrice(currency) }}
         </v-col>
@@ -139,10 +145,10 @@
       <v-row class="px-4 py-2 white--text">
         <v-col cols="6" offset-md="0">
           <div class="title font-weight-bold">
-            {{ contentTheSummary.payable.total }}:
+            {{ $t("journeyUi.roomsSummary.payable.total") }}:
           </div>
           <div class="subtitle-1 font-weight-bold hidden-md-and-up">
-            {{ contentTheSummary.payable.totalNow }}:
+            {{ $t("journeyUi.roomsSummary.payable.totalNow") }}:
           </div>
         </v-col>
         <v-col cols="6" class="text-right">
@@ -170,7 +176,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { formatPrice, convertCurrency } from "../filters/money";
 import { formatDate } from "../filters/date";
 import { formatTimezone } from "../helpers/timezone";
@@ -192,10 +197,6 @@ export default {
     currency: {
       type: String,
       default: "GBP",
-    },
-    language: {
-      type: String,
-      default: "en-GB",
     },
     deposit: {
       type: Number,
@@ -355,7 +356,6 @@ export default {
         ),
       };
     },
-    ...mapGetters("bookingEngine", ["contentTheSummary"]),
   },
 };
 </script>

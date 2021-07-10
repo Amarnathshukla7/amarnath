@@ -9,18 +9,18 @@
           </v-btn>
         </v-card-actions>
         <v-card-title class="headline mb-4">
-          {{ content.heading }}
+          {{ $t("journeyUi.groupModal.heading") }}
         </v-card-title>
 
         <v-card-subtitle>
-          {{ content.text }}
+          {{ $t("journeyUi.groupModal.text") }}
         </v-card-subtitle>
 
         <a
           class="cta ml-6"
           href="https://www.st-christophers.co.uk/groups"
           target="_blank"
-          >{{ content.cta }}</a
+          >{{ $t("journeyUi.groupModal.cta") }}</a
         >
       </v-card>
     </v-dialog>
@@ -34,12 +34,6 @@ export default {
     show: {
       type: Boolean,
       default: false,
-    },
-    content: {
-      type: Object,
-      default: () => {
-        return {};
-      },
     },
   },
   methods: {

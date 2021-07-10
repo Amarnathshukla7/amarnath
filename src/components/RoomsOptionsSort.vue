@@ -8,14 +8,14 @@
         outlined
         class="mr-5 mb-2 filters-btn"
       >
-        {{ content.filtersBtn }}
+        {{ $t("journeyUi.filters.filtersBtn") }}
       </v-btn>
 
       <v-select
         dense
         class="d-inline-block sort-select mb-1"
         :items="items"
-        :label="content.sortLabel"
+        :label="$t('journeyUi.filters.sortLabel')"
         v-model="sort"
         outlined
         clearable
@@ -25,7 +25,7 @@
     </v-col>
 
     <v-col cols="12">
-      <RoomsOptionsFilters v-if="showFilters" :content="content" />
+      <RoomsOptionsFilters v-if="showFilters" />
     </v-col>
   </v-row>
 </template>
@@ -39,12 +39,6 @@ export default {
     hostelCode: {
       type: String,
       required: true,
-    },
-    content: {
-      type: Object,
-      default: () => {
-        return {};
-      },
     },
   },
   components: {
@@ -67,19 +61,19 @@ export default {
       return [
         {
           key: "price-low",
-          value: this.content.sortOptions.priceLow,
+          value: this.$t("journeyUi.filters.sortOptions.priceLow"),
         },
         {
           key: "price-high",
-          value: this.content.sortOptions.priceHigh,
+          value: this.$t("journeyUi.filters.sortOptions.priceHigh"),
         },
         {
           key: "avail-low",
-          value: this.content.sortOptions.availLow,
+          value: this.$t("journeyUi.filters.sortOptions.availLow"),
         },
         {
           key: "avail-high",
-          value: this.content.sortOptions.availHigh,
+          value: this.$t("journeyUi.filters.sortOptions.availHigh"),
         },
       ];
     },

@@ -3,23 +3,25 @@
     <v-card outlined tile class="search-card my-8 mx-auto pa-5">
       <ul>
         <li class="mr-2 mb-3">
-          {{ content.searchingFor }}:
+          {{ $t("journeyUi.searchSummary.searchingFor") }}:
           <strong>{{ hostelShortName(hostel) }}</strong>
         </li>
 
         <li class="mr-2 mb-3">
-          {{ content.for }}:
-          <strong>{{ nights }} {{ content.nights }}</strong>
+          {{ $t("journeyUi.searchSummary.for") }}:
+          <strong
+            >{{ nights }} {{ $t("journeyUi.searchSummary.nights") }}</strong
+          >
         </li>
 
         <li class="mr-2 mb-3">
-          {{ content.arriving }}:
-          <strong>{{ arrival | formatDate(language) }}</strong>
+          {{ $t("journeyUi.searchSummary.arriving") }}:
+          <strong>{{ arrival | formatDate($i18n.locale) }}</strong>
         </li>
 
         <li>
-          {{ content.departing }}:
-          <strong>{{ departure | formatDate(language) }}</strong>
+          {{ $t("journeyUi.searchSummary.departing") }}:
+          <strong>{{ departure | formatDate($i18n.locale) }}</strong>
         </li>
       </ul>
     </v-card>
@@ -47,16 +49,6 @@ export default {
     departure: {
       type: String,
       default: null,
-    },
-    language: {
-      type: String,
-      default: "en-GB",
-    },
-    content: {
-      type: Object,
-      default: () => {
-        return {};
-      },
     },
   },
   filters: {

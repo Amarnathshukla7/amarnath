@@ -1,35 +1,31 @@
 <template>
   <v-card flat outlined class="rounded-0">
     <v-card-title class="mb-4">
-      {{ contentTransactionSearch.reservation }}:
+      {{ $t("journeyUi.mobileSearchSummary.reservation") }}:
     </v-card-title>
 
     <v-card-subtitle class="reservation-info">
       <p class="font-weight-bold">
-        {{ hostelShortName(hostelCode) }}
+        {{ shortHostelName }}
       </p>
 
       <p>
-        {{ contentTransactionSearch.arriving }}:
-        <span class="font-weight-bold">{{
-          arrivalDate | formatDate(language)
-        }}</span>
+        {{ $t("journeyUi.mobileSearchSummary.arriving") }}:
+        <span class="font-weight-bold">{{ formattedArrivalDate }}</span>
       </p>
 
       <p>
-        {{ contentTransactionSearch.departing }}:
-        <span class="font-weight-bold">{{
-          departureDate | formatDate(language)
-        }}</span>
+        {{ $t("journeyUi.mobileSearchSummary.departing") }}:
+        <span class="font-weight-bold">{{ formattedDepartureDate }}</span>
       </p>
     </v-card-subtitle>
   </v-card>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { formatDate } from "../filters/date";
 import { hostelShortName } from "../helpers/hostelNames";
+import Trans from "@/plugins/translation";
 
 export default {
   props: {
@@ -45,19 +41,17 @@ export default {
       type: String,
       default: null,
     },
-    language: {
-      type: String,
-      default: "en-GB",
-    },
-  },
-  methods: {
-    hostelShortName,
-  },
-  filters: {
-    formatDate,
   },
   computed: {
-    ...mapGetters("bookingEngine", ["contentTransactionSearch"]),
+    shortHostelName() {
+      return hostelShortName(this.hostelCode);
+    },
+    formattedArrivalDate() {
+      return formatDate(this.arrivalDate, this.$i18n.locale);
+    },
+    formattedDepartureDate() {
+      return formatDate(this.departureDate, this.$i18n.locale);
+    },
   },
 };
 </script>

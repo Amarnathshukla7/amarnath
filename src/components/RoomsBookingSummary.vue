@@ -8,7 +8,7 @@
       color="accent"
       outlined
     >
-      {{ uiContent.ctas.backButton }}
+      {{ $t("journeyUi.roomsSummary.ctas.backButton") }}
     </v-btn>
 
     <v-expansion-panels
@@ -21,14 +21,13 @@
     >
       <TheCovidMeasures
         v-if="stc"
-        :content="contentTheCovidMeasures"
-        :panel-header="contentRoomsExpansionHeaders.covid"
+        :panel-header="$t('journeyUi.expansionPanelHeaders.rooms.covid')"
       />
 
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div class="font-weight-bold white--text text-uppercase heading">
-            {{ uiContent.panelHeading }}
+            {{ $t("journeyUi.roomsSummary.panelHeading") }}
           </div>
 
           <template v-slot:actions>
@@ -66,7 +65,6 @@
               :room="room"
               :index="index"
               :currency="currency"
-              :language="language"
               @destroy-room="deleteFromCart"
             />
 
@@ -76,7 +74,6 @@
               :room="room"
               :index="index"
               :currency="currency"
-              :language="language"
               @destroy-room="deleteFromCart"
             />
 
@@ -85,20 +82,24 @@
                 <v-list-item-title>
                   <v-row no-gutters class="white-space-normal">
                     <v-col cols="7">
-                      {{ uiContent.breakfast.headerStandard }}:
+                      {{
+                        $t("journeyUi.roomsSummary.breakfast.headerStandard")
+                      }}:
                     </v-col>
                     <v-col cols="5">
                       <span
                         v-if="noBreakfast"
                         class="float-right font-weight-bold text-end"
                       >
-                        {{ uiContent.breakfast.notIncluded }}
+                        {{ $t("journeyUi.roomsSummary.breakfast.notIncluded") }}
                       </span>
                       <span
                         v-else
                         class="float-right font-weight-bold text-end"
                       >
-                        {{ uiContent.breakfast.includedFree }}
+                        {{
+                          $t("journeyUi.roomsSummary.breakfast.includedFree")
+                        }}
                       </span>
                     </v-col>
                   </v-row>
@@ -114,7 +115,7 @@
       <v-list-item class="py-2 pl-8 white">
         <v-list-item-content>
           <v-list-item-title>
-            {{ uiContent.accommSubTotal }}
+            {{ $t("journeyUi.roomsSummary.accommSubTotal") }}
 
             <span class="float-right mr-6">
               {{ cart.accommodation_cost | formatPrice(currency) }}
@@ -127,7 +128,9 @@
         <v-list-item-content>
           <v-list-item-title>
             <v-row no-gutters class="white-space-normal">
-              <v-col cols="7">{{ uiContent.breakfast.headerTotal }}</v-col>
+              <v-col cols="7">{{
+                $t("journeyUi.roomsSummary.breakfast.headerTotal")
+              }}</v-col>
 
               <v-col cols="5">
                 <span
@@ -138,7 +141,7 @@
                 </span>
 
                 <span class="float-right mr-6 text-end" v-else>
-                  {{ uiContent.breakfast.includedFree }}
+                  {{ $t("journeyUi.roomsSummary.breakfast.includedFree") }}
                 </span>
               </v-col>
             </v-row>
@@ -156,7 +159,7 @@
       <v-row no-gutters class="mb-5">
         <v-col cols="7">
           <div class="heading ml-6 mb-md-6 font-weight-bold">
-            {{ uiContent.totalPrice }}:
+            {{ $t("journeyUi.roomsSummary.totalPrice") }}:
           </div>
         </v-col>
 
@@ -193,18 +196,18 @@
                   ></v-progress-circular>
 
                   <span v-if="!isCartUpdating">
-                    {{ uiContent.ctas.confirm }}
+                    {{ $t("journeyUi.roomsSummary.ctas.confirm") }}
                   </span>
                 </v-btn>
               </div>
             </template>
 
             <span v-if="isCartUpdating">
-              {{ uiContent.cartMessages.updating }}
+              {{ $t("journeyUi.roomsSummary.cartMessages.updating") }}
             </span>
 
             <span v-if="isCartEmpty">
-              {{ uiContent.cartMessages.empty }}
+              {{ $t("journeyUi.roomsSummary.cartMessages.empty") }}
             </span>
           </v-tooltip>
         </v-col>
@@ -222,7 +225,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
 import { differenceInDays, addDays } from "date-fns";
 import { formatPrice } from "../filters/money";
 import { formatDate } from "../filters/date";
@@ -263,16 +265,6 @@ export default {
     currency: {
       type: String,
       default: "GBP",
-    },
-    language: {
-      type: String,
-      default: "en-GB",
-    },
-    uiContent: {
-      type: Object,
-      default: () => {
-        return {};
-      },
     },
   },
   components: {
@@ -355,8 +347,14 @@ export default {
       }));
     },
     roomTypePopup(roomCode, qty) {
-      const msg8bed = this.uiContent.roomTypeMessages.msg8Bed;
-      const msg12bed = this.uiContent.roomTypeMessages.msg12Bed;
+      const msg8bed = this.$t(
+        "journeyUi.roomsSummary.roomTypeMessages.msg8Bed",
+      );
+
+      const msg12bed = this.$t(
+        "journeyUi.roomsSummary.roomTypeMessages.msg12Bed",
+      );
+
       const rooms = {
         1000118: {
           qty: 2,
@@ -479,11 +477,6 @@ export default {
         ),
       };
     },
-    // ...mapState(["journeyUi"]),
-    ...mapGetters("bookingEngine", [
-      "contentTheCovidMeasures",
-      "contentRoomsExpansionHeaders",
-    ]),
   },
 };
 </script>

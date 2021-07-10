@@ -5,7 +5,7 @@
   >
     <div class="price-container primary">
       <p class="subtitle-2">
-        {{ contentTransactionBreakfastUpgrade.price }} <br />
+        {{ $t("journeyUi.breakfastUpgrade.price") }} <br />
         <span class="title font-weight-bold">{{
           price | formatPrice(currency)
         }}</span>
@@ -14,17 +14,17 @@
     <figure class="text-center">
       <v-img :src="image" max-height="250px"></v-img>
       <h2 v-if="stc" class="mx-2 mt-4 text-justtify subtitle-1">
-        {{ contentTransactionBreakfastUpgrade.message }}
+        {{ $t("journeyUi.breakfastUpgrade.message") }}
         <br />
         <span class="secondary--text font-weight-bold headline">
-          {{ contentTransactionBreakfastUpgrade.discount }}
+          {{ $t("journeyUi.breakfastUpgrade.discount") }}
         </span>
       </h2>
       <h2
         v-else
         class="mx-2 mt-4 text-justtify secondary--text font-weight-bold title text-uppercase"
       >
-        {{ contentTransactionBreakfastUpgrade.buffet }}
+        {{ $t("journeyUi.breakfastUpgrade.buffet") }}
       </h2>
       <v-row align="center">
         <v-col cols="6" offset="1">
@@ -42,7 +42,7 @@
             color="secondary"
           >
             <span v-if="!isLoading" color="white" class="font-weight-bold">
-              {{ contentTransactionBreakfastUpgrade.addButton }}
+              {{ $t("journeyUi.breakfastUpgrade.addButton") }}
             </span>
             <v-progress-circular
               v-else
@@ -53,14 +53,13 @@
         </v-col>
       </v-row>
       <p class="mx-2 my-2 pb-4">
-        {{ contentTransactionBreakfastUpgrade.voucherMessage }}
+        {{ $t("journeyUi.breakfastUpgrade.voucherMessage") }}
       </p>
     </figure>
   </section>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import TransactionSummaryBreakfastCounter from "./TransactionSummaryBreakfastCounter.vue";
 import { getBreakfastPrice } from "../api/room/search-svc";
 import { formatPrice } from "../filters/money";
@@ -134,7 +133,6 @@ export default {
     image() {
       return this.content.image.fields.file.url + "?w=480";
     },
-    ...mapGetters("bookingEngine", ["contentTransactionBreakfastUpgrade"]),
   },
 };
 </script>

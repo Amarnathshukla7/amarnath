@@ -3,19 +3,19 @@
     <div class="breadcrumb-container mt-8">
       <div class="breadcrumb flat">
         <a href="javascript:void(0)" :class="{ active: step >= 1 }">
-          {{ content.s1 }}
+          {{ $t("journeyUi.breadCrumbs.s1") }}
         </a>
 
         <a href="javascript:void(0)" :class="{ active: step >= 2 }">
-          {{ content.s2 }}
+          {{ $t("journeyUi.breadCrumbs.s2") }}
         </a>
 
         <a href="javascript:void(0)" :class="{ active: step >= 3 }">
-          {{ content.s3 }}
+          {{ $t("journeyUi.breadCrumbs.s3") }}
         </a>
 
         <a href="javascript:void(0)" :class="{ active: step >= 4 }">
-          {{ content.s4 }}
+          {{ $t("journeyUi.breadCrumbs.s4") }}
         </a>
       </div>
     </div>
@@ -31,33 +31,6 @@ export default {
       type: Number,
       default: 2,
     },
-    content: {
-      type: Object,
-      default: () => {
-        return {};
-      },
-    },
-  },
-  data() {
-    return {
-      items: [
-        {
-          text: "Dashboard",
-          disabled: false,
-          href: "breadcrumbs_dashboard",
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: "breadcrumbs_link_1",
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: "breadcrumbs_link_2",
-        },
-      ],
-    };
   },
 };
 </script>
@@ -70,7 +43,6 @@ export default {
 }
 figure {
   margin: initial !important;
-  // background-color: #f8f8f8;
 }
 .breadcrumb-container {
   margin: 0;

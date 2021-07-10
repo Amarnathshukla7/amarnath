@@ -4,7 +4,7 @@
       class="unit--selector--select pb-0 px-1 pt-2"
       :items="available"
       v-model="selected"
-      :placeholder="placehold"
+      :placeholder="placeholder"
       :readonly="soldOut"
       :rounded="false"
       outlined
@@ -56,10 +56,10 @@ export default {
     },
   },
   computed: {
-    placehold() {
+    placeholder() {
       return this.bedType === "room"
-        ? `0 ${this.contentTheSummary.miscContent.rooms}`
-        : `0 ${this.contentTheSummary.miscContent.beds}`;
+        ? `0 ${this.$t("journeyUi.roomsSummary.miscContent.rooms")}`
+        : `0 ${this.$t("journeyUi.roomsSummary.miscContent.beds")}`;
     },
     soldOut() {
       return this.units === 0;
@@ -77,16 +77,11 @@ export default {
         .fill(null)
         .map((x, i) => i + 1);
     },
-    ...mapGetters("bookingEngine", ["contentTheSummary"]),
   },
 };
 </script>
 
 <style lang="scss">
-// .v-menu__content {
-//   border-radius: 0 !important;
-// }
-
 .unit--selector {
   .v-text-field__details {
     display: none;
@@ -103,11 +98,5 @@ export default {
   .v-input__control {
     background-color: #fff;
   }
-
-  //   .v-select > .v-input__control > .v-input__slot,
-  //   .v-card:not(.v-sheet--tile):not(.v-card--shaped),
-  //   .v-card > *:last-child:not(.v-btn):not(.v-chip) {
-  //     border-radius: 0 !important;
-  //   }
 }
 </style>

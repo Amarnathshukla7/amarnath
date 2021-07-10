@@ -32,7 +32,7 @@
                 'subtitle-2': date,
               }"
             >
-              <span v-if="date">{{ date | formatDate(language) }}</span>
+              <span v-if="date">{{ date | formatDate($i18n.locale) }}</span>
               <span v-else>{{ price | formatPrice(currency) }}</span>
             </div>
             <div class="font-weight-bold caption mb-0 d-flex justify-center">
@@ -43,11 +43,11 @@
                 >{{ price | formatPrice(currency) }}</span
               >
               <span v-else-if="price === 0 && date">
-                {{ contentRoomsListingCard.selection.soldOut }}
+                {{ $t("journeyUi.roomCard.selection.soldOut") }}
               </span>
 
               <span v-else class="text-center">
-                {{ contentRoomsListingCard.selection.avgMessage }}
+                {{ $t("journeyUi.roomCard.selection.avgMessage") }}
               </span>
             </div>
           </div>
@@ -62,7 +62,6 @@ import RoomsListingCardSelectUnit from "./RoomsListingCardSelectUnit";
 import { formatPrice } from "../filters/money";
 import { bus } from "../plugins/bus";
 import { formatDate } from "../filters/date";
-import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -93,10 +92,6 @@ export default {
     currency: {
       type: String,
       default: "GBP",
-    },
-    language: {
-      type: String,
-      default: "en-GB",
     },
     unavailableText: {
       type: Object,
@@ -135,7 +130,6 @@ export default {
         units: this.unitsSelected,
       };
     },
-    ...mapGetters("bookingEngine", ["contentRoomsListingCard"]),
   },
   methods: {
     update(value) {
