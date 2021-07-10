@@ -1,8 +1,15 @@
 module.exports = {
+  /**
+   * A workaround for this issue is to manually disable symlinks resolution in webpack:
+   * https://cli.vuejs.org/guide/troubleshooting.html#symbolic-links-in-node-modules
+   */
+  chainWebpack: (config) => {
+    config.resolve.symlinks(false)
+  },
   pluginOptions: {
     i18n: {
-      locale: "en",
-      fallbackLocale: "en",
+      locale: "en-GB",
+      fallbackLocale: "en-GB",
       localeDir: "src/locales",
       enableInSFC: true,
     },
