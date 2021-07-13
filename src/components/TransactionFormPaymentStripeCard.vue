@@ -36,7 +36,8 @@ export default {
       rules: {
         card: [
           (v) =>
-            !!v || this.contentTransactionPaymentForm.other.stripe.required,
+            !!v ||
+            this.contentTransactionPaymentForm.other.stripe.rules.required,
         ],
       },
     };
