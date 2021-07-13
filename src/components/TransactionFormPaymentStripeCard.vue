@@ -34,7 +34,8 @@ export default {
       paymentRequest: null,
       rules: {
         card: [
-          (v) => !!v || this.$t("journeyUi.paymentForm.other.stripe.required"),
+          (v) =>
+            !!v || this.$t("journeyUi.paymentForm.other.stripe.rules.required"),
         ],
       },
     };

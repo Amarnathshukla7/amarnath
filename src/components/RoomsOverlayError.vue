@@ -10,12 +10,12 @@
       :key="$t('journeyUi.errors.searchError.heading')"
       class="headline black--text font-weight-bold mb-4"
     >
-      {{ $t("journeyUi.errors.heading") }}
+      {{ $t("journeyUi.errors.searchError.heading") }}
     </div>
 
     <div
       v-else-if="error"
-      :key="$t('journeyUi.networkError.heading')"
+      :key="$t('journeyUi.errors.networkError.heading')"
       class="headline black--text font-weight-bold mb-4"
     >
       {{ $t("journeyUi.errors.networkError.heading") }}
