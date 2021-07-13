@@ -1,1 +1,466 @@
-{}
+{
+    "journeyUi":
+    {
+        "title": "Booking Engine UI",
+        "breadCrumbs":
+        {
+            "s1": "Ciudad",
+            "s2": "Habitaciones",
+            "s3": "Pago",
+            "s4": "Listo"
+        },
+        "expansionPanelHeaders":
+        {
+            "rooms":
+            {
+                "covid": "Medidas anti-Covid",
+                "shared": "Habitaciones Compartidas",
+                "private": "Habitaciones Privadas",
+                "summary": "Resumen de Reserva"
+            },
+            "transaction":
+            {
+                "guest": "Detalles del Huesped",
+                "coupon": "Cupon de Lealtad o numero de cupon",
+                "payment": "Detalles del pago",
+                "summary": "Tu reservacion"
+            }
+        },
+        "errors":
+        {
+            "searchError":
+            {
+                "heading": "Busqueda de error",
+                "message": "Uh oh! Actualmente no hay disponibilidad para las fechas seleccionadas. Busca otras fechas o en otro de nuestos hostales."
+            },
+            "errorButtons":
+            {
+                "test": "Prueba",
+                "close": "Cerrado",
+                "tryAgain": "Intentelo de nuevo"
+            },
+            "networkError":
+            {
+                "heading": "Error de red",
+                "message": "Al parecer tenemos un error en el sistema, porfavor intentelo de nuevo en unos minutos"
+            }
+        },
+        "roomsSummary":
+        {
+            "ctas":
+            {
+                "confirm": "Confirme su seleccion",
+                "backButton": "De vuelta",
+                "continueMobile": "Continuar"
+            },
+            "loyalty": "Codigo de cupon de lealtad",
+            "payable":
+            {
+                "now": "Pagable ahora mismo",
+                "total": "Precio total",
+                "arrival": "A pagar al llegar",
+                "totalNow": "A pagar ahora mismo"
+            },
+            "breakfast":
+            {
+                "headerTotal": "Total Desayuno",
+                "notIncluded": "No incluido",
+                "includedFree": "Incluido gratituamente!",
+                "headerStandard": "Desayuno"
+            },
+            "totalPrice": "Precio total",
+            "touristTax": "Total de impuesto de turista",
+            "miscContent":
+            {
+                "in": "en",
+                "bed": "Cama",
+                "beds": "Camas",
+                "room": "Habitacion",
+                "rooms": "Habitaciones"
+            },
+            "cartMessages":
+            {
+                "empty": "Porfavor agregue una habitacion o una cama a su cesta antes de continuar.",
+                "updating": "Porfavor espere mientas actualizamos su cesta."
+            },
+            "panelHeading": "Su reservacion",
+            "accommSubTotal": "Sub-total de su acomodacion",
+            "roomTypeMessages":
+            {
+                "msg8Bed": "En el tipo de habitación que ha seleccionado hay 2 colchones dobles y 4 individuales. Por favor, tenga en cuenta que con su selección actual no será colocado en la misma habitación.",
+                "msg12Bed": "En el tipo de habitación que ha seleccionado hay 2 colchones dobles y 8 individuales. Por favor, tenga en cuenta que con su selección actual no será colocado en la misma habitación."
+            }
+        },
+        "searchSummary":
+        {
+            "for": "Para",
+            "nights": "Noche(s)",
+            "arriving": "Llegada",
+            "departing": "Salida",
+            "searchingFor": "Buscando para"
+        },
+        "filters":
+        {
+            "sortLabel": "Buscar por",
+            "filtersBtn": "Filtros",
+            "sortOptions":
+            {
+                "availLow": "Disponibilidad mas baja",
+                "priceLow": "Precio mas bajo",
+                "availHigh": "Disponibilidad mas alta",
+                "priceHigh": "Precio mas alto"
+            },
+            "clearFilters": "Limpiar todo",
+            "filterOptions":
+            {
+                "female": "Mujer",
+                "shared": "Compartido",
+                "couples": "Parejas",
+                "ensuite": "Ensuite",
+                "private": "Privado"
+            }
+        },
+        "covidMeasures":
+        {
+            "message": "En respuesta a COVID-19, se han añadido estas medidas adicionales de seguridad y saneamiento a esta propiedad.",
+            "measures":
+            {
+                "bars": "Bares abiertos & Areas sociales",
+                "clean": "Limpieza profunda y sanitizacion",
+                "hands": "Higienización de las manos",
+                "cancel": "Cancelación gratuita en 24 horas",
+                "capacity": "Dormitorios de capacidad reducida",
+                "breakfast": "Desayuno Gratuito",
+                "contactless": "Check in sin contacto",
+                "questionaire": "Cuestionario sobre la salud en los viajes",
+                "privateGroups": "Dormitorios privados para grupos",
+                "socialDistance": "Distanciamiento social"
+            }
+        },
+        "groupModal":
+        {
+            "cta": "Haga clic aquí",
+            "text": "Sean cuales sean las necesidades de su grupo, nos aseguraremos de que las obtenga todas. Ya sea que esté celebrando una ocasión especial con amigos, o esté viajando en una gira deportiva o como grupo de estudiantes, tenemos el paquete perfecto para que sea memorable y asequible. Haga una consulta hoy y nos comunicaremos con usted con un presupuesto en 24 horas.",
+            "heading": "RESERVA PARA UN GRUPO?",
+            "message": "Parece que estás haciendo una reserva para más de 10 personas, por favor utiliza nuestra página web de reservas para grupos.",
+            "groupTypes":
+            {
+                "party":
+                {
+                    "heading": "Fiesta",
+                    "message": "Tienes una despedida de soltero o soltera próximamente? Celebras un cumpleaños? Si necesitas unas camas, nosotros te cubrimos."
+                },
+                "sports":
+                {
+                    "heading": "Deportes",
+                    "message": "Viendo un gran partido? De gira con tu equipo? Nuestros albergues son modernos y divertidos, y además proyectamos deportes en directo."
+                },
+                "student":
+                {
+                    "heading": "Estudiante",
+                    "message": "Tanto si eres un estudiante universitario como un grupo escolar, nuestras ciudades ofrecen paquetes para el aprendiz en potencia. Nuestros hostales son seguros, limpios, divertidos y aptos para niños."
+                }
+            }
+        },
+        "roomCard":
+        {
+            "custom":
+            {
+                "error":
+                {
+                    "heading": "Por favor, tenga en cuenta",
+                    "message": "Algunas noches que ha seleccionado están agotadas para esta habitación. Puedes completar tu reserva seleccionando diferentes tipos de habitación."
+                },
+                "customCtaText": "Cambie a @@@la reserva personalizada@@@",
+                "normalCtaText": "Volver a @@@la reserva normal@@@",
+                "customQuestion": "Quiere personalizar su estancia?",
+                "normalQuestion": "Reservas toda tu estancia en esta habitación?"
+            },
+            "inLuck":
+            {
+                "heading": "Estás de suerte.",
+                "message": "Esta habitación tiene plena disponibilidad en las fechas elegidas"
+            },
+            "minStays":
+            {
+                "updateSearch": "Actualice su búsqueda"
+            },
+            "selection":
+            {
+                "soldOut": "Agotado",
+                "avgMessage": "Precio medio por noche"
+            },
+            "cardLister":
+            {
+                "noAvailabilityDorms": "No hay camas en dormitorios disponibles para las fechas seleccionadas.",
+                "noAvailabilityPrivates": "No hay habitaciones disponibles para las fechas seleccionadas."
+            },
+            "minStayText": "La estancia mínima para esta habitación es de @@@ noches.",
+            "unavailable":
+            {
+                "bed": "Cama no disponible esta noche",
+                "room": "Habitación no disponible esta noche"
+            },
+            "notePricesPer":
+            {
+                "people": "personas",
+                "person": "persona",
+                "pricesPerBed": "Los precios son por cama para",
+                "pricesPerRoom": "Los precios son por habitación para"
+            },
+            "freeCancellation": "Cancelación gratuita"
+        },
+        "mobileSearchSummary":
+        {
+            "arriving": "Llegando",
+            "departing": "Saliendo",
+            "reservation": "Su reservacion para"
+        },
+        "guestDetailsForm":
+        {
+            "name":
+            {
+                "label": "Nombre completo",
+                "rules":
+                {
+                    "required": "Su nombre es requerido"
+                }
+            },
+            "email":
+            {
+                "label": "Email",
+                "rules":
+                {
+                    "valid": "Indique una dirección de correo electrónico válida",
+                    "required": "Una direccion de correo electronico es requerida"
+                }
+            },
+            "phone":
+            {
+                "label": "Número de teléfono",
+                "rules":
+                {
+                    "required": "Un numero telefonico es requerido"
+                }
+            },
+            "country":
+            {
+                "label": "Pais",
+                "rules":
+                {
+                    "required": "Un pais es requerido"
+                }
+            }
+        },
+        "couponCodeForm":
+        {
+            "coupon":
+            {
+                "label": "Ingrese el codigo",
+                "button": "Aplique el codigo",
+                "messages":
+                {
+                    "success": "Codigo aplicado con exito",
+                    "notFound": "Codigo no encontrado"
+                }
+            }
+        },
+        "paymentForm":
+        {
+            "s1":
+            {
+                "question": "Cómo quiere pagar?"
+            },
+            "s2":
+            {
+                "now": "Pagar ahora",
+                "arrival": "Pago a la llegada",
+                "question": "Cuándo quiere pagar?"
+            },
+            "s3":
+            {
+                "label": "Moneda",
+                "question": "Seleccione su moneda preferida"
+            },
+            "s4":
+            {
+                "question": "Detalles de la tarjeta"
+            },
+            "s5":
+            {
+                "rules":
+                {
+                    "required": "Por favor, acepte nuestras condiciones."
+                },
+                "privacyPolicyMsg": "Todo parte de nuestra @@@política de privacidad@@@.",
+                "marketingOptInMsg": "Inscríbete para recibir las ofertas de St Christopher's Inns, promociones, las últimas guías de viaje, listas de reproducción y mucho más. Al inscribirte, aceptas recibir correos electrónicos de marketing de St Christopher's Inns Hostels. Tus datos no serán compartidos con ningún contacto de terceros. Puedes darte de baja en cualquier momento.",
+                "termsAndConditionsMsg": "He leído y acepto los @@@términos y condiciones@@@."
+            },
+            "other":
+            {
+                "button":
+                {
+                    "payNow": "Pagar ahora",
+                    "payArrival": "Confirmar reserva"
+                },
+                "stripe":
+                {
+                    "rules":
+                    {
+                        "required": "Los datos de la tarjeta son necesarios"
+                    },
+                    "authMsg": "NOTA: No se retirará dinero de su cuenta. Este paso se limita a validar y realizar comprobaciones de fraude en su tarjeta"
+                },
+                "abandon": "Está seguro de que quiere abandonar su búsqueda?",
+                "errorBar":
+                {
+                    "errorMsg": "Por favor, compruebe que todos los campos del formulario están rellenados correctamente",
+                    "errorButton": "Cerrado"
+                },
+                "payableNow": "Pagable Ahora"
+            },
+            "sagepay":
+            {
+                "cardCvv":
+                {
+                    "label": "CVV*",
+                    "rules":
+                    {
+                        "required": "CVV es requerido"
+                    }
+                },
+                "cardName":
+                {
+                    "label": "Nombre en tarjeta",
+                    "rules":
+                    {
+                        "required": "El nombre en la tarjeta es requerido"
+                    }
+                },
+                "cardExpiry":
+                {
+                    "label": "Fecha de expiracion",
+                    "rules":
+                    {
+                        "invalid": "Formato de fecha no válido (MM/DD)",
+                        "required": "Se requiere la fecha de caducidad de la tarjeta"
+                    }
+                },
+                "cardNumber":
+                {
+                    "label": "Número de tarjeta*",
+                    "rules":
+                    {
+                        "invalid": "Número de tarjeta inválido. Por favor, escriba sin espacios",
+                        "required": "Se requiere el número de tarjeta"
+                    }
+                },
+                "billingCity":
+                {
+                    "label": "Ciudad",
+                    "rules":
+                    {
+                        "required": "La ciudad es requerida"
+                    }
+                },
+                "billingState":
+                {
+                    "label": "Estado",
+                    "rules":
+                    {
+                        "required": "El estado es requerido"
+                    }
+                },
+                "processingMsg": "Procesando pago",
+                "billingCountry":
+                {
+                    "label": "Pais",
+                    "rules":
+                    {
+                        "required": "El pais es requerido"
+                    }
+                },
+                "billingAddress1":
+                {
+                    "label": "Dirección Línea 1*",
+                    "rules":
+                    {
+                        "required": "Se requiere la línea de dirección 1"
+                    }
+                },
+                "billingAddress2":
+                {
+                    "label": "Dirección Línea 2",
+                    "rules":
+                    {}
+                },
+                "billingPostcode":
+                {
+                    "label": "Código postal",
+                    "rules":
+                    {
+                        "required": "Código postal requerido"
+                    }
+                }
+            }
+        },
+        "breakfastUpgrade":
+        {
+            "price": "Por solo",
+            "buffet": "Incluye desayuno buffet",
+            "message": "MEJORA DEL DESAYUNO COCINADO",
+            "discount": "Y AHORRA UN 30%.",
+            "addButton": "Añadir/actualizar",
+            "voucherMessage": "Recibirás vales de desayuno al registrarte."
+        },
+        "bookingOverlay":
+        {
+            "error":
+            {
+                "pmsError": "Se ha producido un problema al crear la reserva, por favor, actualice esta página e inténtelo de nuevo. Referencia",
+                "otherError": "Algo inesperado ha salido mal, por favor, inténtelo de nuevo."
+            },
+            "loading":
+            {
+                "pleaseWait": "Por favor, espere mientras confirmamos su pago y su reserva. Esto puede tardar hasta 30 segundos o más en conexiones de Internet lentas. Por favor, sea paciente."
+            }
+        },
+        "thankYouMessage":
+        {
+            "heading": "Gracias por reservar",
+            "confirmationMsg": "En breve recibirá un correo electrónico de confirmación con los datos de su reserva."
+        },
+        "hostelInfo":
+        {
+            "heading": "Haz las maletas",
+            "message": "Esperamos recibirle en",
+            "manageCta": "Gestionar mi reserva"
+        },
+        "bookingSummary":
+        {
+            "breakfast":
+            {
+                "heading": "Total por el desayuno",
+                "included": "¡Incluido GRATIS!",
+                "notIncluded": "No está incluido en la reserva"
+            },
+            "totalPaid": "Total pagado",
+            "totalPrice": "Precio total",
+            "touristTax": "Tasa turística Total",
+            "loyaltyCode": "Código de cupón de fidelidad",
+            "dueOnArrival": "A la llegada",
+            "bookingReference": "Su número de reserva es",
+            "accommodationTotal": "Subtotal de alojamiento"
+        },
+        "signUp":
+        {
+            "cta":
+            {
+                "signUp": "Inscríbete!",
+                "success": "Se ha inscrito con éxito!"
+            },
+            "heading": "Su próxima reserva",
+            "message": "Suscríbase a nuestro boletín de noticias para obtener un código de descuento del 10%."
+        }
+    }
+}
