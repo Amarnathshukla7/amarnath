@@ -688,7 +688,9 @@ export default {
     this.isLoadingReservation = false;
   },
   mounted() {
-    this.$refs.transactionView.scrollIntoView();
+    setTimeout(() => {
+      this.$refs.transactionView.scrollIntoView();
+    });
     this.$loadScript("https://js.stripe.com/v3/");
     window.addEventListener("beforeunload", this.preventCloseByAccident);
     window.addEventListener("popstate", this.preventCloseByAccident);

@@ -191,11 +191,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2023-08-02",
+      default: "2021-08-02",
     },
     checkOut: {
       type: String,
-      default: "2023-08-05",
+      default: "2021-08-05",
     },
   },
   watch: {
@@ -318,10 +318,16 @@ export default {
   },
   mounted() {
     if (this.roomViewAnchorPoint === "roomView") {
-      this.$refs.roomView.scrollIntoView();
+      setTimeout(() => {
+        this.$refs.roomView.scrollIntoView();
+      });
     } else {
       const el = document.getElementById(this.roomViewAnchorPoint);
-      if (el) el.scrollIntoView();
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView();
+        });
+      }
     }
   },
   methods: {
