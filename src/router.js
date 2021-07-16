@@ -9,8 +9,17 @@ Vue.use(VueRouter);
 export default new VueRouter({
   mode: "history",
   routes: [
-    { path: "/", component: Rooms },
-    { path: "/payment", component: Transaction },
-    { path: "/confirmation", component: Confirmation },
+    {
+      path: "/",
+      component: Rooms,
+    },
+    {
+      path: "/payment",
+      component: Transaction,
+    },
+    {
+      path: "/confirmation",
+      component: Confirmation,
+    },
   ],
 });

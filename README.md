@@ -111,7 +111,7 @@ $ yarn publish
 
 Example for [st-christophers.co.uk](github.com/bbwmc/st-christophers.co.uk) adjust for other repos
 
-```
+```bash
 $ cd st-christophers
 $ yarn upgrade @bbwmc/booking-journey-vue --latest
 ```
@@ -120,6 +120,28 @@ Always good practice to do this on a PR and check that the deploy preview works 
 
 ## Development
 
+If you are planning to work on this package along with the dependent package, you follow the below commands:
+
+In booking-journey-vue project run:
+
+```bash
+npm link --only=production
+```
+
+In dependent project run after running yarn install.
+
+```
+npm link '@bbwmc/booking-journey-vue'
+```
+
+The above execution will create a sybolic link of the booking-journey-vue under the dependent project.
+
+### Issues
+
+- When you run yarn dev, if your nuxt client compiling is stuck for a while this is because the symlinked folder has node_modules folder, its trying to compile that too.
+
+## Testing
+
 This package uses both cypress.io and extended version of jest with (vue-test-utils, jsdom, testing-library). These packages are required, jest have some of the depricated functionalities that are super useful when testing. Due to this we are compeleting testing tool with testing-library.
 
 ### Run your unit tests
@@ -127,19 +149,25 @@ This package uses both cypress.io and extended version of jest with (vue-test-ut
 If you want to run your tests continuously add the --watch flag.
 
 ```
+
 yarn test:unit
+
 ```
 
 ### Run your end-to-end tests
 
 ```
+
 yarn test:e2e
+
 ```
 
 ### Lints and fixes files
 
 ```
+
 yarn lint
+
 ```
 
 ### Resources
@@ -147,3 +175,7 @@ yarn lint
 - [Better Specs (Aggressively recommended)](https://www.betterspecs.org/)
 - [Testing Library](https://testing-library.com/docs/vue-testing-library/intro)
 - [jest-dom] - (https://github.com/testing-library/jest-dom#tobevisible)
+
+```
+
+```

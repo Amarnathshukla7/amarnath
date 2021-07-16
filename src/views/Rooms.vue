@@ -10,7 +10,7 @@
         :content="contentRoomsOverlayErrors"
         :hostel-code="hostelCode"
         @close-overlay="closeErrorOverlay"
-        @reload-data="loadData"
+        @reload-data="reloadAvailability"
       />
 
       <RoomsSearchSummary
@@ -85,6 +85,7 @@
 
               <!-- SHARED ROOMS -->
               <RoomsListingContainer
+                :cid="cid"
                 :loading="isLoading"
                 :panel-header="contentRoomsExpansionHeaders.shared"
                 :rooms-array="dormRooms"
@@ -102,6 +103,7 @@
 
               <!-- PRIVATE ROOMS -->
               <RoomsListingContainer
+                :cid="cid"
                 :loading="isLoading"
                 :panel-header="contentRoomsExpansionHeaders.private"
                 :rooms-array="privateRooms"
@@ -144,13 +146,16 @@
 <script>
 // Packages
 import { differenceInDays } from "date-fns";
-import { mapActions, mapGetters } from "vuex";
-import { set } from "idb-keyval";
+import { mapGetters } from "vuex";
+import { get as idbGet, set as idbSet } from "idb-keyval";
 import { getUserLocales } from "get-user-locale";
 
 // APIs
-import { availability } from "../api/room/search-svc";
-import { create } from "../api/room/reservation-svc/cart-svc";
+import { availability as getAvailability } from "../api/room/search-svc";
+import {
+  create as createCart,
+  get as getCart,
+} from "../api/room/reservation-svc/cart-svc";
 import { getStatus } from "../api/room/reservation-svc/status-svc";
 import { find } from "../api/room/reservation-svc/hostel-svc";
 
@@ -159,6 +164,7 @@ import { bus } from "../plugins/bus";
 import { formatTimezone } from "../helpers/timezone";
 import sortRooms from "../helpers/room/sort";
 import { getBestLocale } from "../helpers/locale";
+import cryptoRandomString from "crypto-random-string";
 
 // Components
 import RoomsBookingSummary from "../components/RoomsBookingSummary";
@@ -174,6 +180,19 @@ import RoomsSearchSummary from "../components/RoomsSearchSummary";
 import RoomsServerStatus from "../components/RoomsServerStatus";
 
 export default {
+  beforeRouteEnter: (to, from, next) => {
+    if (!to.query.cid) {
+      return next({
+        path: to.path,
+        query: {
+          cid: cryptoRandomString({ length: 30, type: "url-safe" }),
+          ...to.query,
+        },
+      });
+    }
+
+    return next();
+  },
   props: {
     roomViewAnchorPoint: {
       type: String,
@@ -186,8 +205,6 @@ export default {
     hostelCode: {
       type: String,
       default: "BRI",
-      // default: "XYZ",
-      // default: "OAS",
     },
     checkIn: {
       type: String,
@@ -199,19 +216,15 @@ export default {
     },
   },
   watch: {
-    hostelCode() {
-      this.loadData();
+    async hostelCode() {
+      await this.loadData();
     },
-    checkIn() {
-      this.loadData();
+    async checkIn() {
+      await this.loadData();
     },
-    checkOut() {
-      this.loadData();
+    async checkOut() {
+      await this.loadData();
     },
-    // "$store.state.bookingEngine.userLanguage": async function () {
-    //   await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
-    //   this.hostel = this.contentHostelData;
-    // },
   },
   components: {
     RoomsBookingSummary,
@@ -228,6 +241,7 @@ export default {
   },
   data() {
     return {
+      cid: null,
       depositModelRate: null,
       hostelConf: null,
       hostel: null,
@@ -291,8 +305,6 @@ export default {
       "contentRoomsExpansionHeaders",
       "getUserLanguage",
     ]),
-    // ...mapActions("bookingEngine", ["getJourneyUi", "getHostel"]),
-    // ...mapState(["journeyUi", "hostelData"]),
   },
   async beforeCreate() {
     if (this.$store.state.bookingEngine.userLanguage === "en-GB") {
@@ -304,13 +316,14 @@ export default {
         );
       }
     }
+
     await this.$store.dispatch("bookingEngine/getJourneyUi");
-    // this.getJourneyUi();
-    // this.uiContentLoaded = this.journeyUi;
     this.uiContentLoaded = this.contentTheBreadCrumbs;
+
+    this.cid = this.$route.query.cid;
   },
-  created() {
-    this.loadData();
+  async created() {
+    await this.loadData();
 
     bus.$on("cart-transaction-updated", (cart) => {
       this.cart = cart;
@@ -331,6 +344,11 @@ export default {
     }
   },
   methods: {
+    reloadAvailability() {
+      this.$router.push({
+        path: this.$route.path,
+      });
+    },
     closeErrorOverlay() {
       this.isError = false;
       this.availabilityError = false;
@@ -340,8 +358,6 @@ export default {
 
       this.isLoading = true;
       this.reset();
-
-      // this.$store.dispatch("getJourneyUi");
 
       const status = await getStatus();
       if (status.upgrading) {
@@ -353,10 +369,14 @@ export default {
 
       try {
         this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
-        // this.getHostel(this.hostelCode);
 
         const [rooms, hostel] = await Promise.all([
-          availability(this.hostelCode, this.checkIn, this.checkOut),
+          getAvailability(
+            this.hostelCode,
+            this.checkIn,
+            this.checkOut,
+            this.cid,
+          ),
           find(this.hostelCode),
         ]);
 
@@ -370,10 +390,21 @@ export default {
         this.hostel = this.contentHostelData;
         this.userLanguage = this.getUserLanguage;
         this.hostelConf = hostel;
-        const cart = await create(this.bookingSource);
+
+        let cart = null;
+        let cartIdb = await idbGet(`cart.${this.cid}`);
+        if (cartIdb) {
+          cart = await getCart(this.cid);
+        } else {
+          cart = await createCart(this.bookingSource, this.cid);
+          await idbSet(`cart.${this.cid}`, cart);
+        }
+
+        console.warn("loadData", { cart });
+
         this.depositModelRate = cart.deposit_model_rate;
       } catch (e) {
-        console.log(e);
+        console.error(e);
         this.isError = true;
       }
 
@@ -400,12 +431,11 @@ export default {
       }
 
       this.isLoading = true;
-      await set("cart", this.cart);
-      // console.log("cart");
-      // console.log(this.cart);
+      await idbSet(`cart.${this.cid}`, this.cart);
 
       this.$router.push({
         path: window.location.pathname.replace("availability", "") + "payment",
+        query: { cid: this.cid },
       });
     },
     sort(type) {

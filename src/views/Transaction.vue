@@ -497,7 +497,7 @@
 <script>
 // Packages
 import { mapState, mapGetters } from "vuex";
-import { set, get, del } from "idb-keyval";
+import { set as idbSet, get as idbGet, del as idbDel } from "idb-keyval";
 import VStripeElements from "v-stripe-elements/lib";
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
@@ -554,6 +554,7 @@ export default {
   },
   data() {
     return {
+      cid: null,
       guest: null,
       cart: null,
       selectedCurrency: null,
@@ -628,6 +629,15 @@ export default {
     },
   },
   async beforeCreate() {
+    if (!this.$route.query.cid) {
+      console.warn(
+        `[Transaction] The request doesn't include a cart token (cid) in the request, redirecting back to availability page.`,
+      );
+      this.$router.push({ name: "/" });
+    }
+
+    this.cid = this.$route.query.cid;
+
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.journeyUi;
   },
@@ -639,39 +649,19 @@ export default {
       this.cart = cart;
     });
 
-    this.cart = await get("cart");
+    this.cart = await idbGet(`cart.${this.$route.query.cid}`);
     this.userLanguage = this.getUserLanguage;
 
-    // const devReservation = {
-    //   cart: {
-    //     currency: "GBP",
-    //   },
-    //   // cart: {
-    //   //   hostel: {
-    //   //     currency: "GBP",
-    //   //   },
-    //   // },
-    // };
-
-    // await set("dev-reservation", devReservation);
+    console.warn("created", {
+      cart: this.cart,
+    });
 
     await this.$store.dispatch(
       "bookingEngine/getHostel",
       this.cart.hostel_code,
     );
     // const [hostelConf, hostel] = await Promise.all([
-    const [hostelConf] = await Promise.all([
-      find(this.cart.hostel_code),
-      // getHostel(this.cart.hostel_code),
-    ]);
-
-    // this.guest = this.$store?.$auth?.$state?.user;
-    // if (this.guest && this.guest.type === "agent") {
-    //   this.data.guest.name = this.guest.name;
-    //   this.data.guest.country = this.guest.country;
-    //   this.data.guest.email = this.guest.email;
-    //   this.data.guest.phone = this.guest.phone;
-    // }
+    const [hostelConf] = await Promise.all([find(this.cart.hostel_code)]);
 
     this.hostelConf = hostelConf;
     // this.hostel = hostel;
@@ -903,8 +893,8 @@ export default {
           return;
         }
 
-        await set("reservation", this.reservation);
-        await del("cart");
+        await idbSet("reservation", this.reservation);
+        await idbDel(`cart.${this.cid}`);
 
         const path =
           window.location.pathname.replace("payment", "") + "confirmation";

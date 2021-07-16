@@ -296,7 +296,10 @@ import { eachDayOfInterval, subDays, format, differenceInDays } from "date-fns";
 import { LightGallery } from "vue-light-gallery";
 
 // APIs
-import { destroy, updateOrCreate } from "../api/room/reservation-svc/cart-svc";
+import {
+  destroy as destroyCart,
+  updateOrCreate as updateOrCreateCart,
+} from "../api/room/reservation-svc/cart-svc";
 
 // Plugins & Helpers
 import { bus } from "../plugins/bus";
@@ -310,6 +313,11 @@ import TranslationWithAnchor from "./TranslationWithAnchor";
 
 export default {
   props: {
+    cid: {
+      type: String,
+      default: null,
+      require: true,
+    },
     content: {
       type: Object,
       default: null,
@@ -407,10 +415,10 @@ export default {
           qty: units,
         }));
 
-      return updateOrCreate(this.room.code, dates);
+      return updateOrCreateCart(this.room.code, dates, this.cid);
     },
     destroy({ date }) {
-      return destroy(this.room.code, date);
+      return destroyCart(this.room.code, date, this.cid);
     },
     switchToCustom() {
       this.customSelected = true;
