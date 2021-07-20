@@ -42,7 +42,7 @@ describe("Transaction.vue", () => {
       cy.get('#input-34').focus();
     });
 
-    it.only("should render the transaction page", () => {
+    it("should render the transaction page", () => {
 
       cy.intercept('POST', 'https://r.stripe.com/0', {});
       cy.intercept('POST', 'https://m.stripe.com/6', {});

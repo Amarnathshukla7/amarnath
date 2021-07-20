@@ -165,7 +165,6 @@ import { bus } from "../plugins/bus";
 import { formatTimezone } from "../helpers/timezone";
 import sortRooms from "../helpers/room/sort";
 import { getBestLocale } from "../helpers/locale";
-import cryptoRandomString from "crypto-random-string";
 
 // Components
 import RoomsBookingSummary from "../components/RoomsBookingSummary";
@@ -181,19 +180,6 @@ import RoomsSearchSummary from "../components/RoomsSearchSummary";
 import RoomsServerStatus from "../components/RoomsServerStatus";
 
 export default {
-  beforeRouteEnter: (to, from, next) => {
-    if (!to.query.cid) {
-      return next({
-        path: to.path,
-        query: {
-          cid: cryptoRandomString({ length: 30, type: "url-safe" }),
-          ...to.query,
-        },
-      });
-    }
-
-    return next();
-  },
   props: {
     roomViewAnchorPoint: {
       type: String,

@@ -46,7 +46,12 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                          class="
+                            font-weight-bold
+                            white--text
+                            subtitle-2
+                            text-uppercase
+                          "
                         >
                           {{ contentTransactionPanelHeaders.transaction.guest }}
                         </div>
@@ -119,7 +124,12 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                          class="
+                            font-weight-bold
+                            white--text
+                            subtitle-2
+                            text-uppercase
+                          "
                         >
                           {{
                             contentTransactionPanelHeaders.transaction.coupon
@@ -144,7 +154,12 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                          class="
+                            font-weight-bold
+                            white--text
+                            subtitle-2
+                            text-uppercase
+                          "
                         >
                           {{
                             contentTransactionPanelHeaders.transaction.payment
@@ -160,7 +175,12 @@
                           <v-row no-gutters>
                             <v-col cols="12">
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <!-- How would you like to pay? -->
                                 1.
@@ -224,7 +244,12 @@
                           <v-row v-show="showDepositChoice" no-gutters>
                             <v-col cols="12">
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <!-- When would you like to pay? -->
                                 2.
@@ -258,7 +283,12 @@
                               md="6"
                             >
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <!-- Preferred Currency -->
                                 3.
@@ -282,7 +312,12 @@
                           <v-row v-show="showCard" no-gutters>
                             <v-col cols="12">
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <span
                                   v-if="
@@ -533,15 +568,6 @@ Vue.use(VStripeElements);
 Vue.use(VueLoadScript);
 
 export default {
-  beforeRouteEnter: (to, from, next) => {
-    if (!to.query.cid) {
-      return next({
-        path: "/",
-      });
-    }
-
-    return next();
-  },
   components: {
     TheBreadCrumbs,
     TranslationWithAnchor,
@@ -674,7 +700,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      if(this.$refs.transactionView) {
+      if (this.$refs.transactionView) {
         this.$refs.transactionView.scrollIntoView();
       }
     });
@@ -851,10 +877,12 @@ export default {
 
       try {
         if (this.isStripe) {
-          const transaction = await this.$refs.stripeContainer.createStripeTransaction();
+          const transaction =
+            await this.$refs.stripeContainer.createStripeTransaction();
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
-          const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
+          const transaction =
+            await this.$refs.sagepayContainer.createSagepayTransaction();
           if (!transaction.transaction) {
             this.isLoadingOverlay = false;
             this.isLoadingReservation = false;
