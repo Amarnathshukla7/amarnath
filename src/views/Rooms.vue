@@ -303,6 +303,8 @@ export default {
         );
       }
     }
+    await this.$store.dispatch("bookingEngine/getJourneyUi");
+    this.uiContentLoaded = this.contentTheBreadCrumbs;
   },
   async created() {
     await this.loadData();
