@@ -496,7 +496,7 @@
 
 <script>
 // Packages
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { set as idbSet, get as idbGet, del as idbDel } from "idb-keyval";
 import VStripeElements from "v-stripe-elements/lib";
 import Vue from "vue";
