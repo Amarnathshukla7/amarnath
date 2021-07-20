@@ -111,15 +111,18 @@ export default {
 
       const cart =
         this.qty === 0
-          ? await deleteExtra(this.content.key)
-          : await addExtra([
-              {
-                code: this.content.key,
-                name: "breakfast",
-                type: "extra",
-                qty: this.qty,
-              },
-            ]);
+          ? await deleteExtra(this.content.key, this.$route.query.cid)
+          : await addExtra(
+              [
+                {
+                  code: this.content.key,
+                  name: "breakfast",
+                  type: "extra",
+                  qty: this.qty,
+                },
+              ],
+              this.$route.query.cid,
+            );
 
       bus.$emit("cart-transaction-updated", cart);
 

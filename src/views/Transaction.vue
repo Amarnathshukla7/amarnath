@@ -496,7 +496,7 @@
 
 <script>
 // Packages
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 import { set as idbSet, get as idbGet, del as idbDel } from "idb-keyval";
 import VStripeElements from "v-stripe-elements/lib";
 import Vue from "vue";
@@ -533,6 +533,15 @@ Vue.use(VStripeElements);
 Vue.use(VueLoadScript);
 
 export default {
+  beforeRouteEnter: (to, from, next) => {
+    if (!to.query.cid) {
+      return next({
+        path: "/",
+      });
+    }
+
+    return next();
+  },
   components: {
     TheBreadCrumbs,
     TranslationWithAnchor,
@@ -554,7 +563,6 @@ export default {
   },
   data() {
     return {
-      cid: null,
       guest: null,
       cart: null,
       selectedCurrency: null,
@@ -617,7 +625,7 @@ export default {
     async selectedCurrency(curr) {
       this.isLoading = true;
       try {
-        this.currencyRate = await getCurrencyRate(curr);
+        this.currencyRate = await getCurrencyRate(curr, this.$route.query.cid);
       } catch (error) {
         if (this.hostelConf.currency === curr) {
           this.currencyRate = 1;
@@ -629,15 +637,6 @@ export default {
     },
   },
   async beforeCreate() {
-    if (!this.$route.query.cid) {
-      console.warn(
-        `[Transaction] The request doesn't include a cart token (cid) in the request, redirecting back to availability page.`,
-      );
-      this.$router.push({ name: "/" });
-    }
-
-    this.cid = this.$route.query.cid;
-
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.journeyUi;
   },
@@ -652,15 +651,11 @@ export default {
     this.cart = await idbGet(`cart.${this.$route.query.cid}`);
     this.userLanguage = this.getUserLanguage;
 
-    console.warn("created", {
-      cart: this.cart,
-    });
-
     await this.$store.dispatch(
       "bookingEngine/getHostel",
       this.cart.hostel_code,
     );
-    // const [hostelConf, hostel] = await Promise.all([
+
     const [hostelConf] = await Promise.all([find(this.cart.hostel_code)]);
 
     this.hostelConf = hostelConf;
@@ -877,7 +872,7 @@ export default {
     },
     async completeTransaction(transaction, gateway, card = null) {
       try {
-        this.reservation = await create({
+        this.reservation = await create(this.$route.query.cid, {
           deposit: this.data.deposit,
           guest: this.data.guest,
           transaction,
@@ -893,14 +888,17 @@ export default {
           return;
         }
 
-        await idbSet("reservation", this.reservation);
-        await idbDel(`cart.${this.cid}`);
+        await idbSet(`reservation.${this.$route.query.cid}`, this.reservation);
+        await idbDel(`cart.${this.$route.query.cid}`);
 
         const path =
           window.location.pathname.replace("payment", "") + "confirmation";
 
         this.$router.push({
           path,
+          query: {
+            cid: this.$route.query.cid,
+          },
         });
       } catch (e) {
         this.isError = true;

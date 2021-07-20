@@ -11,6 +11,10 @@ export default new VueRouter({
   routes: [
     {
       path: "/",
+      redirect: "/availability",
+    },
+    {
+      path: "/availability",
       component: Rooms,
     },
     {

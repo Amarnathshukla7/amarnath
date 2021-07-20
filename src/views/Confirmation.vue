@@ -65,6 +65,15 @@ import ConfirmationSignUp from "../components/ConfirmationSignUp";
 import ConfirmationThankYou from "../components/ConfirmationThankYou";
 
 export default {
+  beforeRouteEnter: (to, from, next) => {
+    if (!to.query.cid) {
+      return next({
+        path: "/",
+      });
+    }
+
+    return next();
+  },
   components: {
     ConfirmationSummary,
     TheBreadCrumbs,
@@ -98,29 +107,7 @@ export default {
     },
   },
   async created() {
-    if (!this.$route.query.dev) {
-      this.reservation = await get("reservation");
-    } else {
-      this.reservation = {
-        cart: {
-          hostel: {
-            hostel_code: "HMM",
-            currency: "GBP",
-          },
-          accommodation_cost: 10_000,
-          discount: 1_000,
-          tourist_tax_cost: 500,
-          extras_cost: 0,
-          total_cost: 9_500,
-        },
-        transaction: {
-          currency: "GBP",
-        },
-        booking_reference: "STC-HMM-12345678",
-        paid: 9_500,
-        deposit: 100,
-      };
-    }
+    this.reservation = await get(`reservation.${this.$route.query.cid}`);
 
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.journeyUi;

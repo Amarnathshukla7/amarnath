@@ -14,6 +14,13 @@ export const get = async (token) => {
     .then((res) => res.data);
 };
 
+export const getItems = async (token) => {
+  return axios
+    .get(`/cart-svc/${token}/items`)
+    .then((res) => res.data);
+};
+
+
 export const updateOrCreate = async (room, dates, token) => {
   return axios
     .post(`/cart-svc/${token}/items`, {

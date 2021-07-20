@@ -85,7 +85,7 @@
 
               <!-- SHARED ROOMS -->
               <RoomsListingContainer
-                :cid="cid"
+                :cid="$route.query.cid"
                 :loading="isLoading"
                 :panel-header="contentRoomsExpansionHeaders.shared"
                 :rooms-array="dormRooms"
@@ -103,7 +103,7 @@
 
               <!-- PRIVATE ROOMS -->
               <RoomsListingContainer
-                :cid="cid"
+                :cid="$route.query.cid"
                 :loading="isLoading"
                 :panel-header="contentRoomsExpansionHeaders.private"
                 :rooms-array="privateRooms"
@@ -155,6 +155,7 @@ import { availability as getAvailability } from "../api/room/search-svc";
 import {
   create as createCart,
   get as getCart,
+  getItems as getCartItems,
 } from "../api/room/reservation-svc/cart-svc";
 import { getStatus } from "../api/room/reservation-svc/status-svc";
 import { find } from "../api/room/reservation-svc/hostel-svc";
@@ -316,11 +317,6 @@ export default {
         );
       }
     }
-
-    await this.$store.dispatch("bookingEngine/getJourneyUi");
-    this.uiContentLoaded = this.contentTheBreadCrumbs;
-
-    this.cid = this.$route.query.cid;
   },
   async created() {
     await this.loadData();
@@ -375,7 +371,7 @@ export default {
             this.hostelCode,
             this.checkIn,
             this.checkOut,
-            this.cid,
+            this.$route.query.cid,
           ),
           find(this.hostelCode),
         ]);
@@ -392,12 +388,12 @@ export default {
         this.hostelConf = hostel;
 
         let cart = null;
-        let cartIdb = await idbGet(`cart.${this.cid}`);
+        let cartIdb = await idbGet(`cart.${this.$route.query.cid}`);
         if (cartIdb) {
-          cart = await getCart(this.cid);
+          cart = await getCartItems(this.$route.query.cid);
         } else {
-          cart = await createCart(this.bookingSource, this.cid);
-          await idbSet(`cart.${this.cid}`, cart);
+          cart = await createCart(this.bookingSource, this.$route.query.cid);
+          await idbSet(`cart.${this.$route.query.cid}`, cart);
         }
 
         console.warn("loadData", { cart });
@@ -431,11 +427,11 @@ export default {
       }
 
       this.isLoading = true;
-      await idbSet(`cart.${this.cid}`, this.cart);
+      await idbSet(`cart.${this.$route.query.cid}`, this.cart);
 
       this.$router.push({
         path: window.location.pathname.replace("availability", "") + "payment",
-        query: { cid: this.cid },
+        query: { cid: this.$route.query.cid },
       });
     },
     sort(type) {
