@@ -17,7 +17,7 @@ export default new VueRouter({
     {
       path: "/availability",
       component: Rooms,
-      beforeRouteEnter: (to, from, next) => {
+      beforeEnter: (to, from, next) => {
         if (!to.query.cid) {
           return next({
             path: to.path,
@@ -34,7 +34,7 @@ export default new VueRouter({
     {
       path: "/payment",
       component: Transaction,
-      beforeRouteEnter: (to, from, next) => {
+      beforeEnter: (to, from, next) => {
         if (!to.query.cid) {
           return next({
             path: "/",
@@ -47,7 +47,7 @@ export default new VueRouter({
     {
       path: "/confirmation",
       component: Confirmation,
-      beforeRouteEnter: (to, from, next) => {
+      beforeEnter: (to, from, next) => {
         if (!to.query.cid) {
           return next({
             path: "/",
