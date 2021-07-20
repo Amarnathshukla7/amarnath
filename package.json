@@ -1,6 +1,6 @@
 {
   "name": "@bbwmc/booking-journey-vue",
-  "version": "0.10.26",
+  "version": "0.10.27",
   "private": false,
   "main": "./dist/BookingComponents.umd.js",
   "scripts": {
