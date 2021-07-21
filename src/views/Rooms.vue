@@ -154,7 +154,6 @@ import { getUserLocales } from "get-user-locale";
 import { availability as getAvailability } from "../api/room/search-svc";
 import {
   create as createCart,
-  get as getCart,
   getItems as getCartItems,
 } from "../api/room/reservation-svc/cart-svc";
 import { getStatus } from "../api/room/reservation-svc/status-svc";
@@ -375,13 +374,12 @@ export default {
         this.userLanguage = this.getUserLanguage;
         this.hostelConf = hostel;
 
-        let cart = null;
         let cartIdb = await idbGet(`cart.${this.$route.query.cid}`);
         if (cartIdb) {
-          cart = await getCartItems(this.$route.query.cid);
+          this.cart = await getCartItems(this.$route.query.cid);
         } else {
-          cart = await createCart(this.bookingSource, this.$route.query.cid);
-          await idbSet(`cart.${this.$route.query.cid}`, cart);
+          this.cart = await createCart(this.bookingSource, this.$route.query.cid);
+          await idbSet(`cart.${this.$route.query.cid}`, this.cart);
         }
 
         console.warn("loadData", { cart });

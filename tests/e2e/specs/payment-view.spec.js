@@ -37,9 +37,9 @@ describe("Transaction.vue", () => {
 
       /**  Filling guest details */
       cy.contains('1/3 Main Guest Details');
-      cy.get('#input-28').focus();
-      cy.get('#input-31').focus();
-      cy.get('#input-34').focus();
+      cy.get('#input-27').focus();
+      cy.get('#input-30').focus();
+      cy.get('#input-33').focus();
     });
 
     it("should render the transaction page", () => {
@@ -59,14 +59,14 @@ describe("Transaction.vue", () => {
     
       /**  Filling guest details */
       cy.contains('1/3 Main Guest Details');
-      cy.get('#input-28').type('John Smith');
-      cy.get('#input-31').type('tech+john.smit@bedsandbars.com');
-      cy.get('#input-34').type('078987655212');
+      cy.get('#input-27').type('John Smith');
+      cy.get('#input-30').type('tech+john.smit@bedsandbars.com');
+      cy.get('#input-33').type('078987655212');
       /**
        * Selecting United Kingdom
        */
-      cy.get('#input-37').type('United Kingdom');
-      cy.get('#list-item-128-0').click();
+      cy.get('#input-36').type('United Kingdom');
+      cy.get('#list-item-127-0').click();
 
       /** Filling payment details. **/
       // Selecting stripe
