@@ -308,6 +308,14 @@ export default {
   async created() {
     await this.loadData();
 
+    this.cart = await idbGet(`cart.${this.$route.query.cid}`);
+    if (!this.cart) {
+      this.cart = await createCart(this.bookingSource, this.$route.query.cid);
+      // The cart items is not returned when the cart is created.
+      this.cart.items = [];
+      await idbSet(`cart.${this.$route.query.cid}`, this.cart);
+    }
+
     bus.$on("cart-transaction-updated", (cart) => {
       this.cart = cart;
     });
@@ -373,20 +381,6 @@ export default {
         this.hostel = this.contentHostelData;
         this.userLanguage = this.getUserLanguage;
         this.hostelConf = hostel;
-
-        let cartIdb = await idbGet(`cart.${this.$route.query.cid}`);
-        if (cartIdb) {
-          this.cart = await getCartItems(this.$route.query.cid);
-        } else {
-          this.cart = await createCart(
-            this.bookingSource,
-            this.$route.query.cid,
-          );
-          await idbSet(`cart.${this.$route.query.cid}`, this.cart);
-        }
-
-        console.warn("loadData", { cart: this.cart });
-
         this.depositModelRate = cart.deposit_model_rate;
       } catch (e) {
         console.error(e);

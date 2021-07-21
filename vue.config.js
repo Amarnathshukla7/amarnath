@@ -1,10 +1,6 @@
 module.exports = {
-  /**
-   * A workaround for this issue is to manually disable symlinks resolution in webpack:
-   * https://cli.vuejs.org/guide/troubleshooting.html#symbolic-links-in-node-modules
-   */
-  chainWebpack: (config) => {
-    config.resolve.symlinks(false)
+  css: {
+	  extract: true,
   },
   devServer: {
     proxy: {

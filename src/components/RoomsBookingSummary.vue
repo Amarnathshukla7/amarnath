@@ -430,6 +430,9 @@ export default {
 
       if (!this.cart) return null;
 
+      console.log("RoomsBookingSummary", {
+        card: this.cart,
+      });
       const items = this.cart.items;
       const roomCodes = new Set(
         items

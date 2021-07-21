@@ -219,17 +219,23 @@ If you are planning to work on this package along with the dependent package, yo
 
 In booking-journey-vue project run:
 
+This will run the build continuesly if any changes are made it will build it much quicker then running the whole build again!
+
 ```bash
-npm link --only=production
+yarn build:lib --watch
 ```
 
-In dependent project run after running yarn install.
+This will package the library into a compressed tgz package.
+
+```bash
+yarn pack
+```
+
+In dependent project run after running yarn add with the path to the tgz file.
 
 ```
-npm link '@bbwmc/booking-journey-vue'
+yarn add ../path/to/bbwmc-booking-journey-vue-vX.X.X.tgz
 ```
-
-The above execution will create a sybolic link of the booking-journey-vue under the dependent project.
 
 ### Issues
 
