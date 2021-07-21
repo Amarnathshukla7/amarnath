@@ -378,11 +378,14 @@ export default {
         if (cartIdb) {
           this.cart = await getCartItems(this.$route.query.cid);
         } else {
-          this.cart = await createCart(this.bookingSource, this.$route.query.cid);
+          this.cart = await createCart(
+            this.bookingSource,
+            this.$route.query.cid,
+          );
           await idbSet(`cart.${this.$route.query.cid}`, this.cart);
         }
 
-        console.warn("loadData", { cart });
+        console.warn("loadData", { cart: this.cart });
 
         this.depositModelRate = cart.deposit_model_rate;
       } catch (e) {
