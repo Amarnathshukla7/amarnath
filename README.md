@@ -14,6 +14,12 @@ yarn serve
 
 ## Usage
 
+### Important note:
+
+Any pages that use the pages or the components requires the cid query in requests.
+The cid query parameter is used to differenciate between different booking journeys. The customer maybe have two windows open to compare or land on pages
+that they shouldn't be on directly. An example snippet of code is included below to make sure the pages are protected.
+
 Install the package (Read access documentation first)
 
 ```
@@ -30,7 +36,7 @@ Use each as needed
 
 RoomAndTransactionView:
 
-```
+```jsx
 <RoomAndTransactionView
   check-in="YYYY-MM-DD"
   check-out="YYYY-MM-DD"
@@ -40,10 +46,99 @@ RoomAndTransactionView:
 />
 ```
 
+```js
+<script>
+...
+import cryptoRandomString from 'crypto-random-string'
+import { get as idbGet } from 'idb-keyval'
+...
+const client = stcClient()
+
+export default {
+  beforeRouteEnter: async (to, from, next) => {
+    /**
+     * Checking if the query has the cart token as cid query parameter, if not
+     * the visitor will be redirected to availability along with other query parameters and cid.
+     */
+    if (!to.query.cid) {
+      return next({
+        path: to.path,
+        query: {
+          cid: cryptoRandomString({ length: 30, type: 'url-safe' }),
+          ...to.query
+        }
+      })
+    }
+
+    /**
+     * Check if the booking was already made and redirecting the user back to availability page.
+     */
+    const reservationExists = await idbGet(`reservation.${to.query.cid}`)
+    if (reservationExists) {
+      return next({
+        path: to.path.replace('payment', '') + 'availability'
+      })
+    }
+
+    return next()
+  },
+  ....
+```
+
 Confirmation:
 
-```
+```jsx
 <ConfirmationView />
+```
+
+The page must be protected against no cid.
+
+```js
+<script>
+export default {
+  beforeRouteEnter: (to, from, next) => {
+    if (!to.query.cid) {
+      return next({
+        path: to.path.replace('confirmation', '') + 'availability'
+      })
+    }
+
+    return next()
+  }
+}
+</script>
+```
+
+Payment/Transaction:
+
+```js
+<script>
+import { get as idbGet } from 'idb-keyval'
+export default {
+  beforeRouteEnter: async (to, from, next) => {
+    /**
+     * Checking if the query has the cart token as cid query parameter, if not
+     * the visitor will be redirected to availability page of the hostel.
+     */
+    if (!to.query.cid) {
+      return next({
+        path: to.path.replace('payment', '') + 'availability'
+      })
+    }
+
+    /**
+     * Check if the booking was already made and redirecting the user back to availability page.
+     */
+    const reservationExists = await idbGet(`reservation.${to.query.cid}`)
+    if (reservationExists) {
+      return next({
+        path: to.path.replace('payment', '') + 'availability'
+      })
+    }
+
+    return next()
+  },
+  .....
 ```
 
 ## Dev Notes
