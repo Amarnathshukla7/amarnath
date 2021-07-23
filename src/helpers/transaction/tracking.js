@@ -20,12 +20,15 @@ const wihpIds = {
 const isWihpBooking = (hostelCode) => hostelCode in wihpIds;
 
 const sendToDataLayer = (vm, reservation, name = "reservationCompleted") => {
+  if (!vm.hasOwnProperty("$gtm")) {
+    console.warn("[Tracking] The VueJS/NuxtJS (vm.$gtm) instance doesn't have the $gtm plugin.");
+    return;
+  }
+
   const keysToNullify = ["auth_id", "vendor_id", "secret_output"];
   keysToNullify.forEach((key) => {
     if (reservation.transaction[key]) reservation.transaction[key] = null;
   });
-
-  if (!vm.$gtm && !vm.$gtm.push) return;
 
   vm.$gtm.push({
     event: "bookingComplete",

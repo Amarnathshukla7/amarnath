@@ -53,7 +53,6 @@ import { get } from "idb-keyval";
 import { mapState, mapGetters } from "vuex";
 
 // Helpers, Plugins, Filters & Data
-import { stcSpaceClient } from "../plugins/contentful";
 import { track } from "../helpers/transaction/tracking";
 
 // Components
@@ -133,14 +132,12 @@ export default {
     this.hostel = this.hostelData;
   },
   async mounted() {
-    if (!this.$route.query.dev) {
-      const resInterval = setInterval(() => {
-        if (this.reservation) {
-          clearInterval(resInterval);
-          track(this, this.reservation);
-        }
-      }, 500);
-    }
+    const resInterval = setInterval(() => {
+      if (this.reservation) {
+        clearInterval(resInterval);
+        track(this, this.reservation);
+      }
+    }, 500);
   },
 };
 </script>

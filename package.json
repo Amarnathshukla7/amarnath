@@ -11,6 +11,9 @@
     "lint": "vue-cli-service lint",
     "build:lib": "vue-cli-service build --target lib --name BookingComponents src/index.js"
   },
+  "resolutions": {
+    "cypress": "^8.0.0"
+  },
   "devDependencies": {
     "@mdi/font": "^5.3.45",
     "@testing-library/jest-dom": "^5.14.1",
