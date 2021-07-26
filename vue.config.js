@@ -12,23 +12,23 @@ module.exports = {
         pathRewrite: { "^/review-svc/": "" },
       },
       "/cart-svc/": {
-        target: "http://localhost/api/carts/",
+        target: "https://reservation.stage.bnb-platform.com/api/carts/",
         pathRewrite: { "^/cart-svc/": "" },
       },
       "/reservation-svc/": {
-        target: "http://localhost/api/reservations/",
+        target: "https://reservation.stage.bnb-platform.com/api/reservations/",
         pathRewrite: { "^/reservation-svc/": "" },
       },
       "/hostel-svc/": {
-        target: "http://localhost/api/hostels/",
+        target: "https://reservation.stage.bnb-platform.com/api/hostels/",
         pathRewrite: { "^/hostel-svc/": "" },
       },
       "/transaction-svc/": {
-        target: "http://localhost/api/transactions/",
+        target: "https://reservation.stage.bnb-platform.com/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
       "/status-svc/": {
-        target: "http://localhost/api/status",
+        target: "https://reservation.stage.bnb-platform.com/api/status",
         pathRewrite: { "^/status-svc/": "" },
       },
     },
