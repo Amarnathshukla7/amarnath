@@ -689,7 +689,9 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.$refs.transactionView.scrollIntoView();
+      if(this.$refs.transactionView) {
+        this.$refs.transactionView.scrollIntoView();
+      }
     });
     this.$loadScript("https://js.stripe.com/v3/");
     window.addEventListener("beforeunload", this.preventCloseByAccident);
