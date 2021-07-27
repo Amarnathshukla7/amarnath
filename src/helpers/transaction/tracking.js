@@ -17,12 +17,33 @@ const wihpIds = {
   HMM: 190111,
 };
 
+function isReservationObjValid(reservation) {
+  // Checking if the reservation was passed.
+  if (!reservation || !reservation.cart || !reservation.cart.items) {
+    return false;
+  }
+
+  return true;
+}
+
+function isGtmInstalled(vue) {
+  if (!vm.hasOwnProperty("$gtm")) {
+    return false;
+  }
+
+  return true;
+}
+
 const isWihpBooking = (hostelCode) => hostelCode in wihpIds;
 
 const sendToDataLayer = (vm, reservation, name = "reservationCompleted") => {
-  if (!vm.hasOwnProperty("$gtm")) {
+  if (!isGtmInstalled(vm)) {
     console.warn("[Tracking] The VueJS/NuxtJS (vm.$gtm) instance doesn't have the $gtm plugin.");
     return;
+  }
+
+  if (!isReservationObjValid(reservation)) {
+    throw Error("[Tracking] The reservation details cannot be null")
   }
 
   const keysToNullify = ["auth_id", "vendor_id", "secret_output"];

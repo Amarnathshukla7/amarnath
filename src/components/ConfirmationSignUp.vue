@@ -36,6 +36,12 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 
 export default {
+  props: {
+    reservationId: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       signUpSuccessful: false,
@@ -46,7 +52,7 @@ export default {
   },
   methods: {
     signupToNewsletter() {
-      axios.post(`/reservation-svc/${this.reservation.id}/user/marketing`);
+      axios.post(`/reservation-svc/${this.reservationId}/user/marketing`);
       this.signUpSuccessful = true;
     },
   },
