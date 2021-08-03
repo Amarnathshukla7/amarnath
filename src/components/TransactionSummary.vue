@@ -4,7 +4,13 @@
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div
-            class="font-weight-bold white--text text-uppercase heading text-uppercase"
+            class="
+              font-weight-bold
+              white--text
+              text-uppercase
+              heading
+              text-uppercase
+            "
           >
             {{ panelHeader }}
           </div>
@@ -164,6 +170,7 @@
       :content="breakfast"
       :currency="currency"
       :hostel-code="cart.hostel_code"
+      :cid="this.cart.token"
       class="hidden-md-and-down"
     />
   </div>

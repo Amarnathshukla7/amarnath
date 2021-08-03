@@ -10,7 +10,7 @@
         :content="contentRoomsOverlayErrors"
         :hostel-code="hostelCode"
         @close-overlay="closeErrorOverlay"
-        @reload-data="loadData"
+        @reload-data="reloadAvailability"
       />
 
       <RoomsSearchSummary
@@ -85,6 +85,7 @@
 
               <!-- SHARED ROOMS -->
               <RoomsListingContainer
+                :cid="$route.query.cid"
                 :loading="isLoading"
                 :panel-header="contentRoomsExpansionHeaders.shared"
                 :rooms-array="dormRooms"
@@ -102,6 +103,7 @@
 
               <!-- PRIVATE ROOMS -->
               <RoomsListingContainer
+                :cid="$route.query.cid"
                 :loading="isLoading"
                 :panel-header="contentRoomsExpansionHeaders.private"
                 :rooms-array="privateRooms"
@@ -144,13 +146,16 @@
 <script>
 // Packages
 import { differenceInDays } from "date-fns";
-import { mapActions, mapGetters } from "vuex";
-import { set } from "idb-keyval";
+import { mapGetters } from "vuex";
+import { get as idbGet, set as idbSet } from "idb-keyval";
 import { getUserLocales } from "get-user-locale";
 
 // APIs
-import { availability } from "../api/room/search-svc";
-import { create } from "../api/room/reservation-svc/cart-svc";
+import { availability as getAvailability } from "../api/room/search-svc";
+import {
+  create as createCart,
+  getItems as getCartItems,
+} from "../api/room/reservation-svc/cart-svc";
 import { getStatus } from "../api/room/reservation-svc/status-svc";
 import { find } from "../api/room/reservation-svc/hostel-svc";
 
@@ -186,32 +191,26 @@ export default {
     hostelCode: {
       type: String,
       default: "BRI",
-      // default: "XYZ",
-      // default: "OAS",
     },
     checkIn: {
       type: String,
-      default: "2021-08-02",
+      default: "2021-08-10",
     },
     checkOut: {
       type: String,
-      default: "2021-08-05",
+      default: "2021-08-11",
     },
   },
   watch: {
-    hostelCode() {
-      this.loadData();
+    async hostelCode() {
+      await this.loadData();
     },
-    checkIn() {
-      this.loadData();
+    async checkIn() {
+      await this.loadData();
     },
-    checkOut() {
-      this.loadData();
+    async checkOut() {
+      await this.loadData();
     },
-    // "$store.state.bookingEngine.userLanguage": async function () {
-    //   await this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
-    //   this.hostel = this.contentHostelData;
-    // },
   },
   components: {
     RoomsBookingSummary,
@@ -228,6 +227,7 @@ export default {
   },
   data() {
     return {
+      cid: null,
       depositModelRate: null,
       hostelConf: null,
       hostel: null,
@@ -291,8 +291,6 @@ export default {
       "contentRoomsExpansionHeaders",
       "getUserLanguage",
     ]),
-    // ...mapActions("bookingEngine", ["getJourneyUi", "getHostel"]),
-    // ...mapState(["journeyUi", "hostelData"]),
   },
   async beforeCreate() {
     if (this.$store.state.bookingEngine.userLanguage === "en-GB") {
@@ -305,12 +303,20 @@ export default {
       }
     }
     await this.$store.dispatch("bookingEngine/getJourneyUi");
-    // this.getJourneyUi();
-    // this.uiContentLoaded = this.journeyUi;
     this.uiContentLoaded = this.contentTheBreadCrumbs;
+
+    this.cart = await idbGet(`cart.${this.$route.query.cid}`);
   },
-  created() {
-    this.loadData();
+  async created() {
+    await this.loadData();
+
+    this.cart = await idbGet(`cart.${this.$route.query.cid}`);
+    if (!this.cart) {
+      this.cart = await createCart(this.bookingSource, this.$route.query.cid);
+      // The cart items is not returned when the cart is created.
+      this.cart.items = [];
+      await idbSet(`cart.${this.$route.query.cid}`, this.cart);
+    }
 
     bus.$on("cart-transaction-updated", (cart) => {
       this.cart = cart;
@@ -331,6 +337,11 @@ export default {
     }
   },
   methods: {
+    reloadAvailability() {
+      this.$router.push({
+        path: this.$route.path,
+      });
+    },
     closeErrorOverlay() {
       this.isError = false;
       this.availabilityError = false;
@@ -340,8 +351,6 @@ export default {
 
       this.isLoading = true;
       this.reset();
-
-      // this.$store.dispatch("getJourneyUi");
 
       const status = await getStatus();
       if (status.upgrading) {
@@ -353,10 +362,14 @@ export default {
 
       try {
         this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
-        // this.getHostel(this.hostelCode);
 
         const [rooms, hostel] = await Promise.all([
-          availability(this.hostelCode, this.checkIn, this.checkOut),
+          getAvailability(
+            this.hostelCode,
+            this.checkIn,
+            this.checkOut,
+            this.$route.query.cid,
+          ),
           find(this.hostelCode),
         ]);
 
@@ -366,14 +379,23 @@ export default {
           return;
         }
 
+        if (!this.cart) {
+          this.cart = await createCart(
+            this.bookingSource,
+            this.$route.query.cid,
+          );
+          // The cart items is not returned when the cart is created.
+          this.cart.items = [];
+          await idbSet(`cart.${this.$route.query.cid}`, this.cart);
+        }
+
         this.rooms = rooms;
         this.hostel = this.contentHostelData;
         this.userLanguage = this.getUserLanguage;
         this.hostelConf = hostel;
-        const cart = await create(this.bookingSource);
-        this.depositModelRate = cart.deposit_model_rate;
+        this.depositModelRate = this.cart.deposit_model_rate;
       } catch (e) {
-        console.log(e);
+        console.error(e);
         this.isError = true;
       }
 
@@ -400,12 +422,11 @@ export default {
       }
 
       this.isLoading = true;
-      await set("cart", this.cart);
-      // console.log("cart");
-      // console.log(this.cart);
+      await idbSet(`cart.${this.$route.query.cid}`, this.cart);
 
       this.$router.push({
         path: window.location.pathname.replace("availability", "") + "payment",
+        query: { cid: this.$route.query.cid },
       });
     },
     sort(type) {

@@ -1,6 +1,7 @@
-// const fs = require("fs");
-
 module.exports = {
+  css: {
+	  extract: true,
+  },
   devServer: {
     proxy: {
       "/search-svc/": {
@@ -12,23 +13,23 @@ module.exports = {
         pathRewrite: { "^/review-svc/": "" },
       },
       "/cart-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/carts/",
+        target: "https://reservation.bnb-platform.com/api/carts/",
         pathRewrite: { "^/cart-svc/": "" },
       },
       "/reservation-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/reservations/",
+        target: "https://reservation.bnb-platform.com/api/reservations/",
         pathRewrite: { "^/reservation-svc/": "" },
       },
       "/hostel-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/hostels/",
+        target: "https://reservation.bnb-platform.com/api/hostels/",
         pathRewrite: { "^/hostel-svc/": "" },
       },
       "/transaction-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/transactions/",
+        target: "https://reservation.bnb-platform.com/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
       "/status-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/status",
+        target: "https://reservation.bnb-platform.com/api/status",
         pathRewrite: { "^/status-svc/": "" },
       },
     },

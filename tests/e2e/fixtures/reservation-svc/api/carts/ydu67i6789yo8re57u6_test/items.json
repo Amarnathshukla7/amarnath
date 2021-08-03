@@ -1,0 +1,77 @@
+{
+  "id": 213145,
+  "reservation_id": null,
+  "token": "ydu67i6789yo8re57u6_test",
+  "hostel_code": "BRI",
+  "check_in": "2021-08-02T00:00:00.000000Z",
+  "check_out": "2021-08-05T00:00:00.000000Z",
+  "total_cost": 42000,
+  "accommodation_cost": 42000,
+  "tourist_tax_cost": 0,
+  "extras_cost": 0,
+  "discount": 0,
+  "discount_code": null,
+  "deposit_model_rate": 0,
+  "booking_source": "STC",
+  "created_at": "2021-07-19T15:48:12.000000Z",
+  "updated_at": "2021-07-19T15:48:14.000000Z",
+  "user_id": null,
+  "hostel":
+  {
+      "id": 7,
+      "hostel_code": "BRI",
+      "pms_code": "OTABRIGHT",
+      "pms_name": "Guestcentrix",
+      "pms_discount_code": "298",
+      "payment_gateway_name": "Stripe",
+      "is_paypal_enabled": true,
+      "currency": "GBP",
+      "created_at": "2020-03-23T15:15:30.000000Z",
+      "updated_at": "2020-03-23T15:15:30.000000Z"
+  },
+  "items":
+  [
+      {
+          "id": 365561,
+          "cart_id": 213145,
+          "code": "1000274",
+          "name": "Double Ensuite",
+          "type": "bed",
+          "date": "2021-08-02T00:00:00.000000Z",
+          "price_per_item": 14000,
+          "tourist_tax_per_item": 0,
+          "max_occupancy": 2,
+          "qty": 1,
+          "created_at": "2021-07-19T15:48:14.000000Z",
+          "updated_at": "2021-07-19T15:48:14.000000Z"
+      },
+      {
+          "id": 365562,
+          "cart_id": 213145,
+          "code": "1000274",
+          "name": "Double Ensuite",
+          "type": "bed",
+          "date": "2021-08-03T00:00:00.000000Z",
+          "price_per_item": 14000,
+          "tourist_tax_per_item": 0,
+          "max_occupancy": 2,
+          "qty": 1,
+          "created_at": "2021-07-19T15:48:14.000000Z",
+          "updated_at": "2021-07-19T15:48:14.000000Z"
+      },
+      {
+          "id": 365563,
+          "cart_id": 213145,
+          "code": "1000274",
+          "name": "Double Ensuite",
+          "type": "bed",
+          "date": "2021-08-04T00:00:00.000000Z",
+          "price_per_item": 14000,
+          "tourist_tax_per_item": 0,
+          "max_occupancy": 2,
+          "qty": 1,
+          "created_at": "2021-07-19T15:48:14.000000Z",
+          "updated_at": "2021-07-19T15:48:14.000000Z"
+      }
+  ]
+}
