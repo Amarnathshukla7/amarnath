@@ -40,7 +40,7 @@
 
       <v-row>
         <v-col cols="12" md="6" lg="5" offset-lg="1">
-          <ConfirmationSignUp />
+          <ConfirmationSignUp :reservation-id="reservation.id" />
         </v-col>
       </v-row>
     </v-container>
