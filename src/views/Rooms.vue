@@ -194,11 +194,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2021-08-02",
+      default: "2021-08-10",
     },
     checkOut: {
       type: String,
-      default: "2021-08-05",
+      default: "2021-08-11",
     },
   },
   watch: {
@@ -304,6 +304,8 @@ export default {
     }
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.contentTheBreadCrumbs;
+
+    this.cart = await idbGet(`cart.${this.$route.query.cid}`);
   },
   async created() {
     await this.loadData();
@@ -377,11 +379,21 @@ export default {
           return;
         }
 
+        if (!this.cart) {
+          this.cart = await createCart(
+            this.bookingSource,
+            this.$route.query.cid,
+          );
+          // The cart items is not returned when the cart is created.
+          this.cart.items = [];
+          await idbSet(`cart.${this.$route.query.cid}`, this.cart);
+        }
+
         this.rooms = rooms;
         this.hostel = this.contentHostelData;
         this.userLanguage = this.getUserLanguage;
         this.hostelConf = hostel;
-        this.depositModelRate = cart.deposit_model_rate;
+        this.depositModelRate = this.cart.deposit_model_rate;
       } catch (e) {
         console.error(e);
         this.isError = true;
