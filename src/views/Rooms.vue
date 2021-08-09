@@ -191,11 +191,28 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2021-08-02",
+      default: () => {
+        var date = new Date();
+
+        return [
+          date.getFullYear(),
+          ("0" + (date.getMonth() + 1)).slice(-2),
+          date.getDate(),
+        ].join("-");
+      },
     },
     checkOut: {
       type: String,
-      default: "2021-08-05",
+      default: () => {
+        var date = new Date();
+        date.setDate(date.getDate() + 1);
+
+        return [
+          date.getFullYear(),
+          ("0" + (date.getMonth() + 1)).slice(-2),
+          date.getDate(),
+        ].join("-");
+      },
     },
   },
   watch: {
