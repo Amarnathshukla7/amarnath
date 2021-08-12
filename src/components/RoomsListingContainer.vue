@@ -21,6 +21,7 @@
       <RoomsListingCard
         v-for="room in roomsArray"
         :content="getRoomContent(contentArray, room.code)"
+        :cid="cid"
         :room="room"
         :room-contents="contentArray"
         :key="room.code"
@@ -52,6 +53,11 @@ import RoomsListingCard from "./RoomsListingCard";
 export default {
   emits: ["update-local-cart", "cart-error"],
   props: {
+    cid: {
+      type: String,
+      default: null,
+      require: true,
+    },
     panelHeader: {
       type: String,
       default: "",

@@ -46,7 +46,12 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                          class="
+                            font-weight-bold
+                            white--text
+                            subtitle-2
+                            text-uppercase
+                          "
                         >
                           {{ contentTransactionPanelHeaders.transaction.guest }}
                         </div>
@@ -119,7 +124,12 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                          class="
+                            font-weight-bold
+                            white--text
+                            subtitle-2
+                            text-uppercase
+                          "
                         >
                           {{
                             contentTransactionPanelHeaders.transaction.coupon
@@ -144,7 +154,12 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                          class="
+                            font-weight-bold
+                            white--text
+                            subtitle-2
+                            text-uppercase
+                          "
                         >
                           {{
                             contentTransactionPanelHeaders.transaction.payment
@@ -160,7 +175,12 @@
                           <v-row no-gutters>
                             <v-col cols="12">
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <!-- How would you like to pay? -->
                                 1.
@@ -224,7 +244,12 @@
                           <v-row v-show="showDepositChoice" no-gutters>
                             <v-col cols="12">
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <!-- When would you like to pay? -->
                                 2.
@@ -258,7 +283,12 @@
                               md="6"
                             >
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <!-- Preferred Currency -->
                                 3.
@@ -282,7 +312,12 @@
                           <v-row v-show="showCard" no-gutters>
                             <v-col cols="12">
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <span
                                   v-if="
@@ -496,8 +531,8 @@
 
 <script>
 // Packages
-import { mapState, mapGetters } from "vuex";
-import { set, get, del } from "idb-keyval";
+import { mapGetters, mapState } from "vuex";
+import { set as idbSet, get as idbGet, del as idbDel } from "idb-keyval";
 import VStripeElements from "v-stripe-elements/lib";
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
@@ -584,7 +619,7 @@ export default {
           (v) =>
             !!v || this.contentTransactionGuestDetails.email.rules.required,
           (v) =>
-            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) ||
+            /.+@.+/.test(v) ||
             this.contentTransactionGuestDetails.email.rules.required,
         ],
         name: [
@@ -616,7 +651,7 @@ export default {
     async selectedCurrency(curr) {
       this.isLoading = true;
       try {
-        this.currencyRate = await getCurrencyRate(curr);
+        this.currencyRate = await getCurrencyRate(curr, this.$route.query.cid);
       } catch (error) {
         if (this.hostelConf.currency === curr) {
           this.currencyRate = 1;
@@ -639,39 +674,15 @@ export default {
       this.cart = cart;
     });
 
-    this.cart = await get("cart");
+    this.cart = await idbGet(`cart.${this.$route.query.cid}`);
     this.userLanguage = this.getUserLanguage;
-
-    // const devReservation = {
-    //   cart: {
-    //     currency: "GBP",
-    //   },
-    //   // cart: {
-    //   //   hostel: {
-    //   //     currency: "GBP",
-    //   //   },
-    //   // },
-    // };
-
-    // await set("dev-reservation", devReservation);
 
     await this.$store.dispatch(
       "bookingEngine/getHostel",
       this.cart.hostel_code,
     );
-    // const [hostelConf, hostel] = await Promise.all([
-    const [hostelConf] = await Promise.all([
-      find(this.cart.hostel_code),
-      // getHostel(this.cart.hostel_code),
-    ]);
 
-    // this.guest = this.$store?.$auth?.$state?.user;
-    // if (this.guest && this.guest.type === "agent") {
-    //   this.data.guest.name = this.guest.name;
-    //   this.data.guest.country = this.guest.country;
-    //   this.data.guest.email = this.guest.email;
-    //   this.data.guest.phone = this.guest.phone;
-    // }
+    const [hostelConf] = await Promise.all([find(this.cart.hostel_code)]);
 
     this.hostelConf = hostelConf;
     // this.hostel = hostel;
@@ -689,7 +700,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      if(this.$refs.transactionView) {
+      if (this.$refs.transactionView) {
         this.$refs.transactionView.scrollIntoView();
       }
     });
@@ -866,10 +877,12 @@ export default {
 
       try {
         if (this.isStripe) {
-          const transaction = await this.$refs.stripeContainer.createStripeTransaction();
+          const transaction =
+            await this.$refs.stripeContainer.createStripeTransaction();
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
-          const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
+          const transaction =
+            await this.$refs.sagepayContainer.createSagepayTransaction();
           if (!transaction.transaction) {
             this.isLoadingOverlay = false;
             this.isLoadingReservation = false;
@@ -889,7 +902,7 @@ export default {
     },
     async completeTransaction(transaction, gateway, card = null) {
       try {
-        this.reservation = await create({
+        this.reservation = await create(this.$route.query.cid, {
           deposit: this.data.deposit,
           guest: this.data.guest,
           transaction,
@@ -905,14 +918,17 @@ export default {
           return;
         }
 
-        await set("reservation", this.reservation);
-        await del("cart");
+        await idbSet(`reservation.${this.$route.query.cid}`, this.reservation);
+        await idbDel(`cart.${this.$route.query.cid}`);
 
         const path =
           window.location.pathname.replace("payment", "") + "confirmation";
 
         this.$router.push({
           path,
+          query: {
+            cid: this.$route.query.cid,
+          },
         });
       } catch (e) {
         this.isError = true;

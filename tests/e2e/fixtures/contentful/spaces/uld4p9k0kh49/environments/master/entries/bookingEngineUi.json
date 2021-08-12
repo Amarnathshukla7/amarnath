@@ -1,0 +1,417 @@
+{
+  "_mocked": true,
+  "sys": {
+    "type": "Array"
+  },
+  "total": 1,
+  "skip": 0,
+  "limit": 100,
+  "items": [
+    {
+      "metadata": {
+        "tags": []
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "uld4p9k0kh49"
+          }
+        },
+        "id": "6EMYbhaJHcvX0RuVtdduav",
+        "type": "Entry",
+        "createdAt": "2020-09-25T13:36:07.078Z",
+        "updatedAt": "2021-05-28T14:08:42.068Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "revision": 103,
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "bookingEngineUi"
+          }
+        },
+        "locale": "en-GB"
+      },
+      "fields": {
+        "title": "Booking Engine UI",
+        "breadCrumbs": {
+          "s1": "City",
+          "s2": "Rooms",
+          "s3": "Payment",
+          "s4": "Ready"
+        },
+        "expansionPanelHeaders": {
+          "rooms": {
+            "covid": "Covid Measures",
+            "shared": "Shared Rooms",
+            "private": "Private Rooms",
+            "summary": "Booking Summary"
+          },
+          "transaction": {
+            "guest": "1/3 Main Guest Details",
+            "coupon": "2/3 Loyalty or Coupon Code",
+            "payment": "3/3 Payment Details",
+            "summary": "Your Booking"
+          }
+        },
+        "errors": {
+          "searchError": {
+            "heading": "Search Error",
+            "message": "Uh oh! There's currently no availability for your selected dates. Please search for different dates or one of our other hostels."
+          },
+          "errorButtons": {
+            "test": "Test",
+            "close": "Close",
+            "tryAgain": "Try Again"
+          },
+          "networkError": {
+            "heading": "Network Error",
+            "message": "There seems to be a network error, please try again shortly."
+          }
+        },
+        "roomsSummary": {
+          "ctas": {
+            "confirm": "Confirm Selection",
+            "backButton": "Back",
+            "continueMobile": "Continue"
+          },
+          "loyalty": "Loyalty Coupon Code",
+          "payable": {
+            "now": "Payable Now",
+            "total": "Total price",
+            "arrival": "Due on arrival",
+            "totalNow": "Payable Now"
+          },
+          "breakfast": {
+            "headerTotal": "Breakfast Total",
+            "notIncluded": "Not included",
+            "includedFree": "Included for FREE!",
+            "headerStandard": "Breakfast"
+          },
+          "totalPrice": "Total price",
+          "touristTax": "Tourist Tax Total",
+          "miscContent": {
+            "in": "in",
+            "bed": "Bed",
+            "beds": "Beds",
+            "room": "Room",
+            "rooms": "Rooms"
+          },
+          "cartMessages": {
+            "empty": "Please add a room or bed to your cart before continuing.",
+            "updating": "Please hold on while we update your cart."
+          },
+          "panelHeading": "Your Reservation",
+          "accommSubTotal": "Accommodation Sub-Total",
+          "roomTypeMessages": {
+            "msg8Bed": "In the room type you selected there are 2 double mattresses and 4 single mattresses. Please be aware that with your current selection you will not be placed in the same room.",
+            "msg12Bed": "In the room type you selected there are 2 double mattresses and 8 single mattresses. Please be aware that with your current selection you will not be placed in the same room."
+          }
+        },
+        "searchSummary": {
+          "for": "For",
+          "nights": "night(s)",
+          "arriving": "Arriving",
+          "departing": "Departing",
+          "searchingFor": "Searching for"
+        },
+        "filters": {
+          "sortLabel": "Sort By",
+          "filtersBtn": "Filters",
+          "sortOptions": {
+            "availLow": "Lowest Availability",
+            "priceLow": "Lowest Price",
+            "availHigh": "Highest Availability",
+            "priceHigh": "Highest Price"
+          },
+          "clearFilters": "Clear All",
+          "filterOptions": {
+            "female": "female",
+            "shared": "shared",
+            "couples": "couples",
+            "ensuite": "ensuite",
+            "private": "private"
+          }
+        },
+        "covidMeasures": {
+          "message": "In response to COVID-19, these additional safety and sanitation measures have been added to this property.",
+          "measures": {
+            "bars": "Open Bars & Social Areas",
+            "clean": "Deep Cleaning & Sanitation",
+            "hands": "Hand Hygienization",
+            "cancel": "24hr Free Cancellation",
+            "capacity": "Reduced Capacity Dorms",
+            "breakfast": "Free Breakfast",
+            "contactless": "Contactless Check In",
+            "questionaire": "Travel Health Questionaire",
+            "privateGroups": "Private Dorms for Groups",
+            "socialDistance": "Social Distancing"
+          }
+        },
+        "groupModal": {
+          "cta": "Click here",
+          "text": "Whatever your group needs, we’ll make sure you get them all. Whether you’re celebrating a special occasion with friends, or are travelling on a sports tour or as a student group, we have the perfect package to make it memorable and affordable. Make an enquiry today and we’ll get back to you with a quote in 24 hours.",
+          "heading": "BOOKING FOR A GROUP?",
+          "message": "Looks like you're making a booking for 10+ people, please use our dedicated group bookings website.",
+          "groupTypes": {
+            "party": {
+              "heading": "Party",
+              "message": "Got a stag or hen do coming up? Celebrating a birthday? If you need some beds, we have you covered."
+            },
+            "sports": {
+              "heading": "Sports",
+              "message": "Watching a big game? On tour with your team? Our hostels are modern and fun, plus we screen live sports."
+            },
+            "student": {
+              "heading": "Student",
+              "message": "Whether you’re a university student or school group, our cities offer bundles for the budding learner. Our hostels are safe, clean, fun and child-friendly."
+            }
+          }
+        },
+        "roomCard": {
+          "custom": {
+            "error": {
+              "heading": "Please Note",
+              "message": "Some nights you've selected are sold out for this room. You can complete your booking by selecting different room types."
+            },
+            "customCtaText": "Switch to @@@custom booking@@@ instead",
+            "normalCtaText": "Switch back to @@@normal booking@@@",
+            "customQuestion": "Want to customise your stay?",
+            "normalQuestion": "Booking your entire stay in this room?"
+          },
+          "inLuck": {
+            "heading": "You're in luck!",
+            "message": "This Room has full availability on your chosen dates"
+          },
+          "minStays": {
+            "updateSearch": "Please update your search"
+          },
+          "selection": {
+            "soldOut": "Sold Out",
+            "avgMessage": "Avg price per night"
+          },
+          "cardLister": {
+            "noAvailabilityDorms": "There are no dorm beds available for your selected dates.",
+            "noAvailabilityPrivates": "There are no rooms available for your selected dates."
+          },
+          "minStayText": "Minimum stay for this room is @@@ nights.",
+          "unavailable": {
+            "bed": "Bed unavailable on this night",
+            "room": "Room unavailable on this night"
+          },
+          "notePricesPer": {
+            "people": "people",
+            "person": "person",
+            "pricesPerBed": "Prices are per bed sleeping",
+            "pricesPerRoom": "Prices are per room sleeping"
+          },
+          "freeCancellation": "Free Cancellation"
+        },
+        "mobileSearchSummary": {
+          "arriving": "Arriving",
+          "departing": "Departing",
+          "reservation": "Your reservation for"
+        },
+        "guestDetailsForm": {
+          "name": {
+            "label": "Full Name",
+            "rules": {
+              "required": "Name is required"
+            }
+          },
+          "email": {
+            "label": "Email",
+            "rules": {
+              "valid": "Please provide a valid email address",
+              "required": "Email is required"
+            }
+          },
+          "phone": {
+            "label": "Phone Number",
+            "rules": {
+              "required": "A phone number is required"
+            }
+          },
+          "country": {
+            "label": "Country",
+            "rules": {
+              "required": "A country is required"
+            }
+          }
+        },
+        "couponCodeForm": {
+          "coupon": {
+            "label": "Enter code",
+            "button": "Apply Code",
+            "messages": {
+              "success": "Code applied successfully",
+              "notFound": "Code not found"
+            }
+          }
+        },
+        "paymentForm": {
+          "s1": {
+            "question": "How would you like to pay?"
+          },
+          "s2": {
+            "now": "Pay Now",
+            "arrival": "Pay on Arrival",
+            "question": "When would you like to pay?"
+          },
+          "s3": {
+            "label": "Currency",
+            "question": "Select your preferred currency"
+          },
+          "s4": {
+            "question": "Card Details"
+          },
+          "s5": {
+            "rules": {
+              "required": "Please accept our terms"
+            },
+            "privacyPolicyMsg": "All part of our @@@privacy policy@@@.",
+            "marketingOptInMsg": "Sign up for St Christopher’s Inns offers, deals, latest travel guides, playlists and more. By opting in, you agree to receive marketing emails from St Christopher’s Inns Hostels. Your data will not be shared with any third-party contacts. You can unsubscribe at any time.",
+            "termsAndConditionsMsg": "I have read and accept the @@@terms and conditions@@@."
+          },
+          "other": {
+            "button": {
+              "payNow": "Pay Now",
+              "payArrival": "Confirm Booking"
+            },
+            "stripe": {
+              "rules": {
+                "required": "Card details are required"
+              },
+              "authMsg": "NOTE: No money will be taken from your account. This step will simply validate and run fraud checks on your card."
+            },
+            "abandon": "Are you sure you want to abandon your search?",
+            "errorBar": {
+              "errorMsg": "Please check that all fields in the form are filled out correctly",
+              "errorButton": "Close"
+            },
+            "payableNow": "Payable Now"
+          },
+          "sagepay": {
+            "cardCvv": {
+              "label": "CVV*",
+              "rules": {
+                "required": "CVV is required"
+              }
+            },
+            "cardName": {
+              "label": "Name on Card*",
+              "rules": {
+                "required": "Name on card is required"
+              }
+            },
+            "cardExpiry": {
+              "label": "Expiry Date*",
+              "rules": {
+                "invalid": "Invalid date format (MM/DD)",
+                "required": "Card expiry date is required"
+              }
+            },
+            "cardNumber": {
+              "label": "Card Number*",
+              "rules": {
+                "invalid": "Invalid card number. Please type without any spaces",
+                "required": "Card number is required"
+              }
+            },
+            "billingCity": {
+              "label": "City*",
+              "rules": {
+                "required": "City is required"
+              }
+            },
+            "billingState": {
+              "label": "State*",
+              "rules": {
+                "required": "State is required"
+              }
+            },
+            "processingMsg": "Processing Payment...",
+            "billingCountry": {
+              "label": "Country*",
+              "rules": {
+                "required": "Country is required"
+              }
+            },
+            "billingAddress1": {
+              "label": "Address Line 1*",
+              "rules": {
+                "required": "Address Line 1 is required"
+              }
+            },
+            "billingAddress2": {
+              "label": "Address Line 2",
+              "rules": {}
+            },
+            "billingPostcode": {
+              "label": "Postcode*",
+              "rules": {
+                "required": "Postcode is required"
+              }
+            }
+          }
+        },
+        "breakfastUpgrade": {
+          "price": "For only",
+          "buffet": "Include breakfast buffet",
+          "message": "UPGRADE TO COOKED BREAKFAST",
+          "discount": "AND SAVE 30%",
+          "addButton": "Add/Update",
+          "voucherMessage": "You’ll get breakfast voucher(s) on check-in."
+        },
+        "bookingOverlay": {
+          "error": {
+            "pmsError": "Issue occurred creating booking, please refresh this page and try again. Reference",
+            "otherError": "Something unexpected went wrong, please try again."
+          },
+          "loading": {
+            "pleaseWait": "Please wait while we confirm your payment and booking. This might take up to 30 seconds or more on slow internet connections. Please be patient."
+          }
+        },
+        "thankYouMessage": {
+          "heading": "Thanks for Booking",
+          "confirmationMsg": "You will shortly receive a confirmation email with your booking details."
+        },
+        "hostelInfo": {
+          "heading": "Pack Your Bags",
+          "message": "We look forward to welcoming you at",
+          "manageCta": "Manage my booking"
+        },
+        "bookingSummary": {
+          "breakfast": {
+            "heading": "Breakfast Total",
+            "included": "Included for FREE!",
+            "notIncluded": "Not included in booking"
+          },
+          "totalPaid": "Total Paid",
+          "totalPrice": "Total Price",
+          "touristTax": "Tourist Tax Total",
+          "loyaltyCode": "Loyalty Coupon Code",
+          "dueOnArrival": "Due on arrival",
+          "bookingReference": "Your booking reference number is",
+          "accommodationTotal": "Accommodation Sub-Total"
+        },
+        "signUp": {
+          "cta": {
+            "signUp": "Sign Up!",
+            "success": "Successfully Signed Up!"
+          },
+          "heading": "Your Next Booking",
+          "message": "Sign up to our newsletter to reveal a 10% discount code below"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "_mocked": true,
+  "availability":
+  {
+      "default": "1000053",
+      "plans":
+      [
+          {
+              "planId": "1000053",
+              "rooms":
+              [
+                  {
+                      "code": "1000274",
+                      "roomName": "Double Ensuite",
+                      "maxOccupancy": "2",
+                      "roomType": "private",
+                      "dates":
+                      {
+                          "2021-08-02":
+                          {
+                              "cost": 14000,
+                              "numberOfUnits": "4"
+                          },
+                          "2021-08-03":
+                          {
+                              "cost": 14000,
+                              "numberOfUnits": "4"
+                          },
+                          "2021-08-04":
+                          {
+                              "cost": 14000,
+                              "numberOfUnits": "4"
+                          }
+                      },
+                      "totalCost": 42000,
+                      "avgRoomPrice": 14000,
+                      "maxAvailable": "4",
+                      "isCustom": false
+                  },
+                  {
+                      "code": "1000270",
+                      "roomName": "Private 6-Bedroom Ensuite",
+                      "maxOccupancy": "6",
+                      "roomType": "private",
+                      "dates":
+                      {
+                          "2021-08-02":
+                          {
+                              "cost": 36000,
+                              "numberOfUnits": "4"
+                          },
+                          "2021-08-03":
+                          {
+                              "cost": 36000,
+                              "numberOfUnits": "4"
+                          },
+                          "2021-08-04":
+                          {
+                              "cost": 36000,
+                              "numberOfUnits": "4"
+                          }
+                      },
+                      "totalCost": 108000,
+                      "avgRoomPrice": 36000,
+                      "maxAvailable": "4",
+                      "isCustom": false
+                  }
+              ],
+              "cheapestAvgPrice":
+              {
+                  "dorm": 0,
+                  "private": 14000
+              },
+              "minstay":
+              {
+                  "dorm": 0,
+                  "private": 0
+              }
+          }
+      ],
+      "hostel": "BRI",
+      "service":
+      [],
+      "checkIn": "2021-08-02",
+      "checkOut": "2021-08-05"
+  }
+}

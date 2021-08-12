@@ -60,6 +60,7 @@ export default {
     },
     async createStripeTransaction() {
       const transaction = await create(
+        this.$route.query.cid,
         "stripe",
         this.deposit,
         this.selectedCurrency,

@@ -228,7 +228,11 @@ export default {
   },
   methods: {
     async createSagepayTransaction() {
-      let transaction = await create("sagepay", this.deposit);
+      let transaction = await create(
+        this.$route.query.cid,
+        "sagepay",
+        this.deposit,
+      );
       const secret = JSON.parse(transaction.secret_output)[
         "merchantSessionKey"
       ];

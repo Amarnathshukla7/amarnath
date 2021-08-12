@@ -1,17 +1,12 @@
 import axios from "axios";
-import { get } from "idb-keyval";
 
-export const discount = async (code) => {
-  const { token } = await get("token");
-
+export const discount = async (code, token) => {
   return axios
     .put(`/cart-svc/${token}/discounts/${code}`)
     .then((res) => res.data);
 };
 
-export const addExtra = async (extra) => {
-  const { token } = await get("token");
-
+export const addExtra = async (extra, token) => {
   return axios
     .post(`/cart-svc/${token}/items`, {
       ...extra,
@@ -19,17 +14,13 @@ export const addExtra = async (extra) => {
     .then((res) => res.data);
 };
 
-export const deleteExtra = async (code) => {
-  const { token } = await get("token");
-
+export const deleteExtra = async (code, token) => {
   return axios
     .delete(`/cart-svc/${token}/items/${code}`)
     .then((res) => res.data);
 };
 
-export const getCurrencyRate = async (currency) => {
-  const { token } = await get("token");
-
+export const getCurrencyRate = async (currency, token) => {
   return axios
     .get(`/cart-svc/${token}/currency/${currency}`)
     .then((res) => parseFloat(res.data.rate));
