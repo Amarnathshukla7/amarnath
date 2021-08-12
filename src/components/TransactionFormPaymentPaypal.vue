@@ -59,7 +59,7 @@ export default {
             return actions.resolve();
           },
           createOrder: async () => {
-            const transaction = await create("paypal");
+            const transaction = await create(this.$route.query.cid, "paypal");
             return JSON.parse(transaction.secret_output)["id"];
           },
           onApprove: async (data) => {

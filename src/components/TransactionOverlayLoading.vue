@@ -1,7 +1,6 @@
 <template>
   <v-overlay class="text-center" :value="loadingOverlay" :opacity="0.8">
     <v-progress-circular indeterminate size="64"></v-progress-circular>
-
     <div
       v-if="loadingReservation"
       style="max-width: 620px"

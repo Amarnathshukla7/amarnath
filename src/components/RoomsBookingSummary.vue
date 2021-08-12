@@ -216,6 +216,7 @@
       :currency="currency"
       :content="breakfast"
       :hostel-code="hostel.code"
+      :cid="this.cartData.token"
       class="breakfast--mobile"
     />
   </div>
@@ -226,13 +227,14 @@ import { mapState, mapGetters } from "vuex";
 import { differenceInDays, addDays } from "date-fns";
 import { formatPrice } from "../filters/money";
 import { formatDate } from "../filters/date";
-import { destroy } from "../api/room/reservation-svc/cart-svc";
+import { destroy as removeItem } from "../api/room/reservation-svc/cart-svc";
 import { bus } from "../plugins/bus";
 import RoomsBookingSummaryItem from "../components/RoomsBookingSummaryItem";
 import TransactionSummaryBreakfast from "./TransactionSummaryBreakfast";
 import { formatTimezone } from "../helpers/timezone";
 import { hostelShortName } from "../helpers/hostelNames";
 import TheCovidMeasures from "../components/TheCovidMeasures";
+import { get as idbGet, set as idbSet } from "idb-keyval";
 
 export default {
   props: {
@@ -321,7 +323,8 @@ export default {
     async deleteFromCart(code, date) {
       try {
         this.isCartUpdating = true;
-        this.cart = await destroy(code, date);
+        this.cart = await removeItem(code, date, this.cartData.token);
+        await idbSet(`cart.${this.$route.query.cid}`, this.cart);
         bus.$emit("set-room-amount", code, this.oneDayBooking ? "" : date, 0);
       } catch (e) {
         console.log(e);

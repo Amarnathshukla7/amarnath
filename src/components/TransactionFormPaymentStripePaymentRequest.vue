@@ -114,7 +114,11 @@ export default {
       });
     },
     async createStripePaymentRequest(ev) {
-      const transaction = await create("stripe", this.deposit);
+      const transaction = await create(
+        this.$route.query.cid,
+        "stripe",
+        this.deposit,
+      );
       const secret = JSON.parse(transaction.secret_output)["secret"];
 
       const data = {
