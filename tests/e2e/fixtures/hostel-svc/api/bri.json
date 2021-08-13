@@ -1,0 +1,1 @@
+{"_mocked": true, "id":1,"hostel_code":"BRI","pms_code":"OTABRIGHT","pms_name":"Guestcentrix","pms_discount_code":"298","payment_gateway_name":"Stripe","is_paypal_enabled":true,"currency":"GBP","created_at":"2020-03-23T15:15:30.000000Z","updated_at":"2020-03-23T15:15:30.000000Z"}
