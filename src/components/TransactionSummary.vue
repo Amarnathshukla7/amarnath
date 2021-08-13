@@ -4,13 +4,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header color="primary">
           <div
-            class="
-              font-weight-bold
-              white--text
-              text-uppercase
-              heading
-              text-uppercase
-            "
+            class="font-weight-bold white--text text-uppercase heading text-uppercase"
           >
             {{ panelHeader }}
           </div>

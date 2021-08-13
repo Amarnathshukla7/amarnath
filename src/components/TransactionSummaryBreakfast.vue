@@ -22,15 +22,7 @@
       </h2>
       <h2
         v-else
-        class="
-          mx-2
-          mt-4
-          text-justtify
-          secondary--text
-          font-weight-bold
-          title
-          text-uppercase
-        "
+        class="mx-2 mt-4 text-justtify secondary--text font-weight-bold title text-uppercase"
       >
         {{ contentTransactionBreakfastUpgrade.buffet }}
       </h2>

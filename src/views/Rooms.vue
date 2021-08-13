@@ -199,11 +199,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2021-08-10",
+      default: "2021-08-13",
     },
     checkOut: {
       type: String,
-      default: "2021-08-11",
+      default: "2021-08-14",
     },
     cid: {
       type: String,
@@ -212,9 +212,11 @@ export default {
   },
   watch: {
     async cart() {
-      // Whenever the cart is updated making sure the
-      // local indexedDB is also updated!
-      await idbSet(`cart.${this.cid}`, this.cart);
+      // Updating the indexedb with cart details only when the cart
+      // has value.
+      if (this.cart) {
+        await idbSet(`cart.${this.cid}`, this.cart);
+      }
     },
     async hostelCode() {
       console.info("The hostel was changed!", this.hostelCode);

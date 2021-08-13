@@ -3,8 +3,8 @@ import axios from "axios";
 export const availability = async (hostel, start, end, token) => {
   const accessToken = localStorage.getItem("auth._token.local");
 
-  console.log('getAvailability', { hostel, start, end, token});
-  
+  console.log("getting availability", { hostel, start, end, token });
+
   return axios
     .get(`/search-svc/${hostel}/${start}/${end}?token=${token}`, {
       headers: {
