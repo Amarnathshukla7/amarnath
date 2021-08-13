@@ -46,12 +46,7 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="
-                            font-weight-bold
-                            white--text
-                            subtitle-2
-                            text-uppercase
-                          "
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           {{ contentTransactionPanelHeaders.transaction.guest }}
                         </div>
@@ -124,12 +119,7 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="
-                            font-weight-bold
-                            white--text
-                            subtitle-2
-                            text-uppercase
-                          "
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           {{
                             contentTransactionPanelHeaders.transaction.coupon
@@ -154,12 +144,7 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="
-                            font-weight-bold
-                            white--text
-                            subtitle-2
-                            text-uppercase
-                          "
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           {{
                             contentTransactionPanelHeaders.transaction.payment
@@ -175,12 +160,7 @@
                           <v-row no-gutters>
                             <v-col cols="12">
                               <div
-                                class="
-                                  subtitle-1
-                                  text-left
-                                  accent--text
-                                  font-weight-bold
-                                "
+                                class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- How would you like to pay? -->
                                 1.
@@ -244,12 +224,7 @@
                           <v-row v-show="showDepositChoice" no-gutters>
                             <v-col cols="12">
                               <div
-                                class="
-                                  subtitle-1
-                                  text-left
-                                  accent--text
-                                  font-weight-bold
-                                "
+                                class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- When would you like to pay? -->
                                 2.
@@ -283,12 +258,7 @@
                               md="6"
                             >
                               <div
-                                class="
-                                  subtitle-1
-                                  text-left
-                                  accent--text
-                                  font-weight-bold
-                                "
+                                class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- Preferred Currency -->
                                 3.
@@ -312,12 +282,7 @@
                           <v-row v-show="showCard" no-gutters>
                             <v-col cols="12">
                               <div
-                                class="
-                                  subtitle-1
-                                  text-left
-                                  accent--text
-                                  font-weight-bold
-                                "
+                                class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <span
                                   v-if="
@@ -586,6 +551,10 @@ export default {
       type: String,
       default: null,
     },
+    cid: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -651,7 +620,7 @@ export default {
     async selectedCurrency(curr) {
       this.isLoading = true;
       try {
-        this.currencyRate = await getCurrencyRate(curr, this.$route.query.cid);
+        this.currencyRate = await getCurrencyRate(curr, this.cid);
       } catch (error) {
         if (this.hostelConf.currency === curr) {
           this.currencyRate = 1;
@@ -660,6 +629,10 @@ export default {
         this.selectedCurrency = this.hostelConf.currency;
       }
       this.isLoading = false;
+    },
+    cid() {
+      this.isError = true;
+      this.isLoadingOverlay = false;
     },
   },
   async beforeCreate() {
@@ -674,7 +647,7 @@ export default {
       this.cart = cart;
     });
 
-    this.cart = await idbGet(`cart.${this.$route.query.cid}`);
+    this.cart = await idbGet(`cart.${this.cid}`);
     this.userLanguage = this.getUserLanguage;
 
     await this.$store.dispatch(
@@ -877,12 +850,10 @@ export default {
 
       try {
         if (this.isStripe) {
-          const transaction =
-            await this.$refs.stripeContainer.createStripeTransaction();
+          const transaction = await this.$refs.stripeContainer.createStripeTransaction();
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
-          const transaction =
-            await this.$refs.sagepayContainer.createSagepayTransaction();
+          const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
           if (!transaction.transaction) {
             this.isLoadingOverlay = false;
             this.isLoadingReservation = false;
@@ -902,7 +873,7 @@ export default {
     },
     async completeTransaction(transaction, gateway, card = null) {
       try {
-        this.reservation = await create(this.$route.query.cid, {
+        this.reservation = await create(this.cid, {
           deposit: this.data.deposit,
           guest: this.data.guest,
           transaction,
@@ -918,8 +889,8 @@ export default {
           return;
         }
 
-        await idbSet(`reservation.${this.$route.query.cid}`, this.reservation);
-        await idbDel(`cart.${this.$route.query.cid}`);
+        await idbSet(`reservation.${this.cid}`, this.reservation);
+        await idbDel(`cart.${this.cid}`);
 
         const path =
           window.location.pathname.replace("payment", "") + "confirmation";
@@ -927,7 +898,7 @@ export default {
         this.$router.push({
           path,
           query: {
-            cid: this.$route.query.cid,
+            cid: this.cid,
           },
         });
       } catch (e) {

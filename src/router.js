@@ -7,6 +7,7 @@ import cryptoRandomString from "crypto-random-string";
 
 Vue.use(VueRouter);
 
+const cid = cryptoRandomString({ length: 30, type: "url-safe" });
 export default new VueRouter({
   mode: "history",
   routes: [
@@ -22,13 +23,16 @@ export default new VueRouter({
           return next({
             path: to.path,
             query: {
-              cid: cryptoRandomString({ length: 30, type: "url-safe" }),
+              cid,
               ...to.query,
             },
           });
         }
-    
+
         return next();
+      },
+      props: {
+        cid,
       },
     },
     {
@@ -40,8 +44,11 @@ export default new VueRouter({
             path: "/",
           });
         }
-    
+
         return next();
+      },
+      props: {
+        cid,
       },
     },
     {
@@ -53,8 +60,11 @@ export default new VueRouter({
             path: "/",
           });
         }
-    
+
         return next();
+      },
+      props: {
+        cid,
       },
     },
   ],

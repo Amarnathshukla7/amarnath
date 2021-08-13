@@ -9,17 +9,12 @@ export const create = async (source, token) => {
 };
 
 export const get = async (token) => {
-  return axios
-    .get(`/cart-svc/${token}`)
-    .then((res) => res.data);
+  return axios.get(`/cart-svc/${token}`).then((res) => res.data);
 };
 
 export const getItems = async (token) => {
-  return axios
-    .get(`/cart-svc/${token}/items`)
-    .then((res) => res.data);
+  return axios.get(`/cart-svc/${token}/items`).then((res) => res.data);
 };
-
 
 export const updateOrCreate = async (room, dates, token) => {
   return axios
