@@ -81,6 +81,11 @@ export default {
       type: String,
       default: "GBP",
     },
+    cid: {
+      type: String,
+      default: null,
+      require: true,
+    },
   },
   data() {
     return {
@@ -95,7 +100,7 @@ export default {
   },
   async created() {
     this.isLoading = true;
-    this.price = await getBreakfastPrice(this.content.key);
+    this.price = await getBreakfastPrice(this.cid);
     if (this.price.error) {
       this.isError = true;
     }
@@ -111,15 +116,18 @@ export default {
 
       const cart =
         this.qty === 0
-          ? await deleteExtra(this.content.key)
-          : await addExtra([
-              {
-                code: this.content.key,
-                name: "breakfast",
-                type: "extra",
-                qty: this.qty,
-              },
-            ]);
+          ? await deleteExtra(this.content.key, this.cid)
+          : await addExtra(
+              [
+                {
+                  code: this.content.key,
+                  name: "breakfast",
+                  type: "extra",
+                  qty: this.qty,
+                },
+              ],
+              this.cid,
+            );
 
       bus.$emit("cart-transaction-updated", cart);
 

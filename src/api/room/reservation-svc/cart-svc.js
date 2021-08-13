@@ -1,9 +1,6 @@
 import axios from "axios";
-import { get } from "idb-keyval";
 
-export const create = async (source) => {
-  const { token } = await get("token");
-
+export const create = async (source, token) => {
   return axios
     .post(`/cart-svc/${token}`, {
       source,
@@ -11,9 +8,15 @@ export const create = async (source) => {
     .then((res) => res.data);
 };
 
-export const updateOrCreate = async (room, dates) => {
-  const { token } = await get("token");
+export const get = async (token) => {
+  return axios.get(`/cart-svc/${token}`).then((res) => res.data);
+};
 
+export const getItems = async (token) => {
+  return axios.get(`/cart-svc/${token}/items`).then((res) => res.data);
+};
+
+export const updateOrCreate = async (room, dates, token) => {
   return axios
     .post(`/cart-svc/${token}/items`, {
       ...dates,
@@ -21,9 +24,7 @@ export const updateOrCreate = async (room, dates) => {
     .then((res) => res.data);
 };
 
-export const destroy = async (room, date) => {
-  const { token } = await get("token");
-
+export const destroy = async (room, date, token) => {
   const appendDate = date ? `/${date}` : "";
 
   return axios

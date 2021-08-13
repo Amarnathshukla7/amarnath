@@ -496,8 +496,8 @@
 
 <script>
 // Packages
-import { mapState, mapGetters } from "vuex";
-import { set, get, del } from "idb-keyval";
+import { mapGetters, mapState } from "vuex";
+import { set as idbSet, get as idbGet, del as idbDel } from "idb-keyval";
 import VStripeElements from "v-stripe-elements/lib";
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
@@ -551,6 +551,10 @@ export default {
       type: String,
       default: null,
     },
+    cid: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -584,7 +588,7 @@ export default {
           (v) =>
             !!v || this.contentTransactionGuestDetails.email.rules.required,
           (v) =>
-            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) ||
+            /.+@.+/.test(v) ||
             this.contentTransactionGuestDetails.email.rules.required,
         ],
         name: [
@@ -616,7 +620,7 @@ export default {
     async selectedCurrency(curr) {
       this.isLoading = true;
       try {
-        this.currencyRate = await getCurrencyRate(curr);
+        this.currencyRate = await getCurrencyRate(curr, this.cid);
       } catch (error) {
         if (this.hostelConf.currency === curr) {
           this.currencyRate = 1;
@@ -625,6 +629,10 @@ export default {
         this.selectedCurrency = this.hostelConf.currency;
       }
       this.isLoading = false;
+    },
+    cid() {
+      this.isError = true;
+      this.isLoadingOverlay = false;
     },
   },
   async beforeCreate() {
@@ -639,39 +647,15 @@ export default {
       this.cart = cart;
     });
 
-    this.cart = await get("cart");
+    this.cart = await idbGet(`cart.${this.cid}`);
     this.userLanguage = this.getUserLanguage;
-
-    // const devReservation = {
-    //   cart: {
-    //     currency: "GBP",
-    //   },
-    //   // cart: {
-    //   //   hostel: {
-    //   //     currency: "GBP",
-    //   //   },
-    //   // },
-    // };
-
-    // await set("dev-reservation", devReservation);
 
     await this.$store.dispatch(
       "bookingEngine/getHostel",
       this.cart.hostel_code,
     );
-    // const [hostelConf, hostel] = await Promise.all([
-    const [hostelConf] = await Promise.all([
-      find(this.cart.hostel_code),
-      // getHostel(this.cart.hostel_code),
-    ]);
 
-    // this.guest = this.$store?.$auth?.$state?.user;
-    // if (this.guest && this.guest.type === "agent") {
-    //   this.data.guest.name = this.guest.name;
-    //   this.data.guest.country = this.guest.country;
-    //   this.data.guest.email = this.guest.email;
-    //   this.data.guest.phone = this.guest.phone;
-    // }
+    const [hostelConf] = await Promise.all([find(this.cart.hostel_code)]);
 
     this.hostelConf = hostelConf;
     // this.hostel = hostel;
@@ -689,7 +673,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      if(this.$refs.transactionView) {
+      if (this.$refs.transactionView) {
         this.$refs.transactionView.scrollIntoView();
       }
     });
@@ -889,7 +873,7 @@ export default {
     },
     async completeTransaction(transaction, gateway, card = null) {
       try {
-        this.reservation = await create({
+        this.reservation = await create(this.cid, {
           deposit: this.data.deposit,
           guest: this.data.guest,
           transaction,
@@ -905,14 +889,17 @@ export default {
           return;
         }
 
-        await set("reservation", this.reservation);
-        await del("cart");
+        await idbSet(`reservation.${this.cid}`, this.reservation);
+        await idbDel(`cart.${this.cid}`);
 
         const path =
           window.location.pathname.replace("payment", "") + "confirmation";
 
         this.$router.push({
           path,
+          query: {
+            cid: this.cid,
+          },
         });
       } catch (e) {
         this.isError = true;

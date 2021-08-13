@@ -1,20 +1,9 @@
 import axios from "axios";
-import cryptoRandomString from "crypto-random-string";
-import { set, get } from "idb-keyval";
 
-const makeToken = async () => {
-  const token = cryptoRandomString({ length: 30, type: "url-safe" });
-
-  await set("token", {
-    token,
-  });
-
-  return token;
-};
-
-export const availability = async (hostel, start, end) => {
-  const token = await makeToken();
+export const availability = async (hostel, start, end, token) => {
   const accessToken = localStorage.getItem("auth._token.local");
+
+  console.log("getting availability", { hostel, start, end, token });
 
   return axios
     .get(`/search-svc/${hostel}/${start}/${end}?token=${token}`, {
@@ -40,8 +29,7 @@ export const availability = async (hostel, start, end) => {
     });
 };
 
-export const getBreakfastPrice = async (breakfastCode) => {
-  const { token } = await get("token");
+export const getBreakfastPrice = async (breakfastCode, token) => {
   const resp = await axios.get(`/search-svc/cache/${token}`);
 
   try {

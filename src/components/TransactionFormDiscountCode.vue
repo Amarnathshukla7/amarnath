@@ -78,7 +78,7 @@ export default {
       this.errors = [];
 
       try {
-        const cart = await discount(this.code);
+        const cart = await discount(this.code, this.$route.query.cid);
         this.success = true;
         this.$emit("cart-updated", cart);
       } catch (e) {

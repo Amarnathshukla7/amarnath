@@ -164,6 +164,7 @@
       :content="breakfast"
       :currency="currency"
       :hostel-code="cart.hostel_code"
+      :cid="this.cart.token"
       class="hidden-md-and-down"
     />
   </div>

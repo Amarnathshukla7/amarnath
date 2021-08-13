@@ -49,9 +49,13 @@
 
 <script>
 // Packages
-import { get } from "idb-keyval";
+import {
+  get as idbGet,
+  del as idbDelete,
+  keys as idbGetKeys,
+} from "idb-keyval";
 import { mapState, mapGetters } from "vuex";
-
+import { subDays, differenceInCalendarDays } from "date-fns";
 // Helpers, Plugins, Filters & Data
 import { stcSpaceClient } from "../plugins/contentful";
 import { track } from "../helpers/transaction/tracking";
@@ -65,6 +69,12 @@ import ConfirmationSignUp from "../components/ConfirmationSignUp";
 import ConfirmationThankYou from "../components/ConfirmationThankYou";
 
 export default {
+  props: {
+    cid: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     ConfirmationSummary,
     TheBreadCrumbs,
@@ -98,29 +108,46 @@ export default {
     },
   },
   async created() {
-    if (!this.$route.query.dev) {
-      this.reservation = await get("reservation");
-    } else {
-      this.reservation = {
-        cart: {
-          hostel: {
-            hostel_code: "HMM",
-            currency: "GBP",
-          },
-          accommodation_cost: 10_000,
-          discount: 1_000,
-          tourist_tax_cost: 500,
-          extras_cost: 0,
-          total_cost: 9_500,
-        },
-        transaction: {
-          currency: "GBP",
-        },
-        booking_reference: "STC-HMM-12345678",
-        paid: 9_500,
-        deposit: 100,
-      };
-    }
+    /**
+     * # Problem
+     *
+     * Everytime the customer lands on the Rooms view and adds and item to cart a new cart is created, this means the customers
+     * browser will get filled with unporcessed carts and reservations key value. Since the customer still may have
+     * an active cart, you cannot remove all the carts.
+     *
+     * The key/value storage is the wrose choice since there is no order to keys. Everytime a new
+     * record is added the order changes.
+     *
+     * ## Notes
+     *
+     * 1. Customer can have multiple availability happening at the same time
+     * 2. When the customer visit the availability page a cart.{token} key and value is created.
+     * 3. When the customer makes a successful payment + reservation a idb key value reservation.{token} is created.
+     *
+     * ## Solution
+     *
+     * - [x] Before creating a new idb cart.{token} check the value if undefined dont set
+     *    this is to make sure all the idb key values that are created can be traced by created_at.
+     * - [..] To keep it basic logic introduce a check before deleting, the created_at must be 7 days old to delete.
+     *
+     * ## Advantages
+     *
+     * - The cid query parameters allows us to trace customer with in different platforms, this is 100% requirement.
+     *    -- e.g. google, hotjar
+     * - We can submit all the saved cart and reservations to trace to customers old bookings. Risks if the customer
+     * manupulates the data.
+     * - Tracking customers interest, to provide discounts within same region.
+     *
+     * ## Risks
+     *
+     * - Customer may have a different date and time setup on their local. This can cause issues with deleting
+     *   carts that are still active.
+     * - The customer may go crazy on refresh page and endup with alot of data in indexeddb. Introducing another problem,
+     *   all these issues can be solved by using the persistant state, the state can be implemented by key as timestamp to
+     *   sort values and check against max carts.
+     */
+
+    this.reservation = await idbGet(`reservation.${this.cid}`);
 
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.journeyUi;
@@ -131,6 +158,38 @@ export default {
     );
 
     this.hostel = this.hostelData;
+
+    /**
+     * Deleting all previous reservations and carts other then current reservation
+     */
+
+    let thirtyDaysOlDate = subDays(new Date(), 30);
+    idbGetKeys().then((keys) => {
+      console.log("Deleting idb keys", { keys });
+
+      const deleteKeys = keys.filter(function (key) {
+        const recordValues = idbGet(key);
+        const recordDate = new Date(recordValues.created_at);
+
+        if (differenceInCalendarDays(thirtyDaysOlDate, recordDate) >= 30) {
+          return key;
+        }
+
+        return;
+      });
+
+      // Deleting keys 30 days older.
+      deleteKeys.forEach(function (key) {
+        //Checking if the value is current reservation
+        if (`reservation.${this.cid}` !== key) {
+          idbDelete(key);
+        }
+      });
+    });
+
+    await idbGetKeys().then(function (keys) {
+      console.log("Idb Keys after delete", { keys });
+    });
   },
   async mounted() {
     if (!this.$route.query.dev) {
