@@ -193,17 +193,18 @@ export default {
       type: String,
       default: "STC",
     },
+    // default hostelCode
     hostelCode: {
       type: String,
       default: "BRI",
     },
     checkIn: {
       type: String,
-      default: "2021-08-13",
+      default: "2021-10-13",
     },
     checkOut: {
       type: String,
-      default: "2021-08-14",
+      default: "2021-10-14",
     },
     cid: {
       type: String,
