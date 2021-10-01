@@ -13,7 +13,7 @@
       />
 
       <TheBreadCrumbs
-        v-if="uiContentLoaded"
+        v-if="uiContentLoaded && viewOptions.showSteps"
         :step="3"
         :content="contentTheBreadCrumbs"
       />
@@ -116,7 +116,9 @@
                     <!-- END: MAIN GUEST DETAILS -->
 
                     <!-- COUPON CODE -->
-                    <v-expansion-panel>
+                    <v-expansion-panel
+                      v-if="viewOptions.canApplyCouponCode"
+                    >
                       <v-expansion-panel-header color="primary">
                         <div
                           class="font-weight-bold white--text subtitle-2 text-uppercase"
@@ -140,6 +142,32 @@
                     </v-expansion-panel>
                     <!-- END: COUPON CODE -->
 
+                     <v-expansion-panel
+                      v-if="viewOptions.canSendConfirmationEmailToCustomer"
+                    >
+                      <v-expansion-panel-header color="primary">
+                        <div
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                        >
+                          Confirmation email
+                        </div>
+                        <template v-slot:actions>
+                          <v-icon color="white">$expand</v-icon>
+                        </template>
+                      </v-expansion-panel-header>
+
+                      <v-expansion-panel-content color="white">
+                              <v-checkbox
+                                v-model="data.send_confirmation_email_to_customer"
+                              >
+                                <label slot="label">
+                                    Send confirmation email to customer.
+                                </label>
+                              </v-checkbox>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    <!-- END: COUPON CODE -->
+
                     <!-- PAYMENT -->
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
@@ -157,7 +185,7 @@
 
                       <v-expansion-panel-content color="white">
                         <v-card class="mt-4" tile flat>
-                          <v-row no-gutters>
+                          <v-row no-gutters v-if="hasMultiplePaymentOptions">
                             <v-col cols="12">
                               <div
                                 class="subtitle-1 text-left accent--text font-weight-bold"
@@ -174,25 +202,18 @@
                                 class="payment-date"
                               >
                                 <v-row>
-                                  <v-col cols="12" sm="6" md="3">
-                                    <v-radio value="card">
+                                  <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                    v-for="(paymentOption, paymentOptionIndex) in paymentOptions"
+                                    :key="paymentOptionIndex"
+                                  >
+                                    <v-radio :value="paymentOptionIndex">
                                       <img
                                         slot="label"
                                         height="24"
-                                        src="https://storage.googleapis.com/bedsandbars-images/card-icons1.02fa28e9.svg"
-                                      />
-                                    </v-radio>
-                                  </v-col>
-
-                                  <v-col cols="12" sm="6" md="3">
-                                    <v-radio
-                                      v-if="isPaypalEnabled"
-                                      value="paypal"
-                                    >
-                                      <img
-                                        slot="label"
-                                        height="24"
-                                        src="https://storage.googleapis.com/bedsandbars-images/paypal-icon.580dc673.svg"
+                                        :src="paymentOption.imgSrc"
                                       />
                                     </v-radio>
                                   </v-col>
@@ -363,7 +384,7 @@
                                       contentTransactionPaymentForm.s5
                                         .privacyPolicyMsg
                                     "
-                                    link="http://www.bedsandbars.com/privacy-and-cookies"
+                                    :link="privacyPolicyLink"
                                     target="_blank"
                                   />
                                 </p>
@@ -497,7 +518,10 @@
 <script>
 // Packages
 import { mapGetters, mapState } from "vuex";
-import { set as idbSet, get as idbGet, del as idbDel } from "idb-keyval";
+import { pick, keys } from 'underscore';
+import { getUserLocales } from "get-user-locale";
+
+// import { set as idbSet, get as idbGet, del as idbDel } from "idb-keyval";
 import VStripeElements from "v-stripe-elements/lib";
 import Vue from "vue";
 import VueLoadScript from "vue-load-script-plus";
@@ -505,17 +529,18 @@ import VueLoadScript from "vue-load-script-plus";
 // APIs
 import { getCurrencyRate } from "../api/transaction/cart-svc";
 import { create } from "../api/transaction/reservation-svc";
-import { find } from "../api/room/reservation-svc/hostel-svc";
+import { find as getHostel } from "../api/room/reservation-svc/hostel-svc";
+import { getItems } from "../api/room/reservation-svc/cart-svc";
 
 // Helpers, Plugins, Filters & Data
 import { bus } from "../plugins/bus";
 import countries from "../data/countries";
 import { formatDate } from "../filters/date";
 import { formatPrice, convertCurrency } from "../filters/money";
-import { getHostel } from "../plugins/hostel";
 import { hostelShortName } from "../helpers/hostelNames";
 import { getCurrencies } from "../data/currencies";
-
+import TransactionViewOptions from "../config/transaction-view-options";
+import { getBestLocale } from "../helpers/locale";
 // Components
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import TranslationWithAnchor from "../components/TranslationWithAnchor";
@@ -528,6 +553,13 @@ import TransactionFormPaymentPaypal from "../components/TransactionFormPaymentPa
 import TransactionFormPaymentSage from "../components/TransactionFormPaymentSage";
 import TransactionFormPaymentStripeCard from "../components/TransactionFormPaymentStripeCard";
 import TransactionFormPaymentStripePaymentRequest from "../components/TransactionFormPaymentStripePaymentRequest";
+
+import {
+  FLYINGPIG_TERMS_URL,
+  COPENHAGENDOWNTOWN_TERMS_URL,
+  STCHRISTOPHERS_INN_TERMS_URL,
+  BEDS_AND_BARS_PRIVACY_URL,
+} from "../config/external-links";
 
 Vue.use(VStripeElements);
 Vue.use(VueLoadScript);
@@ -547,6 +579,12 @@ export default {
     TransactionFormPaymentStripePaymentRequest,
   },
   props: {
+    viewOptions: {
+      type: Object,
+      default() {
+        return TransactionViewOptions;
+      } 
+    },
     stripeKey: {
       type: String,
       default: null,
@@ -636,8 +674,17 @@ export default {
     },
   },
   async beforeCreate() {
+    if (this.$store.state.bookingEngine.userLanguage === "en-GB") {
+      const browserLocaleCode = getBestLocale(getUserLocales());
+      if (browserLocaleCode !== "en-GB") {
+        this.$store.commit(
+          "bookingEngine/SET_USER_LANGUAGE",
+          browserLocaleCode,
+        );
+      }
+    }
     await this.$store.dispatch("bookingEngine/getJourneyUi");
-    this.uiContentLoaded = this.journeyUi;
+    this.uiContentLoaded = this.contentTheBreadCrumbs;
   },
   async created() {
     this.isLoading = true;
@@ -647,7 +694,9 @@ export default {
       this.cart = cart;
     });
 
-    this.cart = await idbGet(`cart.${this.cid}`);
+    
+    // this.cart = await idbGet(`cart.${this.cid}`);
+    this.cart = await getItems(this.cid);
     this.userLanguage = this.getUserLanguage;
 
     await this.$store.dispatch(
@@ -655,21 +704,24 @@ export default {
       this.cart.hostel_code,
     );
 
-    const [hostelConf] = await Promise.all([find(this.cart.hostel_code)]);
+    const [hostelConf] = await Promise.all([getHostel(this.cart.hostel_code)]);
 
     this.hostelConf = hostelConf;
-    // this.hostel = hostel;
     this.hostel = this.hostelData;
     this.selectedCurrency = this.hostelConf.currency;
 
     this.currencies = getCurrencies(this.hostel.code);
 
-    if (!this.isPaypalEnabled) this.data.payMethod = "card";
-    this.data.deposit = this.cart.deposit_model_rate || 0;
+    if (! this.hasMultiplePaymentOptions) {
+      this.data.payMethod = keys(this.paymentOptions)[0];
+      console.log(`Only one payment method is available, set to ${this.data.payMethod}`);
+    }
 
     this.loading = false;
     this.isLoadingOverlay = false;
     this.isLoadingReservation = false;
+
+    console.log({ viewOptions: this.viewOptions });
   },
   mounted() {
     setTimeout(() => {
@@ -686,29 +738,102 @@ export default {
     window.removeEventListener("popstate", this.preventCloseByAccident);
   },
   computed: {
+    /**
+     * Returns true if there is multiple payment options.
+     */
+    hasMultiplePaymentOptions() {
+      return keys(this.paymentOptions).length > 1;
+    },
+    /**
+     * Returns the true if the selected payment method has multiple digital Wallet payment options 
+     * for the selected paymethod method.
+     */
+    hasMultipleDigitalWalletPaymentOptions() {
+      return keys(digitalPaymentWalletOptions).length > 1;
+    },
+    /**
+     * Returns list of enabled payment options.
+     * 
+     * card: {
+     * enabled: true,
+     * imgSrc:
+     *   "https://storage.googleapis.com/bedsandbars-images/card-icons1.02fa28e9.svg",
+     * supportedDigitalWallets: {
+     *   applePay: {
+     *     imgSrc:
+     *       "https://storage.googleapis.com/bedsandbars-images/card-icons1.02fa28e9.svg",
+     *     enabled: true,
+     *     conditions: () => /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+     *   },
+     *   googlePay: {
+     *     imgSrc:
+     *       "https://storage.googleapis.com/bedsandbars-images/paypal-icon.580dc673.svg",
+     *     enabled: true,
+     *     conditions: () => /Safari/.test(navigator.userAgent) && /Apple Computer, Inc./.test(navigator.vendor)
+     *   },
+     *  },
+     *  depositOptions: [
+     *   {
+     *      enabled: true,
+     *      key: 'payOnArrival',
+     *      displayText: '',
+     *    },
+     *    {
+     *      enabled: true,
+     *      key: 'payOnNow',
+     *      displayText: '',
+     *    },
+     *  ],
+     * },
+     * 
+     * More information available on src/config/transaction-view-options.js
+     * 
+     */
+    paymentOptions() {
+      return pick(this.viewOptions.gateways, function(gateway, key, object) {
+        return true === gateway.enabled;
+      });
+    },
+    /**
+     * Returns list of enabled digital wallet options for selected payment method.
+     * 
+     * e.g.
+     * 
+     *  applePay: {
+     *     imgSrc:
+     *      "https://storage.googleapis.com/bedsandbars-images/card-icons1.02fa28e9.svg",
+     *     enabled: true,
+     *     conditions: () => /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+     *   },
+     * 
+     * More informationa avialable on src/config/transaction-view-options.js
+     * 
+     */
+    digitalPaymentWalletOptions(){
+        if (! data.payMethod) {
+            console.error('No payment method was selected');
+        }
+
+        const paymentOption = this.paymentOptions[data.payMethod];
+
+      return pick(paymentOption.supportedDigitalWallets, function(supportedDigitalWallet, key, object) {
+          return supportedDigitalWallet.enabled == true && supportedDigitalWallet.conditions === true;
+      });
+    },
+    privacyPolicyLink(){
+      return BEDS_AND_BARS_PRIVACY_URL;
+    },
     termsLink() {
       if (["FPU", "FPD"].includes(this.hostelCode)) {
-        return "https://www.flyingpig.nl/terms-and-conditions";
+        return FLYINGPIG_TERMS_URL;
       } else if (this.hostel.code == "COP") {
-        return "https://www.copenhagendowntown.com/terms";
+        return COPENHAGENDOWNTOWN_TERMS_URL;
       } else {
-        return "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
+        return STCHRISTOPHERS_INN_TERMS_URL;
       }
     },
     showCurrencySelector() {
       return !["NOS"].includes(this.cart.hostel_code);
-    },
-    isChrome() {
-      return (
-        /Chrome/.test(navigator.userAgent) &&
-        /Google Inc/.test(navigator.vendor)
-      );
-    },
-    isSafari() {
-      return (
-        /Safari/.test(navigator.userAgent) &&
-        /Apple Computer, Inc./.test(navigator.vendor)
-      );
     },
     stripeApiKey() {
       if (this.stripeKey) return this.stripeKey;
@@ -889,8 +1014,8 @@ export default {
           return;
         }
 
-        await idbSet(`reservation.${this.cid}`, this.reservation);
-        await idbDel(`cart.${this.cid}`);
+        // await idbSet(`reservation.${this.cid}`, this.reservation);
+        // await idbDel(`cart.${this.cid}`);
 
         const path =
           window.location.pathname.replace("payment", "") + "confirmation";

@@ -152,7 +152,6 @@
 // Packages
 import { differenceInDays } from "date-fns";
 import { mapGetters } from "vuex";
-import { get as idbGet, set as idbSet } from "idb-keyval";
 import { getUserLocales } from "get-user-locale";
 
 // APIs
@@ -160,6 +159,7 @@ import { availability as getAvailability } from "../api/room/search-svc";
 import {
   create as createCart,
   getItems as getCartItems,
+  getCart,
 } from "../api/room/reservation-svc/cart-svc";
 import { getStatus } from "../api/room/reservation-svc/status-svc";
 import { find } from "../api/room/reservation-svc/hostel-svc";
@@ -169,6 +169,7 @@ import { bus } from "../plugins/bus";
 import { formatTimezone } from "../helpers/timezone";
 import sortRooms from "../helpers/room/sort";
 import { getBestLocale } from "../helpers/locale";
+import RoomsViewOptions from '../config/rooms-view-options';
 
 // Components
 import RoomsBookingSummary from "../components/RoomsBookingSummary";
@@ -185,6 +186,12 @@ import RoomsServerStatus from "../components/RoomsServerStatus";
 
 export default {
   props: {
+    viewOptions: {
+      type: Object,
+      default() {
+        return RoomsViewOptions;
+      } 
+    },
     roomViewAnchorPoint: {
       type: String,
       default: "roomView",
@@ -212,13 +219,6 @@ export default {
     },
   },
   watch: {
-    async cart() {
-      // Updating the indexedb with cart details only when the cart
-      // has value.
-      if (this.cart) {
-        await idbSet(`cart.${this.cid}`, this.cart);
-      }
-    },
     async hostelCode() {
       console.info("The hostel was changed!", this.hostelCode);
       await this.loadData();
@@ -325,10 +325,9 @@ export default {
         );
       }
     }
+
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.contentTheBreadCrumbs;
-
-    this.cart = await idbGet(`cart.${this.cid}`);
   },
   async created() {
     await this.loadData();
@@ -350,7 +349,6 @@ export default {
   methods: {
     async createOrLoadCart() {
       console.info("Creating or loading cart");
-      this.cart = await idbGet(`cart.${this.cid}`);
       if (!this.cart) {
         console.info(
           "The sessions doesn't have an exisiting cart, creating a new cart.",
@@ -441,7 +439,7 @@ export default {
       }
 
       this.isLoading = true;
-      await idbSet(`cart.${this.cid}`, this.cart);
+      this.cart = getCart(this.cid);
 
       this.$router.push({
         path: window.location.pathname.replace("availability", "") + "payment",

@@ -8,7 +8,7 @@ export const create = async (source, token) => {
     .then((res) => res.data);
 };
 
-export const get = async (token) => {
+export const getCart = async (token) => {
   return axios.get(`/cart-svc/${token}`).then((res) => res.data);
 };
 

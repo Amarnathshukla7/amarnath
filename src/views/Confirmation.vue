@@ -49,16 +49,13 @@
 
 <script>
 // Packages
-import {
-  get as idbGet,
-  del as idbDelete,
-  keys as idbGetKeys,
-} from "idb-keyval";
 import { mapState, mapGetters } from "vuex";
 import { subDays, differenceInCalendarDays } from "date-fns";
+
 // Helpers, Plugins, Filters & Data
-import { stcSpaceClient } from "../plugins/contentful";
 import { track } from "../helpers/transaction/tracking";
+import { getReservation } from "../api/transaction/reservation-svc";
+import ConfirmationViewOptions from '../config/confirmation-view-options';
 
 // Components
 import ConfirmationSummary from "../components/ConfirmationSummary";
@@ -70,6 +67,12 @@ import ConfirmationThankYou from "../components/ConfirmationThankYou";
 
 export default {
   props: {
+    viewOptions: {
+      type: Object,
+      default() {
+        return ConfirmationViewOptions;
+      } 
+    },
     cid: {
       type: String,
       required: true,
@@ -147,7 +150,7 @@ export default {
      *   sort values and check against max carts.
      */
 
-    this.reservation = await idbGet(`reservation.${this.cid}`);
+    this.reservation = await getReservation(this.cid);
 
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.journeyUi;
@@ -177,18 +180,6 @@ export default {
 
         return;
       });
-
-      // Deleting keys 30 days older.
-      deleteKeys.forEach(function (key) {
-        //Checking if the value is current reservation
-        if (`reservation.${this.cid}` !== key) {
-          idbDelete(key);
-        }
-      });
-    });
-
-    await idbGetKeys().then(function (keys) {
-      console.log("Idb Keys after delete", { keys });
     });
   },
   async mounted() {

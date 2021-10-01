@@ -294,7 +294,7 @@
 // Packages
 import { eachDayOfInterval, subDays, format, differenceInDays } from "date-fns";
 import { LightGallery } from "vue-light-gallery";
-
+import { IMAGE_PLACE_URL } from "../config/external-links";
 // APIs
 import {
   destroy as destroyCart,
@@ -310,7 +310,7 @@ import { formatTimezone } from "../helpers/timezone";
 import RoomsListingCardSelect from "./RoomsListingCardSelect";
 import RoomsListingCustomError from "./RoomsListingCustomError";
 import TranslationWithAnchor from "./TranslationWithAnchor";
-
+import { FLYINGPIG_TERMS_URL, COPENHAGENDOWNTOWN_TERMS_URL, STCHRISTOPHERS_INN_TERMS_URL } from "../config/external-links";
 export default {
   props: {
     cid: {
@@ -479,7 +479,7 @@ export default {
         return [
           {
             title: "No Image",
-            url: `https://via.placeholder.com/1080`,
+            url: IMAGE_PLACE_URL,
           },
         ];
 
@@ -523,15 +523,15 @@ export default {
     },
     termsLink() {
       if (["FPU", "FPD"].includes(this.hostelCode)) {
-        return "https://www.flyingpig.nl/terms-and-conditions";
+        return FLYINGPIG_TERMS_URL;
       } else if (this.hostelCode == "COP") {
-        return "https://www.copenhagendowntown.com/terms";
+        return COPENHAGENDOWNTOWN_TERMS_URL;
       } else {
-        return "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
+        return STCHRISTOPHERS_INN_TERMS_URL;
       }
       // return ["FPU", "FPD"].includes(this.hostelCode)
-      //   ? "https://www.flyingpig.nl/terms-and-conditions"
-      //   : "https://www.st-christophers.co.uk/hostel-terms-and-conditions";
+      //   ? FLYINGPIG_TERMS
+      //   : STCHRISTOPHERS_INN_TERMS;
     },
     available() {
       return parseInt(this.room.maxAvailable, 10);
@@ -605,19 +605,4 @@ export default {
     margin: auto;
   }
 }
-
-// @media screen and (min-width: 1024px) {
-//   .room-card .v-image {
-//     margin-top: -175px;
-//   }
-// }
-
-// .v-expansion-panel-content__wrap {
-//   padding: 0 12px 16px;
-// }
-
-// .v-expansion-panel-header__icon {
-//   background-color: var(--v-primary-base);
-//   padding: 10px;
-// }
 </style>

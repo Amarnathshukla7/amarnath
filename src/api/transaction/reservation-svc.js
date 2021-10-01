@@ -1,5 +1,4 @@
 import axios from "axios";
-import { get } from "idb-keyval";
 
 export const create = async (token, data) => {
   const accessToken = localStorage.getItem("auth._token.local");
@@ -9,5 +8,11 @@ export const create = async (token, data) => {
         ...(accessToken && { Authorization: accessToken }),
       },
     })
+    .then((res) => res.data);
+};
+
+export const getReservation = async (token, data) => {
+  return axios
+    .get(`/cart-svc/${token}/reservation`, data)
     .then((res) => res.data);
 };

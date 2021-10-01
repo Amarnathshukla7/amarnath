@@ -3,7 +3,7 @@
     <v-expansion-panel-header color="primary">
       <v-img
         max-width="20"
-        src="/covid-measures/icon-shield-white.svg"
+        src="../../node_modules/@bbwmc/icons/src/svg/icon-shield-white.svg"
         class="mr-3"
       ></v-img>
 
