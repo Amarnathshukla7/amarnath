@@ -310,7 +310,12 @@ import { formatTimezone } from "../helpers/timezone";
 import RoomsListingCardSelect from "./RoomsListingCardSelect";
 import RoomsListingCustomError from "./RoomsListingCustomError";
 import TranslationWithAnchor from "./TranslationWithAnchor";
-import { FLYINGPIG_TERMS_URL, COPENHAGENDOWNTOWN_TERMS_URL, STCHRISTOPHERS_INN_TERMS_URL } from "../config/external-links";
+import {
+  FLYINGPIG_TERMS_URL,
+  COPENHAGENDOWNTOWN_TERMS_URL,
+  STCHRISTOPHERS_INN_TERMS_URL,
+} from "../config/external-links";
+
 export default {
   props: {
     cid: {

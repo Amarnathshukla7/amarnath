@@ -27,7 +27,7 @@
       </v-list-item-content>
     </v-list-item>
 
-    <v-list-item class="py-2 pl-8 other">
+    <v-list-item class="py-2 pl-8 other" v-if="reservation.cart.discount > 0">
       <v-list-item-content>
         <v-list-item-title>
           <v-row no-gutters>
@@ -119,7 +119,7 @@
             <v-col cols="8">{{ contentConfirmationSummary.totalPaid }}</v-col>
             <v-col cols="4">
               <span class="float-right mr-6">{{
-                reservation.paid | formatPrice(reservation.transaction.currency)
+                reservation.paid | formatPrice(reservation.transaction_currency)
               }}</span>
             </v-col>
           </v-row>
@@ -127,7 +127,7 @@
       </v-list-item-content>
     </v-list-item>
 
-    <v-list-item class="py-2 pl-8 accent font-weight-bold">
+    <v-list-item class="py-2 pl-8 accent font-weight-bold" v-if="dueOnArrival > 0">
       <v-list-item-content>
         <v-list-item-title class="white--text">
           <v-row no-gutters>

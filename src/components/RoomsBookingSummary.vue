@@ -227,7 +227,7 @@ import { mapState, mapGetters } from "vuex";
 import { differenceInDays, addDays } from "date-fns";
 import { formatPrice } from "../filters/money";
 import { formatDate } from "../filters/date";
-import { destroy as removeItem, getCart } from "../api/room/reservation-svc/cart-svc";
+import { destroy as removeItem } from "../api/room/reservation-svc/cart-svc";
 import { bus } from "../plugins/bus";
 import RoomsBookingSummaryItem from "../components/RoomsBookingSummaryItem";
 import TransactionSummaryBreakfast from "./TransactionSummaryBreakfast";
@@ -415,7 +415,7 @@ export default {
     cost() {
       if (!this.cart) return 0;
 
-      return this.cart.total_cost;
+      return this.cart.total_cost || 0;
     },
     oneDayBooking() {
       if (!this.cart) return;

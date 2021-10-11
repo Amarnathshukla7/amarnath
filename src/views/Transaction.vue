@@ -13,8 +13,8 @@
       />
 
       <TheBreadCrumbs
-        v-if="uiContentLoaded && viewOptions.showSteps"
-        :step="3"
+        :steps="viewOptions.steps"
+        :current-step-key="viewOptions.currentStepKey"
         :content="contentTheBreadCrumbs"
       />
 
@@ -48,7 +48,7 @@
                         <div
                           class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
-                          {{ contentTransactionPanelHeaders.transaction.guest }}
+                          Main Guest Details
                         </div>
                         <template v-slot:actions>
                           <v-icon color="white">$expand</v-icon>
@@ -57,68 +57,17 @@
 
                       <v-expansion-panel-content color="white">
                         <v-card class="mt-4" tile flat>
-                          <v-row>
-                            <!-- NAME -->
-                            <v-col cols="12" md="6">
-                              <v-text-field
-                                :label="
-                                  contentTransactionGuestDetails.name.label
-                                "
-                                :rules="rules.name"
-                                v-model="data.guest.name"
-                                outlined
-                              ></v-text-field>
-                            </v-col>
-
-                            <!-- EMAIL -->
-                            <v-col cols="12" md="6">
-                              <v-text-field
-                                :label="
-                                  contentTransactionGuestDetails.email.label
-                                "
-                                class="mt-n6 mt-md-0"
-                                :rules="rules.email"
-                                v-model="data.guest.email"
-                                outlined
-                              ></v-text-field>
-                            </v-col>
-
-                            <!-- PHONE -->
-                            <v-col cols="12" md="6">
-                              <v-text-field
-                                class="mt-n6 mb-md-n6"
-                                :label="
-                                  contentTransactionGuestDetails.phone.label
-                                "
-                                :rules="rules.phone"
-                                v-model="data.guest.phone"
-                                outlined
-                              ></v-text-field>
-                            </v-col>
-
-                            <!-- COUNTRY -->
-                            <v-col cols="12" md="6">
-                              <v-autocomplete
-                                class="mt-n6 mb-n6"
-                                :items="countries"
-                                :label="
-                                  contentTransactionGuestDetails.country.label
-                                "
-                                :rules="rules.country"
-                                v-model="data.guest.country"
-                                outlined
-                              ></v-autocomplete>
-                            </v-col>
-                          </v-row>
+                          <component
+                            :is="guestDetailsComponent"
+                            v-bind="guestDetailsComponentProperties"
+                          ></component>
                         </v-card>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
                     <!-- END: MAIN GUEST DETAILS -->
 
                     <!-- COUPON CODE -->
-                    <v-expansion-panel
-                      v-if="viewOptions.canApplyCouponCode"
-                    >
+                    <v-expansion-panel v-if="viewOptions.canApplyCouponCode">
                       <v-expansion-panel-header color="primary">
                         <div
                           class="font-weight-bold white--text subtitle-2 text-uppercase"
@@ -142,7 +91,7 @@
                     </v-expansion-panel>
                     <!-- END: COUPON CODE -->
 
-                     <v-expansion-panel
+                    <v-expansion-panel
                       v-if="viewOptions.canSendConfirmationEmailToCustomer"
                     >
                       <v-expansion-panel-header color="primary">
@@ -157,13 +106,13 @@
                       </v-expansion-panel-header>
 
                       <v-expansion-panel-content color="white">
-                              <v-checkbox
-                                v-model="data.send_confirmation_email_to_customer"
-                              >
-                                <label slot="label">
-                                    Send confirmation email to customer.
-                                </label>
-                              </v-checkbox>
+                        <v-checkbox
+                          v-model="data.send_confirmation_email_to_customer"
+                        >
+                          <label slot="label">
+                            Send confirmation email to customer.
+                          </label>
+                        </v-checkbox>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
                     <!-- END: COUPON CODE -->
@@ -185,14 +134,12 @@
 
                       <v-expansion-panel-content color="white">
                         <v-card class="mt-4" tile flat>
-                          <v-row no-gutters v-if="hasMultiplePaymentOptions">
+                          <v-row no-gutters v-if="hasMultiplePaymentMethods">
                             <v-col cols="12">
                               <div
                                 class="subtitle-1 text-left accent--text font-weight-bold"
                               >
-                                <!-- How would you like to pay? -->
-                                1.
-                                {{ contentTransactionPaymentForm.s1.question }}
+                                How would you like to pay?
                               </div>
                             </v-col>
 
@@ -206,21 +153,21 @@
                                     cols="12"
                                     sm="6"
                                     md="3"
-                                    v-for="(paymentOption, paymentOptionIndex) in paymentOptions"
-                                    :key="paymentOptionIndex"
+                                    v-for="paymentMethod in enabledPaymentMethods"
+                                    :key="paymentMethod.key"
                                   >
-                                    <v-radio :value="paymentOptionIndex">
+                                    <v-radio :value="paymentMethod.key">
                                       <img
                                         slot="label"
                                         height="24"
-                                        :src="paymentOption.imgSrc"
+                                        :src="paymentMethod.imgSrc"
                                       />
                                     </v-radio>
                                   </v-col>
 
-                                  <v-col cols="12" sm="6" md="3">
+                                  <!-- <v-col cols="12" sm="6" md="3">
                                     <v-radio
-                                      v-if="digitalWalletEnabled && isStripe"
+                                      v-if="viewOptions.digitalWalletEnabled && isStripe"
                                       value="digital"
                                     >
                                       <img
@@ -236,19 +183,24 @@
                                         src="https://storage.googleapis.com/bedsandbars-images/apple-pay.aac3a5bc.png"
                                       />
                                     </v-radio>
-                                  </v-col>
+                                  </v-col> -->
                                 </v-row>
                               </v-radio-group>
                             </v-col>
                           </v-row>
 
-                          <v-row v-show="showDepositChoice" no-gutters>
+                          <v-row
+                            v-if="
+                              isPaymentMethodSelected &&
+                              hasMultipleDepositRateOptions
+                            "
+                            no-gutters
+                          >
                             <v-col cols="12">
                               <div
                                 class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- When would you like to pay? -->
-                                2.
                                 {{ contentTransactionPaymentForm.s2.question }}
                               </div>
                             </v-col>
@@ -259,13 +211,10 @@
                                 class="payment-date"
                               >
                                 <v-radio
-                                  v-if="!showPaypal"
-                                  :value="lowerDeposit"
-                                  :label="lowerDepositLabel"
-                                ></v-radio>
-                                <v-radio
-                                  :value="100"
-                                  :label="contentTransactionPaymentForm.s2.now"
+                                  v-for="depositRateOption in enabledDepositRateOptions"
+                                  :key="depositRateOption.key"
+                                  :value="depositRateOption.value"
+                                  :label="depositRateOption.displayText"
                                 ></v-radio>
                               </v-radio-group>
                             </v-col>
@@ -305,16 +254,6 @@
                               <div
                                 class="subtitle-1 text-left accent--text font-weight-bold"
                               >
-                                <span
-                                  v-if="
-                                    data.deposit === 0 ||
-                                    data.deposit === null ||
-                                    !isStripe ||
-                                    !showCurrencySelector
-                                  "
-                                  >3.
-                                </span>
-                                <span v-else>4. </span>
                                 <!-- Card Details -->
                                 {{ contentTransactionPaymentForm.s4.question }}
                               </div>
@@ -368,7 +307,10 @@
                               </v-checkbox>
                             </v-col>
 
-                            <v-col cols="12">
+                            <v-col
+                              cols="12"
+                              v-if="viewOptions.canOptInForMarketingNewsletter"
+                            >
                               <v-checkbox
                                 class="mt-n3"
                                 v-model="data.newsletter"
@@ -407,9 +349,7 @@
                         <v-row no-gutters class="text-center">
                           <v-col class="hidden-md-and-down pt-3" cols="6">
                             <div class="subtitle-1 font-weight-bold d-inline">
-                              {{
-                                contentTransactionPaymentForm.other.payableNow
-                              }}:
+                              Payable Now:
                             </div>
                             <div class="headline font-weight-bold d-inline">
                               {{
@@ -442,7 +382,9 @@
                               :deposit="data.deposit"
                               v-show="showWallet"
                               class="mx-auto"
-                              @wallet-enabled="digitalWalletEnabled = true"
+                              @wallet-enabled="
+                                viewOptions.digitalWalletEnabled = true
+                              "
                               @show-validation-error="validate"
                               @preq-error="payPalError"
                               @preq-approved="createPreqReservation"
@@ -461,20 +403,14 @@
                               :disabled="!data.payMethod || isLoading"
                             >
                               <span v-if="payable > 0">
-                                {{
-                                  contentTransactionPaymentForm.other.button
-                                    .payNow
-                                }}
+                                Pay Now
                                 {{
                                   payable
                                     | convertCurrency(currencyRate)
                                     | formatPrice(selectedCurrency)
                                 }}
                               </span>
-                              <span v-else>{{
-                                contentTransactionPaymentForm.other.button
-                                  .payArrival
-                              }}</span>
+                              <span v-else>Confirm Booking</span>
                             </v-btn>
                           </v-col>
                         </v-row>
@@ -490,6 +426,7 @@
 
           <v-col cols="12" sm="6" md="5" lg="4" xl="3">
             <TransactionSummary
+              :parent-view-options="viewOptions"
               :cart="cart"
               :currency="hostelConf.currency"
               :language="userLanguage"
@@ -506,10 +443,8 @@
       </v-container>
 
       <v-snackbar top v-model="formErrorSnackbar">
-        {{ contentTransactionPaymentForm.other.errorBar.errorMsg }}
-        <v-btn text @click="formErrorSnackbar = false">{{
-          contentTransactionPaymentForm.other.errorBar.errorButton
-        }}</v-btn>
+        Please check that all fields in the form are filled out correctly
+        <v-btn text @click="formErrorSnackbar = false">Close</v-btn>
       </v-snackbar>
     </main>
   </v-app>
@@ -518,7 +453,7 @@
 <script>
 // Packages
 import { mapGetters, mapState } from "vuex";
-import { pick, keys } from 'underscore';
+import { pick, keys } from "underscore";
 import { getUserLocales } from "get-user-locale";
 
 // import { set as idbSet, get as idbGet, del as idbDel } from "idb-keyval";
@@ -534,14 +469,16 @@ import { getItems } from "../api/room/reservation-svc/cart-svc";
 
 // Helpers, Plugins, Filters & Data
 import { bus } from "../plugins/bus";
-import countries from "../data/countries";
 import { formatDate } from "../filters/date";
 import { formatPrice, convertCurrency } from "../filters/money";
 import { hostelShortName } from "../helpers/hostelNames";
 import { getCurrencies } from "../data/currencies";
 import TransactionViewOptions from "../config/transaction-view-options";
 import { getBestLocale } from "../helpers/locale";
+
 // Components
+import BasicGuestDetailsForm from "../components/form/BasicGuestDetailsForm";
+import LeadGuestDetailsForm from "../components/form/LeadGuestDetailsForm";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import TranslationWithAnchor from "../components/TranslationWithAnchor";
 import TransactionSummary from "../components/TransactionSummary";
@@ -560,12 +497,15 @@ import {
   STCHRISTOPHERS_INN_TERMS_URL,
   BEDS_AND_BARS_PRIVACY_URL,
 } from "../config/external-links";
+import { th } from "date-fns/locale";
 
 Vue.use(VStripeElements);
 Vue.use(VueLoadScript);
 
 export default {
   components: {
+    LeadGuestDetailsForm,
+    BasicGuestDetailsForm,
     TheBreadCrumbs,
     TranslationWithAnchor,
     TransactionSummary,
@@ -583,7 +523,7 @@ export default {
       type: Object,
       default() {
         return TransactionViewOptions;
-      } 
+      },
     },
     stripeKey: {
       type: String,
@@ -632,6 +572,12 @@ export default {
         name: [
           (v) => !!v || this.contentTransactionGuestDetails.name.rules.required,
         ],
+        first_name: [
+          (v) => !!v || 'First name is required',
+        ],
+        last_name: [
+          (v) => !!v || 'Last name is required',
+        ],
         terms: [
           (v) => !!v || this.contentTransactionPaymentForm.s5.rules.required,
         ],
@@ -647,7 +593,6 @@ export default {
       isLoadingOverlay: false,
       isError: false,
       uiContentLoaded: null,
-      countries,
       currencies: null,
     };
   },
@@ -694,7 +639,6 @@ export default {
       this.cart = cart;
     });
 
-    
     // this.cart = await idbGet(`cart.${this.cid}`);
     this.cart = await getItems(this.cid);
     this.userLanguage = this.getUserLanguage;
@@ -712,9 +656,21 @@ export default {
 
     this.currencies = getCurrencies(this.hostel.code);
 
-    if (! this.hasMultiplePaymentOptions) {
-      this.data.payMethod = keys(this.paymentOptions)[0];
-      console.log(`Only one payment method is available, set to ${this.data.payMethod}`);
+    if (!this.hasMultiplePaymentMethods) {
+      this.data.payMethod = this.enabledPaymentMethods[0].key;
+      console.info(
+        `Only one payment method is available, set to ${this.data.payMethod}`,
+      );
+    }
+
+    if (
+      !this.hasMultipleDepositRateOptions &&
+      this.enabledDepositRateOptions.length == 1
+    ) {
+      this.data.deposit = this.enabledDepositRateOptions[0].value;
+      console.info(
+        `Only one deposit rate option is available, set to ${this.data.deposit}`,
+      );
     }
 
     this.loading = false;
@@ -738,22 +694,44 @@ export default {
     window.removeEventListener("popstate", this.preventCloseByAccident);
   },
   computed: {
+    guestDetailsComponent() {
+      switch(this.viewOptions.guestDetailsFormComponent){
+        case 'basic':
+          return BasicGuestDetailsForm
+        break;
+        case 'lead':
+          return LeadGuestDetailsForm
+        break;
+        default:
+          return BasicGuestDetailsForm
+      }
+    },
+    guestDetailsComponentProperties() {
+      return {
+        contentTransactionGuestDetails: this.contentTransactionGuestDetails,
+        rules: this.rules,
+        data: this.data,
+      };
+    },
     /**
      * Returns true if there is multiple payment options.
      */
-    hasMultiplePaymentOptions() {
-      return keys(this.paymentOptions).length > 1;
+    hasMultiplePaymentMethods() {
+      return this.enabledPaymentMethods.length > 1;
     },
     /**
-     * Returns the true if the selected payment method has multiple digital Wallet payment options 
+     * Returns the true if the selected payment method has multiple digital Wallet payment options
      * for the selected paymethod method.
      */
-    hasMultipleDigitalWalletPaymentOptions() {
+    hasMultipleDigitalWalletpaymentMethods() {
       return keys(digitalPaymentWalletOptions).length > 1;
+    },
+    hasDigitalWalletPaymentMethods() {
+      return [];
     },
     /**
      * Returns list of enabled payment options.
-     * 
+     *
      * card: {
      * enabled: true,
      * imgSrc:
@@ -785,42 +763,46 @@ export default {
      *    },
      *  ],
      * },
-     * 
+     *
      * More information available on src/config/transaction-view-options.js
-     * 
      */
-    paymentOptions() {
-      return pick(this.viewOptions.gateways, function(gateway, key, object) {
+    enabledPaymentMethods() {
+      return this.viewOptions.gateways.filter(function (gateway) {
         return true === gateway.enabled;
       });
     },
     /**
      * Returns list of enabled digital wallet options for selected payment method.
-     * 
+     *
      * e.g.
-     * 
+     *
      *  applePay: {
      *     imgSrc:
      *      "https://storage.googleapis.com/bedsandbars-images/card-icons1.02fa28e9.svg",
      *     enabled: true,
      *     conditions: () => /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
      *   },
-     * 
      * More informationa avialable on src/config/transaction-view-options.js
-     * 
      */
-    digitalPaymentWalletOptions(){
-        if (! data.payMethod) {
-            console.error('No payment method was selected');
-        }
+    digitalPaymentWalletOptions() {
+      if (!data.payMethod) {
+        console.error("No payment method was selected");
+      }
 
-        const paymentOption = this.paymentOptions[data.payMethod];
+      const paymentMethod = this.enabledPaymentMethods[data.payMethod];
 
-      return pick(paymentOption.supportedDigitalWallets, function(supportedDigitalWallet, key, object) {
-          return supportedDigitalWallet.enabled == true && supportedDigitalWallet.conditions === true;
+      return pick(paymentMethod.supportedDigitalWallets, function (
+        supportedDigitalWallet,
+        key,
+        object,
+      ) {
+        return (
+          supportedDigitalWallet.enabled === true &&
+          supportedDigitalWallet.conditions === true
+        );
       });
     },
-    privacyPolicyLink(){
+    privacyPolicyLink() {
       return BEDS_AND_BARS_PRIVACY_URL;
     },
     termsLink() {
@@ -846,10 +828,36 @@ export default {
 
       return "pk_test_97WWfDjUOsVWAzm3y1g8t0BJ00F4iyqoge";
     },
-    showDepositChoice() {
-      return (
-        this.data.payMethod === "card" || this.data.payMethod === "digital"
+    /**
+     * Returns selected payment method options.
+     */
+    selectedPaymentMethodOptions() {
+      return this.enabledPaymentMethods.filter((paymentMethod) => {
+        return paymentMethod.key === this.data.payMethod;
+      })[0];
+    },
+    hasMultipleDepositRateOptions() {
+      return this.enabledDepositRateOptions.length > 1;
+    },
+    /**
+     * Returns deposit options for selected payment method options, greater than the cart deposit model.
+     */
+    enabledDepositRateOptions() {
+      if (!this.selectedPaymentMethodOptions) {
+        return [];
+      }
+
+      return this.selectedPaymentMethodOptions.depositOptions.filter(
+        (depositOption) => {
+          return (
+            depositOption.enabled &&
+            depositOption.value >= parseInt(this.lowerDepositRate)
+          );
+        },
       );
+    },
+    isPaymentMethodSelected() {
+      return this.data.payMethod != undefined || this.data.payMethod != null;
     },
     isDesktop() {
       if (!window) return true;
@@ -898,13 +906,8 @@ export default {
         (extra) => extra.fields.type === "breakfast",
       ).fields;
     },
-    lowerDeposit() {
+    lowerDepositRate() {
       return this.cart.deposit_model_rate;
-    },
-    lowerDepositLabel() {
-      return this.lowerDeposit === 0
-        ? this.contentTransactionPaymentForm.s2.arrival
-        : `Pay ${this.lowerDeposit}%`;
     },
     ...mapState("bookingEngine", ["journeyUi", "hostelData"]),
     ...mapGetters("bookingEngine", [
@@ -932,7 +935,7 @@ export default {
       // Chrome requires returnValue to be set.
       event.returnValue = "";
 
-      return confirm(this.contentTransactionPaymentForm.other.abandon);
+      return confirm("Are you sure you want to abandon your search?");
     },
     payPalError() {
       this.isError = true;
@@ -1013,9 +1016,6 @@ export default {
           this.isLoadingReservation = false;
           return;
         }
-
-        // await idbSet(`reservation.${this.cid}`, this.reservation);
-        // await idbDel(`cart.${this.cid}`);
 
         const path =
           window.location.pathname.replace("payment", "") + "confirmation";

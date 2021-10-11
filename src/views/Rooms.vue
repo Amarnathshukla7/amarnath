@@ -23,7 +23,11 @@
         :content="contentRoomsSearchSummary"
       />
 
-      <TheBreadCrumbs v-if="uiContentLoaded" :content="contentTheBreadCrumbs" />
+      <TheBreadCrumbs
+        :steps="viewOptions.steps"
+        :current-step-key="viewOptions.currentStepKey"
+        :content="contentTheBreadCrumbs"
+      />
 
       <RoomsServerStatus
         v-if="uiContentLoaded"
@@ -169,7 +173,7 @@ import { bus } from "../plugins/bus";
 import { formatTimezone } from "../helpers/timezone";
 import sortRooms from "../helpers/room/sort";
 import { getBestLocale } from "../helpers/locale";
-import RoomsViewOptions from '../config/rooms-view-options';
+import RoomsViewOptions from "../config/rooms-view-options";
 
 // Components
 import RoomsBookingSummary from "../components/RoomsBookingSummary";
@@ -190,7 +194,7 @@ export default {
       type: Object,
       default() {
         return RoomsViewOptions;
-      } 
+      },
     },
     roomViewAnchorPoint: {
       type: String,

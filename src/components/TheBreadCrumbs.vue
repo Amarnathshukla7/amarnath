@@ -2,20 +2,13 @@
   <figure>
     <div class="breadcrumb-container mt-8">
       <div class="breadcrumb flat">
-        <a href="javascript:void(0)" :class="{ active: step >= 1 }">
-          {{ content.s1 }}
-        </a>
-
-        <a href="javascript:void(0)" :class="{ active: step >= 2 }">
-          {{ content.s2 }}
-        </a>
-
-        <a href="javascript:void(0)" :class="{ active: step >= 3 }">
-          {{ content.s3 }}
-        </a>
-
-        <a href="javascript:void(0)" :class="{ active: step >= 4 }">
-          {{ content.s4 }}
+        <a
+          href="javascript:void(0)"
+          v-for="(step, stepIndex) in steps"
+          :key="step.key"
+          :class="{ active: stepIndex <= currentStepIndex }"
+        >
+          {{ step.displayText }}
         </a>
       </div>
     </div>
@@ -26,38 +19,31 @@
 import { mapState } from "vuex";
 
 export default {
+  computed: {
+    currentStepIndex() {
+      let currentStepIndexVal = 0;
+      this.steps.forEach((step, stepIndex) => {
+        if (step.key == this.currentStepKey) {
+          currentStepIndexVal = stepIndex;
+        }
+      });
+
+      return currentStepIndexVal;
+    },
+  },
   props: {
-    step: {
-      type: Number,
-      default: 2,
+    currentStepKey: {
+      type: String,
+      required: true,
+    },
+    steps: {
+      type: Array,
+      default: () => [],
     },
     content: {
       type: Object,
-      default: () => {
-        return {};
-      },
+      default: () => {},
     },
-  },
-  data() {
-    return {
-      items: [
-        {
-          text: "Dashboard",
-          disabled: false,
-          href: "breadcrumbs_dashboard",
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: "breadcrumbs_link_1",
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: "breadcrumbs_link_2",
-        },
-      ],
-    };
   },
 };
 </script>

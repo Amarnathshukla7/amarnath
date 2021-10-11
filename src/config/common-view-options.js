@@ -2,29 +2,45 @@ export default {
   /**
    * Default value for the current step.
    */
-  currentStep: 'rooms',
+  currentStepKey: "search",
+  canShowSearchWidget: true,
+  getSteps: () => {
+    return this.steps.filter((step) => step.enabled);
+  },
   steps: [
     {
-      name: 'rooms',
-      displayText: 'Availability',
+      enabled: true,
+      key: "search",
+      displayText: "Search",
+      canVisit: true,
     },
     {
-      name: 'transaction',
-      displayText: 'Payment',
+      enabled: true,
+      key: "rooms",
+      displayText: "Availability",
+      canVisit: true,
     },
     {
-      name: 'confirmation',
-      displayText: 'Confirmation',
-    }
+      enabled: true,
+      key: "transaction",
+      displayText: "Payment",
+      canVisit: true,
+    },
+    {
+      enabled: true,
+      key: "confirmation",
+      displayText: "Confirmation",
+      canVisit: true,
+    },
   ],
   /**
    * Show steps built steps/breadcrumbs steps.
-   * e.g. 
+   * e.g.
    */
   showSteps: true,
   /**
    * Default route path for specific pages, this is here only for reference.
    * Please overide this value with the path the application has.
    */
-   relativePath: '/',
-}
+  relativePath: "/",
+};

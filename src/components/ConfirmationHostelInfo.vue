@@ -22,18 +22,6 @@
       class="map mt-4"
       v-html="hostel.hostelPageRef.fields.tabs[0].fields.tabsMap"
     ></div>
-
-    <v-btn
-      href="https://book.st-christophers.co.uk/manage/index.php?s=entry"
-      target="_blank"
-      width="80%"
-      color="secondary"
-      class="subtitle-1 font-weight-bold my-4"
-      large
-      tile
-      depressed
-      >{{ contentConfirmationHostelInfo.manageCta }}</v-btn
-    >
   </v-card>
 </template>
 

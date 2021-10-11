@@ -13,6 +13,9 @@ export const create = async (token, data) => {
 
 export const getReservation = async (token, data) => {
   return axios
-    .get(`/cart-svc/${token}/reservation`, data)
-    .then((res) => res.data);
+    .get(
+      `/cart-svc/${token}/reservations?filter[reservations.status]=success`,
+      data,
+    )
+    .then((res) => res.data.data[0]);
 };
