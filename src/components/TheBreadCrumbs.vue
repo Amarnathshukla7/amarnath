@@ -4,6 +4,7 @@
       <div class="breadcrumb flat">
         <a
           href="javascript:void(0)"
+          @click="goTo(step)"
           v-for="(step, stepIndex) in steps"
           :key="step.key"
           :class="{ active: stepIndex <= currentStepIndex }"
@@ -19,7 +20,25 @@
 import { mapState } from "vuex";
 
 export default {
+  methods: {
+    goTo(step) {
+      let currentPath = this.$route.path;
+      let nextRouteIndex = this.steps.indexOf(step);
+
+      if (!this.canGoBack || nextRouteIndex >= this.currentStepIndex) {
+        return;
+      }
+
+      location.href = location.href.replace(
+        "/" + this.currentPath,
+        step.relativePath,
+      );
+    },
+  },
   computed: {
+    /**
+     * Returns the current step index.
+     */
     currentStepIndex() {
       let currentStepIndexVal = 0;
       this.steps.forEach((step, stepIndex) => {
@@ -30,11 +49,29 @@ export default {
 
       return currentStepIndexVal;
     },
+
+    /**
+     * Returns the current/active step relative path.
+     */
+    currentRelativePath() {
+      if (
+        this.currentStepIndex !== null ||
+        this.currentStepIndex !== undefined
+      ) {
+        return null;
+      }
+
+      return this.steps[this.currentStepIndex];
+    },
   },
   props: {
     currentStepKey: {
       type: String,
       required: true,
+    },
+    canGoBack: {
+      type: Boolean,
+      default: true,
     },
     steps: {
       type: Array,

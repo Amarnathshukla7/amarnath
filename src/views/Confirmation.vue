@@ -12,6 +12,7 @@
             :steps="viewOptions.steps"
             :current-step-key="viewOptions.currentStepKey"
             :content="contentTheBreadCrumbs"
+            :can-go-back="false"
           />
         </v-col>
       </v-row>

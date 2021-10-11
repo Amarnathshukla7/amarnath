@@ -1,6 +1,7 @@
 import CommonViewOptions from "./common-view-options";
 
 let options = {
+  canGoBack: false,
   currentStepKey: "confirmation",
   relativePath: "/confirmation",
   canShowEasterEggOverlay: true,

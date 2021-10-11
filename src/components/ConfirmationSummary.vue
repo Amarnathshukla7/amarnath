@@ -127,7 +127,10 @@
       </v-list-item-content>
     </v-list-item>
 
-    <v-list-item class="py-2 pl-8 accent font-weight-bold" v-if="dueOnArrival > 0">
+    <v-list-item
+      class="py-2 pl-8 accent font-weight-bold"
+      v-if="dueOnArrival > 0"
+    >
       <v-list-item-content>
         <v-list-item-title class="white--text">
           <v-row no-gutters>

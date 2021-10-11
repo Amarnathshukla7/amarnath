@@ -3,6 +3,14 @@ export default {
    * Default value for the current step.
    */
   currentStepKey: "search",
+  /**
+   * Using any navigation the go back button can be used to reset the current cart id.
+   * and its also used for the step navigation to control page swtiches.
+   */
+  canGoBack: true,
+  /**
+   * The search widget can be enabled to display with in the booking journey views.
+   */
   canShowSearchWidget: true,
   getSteps: () => {
     return this.steps.filter((step) => step.enabled);
@@ -13,24 +21,28 @@ export default {
       key: "search",
       displayText: "Search",
       canVisit: true,
+      relativePath: "/search",
     },
     {
       enabled: true,
       key: "rooms",
       displayText: "Availability",
       canVisit: true,
+      relativePath: "/availability",
     },
     {
       enabled: true,
       key: "transaction",
       displayText: "Payment",
       canVisit: true,
+      relativePath: "/payment",
     },
     {
       enabled: true,
       key: "confirmation",
       displayText: "Confirmation",
       canVisit: true,
+      relativePath: "/conformation",
     },
   ],
   /**
