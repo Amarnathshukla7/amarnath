@@ -3,7 +3,7 @@ import CommonViewOptions from "../config/common-view-options";
 let options = {
   currentStepKey: "transaction",
   relativePath: "/payment",
-  guestDetailsFormComponent: 'basic',
+  guestDetailsFormComponent: "basic",
   /**
    * Enable or Disable digital wallets, apple pay and google pay globally.
    */
@@ -118,8 +118,7 @@ let options = {
       enabled: false,
       imgSrc:
         "https://storage.googleapis.com/bedsandbars-images/paypal-icon.580dc673.svg",
-      supportedDigitalWallets: [
-      ],
+      supportedDigitalWallets: [],
       /**
        * Customers can only pay now.
        * The value property of the deposit option presents the value of the booking.

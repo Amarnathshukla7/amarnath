@@ -572,12 +572,8 @@ export default {
         name: [
           (v) => !!v || this.contentTransactionGuestDetails.name.rules.required,
         ],
-        first_name: [
-          (v) => !!v || 'First name is required',
-        ],
-        last_name: [
-          (v) => !!v || 'Last name is required',
-        ],
+        first_name: [(v) => !!v || "First name is required"],
+        last_name: [(v) => !!v || "Last name is required"],
         terms: [
           (v) => !!v || this.contentTransactionPaymentForm.s5.rules.required,
         ],
@@ -695,15 +691,15 @@ export default {
   },
   computed: {
     guestDetailsComponent() {
-      switch(this.viewOptions.guestDetailsFormComponent){
-        case 'basic':
-          return BasicGuestDetailsForm
-        break;
-        case 'lead':
-          return LeadGuestDetailsForm
-        break;
+      switch (this.viewOptions.guestDetailsFormComponent) {
+        case "basic":
+          return BasicGuestDetailsForm;
+          break;
+        case "lead":
+          return LeadGuestDetailsForm;
+          break;
         default:
-          return BasicGuestDetailsForm
+          return BasicGuestDetailsForm;
       }
     },
     guestDetailsComponentProperties() {

@@ -211,11 +211,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2021-10-13",
+      default: "2021-12-13",
     },
     checkOut: {
       type: String,
-      default: "2021-10-14",
+      default: "2021-12-14",
     },
     cid: {
       type: String,

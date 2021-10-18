@@ -2,7 +2,7 @@
   <figure>
     <div class="breadcrumb-container mt-8">
       <div class="breadcrumb flat">
-        <a
+        <button
           href="javascript:void(0)"
           @click="goTo(step)"
           v-for="(step, stepIndex) in steps"
@@ -10,7 +10,7 @@
           :class="{ active: stepIndex <= currentStepIndex }"
         >
           {{ step.displayText }}
-        </a>
+        </button>
       </div>
     </div>
   </figure>
@@ -28,9 +28,9 @@ export default {
       if (!this.canGoBack || nextRouteIndex >= this.currentStepIndex) {
         return;
       }
-
+      
       location.href = location.href.replace(
-        "/" + this.currentPath,
+        currentPath,
         step.relativePath,
       );
     },
@@ -102,7 +102,7 @@ figure {
   z-index: 0;
   position: relative;
 }
-.breadcrumb a {
+.breadcrumb button {
   font-family: $body-font-family;
   text-transform: uppercase;
   font-weight: bold;
@@ -116,18 +116,18 @@ figure {
   padding: 0 10px 0 34px;
   position: relative;
 }
-.breadcrumb a:first-child {
+.breadcrumb button:first-child {
   padding-left: 20px;
 }
-.breadcrumb a:last-child {
+.breadcrumb button:last-child {
   padding-left: 32px;
   padding-right: 14px;
 }
-.breadcrumb a:first-child:before,
-.breadcrumb a:last-child:before {
+.breadcrumb button:first-child:before,
+.breadcrumb button:last-child:before {
   left: 10px;
 }
-.breadcrumb a:after {
+.breadcrumb button:after {
   content: "";
   position: absolute;
   top: 0;
@@ -142,10 +142,10 @@ figure {
     3px -3px 0 2px rgba(255, 255, 255, 0.1);
   border-radius: 0 5px 0 50px;
 }
-.breadcrumb a:last-child:after {
+.breadcrumb button:last-child:after {
   content: none;
 }
-.breadcrumb a:before {
+.breadcrumb button:before {
   border-radius: 100%;
   width: 20px;
   width: 10px;
@@ -157,24 +157,24 @@ figure {
   left: 27px;
   font-weight: bold;
 }
-.flat a,
-.flat a:after {
+.flat button,
+.flat button:after {
   background: #e6e6e5;
   color: var(--echo-color) !important;
   transition: all 0.5s;
 }
-.flat a.active,
-.flat a.active:after {
+.flat button.active,
+.flat button.active:after {
   background: var(--v-accent-base);
   color: #fff !important;
 }
 @media screen and (max-width: 360px) {
-  .breadcrumb a {
+  .breadcrumb button {
     font-size: 8px;
   }
 }
 @media screen and (min-width: 361px) and (max-width: 385px) {
-  .breadcrumb a {
+  .breadcrumb button {
     font-size: 10px;
   }
 }
@@ -185,7 +185,7 @@ figure {
   }
 }
 @media screen and (max-width: 900px) {
-  .breadcrumb a .span-mobile-hide {
+  .breadcrumb button .span-mobile-hide {
     display: none;
   }
 }
@@ -196,56 +196,56 @@ figure {
       grid-template-columns: repeat(4, 1fr);
       margin: auto;
     }
-    .breadcrumb a {
+    .breadcrumb button {
       padding-left: 43px;
     }
-    .breadcrumb a:before {
+    .breadcrumb button:before {
       content: counter(flag);
       counter-increment: flag;
     }
-    .breadcrumb a::before,
-    .breadcrumb a:first-child::before {
+    .breadcrumb button::before,
+    .breadcrumb button:first-child::before {
       left: 30px;
     }
-    .breadcrumb a:first-child {
+    .breadcrumb button:first-child {
       padding-left: 40px;
       padding-right: 0px;
     }
-    .breadcrumb a:last-child {
+    .breadcrumb button:last-child {
       padding-left: 42px;
     }
-    .breadcrumb a:last-child:before {
+    .breadcrumb button:last-child:before {
       left: 30px;
     }
   }
   @media screen and (min-width: 700px) {
-    .breadcrumb a {
+    .breadcrumb button {
       font-size: 16px;
       padding: 10px 30px 10px 75px;
     }
-    .breadcrumb a::before {
+    .breadcrumb button::before {
       font-size: 16px;
       line-height: unset;
       margin: 10px 0;
     }
-    .breadcrumb a::after {
+    .breadcrumb button::after {
       top: 8px;
       right: -17px;
       width: 40px;
       height: 40px;
       transform: scale(1) rotate(45deg);
     }
-    .breadcrumb a::before,
-    .breadcrumb a:first-child::before {
+    .breadcrumb button::before,
+    .breadcrumb button:first-child::before {
       left: 56px;
     }
-    .breadcrumb a:last-child:before {
+    .breadcrumb button:last-child:before {
       left: 65px;
     }
-    .breadcrumb a:last-child {
+    .breadcrumb button:last-child {
       padding-left: 85px;
     }
-    .breadcrumb a:first-child {
+    .breadcrumb button:first-child {
       padding-left: 75px;
     }
     .confirmation-vue figure {
