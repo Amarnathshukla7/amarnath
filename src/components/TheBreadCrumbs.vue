@@ -28,11 +28,8 @@ export default {
       if (!this.canGoBack || nextRouteIndex >= this.currentStepIndex) {
         return;
       }
-      
-      location.href = location.href.replace(
-        currentPath,
-        step.relativePath,
-      );
+
+      location.href = location.href.replace(currentPath, step.relativePath);
     },
   },
   computed: {

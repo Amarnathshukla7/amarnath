@@ -44,8 +44,11 @@
     </v-row>
     <div class="bg-gray-200 text-white">
       <details>
-          <summary>Why do we need these details?</summary>
-          The lead guest details will be stored in our property management system and used to identify the lead guest on arrival. We take contact details so that in the unlikely case of an emergency, we have a way to reach out to the guest. These will not be used for direct marketing.
+        <summary>Why do we need these details?</summary>
+        The lead guest details will be stored in our property management system
+        and used to identify the lead guest on arrival. We take contact details
+        so that in the unlikely case of an emergency, we have a way to reach out
+        to the guest. These will not be used for direct marketing.
       </details>
     </div>
   </div>
@@ -76,25 +79,25 @@ export default {
 </script>
 <style scoped>
 details {
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    padding: .5em .5em 0;
-    font-size: .9em
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 0.5em 0.5em 0;
+  font-size: 0.9em;
 }
 
 summary {
-    font-weight: bold;
-    font-size: .9em;
-    margin: -.5em -.5em 0;
-    padding: .5em;
+  font-weight: bold;
+  font-size: 0.9em;
+  margin: -0.5em -0.5em 0;
+  padding: 0.5em;
 }
 
 details[open] {
-    padding: .5em;
+  padding: 0.5em;
 }
 
 details[open] summary {
-    border-bottom: 1px solid #aaa;
-    margin-bottom: .5em;
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 0.5em;
 }
 </style>
