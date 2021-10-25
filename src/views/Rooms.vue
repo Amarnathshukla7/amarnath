@@ -389,36 +389,27 @@ export default {
         return;
       }
 
-      try {
-        this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
+      this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
 
-        const [rooms, hostel] = await Promise.all([
-          getAvailability(
-            this.hostelCode,
-            this.checkIn,
-            this.checkOut,
-            this.cid,
-          ),
-          find(this.hostelCode),
-        ]);
+      const [rooms, hostel] = await Promise.all([
+        getAvailability(this.hostelCode, this.checkIn, this.checkOut, this.cid),
+        find(this.hostelCode),
+      ]);
 
-        if (rooms.message && rooms.message === "unable to get availablity") {
-          this.availabilityError = true;
-          this.isLoading = false;
-          return;
-        }
-
-        await this.createOrLoadCart();
-
-        this.rooms = rooms;
-        this.hostel = this.contentHostelData;
-        this.userLanguage = this.getUserLanguage;
-        this.hostelConf = hostel;
-        this.depositModelRate = this.cart.deposit_model_rate;
-      } catch (e) {
-        console.error(e);
-        this.isError = true;
+      if (rooms.message && rooms.message === "unable to get availablity") {
+        this.availabilityError = true;
+        this.isLoading = false;
+        return;
       }
+
+      await this.createOrLoadCart();
+
+      this.rooms = rooms;
+      this.hostel = this.contentHostelData;
+      this.userLanguage = this.getUserLanguage;
+      this.hostelConf = hostel;
+      console.log({ cart: this.cart });
+      this.depositModelRate = this.cart.deposit_model_rate;
 
       this.isLoading = false;
     },

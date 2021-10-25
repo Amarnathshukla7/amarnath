@@ -165,11 +165,16 @@
                                     </v-radio>
                                   </v-col>
 
-                                  <!-- <v-col cols="12" sm="6" md="3">
-                                    <v-radio
-                                      v-if="viewOptions.digitalWalletEnabled && isStripe"
-                                      value="digital"
-                                    >
+                                  <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="3"
+                                    v-if="
+                                      viewOptions.digitalWalletEnabled &&
+                                      isStripe
+                                    "
+                                  >
+                                    <v-radio value="digital">
                                       <img
                                         v-if="isChrome"
                                         slot="label"
@@ -183,7 +188,7 @@
                                         src="https://storage.googleapis.com/bedsandbars-images/apple-pay.aac3a5bc.png"
                                       />
                                     </v-radio>
-                                  </v-col> -->
+                                  </v-col>
                                 </v-row>
                               </v-radio-group>
                             </v-col>
@@ -266,23 +271,6 @@
                                 :deposit="data.deposit"
                                 :stripe-key="stripeApiKey"
                                 :selected-currency="selectedCurrency"
-                              />
-
-                              <TransactionFormPaymentSage
-                                v-if="isSagepay && !showPaypal"
-                                ref="sagepayContainer"
-                                :deposit="data.deposit"
-                                :selected-currency="selectedCurrency"
-                                :hostel-code="hostelConf.hostel_code"
-                                @payment-failed="payPalError"
-                                @complete-transaction="
-                                  (transaction, card) =>
-                                    completeTransaction(
-                                      transaction,
-                                      'sagepay',
-                                      card,
-                                    )
-                                "
                               />
                             </v-col>
                           </v-row>
@@ -487,7 +475,6 @@ import TransactionOverlayError from "../components/TransactionOverlayError";
 import TransactionOverlayLoading from "../components/TransactionOverlayLoading";
 import TransactionSearchSummaryMobile from "../components/TransactionSearchSummaryMobile";
 import TransactionFormPaymentPaypal from "../components/TransactionFormPaymentPaypal";
-import TransactionFormPaymentSage from "../components/TransactionFormPaymentSage";
 import TransactionFormPaymentStripeCard from "../components/TransactionFormPaymentStripeCard";
 import TransactionFormPaymentStripePaymentRequest from "../components/TransactionFormPaymentStripePaymentRequest";
 
@@ -515,7 +502,6 @@ export default {
     TransactionSearchSummaryMobile,
     TransactionFormPaymentPaypal,
     TransactionFormPaymentStripeCard,
-    TransactionFormPaymentSage,
     TransactionFormPaymentStripePaymentRequest,
   },
   props: {
@@ -544,7 +530,6 @@ export default {
       hostelConf: null,
       hostel: null,
       currencyRate: 1,
-      digitalWalletEnabled: false,
       formErrorSnackbar: false,
       reservation: null,
       valid: false,
@@ -878,10 +863,6 @@ export default {
       if (!this.hostelConf) return null;
       return this.hostelConf.is_paypal_enabled;
     },
-    isSagepay() {
-      if (!this.hostelConf) return null;
-      return this.hostelConf.payment_gateway_name === "Sagepay";
-    },
     isStripe() {
       if (!this.hostelConf) return null;
       return this.hostelConf.payment_gateway_name === "Stripe";
@@ -950,7 +931,6 @@ export default {
         this.isLoadingReservation = false;
       }
     },
-    createSagepayReservation() {},
     createPreqReservation(transaction) {
       this.isLoadingOverlay = true;
       this.isLoadingReservation = true;
@@ -976,18 +956,6 @@ export default {
         if (this.isStripe) {
           const transaction = await this.$refs.stripeContainer.createStripeTransaction();
           this.completeTransaction(transaction, "stripe");
-        } else if (this.isSagepay) {
-          const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
-          if (!transaction.transaction) {
-            this.isLoadingOverlay = false;
-            this.isLoadingReservation = false;
-            return;
-          }
-          this.completeTransaction(
-            transaction.transaction,
-            "sagepay",
-            transaction.card,
-          );
         }
       } catch (e) {
         this.isError = true;
