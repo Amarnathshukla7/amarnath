@@ -15,6 +15,8 @@ const wihpIds = {
   BCN: 190109,
   GRE: 190110,
   HMM: 190111,
+  FPD: 204119,
+  FPU: 204124,
 };
 
 const isWihpBooking = (hostelCode) => hostelCode in wihpIds;
