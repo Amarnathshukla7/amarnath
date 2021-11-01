@@ -658,7 +658,7 @@ export default {
     this.isLoadingOverlay = false;
     this.isLoadingReservation = false;
 
-    console.log({ viewOptions: this.viewOptions });
+    console.info({ viewOptions: this.viewOptions });
   },
   mounted() {
     setTimeout(() => {
@@ -676,6 +676,7 @@ export default {
   },
   computed: {
     guestDetailsComponent() {
+      console.info({ viewOptions: this.viewOptions });
       switch (this.viewOptions.guestDetailsFormComponent) {
         case "basic":
           return BasicGuestDetailsForm;

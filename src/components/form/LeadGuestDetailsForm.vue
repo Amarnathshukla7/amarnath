@@ -34,12 +34,23 @@
       <!-- PHONE -->
       <v-col cols="12" md="6">
         <v-text-field
-          class="mt-n6 mb-md-n6"
+          class="mt-n6 mt-md-0"
           :label="contentTransactionGuestDetails.phone.label"
           :rules="rules.phone"
           v-model="data.guest.phone"
           outlined
         ></v-text-field>
+      </v-col>
+
+      <!-- COUNTRY -->
+      <v-col cols="12" md="12">
+        <v-autocomplete
+          :items="countries"
+          :label="contentTransactionGuestDetails.country.label"
+          :rules="rules.country"
+          v-model="data.guest.country"
+          outlined
+        ></v-autocomplete>
       </v-col>
     </v-row>
     <div class="bg-gray-200 text-white">
@@ -54,6 +65,8 @@
   </div>
 </template>
 <script>
+import countries from "../../data/countries";
+
 export default {
   props: {
     contentTransactionGuestDetails: {
@@ -74,6 +87,11 @@ export default {
         return {};
       },
     },
+  },
+  data() {
+    return {
+      countries,
+    };
   },
 };
 </script>
