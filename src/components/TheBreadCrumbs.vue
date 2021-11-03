@@ -94,7 +94,6 @@ figure {
 }
 .breadcrumb-container {
   margin: 0;
-  max-width: 980px;
   margin: auto;
   z-index: 0;
   position: relative;

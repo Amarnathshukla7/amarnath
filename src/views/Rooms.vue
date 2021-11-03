@@ -42,7 +42,7 @@
         @close-groups-modal="showGroupsModal = false"
       />
 
-      <v-container v-if="hostel && hostelConf">
+      <div v-if="hostel && hostelConf">
         <v-row
           class="language-picker-and-room-options"
           v-show="!showSummaryBreakfast"
@@ -54,7 +54,7 @@
               @languageChange="handleLanguageChange"
             />
           </v-col>
-          <v-col cols="9" sm="10" xl="8" class="ml-3">
+          <v-col cols="10" sm="11" xl="8">
             <RoomsOptionsSort
               :hostel-code="hostelCode"
               :content="contentRoomsOptions"
@@ -142,7 +142,7 @@
             />
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </main>
   </v-app>
 </template>
@@ -517,7 +517,6 @@ export default {
 
 .language-picker-and-room-options {
   margin: auto;
-  max-width: 1161px;
 }
 
 @media screen and (min-width: 600px) {

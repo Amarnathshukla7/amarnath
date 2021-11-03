@@ -89,10 +89,4 @@ export default {
     display: inline;
   }
 }
-
-@media screen and (min-width: 960px) {
-  .search-card {
-    max-width: 980px;
-  }
-}
 </style>
