@@ -111,6 +111,7 @@ figure {
   color: white;
   padding: 0 10px 0 34px;
   position: relative;
+  text-align: left;
 }
 .breadcrumb button:first-child {
   padding-left: 20px;
