@@ -544,6 +544,7 @@ export default {
           email: null,
           phone: null,
           country: null,
+          send_confirmation_email: false,
         },
       },
       rules: {
