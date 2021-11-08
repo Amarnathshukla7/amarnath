@@ -48,12 +48,6 @@
           v-show="!showSummaryBreakfast"
           no-gutters
         >
-          <v-col v-if="true" cols="2" sm="1">
-            <TheLanguagePicker
-              :userLanguage="userLanguage"
-              @languageChange="handleLanguageChange"
-            />
-          </v-col>
           <v-col cols="10" sm="11" xl="8">
             <RoomsOptionsSort
               :hostel-code="hostelCode"
@@ -179,7 +173,6 @@ import RoomsViewOptions from "../config/rooms-view-options";
 import RoomsBookingSummary from "../components/RoomsBookingSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import TheCovidMeasures from "../components/TheCovidMeasures";
-import TheLanguagePicker from "../components/TheLanguagePicker";
 import RoomsOverlayError from "../components/RoomsOverlayError";
 import RoomsOptionsSort from "../components/RoomsOptionsSort";
 import RoomsListingContainer from "../components/RoomsListingContainer";
@@ -244,7 +237,6 @@ export default {
     RoomsBookingSummary,
     TheBreadCrumbs,
     TheCovidMeasures,
-    TheLanguagePicker,
     RoomsOverlayError,
     RoomsOptionsSort,
     RoomsListingContainer,

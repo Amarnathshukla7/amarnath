@@ -18,7 +18,7 @@
         :content="contentTheBreadCrumbs"
       />
 
-      <v-container v-if="hostel && hostelConf">
+      <div v-if="hostel && hostelConf">
         <v-row>
           <v-col cols="12" class="hidden-sm-and-up">
             <TransactionSearchSummaryMobile
@@ -46,7 +46,12 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                          class="
+                            font-weight-bold
+                            white--text
+                            subtitle-2
+                            text-uppercase
+                          "
                         >
                           Main Guest Details
                         </div>
@@ -70,7 +75,12 @@
                     <v-expansion-panel v-if="viewOptions.canApplyCouponCode">
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="font-weight-bold white--text subtitle-2 text-uppercase"
+                          class="
+                            font-weight-bold
+                            white--text
+                            subtitle-2
+                            text-uppercase
+                          "
                         >
                           {{
                             contentTransactionPanelHeaders.transaction.coupon
@@ -107,7 +117,7 @@
 
                       <v-expansion-panel-content color="white">
                         <v-checkbox
-                          v-model="data.send_confirmation_email_to_customer"
+                          v-model="data.guest.send_confirmation_email"
                         >
                           <label slot="label">
                             Send confirmation email to customer.
@@ -137,7 +147,12 @@
                           <v-row no-gutters v-if="hasMultiplePaymentMethods">
                             <v-col cols="12">
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 How would you like to pay?
                               </div>
@@ -203,7 +218,12 @@
                           >
                             <v-col cols="12">
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <!-- When would you like to pay? -->
                                 {{ contentTransactionPaymentForm.s2.question }}
@@ -233,7 +253,12 @@
                               md="6"
                             >
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <!-- Preferred Currency -->
                                 3.
@@ -257,7 +282,12 @@
                           <v-row v-show="showCard" no-gutters>
                             <v-col cols="12">
                               <div
-                                class="subtitle-1 text-left accent--text font-weight-bold"
+                                class="
+                                  subtitle-1
+                                  text-left
+                                  accent--text
+                                  font-weight-bold
+                                "
                               >
                                 <!-- Card Details -->
                                 {{ contentTransactionPaymentForm.s4.question }}
@@ -428,7 +458,7 @@
             />
           </v-col>
         </v-row>
-      </v-container>
+      </div>
 
       <v-snackbar top v-model="formErrorSnackbar">
         Please check that all fields in the form are filled out correctly
@@ -773,16 +803,15 @@ export default {
 
       const paymentMethod = this.enabledPaymentMethods[data.payMethod];
 
-      return pick(paymentMethod.supportedDigitalWallets, function (
-        supportedDigitalWallet,
-        key,
-        object,
-      ) {
-        return (
-          supportedDigitalWallet.enabled === true &&
-          supportedDigitalWallet.conditions === true
-        );
-      });
+      return pick(
+        paymentMethod.supportedDigitalWallets,
+        function (supportedDigitalWallet, key, object) {
+          return (
+            supportedDigitalWallet.enabled === true &&
+            supportedDigitalWallet.conditions === true
+          );
+        },
+      );
     },
     privacyPolicyLink() {
       return BEDS_AND_BARS_PRIVACY_URL;
@@ -955,7 +984,8 @@ export default {
 
       try {
         if (this.isStripe) {
-          const transaction = await this.$refs.stripeContainer.createStripeTransaction();
+          const transaction =
+            await this.$refs.stripeContainer.createStripeTransaction();
           this.completeTransaction(transaction, "stripe");
         }
       } catch (e) {

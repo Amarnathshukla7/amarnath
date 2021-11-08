@@ -1,5 +1,5 @@
 <template>
-  <section class="search-summary px-5">
+  <section class="search-summary">
     <v-card outlined tile class="search-card my-8 mx-auto pa-5">
       <ul>
         <li class="mr-2 mb-3">
