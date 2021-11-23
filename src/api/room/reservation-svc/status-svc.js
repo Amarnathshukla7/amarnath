@@ -1,6 +1,6 @@
-import axios from "axios";
+import { resrvationClient } from "../../axios";
 
 export const getStatus = async (code) =>
-  axios.get(`/status-svc/`).then(async (res) => {
+  resrvationClient.get(`/status`).then(async (res) => {
     return res.data;
   });

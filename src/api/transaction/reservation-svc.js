@@ -1,10 +1,9 @@
-import axios from "axios";
-import { get } from "idb-keyval";
+import { resrvationClient } from "../axios";
 
 export const create = async (token, data) => {
   const accessToken = localStorage.getItem("auth._token.local");
-  return axios
-    .post(`/reservation-svc/${token}`, data, {
+  return resrvationClient
+    .post(`/reservations/${token}`, data, {
       headers: {
         ...(accessToken && { Authorization: accessToken }),
       },

@@ -1,7 +1,6 @@
-import axios from "axios";
-import { set } from "idb-keyval";
+import { resrvationClient } from "../../axios";
 
 export const find = async (code) =>
-  axios.get(`/hostel-svc/${code}`).then(async (res) => {
+  resrvationClient.get(`/hostels/${code}`).then(async (res) => {
     return res.data;
   });

@@ -1,27 +1,28 @@
 import axios from "axios";
+import { resrvationClient } from "../axios";
 
 export const discount = async (code, token) => {
-  return axios
-    .put(`/cart-svc/${token}/discounts/${code}`)
+  return resrvationClient
+    .put(`/carts/${token}/discounts/${code}`)
     .then((res) => res.data);
 };
 
 export const addExtra = async (extra, token) => {
-  return axios
-    .post(`/cart-svc/${token}/items`, {
+  return resrvationClient
+    .post(`/carts/${token}/items`, {
       ...extra,
     })
     .then((res) => res.data);
 };
 
 export const deleteExtra = async (code, token) => {
-  return axios
-    .delete(`/cart-svc/${token}/items/${code}`)
+  return resrvationClient
+    .delete(`/carts/${token}/items/${code}`)
     .then((res) => res.data);
 };
 
 export const getCurrencyRate = async (currency, token) => {
-  return axios
-    .get(`/cart-svc/${token}/currency/${currency}`)
+  return resrvationClient
+    .get(`/carts/${token}/currency/${currency}`)
     .then((res) => parseFloat(res.data.rate));
 };

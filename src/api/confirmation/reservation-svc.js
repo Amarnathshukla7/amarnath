@@ -1,5 +1,6 @@
 import axios from "axios";
+import { resrvationClient } from "../axios";
 
 export const get = async (ref) => {
-  return axios.get(`/reservation-svc/${ref}`).then((res) => res.data);
+  return resrvationClient.get(`/transactions/${ref}`).then((res) => res.data);
 };
