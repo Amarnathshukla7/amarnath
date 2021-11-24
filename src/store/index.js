@@ -9,7 +9,7 @@ const uiClient = fpSpaceClient();
 export const bookingEngine = {
   namespaced: true,
   state: () => ({
-    isProduction: true,
+    isProduction: (process.env.VUE_APP_ENV || "production") === "production",
     journeyUi: {},
     hostelData: {},
     userLanguage: "en-GB",

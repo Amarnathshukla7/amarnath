@@ -355,7 +355,7 @@ export default {
         console.info(
           "The sessions doesn't have an exisiting cart, creating a new cart.",
         );
-        this.cart = await createCart(this.bookingSource, this.cid);
+        this.cart = await createCart(this, this.bookingSource, this.cid);
         // The cart items is not returned when the cart is created.
         this.cart.items = [];
       }
@@ -379,15 +379,13 @@ export default {
       this.isLoading = true;
       this.reset();
 
-      const status = await getStatus();
+      const status = await getStatus(this);
       if (status.upgrading) {
         this.isStatus = true;
         this.status = status.message;
         this.isLoading = false;
         return;
       }
-
-      console.log(status);
 
       try {
         this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
@@ -400,7 +398,7 @@ export default {
             this.checkOut,
             this.cid,
           ),
-          find(this.hostelCode),
+          find(this, this.hostelCode),
         ]);
 
         if (rooms.message && rooms.message === "unable to get availablity") {
@@ -408,8 +406,6 @@ export default {
           this.isLoading = false;
           return;
         }
-
-        console.log(rooms);
 
         await this.createOrLoadCart();
 

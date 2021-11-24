@@ -655,7 +655,7 @@ export default {
       this.cart.hostel_code,
     );
 
-    const [hostelConf] = await Promise.all([find(this.cart.hostel_code)]);
+    const [hostelConf] = await Promise.all([find(this, this.cart.hostel_code)]);
 
     this.hostelConf = hostelConf;
     // this.hostel = hostel;
