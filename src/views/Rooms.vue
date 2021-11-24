@@ -394,6 +394,7 @@ export default {
 
         const [rooms, hostel] = await Promise.all([
           getAvailability(
+            this,
             this.hostelCode,
             this.checkIn,
             this.checkOut,

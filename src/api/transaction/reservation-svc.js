@@ -1,8 +1,8 @@
-import { resrvationClient } from "../axios";
+import { reservationClient } from "../axios";
 
-export const create = async (token, data) => {
+export const create = async (vm, token, data) => {
   const accessToken = localStorage.getItem("auth._token.local");
-  return resrvationClient
+  return reservationClient(vm)
     .post(`/reservations/${token}`, data, {
       headers: {
         ...(accessToken && { Authorization: accessToken }),

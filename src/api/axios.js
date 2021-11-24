@@ -1,13 +1,35 @@
 import axios from "axios";
 
-export const searchClient = axios.create({
-  baseURL: "https://search-svc-labmweueeq-nw.a.run.app",
-});
+function getURL(env, vm, fallbackStage, fallback) {
+  if (env) {
+    return env;
+  }
 
-export const feedbackClient = axios.create({
-  baseURL: "https://feedback.svc.bedsandbars.com",
-});
+  if (vm.$store?.state?.bookingEngine?.isProduction === false) {
+    return fallbackStage;
+  }
 
-export const resrvationClient = axios.create({
-  baseURL: "https://reservation.bnb-platform.com/api",
-});
+  return fallback;
+}
+
+export const searchClient = (vm) => {
+  return axios.create({
+    baseURL: getURL(
+      process.env.VUE_APP_SEARCH_SVC_URL,
+      vm,
+      "https://search-stage-svc-labmweueeq-nw.a.run.app",
+      "https://search-svc-labmweueeq-nw.a.run.app",
+    ),
+  });
+};
+
+export const reservationClient = (vm) => {
+  return axios.create({
+    baseURL: getURL(
+      process.env.VUE_APP_RESERVATION_SVC_URL,
+      vm,
+      "https://reservation.stage.bnb-platform.com/api",
+      "https://reservation.bnb-platform.com/api",
+    ),
+  });
+};

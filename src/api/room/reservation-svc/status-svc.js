@@ -1,6 +1,8 @@
-import { resrvationClient } from "../../axios";
+import { reservationClient } from "../../axios";
 
-export const getStatus = async (code) =>
-  resrvationClient.get(`/status`).then(async (res) => {
-    return res.data;
-  });
+export const getStatus = async (vm, code) =>
+  reservationClient(vm)
+    .get(`/status`)
+    .then(async (res) => {
+      return res.data;
+    });

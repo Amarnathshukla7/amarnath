@@ -1,6 +1,8 @@
-import { resrvationClient } from "../../axios";
+import { reservationClient } from "../../axios";
 
-export const find = async (code) =>
-  resrvationClient.get(`/hostels/${code}`).then(async (res) => {
-    return res.data;
-  });
+export const find = async (vm, code) =>
+  reservationClient(vm)
+    .get(`/hostels/${code}`)
+    .then(async (res) => {
+      return res.data;
+    });
