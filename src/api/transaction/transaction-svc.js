@@ -1,8 +1,8 @@
 import axios from "axios";
-import { resrvationClient } from "../axios";
+import { reservationClient } from "../axios";
 
-export const create = async (token, gateway, deposit = 100, currency) => {
-  return resrvationClient
+export const create = async (vm, token, gateway, deposit = 100, currency) => {
+  return reservationClient(vm)
     .post(`/transactions/${token}`, {
       gateway,
       deposit,

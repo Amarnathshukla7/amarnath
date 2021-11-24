@@ -1,10 +1,10 @@
 import axios from "axios";
 import { searchClient } from "../axios";
 
-export const availability = async (hostel, start, end, token) => {
+export const availability = async (vm, hostel, start, end, token) => {
   const accessToken = localStorage.getItem("auth._token.local");
 
-  return searchClient
+  return searchClient(vm)
     .get(`/${hostel}/${start}/${end}?token=${token}`, {
       headers: {
         ...(accessToken && { Authorization: accessToken }),
@@ -28,8 +28,8 @@ export const availability = async (hostel, start, end, token) => {
     });
 };
 
-export const getBreakfastPrice = async (breakfastCode, token) => {
-  const resp = await searchClient.get(`/cache/${token}`);
+export const getBreakfastPrice = async (vm, breakfastCode, token) => {
+  const resp = await searchClient(vm).get(`/cache/${token}`);
 
   try {
     return resp.data.availability.service[breakfastCode].price;
