@@ -323,7 +323,7 @@ export default {
     async deleteFromCart(code, date) {
       try {
         this.isCartUpdating = true;
-        this.cart = await removeItem(code, date, this.cartData.token);
+        this.cart = await removeItem(this, code, date, this.cartData.token);
         await idbSet(`cart.${this.$route.query.cid}`, this.cart);
         bus.$emit("set-room-amount", code, this.oneDayBooking ? "" : date, 0);
       } catch (e) {

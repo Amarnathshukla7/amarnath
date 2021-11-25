@@ -229,6 +229,7 @@ export default {
   methods: {
     async createSagepayTransaction() {
       let transaction = await create(
+        this,
         this.$route.query.cid,
         "sagepay",
         this.deposit,

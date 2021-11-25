@@ -200,11 +200,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2021-10-13",
+      default: "2021-12-13",
     },
     checkOut: {
       type: String,
-      default: "2021-10-14",
+      default: "2021-12-14",
     },
     cid: {
       type: String,
@@ -355,7 +355,7 @@ export default {
         console.info(
           "The sessions doesn't have an exisiting cart, creating a new cart.",
         );
-        this.cart = await createCart(this.bookingSource, this.cid);
+        this.cart = await createCart(this, this.bookingSource, this.cid);
         // The cart items is not returned when the cart is created.
         this.cart.items = [];
       }
@@ -379,7 +379,7 @@ export default {
       this.isLoading = true;
       this.reset();
 
-      const status = await getStatus();
+      const status = await getStatus(this);
       if (status.upgrading) {
         this.isStatus = true;
         this.status = status.message;
@@ -392,12 +392,13 @@ export default {
 
         const [rooms, hostel] = await Promise.all([
           getAvailability(
+            this,
             this.hostelCode,
             this.checkIn,
             this.checkOut,
             this.cid,
           ),
-          find(this.hostelCode),
+          find(this, this.hostelCode),
         ]);
 
         if (rooms.message && rooms.message === "unable to get availablity") {
