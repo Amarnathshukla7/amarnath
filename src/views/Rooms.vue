@@ -183,6 +183,10 @@ import RoomsServerStatus from "../components/RoomsServerStatus";
 
 export default {
   props: {
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
     viewOptions: {
       type: Object,
       default() {
@@ -254,7 +258,6 @@ export default {
       showGroupsModal: false,
       groupBookingModalAlreadyShown: false,
       openPanel: [0, 1, 2],
-      isLoading: false,
       isError: false,
       isStatus: false,
       status: null,

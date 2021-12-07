@@ -1,6 +1,6 @@
 <template>
   <figure>
-    <div class="breadcrumb-container mt-8">
+    <div class="breadcrumb-container my-8">
       <div class="breadcrumb flat">
         <button
           href="javascript:void(0)"

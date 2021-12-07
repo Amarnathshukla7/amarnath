@@ -46,12 +46,7 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="
-                            font-weight-bold
-                            white--text
-                            subtitle-2
-                            text-uppercase
-                          "
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           Main Guest Details
                         </div>
@@ -75,12 +70,7 @@
                     <v-expansion-panel v-if="viewOptions.canApplyCouponCode">
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="
-                            font-weight-bold
-                            white--text
-                            subtitle-2
-                            text-uppercase
-                          "
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           {{
                             contentTransactionPanelHeaders.transaction.coupon
@@ -106,12 +96,7 @@
                     >
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="
-                            font-weight-bold
-                            white--text
-                            subtitle-2
-                            text-uppercase
-                          "
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           Confirmation email
                         </div>
@@ -134,12 +119,7 @@
                     <v-expansion-panel>
                       <v-expansion-panel-header color="primary">
                         <div
-                          class="
-                            font-weight-bold
-                            white--text
-                            subtitle-2
-                            text-uppercase
-                          "
+                          class="font-weight-bold white--text subtitle-2 text-uppercase"
                         >
                           {{
                             contentTransactionPanelHeaders.transaction.payment
@@ -155,12 +135,7 @@
                           <v-row no-gutters v-if="hasMultiplePaymentMethods">
                             <v-col cols="12">
                               <div
-                                class="
-                                  subtitle-1
-                                  text-left
-                                  accent--text
-                                  font-weight-bold
-                                "
+                                class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 How would you like to pay?
                               </div>
@@ -226,12 +201,7 @@
                           >
                             <v-col cols="12">
                               <div
-                                class="
-                                  subtitle-1
-                                  text-left
-                                  accent--text
-                                  font-weight-bold
-                                "
+                                class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- When would you like to pay? -->
                                 {{ contentTransactionPaymentForm.s2.question }}
@@ -261,12 +231,7 @@
                               md="6"
                             >
                               <div
-                                class="
-                                  subtitle-1
-                                  text-left
-                                  accent--text
-                                  font-weight-bold
-                                "
+                                class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- Preferred Currency -->
                                 3.
@@ -290,12 +255,7 @@
                           <v-row v-show="showCard" no-gutters>
                             <v-col cols="12">
                               <div
-                                class="
-                                  subtitle-1
-                                  text-left
-                                  accent--text
-                                  font-weight-bold
-                                "
+                                class="subtitle-1 text-left accent--text font-weight-bold"
                               >
                                 <!-- Card Details -->
                                 {{ contentTransactionPaymentForm.s4.question }}
@@ -812,15 +772,16 @@ export default {
 
       const paymentMethod = this.enabledPaymentMethods[data.payMethod];
 
-      return pick(
-        paymentMethod.supportedDigitalWallets,
-        function (supportedDigitalWallet, key, object) {
-          return (
-            supportedDigitalWallet.enabled === true &&
-            supportedDigitalWallet.conditions === true
-          );
-        },
-      );
+      return pick(paymentMethod.supportedDigitalWallets, function (
+        supportedDigitalWallet,
+        key,
+        object,
+      ) {
+        return (
+          supportedDigitalWallet.enabled === true &&
+          supportedDigitalWallet.conditions === true
+        );
+      });
     },
     privacyPolicyLink() {
       return BEDS_AND_BARS_PRIVACY_URL;
@@ -993,8 +954,7 @@ export default {
 
       try {
         if (this.isStripe) {
-          const transaction =
-            await this.$refs.stripeContainer.createStripeTransaction();
+          const transaction = await this.$refs.stripeContainer.createStripeTransaction();
           this.completeTransaction(transaction, "stripe");
         }
       } catch (e) {
