@@ -927,11 +927,6 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@bbwmc/icons@^0.0.3":
-  version "0.0.3"
-  resolved "https://npm.pkg.github.com/download/@bbwmc/icons/0.0.3/015f7e2e37703db344b0bfda02bfaa5e3910301f92bcec0b178c4c89e336095e#3de25c0aaaa2dee0a19f153b515c3c6dd257b4eb"
-  integrity sha512-kGVsrsk2pNGEbJ1R4+cwSR/BQA7qzyeztuAelo4OjAcV9/0r6zrb8UUE7wE8zHnWD2lKLf3mq8mamXeyc3HIcw==
-
 "@chenfengyuan/vue-number-input@^1.2.1":
   version "1.2.1"
   resolved "https://registry.npmjs.org/@chenfengyuan/vue-number-input/-/vue-number-input-1.2.1.tgz"
