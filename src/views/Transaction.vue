@@ -583,7 +583,7 @@ export default {
     async selectedCurrency(curr) {
       this.isLoading = true;
       try {
-        this.currencyRate = await getCurrencyRate(curr, this.cid);
+        this.currencyRate = await getCurrencyRate(this, curr, this.cid);
       } catch (error) {
         if (this.hostelConf.currency === curr) {
           this.currencyRate = 1;
@@ -628,7 +628,9 @@ export default {
       this.cart.hostel_code,
     );
 
-    const [hostelConf] = await Promise.all([getHostel(this.cart.hostel_code)]);
+    const [hostelConf] = await Promise.all([
+      getHostel(this, this.cart.hostel_code),
+    ]);
 
     this.hostelConf = hostelConf;
     this.hostel = this.hostelData;
@@ -965,7 +967,7 @@ export default {
     },
     async completeTransaction(transaction, gateway, card = null) {
       try {
-        this.reservation = await create(this.cid, {
+        this.reservation = await create(this, this.cid, {
           deposit: this.data.deposit,
           guest: this.data.guest,
           transaction,

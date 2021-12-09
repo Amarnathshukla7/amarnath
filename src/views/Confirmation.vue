@@ -151,7 +151,7 @@ export default {
      *   sort values and check against max carts.
      */
 
-    this.reservation = await getReservation(this.cid);
+    this.reservation = await getReservation(this, this.cid);
     console.info("Getting reservation details", this.reservation);
 
     await this.$store.dispatch("bookingEngine/getJourneyUi");
