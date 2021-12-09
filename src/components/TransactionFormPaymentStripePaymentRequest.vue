@@ -115,6 +115,7 @@ export default {
     },
     async createStripePaymentRequest(ev) {
       const transaction = await create(
+        this,
         this.$route.query.cid,
         "stripe",
         this.deposit,

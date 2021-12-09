@@ -420,10 +420,10 @@ export default {
           qty: units,
         }));
 
-      return updateOrCreateCart(this.room.code, dates, this.cid);
+      return updateOrCreateCart(this, this.room.code, dates, this.cid);
     },
     destroy({ date }) {
-      return destroyCart(this.room.code, date, this.cid);
+      return destroyCart(this, this.room.code, date, this.cid);
     },
     switchToCustom() {
       this.customSelected = true;
