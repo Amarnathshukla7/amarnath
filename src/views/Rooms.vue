@@ -384,7 +384,13 @@ export default {
       this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
 
       const [rooms, hostel] = await Promise.all([
-        getAvailability(this.hostelCode, this.checkIn, this.checkOut, this.cid),
+        getAvailability(
+          this.hostelCode,
+          this.checkIn,
+          this.checkOut,
+          this.cid,
+          this.bookingSource,
+        ),
         find(this.hostelCode),
       ]);
 

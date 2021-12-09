@@ -1,16 +1,31 @@
 import axios from "axios";
 
-export const availability = async (hostel, start, end, token) => {
+export const availability = async (
+  hostel,
+  start,
+  end,
+  token,
+  bookingSource,
+) => {
   const accessToken = localStorage.getItem("auth._token.local");
 
-  console.log("getting availability", { hostel, start, end, token });
+  console.log("getting availability", {
+    hostel,
+    start,
+    end,
+    token,
+    bookingSource,
+  });
 
   return axios
-    .get(`/search-svc/${hostel}/${start}/${end}?token=${token}`, {
-      headers: {
-        ...(accessToken && { Authorization: accessToken }),
+    .get(
+      `/search-svc/${hostel}/${start}/${end}?token=${token}&booking_source=${bookingSource}`,
+      {
+        headers: {
+          ...(accessToken && { Authorization: accessToken }),
+        },
       },
-    })
+    )
     .then((res) => {
       try {
         const defaultPlanId = res.data.availability.default;

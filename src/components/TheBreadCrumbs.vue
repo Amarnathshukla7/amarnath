@@ -29,7 +29,11 @@ export default {
         return;
       }
 
-      location.href = location.href.replace(currentPath, step.relativePath);
+      if (this.steps.keepQueryParams) {
+        location.href = location.href.replace(currentPath, step.relativePath);
+      } else {
+        location.href = step.relativePath;
+      }
     },
   },
   computed: {

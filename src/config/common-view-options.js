@@ -22,6 +22,7 @@ export default {
       displayText: "Search",
       canVisit: true,
       relativePath: "/search",
+      keepQueryParams: true,
     },
     {
       enabled: true,
@@ -29,6 +30,7 @@ export default {
       displayText: "Availability",
       canVisit: true,
       relativePath: "/availability",
+      keepQueryParams: true,
     },
     {
       enabled: true,
@@ -36,6 +38,7 @@ export default {
       displayText: "Payment",
       canVisit: true,
       relativePath: "/payment",
+      keepQueryParams: true,
     },
     {
       enabled: true,
@@ -43,6 +46,7 @@ export default {
       displayText: "Confirmation",
       canVisit: true,
       relativePath: "/conformation",
+      keepQueryParams: true,
     },
   ],
   /**
