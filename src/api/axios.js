@@ -1,35 +1,21 @@
 import axios from "axios";
 
-function getURL(env, vm, fallbackStage, fallback) {
-  if (env) {
-    return env;
+function checkEnvVariable(key) {
+  if (!process.env[key]) {
+    throw new Error(`The ${key} envrionment variable is required`);
   }
-
-  if (vm.$store?.state?.bookingEngine?.isProduction === false) {
-    return fallbackStage;
-  }
-
-  return fallback;
 }
 
-export const searchClient = (vm) => {
+export const searchClient = () => {
+  checkEnvVariable("VUE_APP_SEARCH_SVC_URL");
   return axios.create({
-    baseURL: getURL(
-      process.env.VUE_APP_SEARCH_SVC_URL,
-      vm,
-      "https://search-stage-svc-labmweueeq-nw.a.run.app",
-      "https://search-svc-labmweueeq-nw.a.run.app",
-    ),
+    baseURL: process.env.VUE_APP_SEARCH_SVC_URL,
   });
 };
 
-export const reservationClient = (vm) => {
+export const reservationClient = () => {
+  checkEnvVariable("VUE_APP_RESERVATION_SVC_URL");
   return axios.create({
-    baseURL: getURL(
-      process.env.VUE_APP_RESERVATION_SVC_URL,
-      vm,
-      "https://reservation.stage.bnb-platform.com/api",
-      "https://reservation.bnb-platform.com/api",
-    ),
+    baseURL: process.env.VUE_APP_RESERVATION_SVC_URL,
   });
 };
