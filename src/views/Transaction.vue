@@ -620,7 +620,7 @@ export default {
     });
 
     // this.cart = await idbGet(`cart.${this.cid}`);
-    this.cart = await getItems(this.cid);
+    this.cart = await getItems(this, this.cid);
     this.userLanguage = this.getUserLanguage;
 
     await this.$store.dispatch(
