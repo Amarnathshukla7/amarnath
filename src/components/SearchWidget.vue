@@ -1,7 +1,7 @@
 <template>
   <v-form v-model="isSearchFormValid" @submit.prevent="search">
     <v-row justify="center">
-      <v-col cols="12" md="4" lg="3">
+      <v-col cols="12" md="4" lg="7">
         <v-autocomplete
           v-model="hostel"
           outlined
