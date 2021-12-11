@@ -13,6 +13,9 @@ export const create = async (vm, token, data) => {
 
 export const getReservation = async (vm, token, data) => {
   return reservationClient(vm)
-    .get(`/${token}/reservations?filter[reservations.status]=success`, data)
+    .get(
+      `/carts/${token}/reservations?filter[reservations.status]=success`,
+      data,
+    )
     .then((res) => res.data.data[0]);
 };
