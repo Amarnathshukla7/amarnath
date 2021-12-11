@@ -4012,6 +4012,11 @@ date-fns@^2.14.0:
   resolved "https://registry.npmjs.org/date-fns/-/date-fns-2.16.1.tgz"
   integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
 
+date-fns@^2.6.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.27.0.tgz#e1ff3c3ddbbab8a2eaadbb6106be2929a5a2d92b"
+  integrity sha512-sj+J0Mo2p2X1e306MHq282WS4/A8Pz/95GIFcsPNMPMZVI3EUrAdSv90al1k+p74WGLCruMXk23bfEDZa71X9Q==
+
 dayjs@^1.10.4:
   version "1.10.6"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.6.tgz#288b2aa82f2d8418a6c9d4df5898c0737ad02a63"
@@ -8400,6 +8405,11 @@ pnp-webpack-plugin@^1.6.4:
   dependencies:
     ts-pnp "^1.1.6"
 
+popper.js@^1.14.7:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
+  integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
+
 portfinder@^1.0.26:
   version "1.0.28"
   resolved "https://registry.npmjs.org/portfinder/-/portfinder-1.0.28.tgz"
@@ -10786,6 +10796,15 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+v-calendar@~1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/v-calendar/-/v-calendar-1.0.8.tgz#35c515749b6c5a001c815a232acfa0d85b569f6b"
+  integrity sha512-2st0wvSM7oGTOQixVMFHAEPjGBWEJmAhBDE6NYR5MB9Owe1d/pR5+A1OB+/HICXbuiKMjG8KzDpeySnPECddsw==
+  dependencies:
+    date-fns "^2.6.0"
+    lodash "^4.17.15"
+    popper.js "^1.14.7"
 
 v-stripe-elements@^1.2.0:
   version "1.2.0"

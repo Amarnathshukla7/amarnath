@@ -48,6 +48,7 @@
     "date-fns": "^2.14.0",
     "get-user-locale": "^1.4.0",
     "underscore": "^1.13.1",
+    "v-calendar": "~1.0.8",
     "v-stripe-elements": "^1.2.0",
     "vue": "^2.6.10",
     "vue-light-gallery": "^1.0.1",

@@ -1,27 +1,37 @@
 <template>
   <section class="search-summary">
     <v-card outlined tile class="search-card my-8 mx-auto pa-5">
-      <ul>
-        <li class="mr-2 mb-3">
-          {{ content.searchingFor }}:
-          <strong>{{ hostelShortName(hostel) }}</strong>
-        </li>
+      <SearchWidget search-btn-txt="Search" v-if="searchMode" />
+      <v-row no-gutters v-else>
+        <v-col cols="12" sm="11">
+          <ul>
+            <li class="mr-2 mb-3">
+              {{ content.searchingFor }}:
+              <strong>{{ hostelShortName(hostel) }}</strong>
+            </li>
 
-        <li class="mr-2 mb-3">
-          {{ content.for }}:
-          <strong>{{ nights }} {{ content.nights }}</strong>
-        </li>
+            <li class="mr-2 mb-3">
+              {{ content.for }}:
+              <strong>{{ nights }} {{ content.nights }}</strong>
+            </li>
 
-        <li class="mr-2 mb-3">
-          {{ content.arriving }}:
-          <strong>{{ arrival | formatDate(language) }}</strong>
-        </li>
+            <li class="mr-2 mb-3">
+              {{ content.arriving }}:
+              <strong>{{ arrival | formatDate(language) }}</strong>
+            </li>
 
-        <li>
-          {{ content.departing }}:
-          <strong>{{ departure | formatDate(language) }}</strong>
-        </li>
-      </ul>
+            <li>
+              {{ content.departing }}:
+              <strong>{{ departure | formatDate(language) }}</strong>
+            </li>
+          </ul>
+        </v-col>
+        <v-col cols="12" sm="1">
+          <v-btn color="secondary" block depressed small @click="switchMode">
+            Update
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-card>
   </section>
 </template>
@@ -29,8 +39,12 @@
 <script>
 import { hostelShortName } from "../helpers/hostelNames";
 import { formatDate } from "../filters/date";
+import SearchWidget from "./SearchWidget";
 
 export default {
+  components: {
+    SearchWidget,
+  },
   props: {
     hostel: {
       type: String,
@@ -59,11 +73,19 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      searchMode: false,
+    };
+  },
   filters: {
     formatDate,
   },
   methods: {
     hostelShortName,
+    switchMode() {
+      this.searchMode = !this.searchMode;
+    },
   },
 };
 </script>
