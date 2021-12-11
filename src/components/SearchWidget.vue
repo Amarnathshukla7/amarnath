@@ -45,6 +45,7 @@ export default {
     DatePicker,
   },
   name: "SearchWidget",
+  emits: ["search-submitted"],
   props: {
     selected: {
       type: String,
@@ -158,6 +159,7 @@ export default {
       return null;
     },
     search() {
+      this.$emit("search-submitted");
       this.$router.push({
         path: `/${this.hostel}`,
         query: {

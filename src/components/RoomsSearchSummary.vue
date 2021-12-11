@@ -1,7 +1,11 @@
 <template>
   <section class="search-summary">
     <v-card outlined tile class="search-card my-8 mx-auto pa-5">
-      <SearchWidget search-btn-txt="Search" v-if="searchMode" />
+      <SearchWidget
+        search-btn-txt="Search"
+        v-on:search-submitted="switchMode"
+        v-if="searchMode"
+      />
       <v-row no-gutters v-else>
         <v-col cols="12" sm="11">
           <ul>
@@ -84,6 +88,7 @@ export default {
   methods: {
     hostelShortName,
     switchMode() {
+      console.info("Switching search mode!");
       this.searchMode = !this.searchMode;
     },
   },
