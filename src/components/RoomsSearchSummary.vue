@@ -32,7 +32,7 @@
         </v-col>
         <v-col cols="12" sm="1">
           <v-btn color="secondary" block depressed small @click="switchMode">
-            Update
+            update search
           </v-btn>
         </v-col>
       </v-row>

@@ -13,6 +13,12 @@
         @reload-data="reloadAvailability"
       />
 
+      <TheBreadCrumbs
+        :steps="viewOptions.steps"
+        :current-step-key="viewOptions.currentStepKey"
+        :content="contentTheBreadCrumbs"
+      />
+
       <RoomsSearchSummary
         v-if="uiContentLoaded"
         :hostel="hostelCode"
@@ -21,12 +27,6 @@
         :departure="checkOut"
         :language="userLanguage"
         :content="contentRoomsSearchSummary"
-      />
-
-      <TheBreadCrumbs
-        :steps="viewOptions.steps"
-        :current-step-key="viewOptions.currentStepKey"
-        :content="contentTheBreadCrumbs"
       />
 
       <RoomsServerStatus
