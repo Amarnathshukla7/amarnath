@@ -7,7 +7,7 @@
         v-if="searchMode"
       />
       <v-row no-gutters v-else>
-        <v-col cols="12" sm="11">
+        <v-col cols="12" sm="10">
           <ul>
             <li class="mr-2 mb-3">
               {{ content.searchingFor }}:
@@ -30,7 +30,7 @@
             </li>
           </ul>
         </v-col>
-        <v-col cols="12" sm="1">
+        <v-col cols="12" sm="2">
           <v-btn color="secondary" block depressed small @click="switchMode">
             update search
           </v-btn>

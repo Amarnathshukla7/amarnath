@@ -99,7 +99,9 @@ export default {
   },
   async mounted() {
     const notIn =
-      process.env.NODE_ENV === "production" ? "interlaken" : "interlaken";
+      process.env.NODE_ENV === "production"
+        ? "interlaken,brighton"
+        : "interlaken";
 
     // Optimize the query all the content can be pulled at ones.
     const cities = await client
