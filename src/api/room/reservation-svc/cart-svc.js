@@ -9,7 +9,9 @@ export const create = async (vm, source, token) => {
 };
 
 export const getCart = async (vm, token) => {
-  return axios.get(`/cart-svc/${token}`).then((res) => res.data);
+  return reservationClient(vm)
+    .get(`/carts/${token}`)
+    .then((res) => res.data);
 };
 
 export const getItems = async (vm, token) => {

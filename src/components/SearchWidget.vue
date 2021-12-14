@@ -98,9 +98,9 @@ export default {
     this.hostel = this.getCurrentHostel();
   },
   async mounted() {
-    const notIn =
+    const excludedCityCodes =
       process.env.NODE_ENV === "production"
-        ? "interlaken,brighton"
+        ? "interlaken,brighton,cardiff,copenhagen,prague,noordwijk"
         : "interlaken";
 
     // Optimize the query all the content can be pulled at ones.
@@ -109,7 +109,7 @@ export default {
         content_type: "city",
         select: "fields.code,fields.title",
         order: "fields.title",
-        "fields.code[nin]": notIn,
+        "fields.code[nin]": excludedCityCodes,
       })
       .then((cities) => cities.items);
 
