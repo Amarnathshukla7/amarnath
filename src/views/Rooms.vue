@@ -204,11 +204,17 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2021-12-13",
+      default: () => {
+        return new Date().toISOString().slice(0, 10);
+      },
     },
     checkOut: {
       type: String,
-      default: "2021-12-14",
+      default: () => {
+        var date = new Date();
+        date.setDate(date.getDate() + 2);
+        return date.toISOString().slice(0, 10);
+      },
     },
     cid: {
       type: String,
