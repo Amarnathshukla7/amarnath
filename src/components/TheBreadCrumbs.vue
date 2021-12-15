@@ -6,7 +6,10 @@
           @click="goTo(step)"
           v-for="(step, stepIndex) in steps"
           :key="step.key"
-          :class="{ active: stepIndex <= currentStepIndex }"
+          :class="{
+            active: stepIndex <= currentStepIndex,
+            disabled: !step.canVisit,
+          }"
         >
           {{ step.displayText }}
         </button>
@@ -24,7 +27,11 @@ export default {
       let currentPath = this.$route.path;
       let nextRouteIndex = this.steps.indexOf(step);
 
-      if (!this.canGoBack || nextRouteIndex >= this.currentStepIndex) {
+      if (
+        !this.canGoBack ||
+        nextRouteIndex >= this.currentStepIndex ||
+        !step.canVisit
+      ) {
         return;
       }
 
@@ -168,6 +175,11 @@ figure {
   background: var(--v-accent-base);
   color: #fff !important;
 }
+
+.flat button.disabled {
+  cursor: default;
+}
+
 @media screen and (max-width: 360px) {
   .breadcrumb button {
     font-size: 8px;
