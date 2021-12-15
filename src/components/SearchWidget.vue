@@ -11,7 +11,7 @@
           item-value="path"
           item-text="title"
           :hide-details="true"
-          :rules="[(v) => !!(v && v.length) || 'Destination is required']"
+          :rules="[(v) => !!(v && v.length) || 'Hostel is required']"
         />
       </v-col>
       <v-col cols="12" sm="6" md="4" lg="3">
@@ -145,7 +145,7 @@ export default {
       const start = [
         {
           path: null,
-          title: "Select your Destination",
+          title: "Select your Hostel",
         },
       ];
 

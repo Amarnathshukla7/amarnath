@@ -3,7 +3,6 @@
     <div class="breadcrumb-container my-8">
       <div class="breadcrumb flat">
         <button
-          href="javascript:void(0)"
           @click="goTo(step)"
           v-for="(step, stepIndex) in steps"
           :key="step.key"

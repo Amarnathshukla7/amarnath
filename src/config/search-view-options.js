@@ -3,7 +3,6 @@ import CommonViewOptions from "../config/common-view-options";
 let options = {
   currentStepKey: "search",
   relativePath: "/search",
-  guestDetailsFormComponent: "basic",
 };
 
 /**

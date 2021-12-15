@@ -6,7 +6,9 @@
         :current-step-key="viewOptions.currentStepKey"
       />
 
-      <SearchWidget search-btn-txt="Search" />
+      <v-card outlined tile class="search-card my-8 mx-auto pa-5">
+        <SearchWidget search-btn-txt="Search" />
+      </v-card>
     </main>
   </v-app>
 </template>
@@ -31,3 +33,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.search-card {
+  background-color: #f8f8f8;
+}
+</style>
