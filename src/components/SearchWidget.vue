@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="isSearchFormValid" @submit.prevent="search">
+  <v-form v-model="isSearchFormValid" @submit.prevent="searchSubmit">
     <v-row justify="center">
       <v-col cols="12" md="4" lg="7">
         <v-autocomplete
@@ -7,7 +7,8 @@
           outlined
           dense
           required
-          :items="hostels"
+          :items="hostelsFiltered"
+          :filter="filterHostel"
           item-value="path"
           item-text="title"
           :hide-details="true"
@@ -59,7 +60,9 @@ export default {
   data() {
     return {
       isSearchFormValid: false,
+      search: null,
       hostels: [],
+      hostelsFiltered: [],
       hostel: null,
       show: false,
       today: new Date(),
@@ -126,33 +129,51 @@ export default {
       ),
     );
 
-    this.hostels = this.hostels.flatMap((destinations) => {
-      const arr = [];
-
-      arr.push({
-        header: destinations[0].fields.city.fields.title,
-      });
-
-      const hostelsMap = destinations.map((destination) => ({
-        city: destination.fields,
-        path: `${destination.fields.city.fields.code}/${destination.fields.slug}/availability`,
-        title: `${destination.fields.title}`,
-        group: destinations[0].fields.city.fields.title,
-      }));
-
-      arr.push({ divider: true });
-
-      const start = [
-        {
-          path: null,
-          title: "Select your Hostel",
-        },
-      ];
-
-      return [...start, ...arr, ...hostelsMap];
-    });
+    this.prepareList();
   },
   methods: {
+    filterHostel(item, queryText, itemText) {
+      console.log({
+        item,
+        queryText,
+        itemText,
+        found: itemText.toLowerCase().includes(queryText.toLowerCase()),
+      });
+
+      if (
+        itemText.toLowerCase().includes(queryText.toLowerCase()) ||
+        item?.group?.toLowerCase()?.includes(queryText.toLowerCase())
+      ) {
+        return item;
+      }
+    },
+    prepareList() {
+      this.hostelsFiltered = this.hostels.flatMap((destinations) => {
+        const arr = [];
+
+        arr.push({
+          header: destinations[0].fields.city.fields.title,
+        });
+
+        const hostelsMap = destinations.map((destination) => ({
+          city: destination.fields,
+          path: `${destination.fields.city.fields.code}/${destination.fields.slug}/availability`,
+          title: `${destination.fields.title}`,
+          group: destinations[0].fields.city.fields.title,
+        }));
+
+        arr.push({ divider: true });
+
+        const start = [
+          {
+            path: null,
+            title: "Select a hostel",
+          },
+        ];
+
+        return [...start, ...arr, ...hostelsMap];
+      });
+    },
     getCurrentHostel() {
       if (this.$route.params.city && this.$route.params.slug) {
         return `${this.$route.params.city}/${this.$route.params.slug}/availability`;
@@ -160,7 +181,7 @@ export default {
 
       return null;
     },
-    search() {
+    searchSubmit() {
       this.$emit("search-submitted");
       this.$router.push({
         path: `/${this.hostel}`,
@@ -173,3 +194,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.theme--light.v-list-item .v-list-item__mask {
+  color: inherit !important;
+  background: inherit !important;
+}
+</style>
