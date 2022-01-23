@@ -18,6 +18,39 @@
         :content="contentTheBreadCrumbs"
       />
 
+      <v-overlay v-model="showFailureModal" opacity=".95" class="text-center">
+        <div class="title">Error</div>
+        <div class="body-1 px-4">
+          <div v-show="showReservationFailedModal || showUnknowErrorModal">
+            <div style="max-width: 640px">
+              Unable to complete reservation, either the room(s) or bed(s) have
+              been booked already or our backend is having trouble. Please click
+              the button below to go to the availability view and try again.
+              <br />
+              <br />
+              <v-btn @click="redirectBackToRooms">Click Here</v-btn>
+            </div>
+          </div>
+          <div v-show="showPaymentFailedModal">
+            <div style="max-width: 640px">
+              Your payment method didn't go through, no money has been taken
+              from your accout. Please try again with a different payment
+              method/option
+
+              <br />
+              <br />
+              <v-btn
+                @click="
+                  showFailureModal = false;
+                  showPaymentFailedModal = false;
+                "
+                >Click here to close this message</v-btn
+              >
+            </div>
+          </div>
+        </div>
+      </v-overlay>
+
       <v-container v-if="hostel && hostelConf">
         <v-row>
           <v-col cols="12" class="hidden-sm-and-up">
@@ -571,6 +604,10 @@ export default {
       reservation: null,
       valid: false,
       openPanels: [0, 1, 2],
+      showFailureModal: false,
+      showPaymentFailedModal: false,
+      showReservationFailedModal: false,
+      showUnknowErrorModal: false,
       data: {
         terms: false,
         newsletter: false,
@@ -851,6 +888,15 @@ export default {
       try {
         if (this.isStripe) {
           const transaction = await this.$refs.stripeContainer.createStripeTransaction();
+
+          if (!transaction) {
+            this.showPaymentFailedModal = true;
+            this.showFailureModal = true;
+            this.isLoadingOverlay = false;
+            this.isLoadingReservation = false;
+            return;
+          }
+
           this.completeTransaction(transaction, "stripe");
         } else if (this.isSagepay) {
           const transaction = await this.$refs.sagepayContainer.createSagepayTransaction();
@@ -902,10 +948,44 @@ export default {
           },
         });
       } catch (e) {
+        if (e?.response) {
+          this.handleReservationError(e);
+        }
+
         this.isError = true;
         this.isLoadingOverlay = false;
         this.isLoadingReservation = false;
       }
+    },
+    async handleReservationError(e) {
+      switch (e.response.status) {
+        case 417:
+          this.showReservationFailedModal = true;
+          break;
+
+        case 402:
+          this.showPaymentFailedModal = true;
+          break;
+
+        default:
+          this.showUnknowErrorModal = true;
+          break;
+      }
+
+      this.showFailureModal = true;
+    },
+    async redirectBackToRooms() {
+      await idbDel(`cart.${this.cid}`);
+
+      const path =
+        window.location.pathname.replace("payment", "") + "availability";
+
+      this.$router.push({
+        path,
+        query: {
+          cid: this.cid,
+        },
+      });
     },
     hostelShortName,
   },
