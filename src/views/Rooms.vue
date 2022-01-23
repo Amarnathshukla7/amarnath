@@ -200,11 +200,11 @@ export default {
     },
     checkIn: {
       type: String,
-      default: "2021-12-13",
+      default: "2022-04-13",
     },
     checkOut: {
       type: String,
-      default: "2021-12-14",
+      default: "2022-04-14",
     },
     cid: {
       type: String,

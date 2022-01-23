@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
+    "lint-fix": "vue-cli-service lint --fix ./src",
     "build:lib": "vue-cli-service build --target lib --name BookingComponents src/index.js"
   },
   "resolutions": {
