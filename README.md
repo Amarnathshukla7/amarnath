@@ -143,6 +143,21 @@ export default {
 
 ## Dev Notes
 
+### Env Setup
+
+By default the api will use the production endpoints to use stage instead, update the following env key 
+
+```
+VUE_APP_ENV=local
+```
+
+or if you need custom urls set below envs
+
+```
+VUE_APP_SEARCH_SVC_URL=
+VUE_APP_RESERVATION_SVC_URL=
+```
+
 ### Test Payment Request Button
 
 #### Install Ngrok

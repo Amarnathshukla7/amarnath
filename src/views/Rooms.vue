@@ -13,6 +13,12 @@
         @reload-data="reloadAvailability"
       />
 
+      <TheBreadCrumbs
+        :steps="viewOptions.steps"
+        :current-step-key="viewOptions.currentStepKey"
+        :content="contentTheBreadCrumbs"
+      />
+
       <RoomsSearchSummary
         v-if="uiContentLoaded"
         :hostel="hostelCode"
@@ -22,8 +28,6 @@
         :language="userLanguage"
         :content="contentRoomsSearchSummary"
       />
-
-      <TheBreadCrumbs v-if="uiContentLoaded" :content="contentTheBreadCrumbs" />
 
       <RoomsServerStatus
         v-if="uiContentLoaded"
@@ -38,19 +42,13 @@
         @close-groups-modal="showGroupsModal = false"
       />
 
-      <v-container v-if="hostel && hostelConf">
+      <div v-if="hostel && hostelConf">
         <v-row
           class="language-picker-and-room-options"
           v-show="!showSummaryBreakfast"
           no-gutters
         >
-          <v-col v-if="true" cols="2" sm="1">
-            <TheLanguagePicker
-              :userLanguage="userLanguage"
-              @languageChange="handleLanguageChange"
-            />
-          </v-col>
-          <v-col cols="9" sm="10" xl="8" class="ml-3">
+          <v-col cols="10" sm="11" xl="8">
             <RoomsOptionsSort
               :hostel-code="hostelCode"
               :content="contentRoomsOptions"
@@ -138,7 +136,7 @@
             />
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </main>
   </v-app>
 </template>
@@ -152,7 +150,6 @@
 // Packages
 import { differenceInDays } from "date-fns";
 import { mapGetters } from "vuex";
-import { get as idbGet, set as idbSet } from "idb-keyval";
 import { getUserLocales } from "get-user-locale";
 
 // APIs
@@ -160,6 +157,7 @@ import { availability as getAvailability } from "../api/room/search-svc";
 import {
   create as createCart,
   getItems as getCartItems,
+  getCart,
 } from "../api/room/reservation-svc/cart-svc";
 import { getStatus } from "../api/room/reservation-svc/status-svc";
 import { find } from "../api/room/reservation-svc/hostel-svc";
@@ -169,12 +167,12 @@ import { bus } from "../plugins/bus";
 import { formatTimezone } from "../helpers/timezone";
 import sortRooms from "../helpers/room/sort";
 import { getBestLocale } from "../helpers/locale";
+import RoomsViewOptions from "../config/rooms-view-options";
 
 // Components
 import RoomsBookingSummary from "../components/RoomsBookingSummary";
 import TheBreadCrumbs from "../components/TheBreadCrumbs";
 import TheCovidMeasures from "../components/TheCovidMeasures";
-import TheLanguagePicker from "../components/TheLanguagePicker";
 import RoomsOverlayError from "../components/RoomsOverlayError";
 import RoomsOptionsSort from "../components/RoomsOptionsSort";
 import RoomsListingContainer from "../components/RoomsListingContainer";
@@ -185,6 +183,12 @@ import RoomsServerStatus from "../components/RoomsServerStatus";
 
 export default {
   props: {
+    viewOptions: {
+      type: Object,
+      default() {
+        return RoomsViewOptions;
+      },
+    },
     roomViewAnchorPoint: {
       type: String,
       default: "roomView",
@@ -193,17 +197,24 @@ export default {
       type: String,
       default: "STC",
     },
+    // default hostelCode
     hostelCode: {
       type: String,
       default: "BRI",
     },
     checkIn: {
       type: String,
-      default: "2021-08-13",
+      default: () => {
+        return new Date().toISOString().slice(0, 10);
+      },
     },
     checkOut: {
       type: String,
-      default: "2021-08-14",
+      default: () => {
+        var date = new Date();
+        date.setDate(date.getDate() + 2);
+        return date.toISOString().slice(0, 10);
+      },
     },
     cid: {
       type: String,
@@ -211,13 +222,6 @@ export default {
     },
   },
   watch: {
-    async cart() {
-      // Updating the indexedb with cart details only when the cart
-      // has value.
-      if (this.cart) {
-        await idbSet(`cart.${this.cid}`, this.cart);
-      }
-    },
     async hostelCode() {
       console.info("The hostel was changed!", this.hostelCode);
       await this.loadData();
@@ -239,7 +243,6 @@ export default {
     RoomsBookingSummary,
     TheBreadCrumbs,
     TheCovidMeasures,
-    TheLanguagePicker,
     RoomsOverlayError,
     RoomsOptionsSort,
     RoomsListingContainer,
@@ -324,10 +327,9 @@ export default {
         );
       }
     }
+
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.contentTheBreadCrumbs;
-
-    this.cart = await idbGet(`cart.${this.cid}`);
   },
   async created() {
     await this.loadData();
@@ -349,12 +351,11 @@ export default {
   methods: {
     async createOrLoadCart() {
       console.info("Creating or loading cart");
-      this.cart = await idbGet(`cart.${this.cid}`);
       if (!this.cart) {
         console.info(
           "The sessions doesn't have an exisiting cart, creating a new cart.",
         );
-        this.cart = await createCart(this.bookingSource, this.cid);
+        this.cart = await createCart(this, this.bookingSource, this.cid);
         // The cart items is not returned when the cart is created.
         this.cart.items = [];
       }
@@ -378,7 +379,7 @@ export default {
       this.isLoading = true;
       this.reset();
 
-      const status = await getStatus();
+      const status = await getStatus(this);
       if (status.upgrading) {
         this.isStatus = true;
         this.status = status.message;
@@ -386,36 +387,34 @@ export default {
         return;
       }
 
-      try {
-        this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
+      this.$store.dispatch("bookingEngine/getHostel", this.hostelCode);
 
-        const [rooms, hostel] = await Promise.all([
-          getAvailability(
-            this.hostelCode,
-            this.checkIn,
-            this.checkOut,
-            this.cid,
-          ),
-          find(this.hostelCode),
-        ]);
+      const [rooms, hostel] = await Promise.all([
+        getAvailability(
+          this,
+          this.hostelCode,
+          this.checkIn,
+          this.checkOut,
+          this.cid,
+          this.bookingSource,
+        ),
+        find(this, this.hostelCode),
+      ]);
 
-        if (rooms.message && rooms.message === "unable to get availablity") {
-          this.availabilityError = true;
-          this.isLoading = false;
-          return;
-        }
-
-        await this.createOrLoadCart();
-
-        this.rooms = rooms;
-        this.hostel = this.contentHostelData;
-        this.userLanguage = this.getUserLanguage;
-        this.hostelConf = hostel;
-        this.depositModelRate = this.cart.deposit_model_rate;
-      } catch (e) {
-        console.error(e);
-        this.isError = true;
+      if (rooms.message && rooms.message === "unable to get availablity") {
+        this.availabilityError = true;
+        this.isLoading = false;
+        return;
       }
+
+      await this.createOrLoadCart();
+
+      this.rooms = rooms;
+      this.hostel = this.contentHostelData;
+      this.userLanguage = this.getUserLanguage;
+      this.hostelConf = hostel;
+      console.log({ cart: this.cart });
+      this.depositModelRate = this.cart.deposit_model_rate;
 
       this.isLoading = false;
     },
@@ -440,7 +439,7 @@ export default {
       }
 
       this.isLoading = true;
-      await idbSet(`cart.${this.cid}`, this.cart);
+      this.cart = getCart(this.cid);
 
       this.$router.push({
         path: window.location.pathname.replace("availability", "") + "payment",
@@ -523,7 +522,6 @@ export default {
 
 .language-picker-and-room-options {
   margin: auto;
-  max-width: 1161px;
 }
 
 @media screen and (min-width: 600px) {

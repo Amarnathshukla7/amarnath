@@ -6,7 +6,7 @@
       style="max-width: 620px"
       class="heading mt-10 px-6"
     >
-      {{ contentTransactionOverlays.loading.pleaseWait }}
+      Loading...
     </div>
   </v-overlay>
 </template>

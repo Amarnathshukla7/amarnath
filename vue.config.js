@@ -2,7 +2,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/search-svc/": {
-        target: "https://search-svc-labmweueeq-nw.a.run.app/",
+        target: "http://localhost:5001/",
         pathRewrite: { "^/search-svc/": "" },
       },
       "/review-svc/": {
@@ -10,23 +10,23 @@ module.exports = {
         pathRewrite: { "^/review-svc/": "" },
       },
       "/cart-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/carts/",
+        target: "http://reservation-apis.loc/api/carts/",
         pathRewrite: { "^/cart-svc/": "" },
       },
       "/reservation-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/reservations/",
+        target: "http://reservation-apis.loc/api/reservations/",
         pathRewrite: { "^/reservation-svc/": "" },
       },
       "/hostel-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/hostels/",
+        target: "http://reservation-apis.loc/api/hostels/",
         pathRewrite: { "^/hostel-svc/": "" },
       },
       "/transaction-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/transactions/",
+        target: "http://reservation-apis.loc/api/transactions/",
         pathRewrite: { "^/transaction-svc/": "" },
       },
       "/status-svc/": {
-        target: "https://reservation.stage.bnb-platform.com/api/status",
+        target: "http://reservation-apis.loc/api/status",
         pathRewrite: { "^/status-svc/": "" },
       },
     },

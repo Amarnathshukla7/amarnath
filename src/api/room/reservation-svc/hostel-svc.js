@@ -1,7 +1,8 @@
-import axios from "axios";
-import { set } from "idb-keyval";
+import { reservationClient } from "../../axios";
 
-export const find = async (code) =>
-  axios.get(`/hostel-svc/${code}`).then(async (res) => {
-    return res.data;
-  });
+export const find = async (vm, code) =>
+  reservationClient(vm)
+    .get(`/hostels/${code}`)
+    .then(async (res) => {
+      return res.data;
+    });

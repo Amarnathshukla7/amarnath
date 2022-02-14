@@ -234,7 +234,7 @@ import TransactionSummaryBreakfast from "./TransactionSummaryBreakfast";
 import { formatTimezone } from "../helpers/timezone";
 import { hostelShortName } from "../helpers/hostelNames";
 import TheCovidMeasures from "../components/TheCovidMeasures";
-import { get as idbGet, set as idbSet } from "idb-keyval";
+// import { get as idbGet, set as idbSet } from "idb-keyval";
 
 export default {
   props: {
@@ -323,8 +323,8 @@ export default {
     async deleteFromCart(code, date) {
       try {
         this.isCartUpdating = true;
-        this.cart = await removeItem(code, date, this.cartData.token);
-        await idbSet(`cart.${this.$route.query.cid}`, this.cart);
+        this.cart = await removeItem(this, code, date, this.cartData.token);
+        // await idbSet(`cart.${this.$route.query.cid}`, this.cart);
         bus.$emit("set-room-amount", code, this.oneDayBooking ? "" : date, 0);
       } catch (e) {
         console.log(e);
@@ -415,7 +415,7 @@ export default {
     cost() {
       if (!this.cart) return 0;
 
-      return this.cart.total_cost;
+      return this.cart.total_cost || 0;
     },
     oneDayBooking() {
       if (!this.cart) return;

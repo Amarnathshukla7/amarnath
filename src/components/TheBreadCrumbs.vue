@@ -1,22 +1,18 @@
 <template>
   <figure>
-    <div class="breadcrumb-container mt-8">
+    <div class="breadcrumb-container my-8">
       <div class="breadcrumb flat">
-        <a href="javascript:void(0)" :class="{ active: step >= 1 }">
-          {{ content.s1 }}
-        </a>
-
-        <a href="javascript:void(0)" :class="{ active: step >= 2 }">
-          {{ content.s2 }}
-        </a>
-
-        <a href="javascript:void(0)" :class="{ active: step >= 3 }">
-          {{ content.s3 }}
-        </a>
-
-        <a href="javascript:void(0)" :class="{ active: step >= 4 }">
-          {{ content.s4 }}
-        </a>
+        <button
+          @click="goTo(step)"
+          v-for="(step, stepIndex) in steps"
+          :key="step.key"
+          :class="{
+            active: stepIndex <= currentStepIndex,
+            disabled: !step.canVisit,
+          }"
+        >
+          {{ step.displayText }}
+        </button>
       </div>
     </div>
   </figure>
@@ -26,38 +22,72 @@
 import { mapState } from "vuex";
 
 export default {
+  methods: {
+    goTo(step) {
+      let currentPath = this.$route.path;
+      let nextRouteIndex = this.steps.indexOf(step);
+
+      if (
+        !this.canGoBack ||
+        nextRouteIndex >= this.currentStepIndex ||
+        !step.canVisit
+      ) {
+        return;
+      }
+
+      if (this.steps.keepQueryParams) {
+        location.href = location.href.replace(currentPath, step.relativePath);
+      } else {
+        location.href = step.relativePath;
+      }
+    },
+  },
+  computed: {
+    /**
+     * Returns the current step index.
+     */
+    currentStepIndex() {
+      let currentStepIndexVal = 0;
+      this.steps.forEach((step, stepIndex) => {
+        if (step.key == this.currentStepKey) {
+          currentStepIndexVal = stepIndex;
+        }
+      });
+
+      return currentStepIndexVal;
+    },
+
+    /**
+     * Returns the current/active step relative path.
+     */
+    currentRelativePath() {
+      if (
+        this.currentStepIndex !== null ||
+        this.currentStepIndex !== undefined
+      ) {
+        return null;
+      }
+
+      return this.steps[this.currentStepIndex];
+    },
+  },
   props: {
-    step: {
-      type: Number,
-      default: 2,
+    currentStepKey: {
+      type: String,
+      required: true,
+    },
+    canGoBack: {
+      type: Boolean,
+      default: true,
+    },
+    steps: {
+      type: Array,
+      default: () => [],
     },
     content: {
       type: Object,
-      default: () => {
-        return {};
-      },
+      default: () => {},
     },
-  },
-  data() {
-    return {
-      items: [
-        {
-          text: "Dashboard",
-          disabled: false,
-          href: "breadcrumbs_dashboard",
-        },
-        {
-          text: "Link 1",
-          disabled: false,
-          href: "breadcrumbs_link_1",
-        },
-        {
-          text: "Link 2",
-          disabled: true,
-          href: "breadcrumbs_link_2",
-        },
-      ],
-    };
   },
 };
 </script>
@@ -74,12 +104,11 @@ figure {
 }
 .breadcrumb-container {
   margin: 0;
-  max-width: 980px;
   margin: auto;
   z-index: 0;
   position: relative;
 }
-.breadcrumb a {
+.breadcrumb button {
   font-family: $body-font-family;
   text-transform: uppercase;
   font-weight: bold;
@@ -92,19 +121,20 @@ figure {
   color: white;
   padding: 0 10px 0 34px;
   position: relative;
+  text-align: left;
 }
-.breadcrumb a:first-child {
+.breadcrumb button:first-child {
   padding-left: 20px;
 }
-.breadcrumb a:last-child {
+.breadcrumb button:last-child {
   padding-left: 32px;
   padding-right: 14px;
 }
-.breadcrumb a:first-child:before,
-.breadcrumb a:last-child:before {
+.breadcrumb button:first-child:before,
+.breadcrumb button:last-child:before {
   left: 10px;
 }
-.breadcrumb a:after {
+.breadcrumb button:after {
   content: "";
   position: absolute;
   top: 0;
@@ -119,10 +149,10 @@ figure {
     3px -3px 0 2px rgba(255, 255, 255, 0.1);
   border-radius: 0 5px 0 50px;
 }
-.breadcrumb a:last-child:after {
+.breadcrumb button:last-child:after {
   content: none;
 }
-.breadcrumb a:before {
+.breadcrumb button:before {
   border-radius: 100%;
   width: 20px;
   width: 10px;
@@ -134,24 +164,29 @@ figure {
   left: 27px;
   font-weight: bold;
 }
-.flat a,
-.flat a:after {
+.flat button,
+.flat button:after {
   background: #e6e6e5;
   color: var(--echo-color) !important;
   transition: all 0.5s;
 }
-.flat a.active,
-.flat a.active:after {
+.flat button.active,
+.flat button.active:after {
   background: var(--v-accent-base);
   color: #fff !important;
 }
+
+.flat button.disabled {
+  cursor: default;
+}
+
 @media screen and (max-width: 360px) {
-  .breadcrumb a {
+  .breadcrumb button {
     font-size: 8px;
   }
 }
 @media screen and (min-width: 361px) and (max-width: 385px) {
-  .breadcrumb a {
+  .breadcrumb button {
     font-size: 10px;
   }
 }
@@ -162,7 +197,7 @@ figure {
   }
 }
 @media screen and (max-width: 900px) {
-  .breadcrumb a .span-mobile-hide {
+  .breadcrumb button .span-mobile-hide {
     display: none;
   }
 }
@@ -173,56 +208,56 @@ figure {
       grid-template-columns: repeat(4, 1fr);
       margin: auto;
     }
-    .breadcrumb a {
+    .breadcrumb button {
       padding-left: 43px;
     }
-    .breadcrumb a:before {
+    .breadcrumb button:before {
       content: counter(flag);
       counter-increment: flag;
     }
-    .breadcrumb a::before,
-    .breadcrumb a:first-child::before {
+    .breadcrumb button::before,
+    .breadcrumb button:first-child::before {
       left: 30px;
     }
-    .breadcrumb a:first-child {
+    .breadcrumb button:first-child {
       padding-left: 40px;
       padding-right: 0px;
     }
-    .breadcrumb a:last-child {
+    .breadcrumb button:last-child {
       padding-left: 42px;
     }
-    .breadcrumb a:last-child:before {
+    .breadcrumb button:last-child:before {
       left: 30px;
     }
   }
   @media screen and (min-width: 700px) {
-    .breadcrumb a {
+    .breadcrumb button {
       font-size: 16px;
       padding: 10px 30px 10px 75px;
     }
-    .breadcrumb a::before {
+    .breadcrumb button::before {
       font-size: 16px;
       line-height: unset;
       margin: 10px 0;
     }
-    .breadcrumb a::after {
+    .breadcrumb button::after {
       top: 8px;
       right: -17px;
       width: 40px;
       height: 40px;
       transform: scale(1) rotate(45deg);
     }
-    .breadcrumb a::before,
-    .breadcrumb a:first-child::before {
+    .breadcrumb button::before,
+    .breadcrumb button:first-child::before {
       left: 56px;
     }
-    .breadcrumb a:last-child:before {
+    .breadcrumb button:last-child:before {
       left: 65px;
     }
-    .breadcrumb a:last-child {
+    .breadcrumb button:last-child {
       padding-left: 85px;
     }
-    .breadcrumb a:first-child {
+    .breadcrumb button:first-child {
       padding-left: 75px;
     }
     .confirmation-vue figure {

@@ -23,12 +23,6 @@
 
       <ul>
         <li>
-          <img src="/covid-measures/reduced-dorms-icon.svg" alt="" />
-
-          <p>{{ content.measures.capacity }}</p>
-        </li>
-
-        <li>
           <img src="/covid-measures/private-rooms-icon.svg" alt="" />
 
           <p>{{ content.measures.privateGroups }}</p>

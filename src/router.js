@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Rooms from "./views/Rooms";
 import Transaction from "./views/Transaction.vue";
 import Confirmation from "./views/Confirmation.vue";
+import Search from "./views/Search.vue";
 import cryptoRandomString from "crypto-random-string";
 
 Vue.use(VueRouter);
@@ -13,7 +14,11 @@ export default new VueRouter({
   routes: [
     {
       path: "/",
-      redirect: "/availability",
+      redirect: "/search",
+    },
+    {
+      path: "/search",
+      component: Search,
     },
     {
       path: "/availability",

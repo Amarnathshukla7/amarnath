@@ -1,7 +1,7 @@
 <template>
   <v-app v-if="reservation && hostel">
     <ConfirmationEasterEggOverlay
-      v-if="overlay"
+      v-if="overlay && viewOptions.canShowEasterEggOverlay"
       @close-overlay="overlay = false"
     />
 
@@ -9,9 +9,10 @@
       <v-row no-gutters>
         <v-col cols="12" class="my-4">
           <TheBreadCrumbs
-            v-if="uiContentLoaded"
-            :step="4"
+            :steps="viewOptions.steps"
+            :current-step-key="viewOptions.currentStepKey"
             :content="contentTheBreadCrumbs"
+            :can-go-back="false"
           />
         </v-col>
       </v-row>
@@ -38,7 +39,7 @@
         </v-col>
       </v-row>
 
-      <v-row>
+      <v-row v-if="viewOptions.canSignUpNewsletter">
         <v-col cols="12" md="6" lg="5" offset-lg="1">
           <ConfirmationSignUp :reservation-id="reservation.id" />
         </v-col>
@@ -49,16 +50,13 @@
 
 <script>
 // Packages
-import {
-  get as idbGet,
-  del as idbDelete,
-  keys as idbGetKeys,
-} from "idb-keyval";
 import { mapState, mapGetters } from "vuex";
 import { subDays, differenceInCalendarDays } from "date-fns";
+
 // Helpers, Plugins, Filters & Data
-import { stcSpaceClient } from "../plugins/contentful";
 import { track } from "../helpers/transaction/tracking";
+import { getReservation } from "../api/transaction/reservation-svc";
+import ConfirmationViewOptions from "../config/confirmation-view-options";
 
 // Components
 import ConfirmationSummary from "../components/ConfirmationSummary";
@@ -70,6 +68,12 @@ import ConfirmationThankYou from "../components/ConfirmationThankYou";
 
 export default {
   props: {
+    viewOptions: {
+      type: Object,
+      default() {
+        return ConfirmationViewOptions;
+      },
+    },
     cid: {
       type: String,
       required: true,
@@ -147,7 +151,8 @@ export default {
      *   sort values and check against max carts.
      */
 
-    this.reservation = await idbGet(`reservation.${this.cid}`);
+    this.reservation = await getReservation(this, this.cid);
+    console.info("Getting reservation details", this.reservation);
 
     await this.$store.dispatch("bookingEngine/getJourneyUi");
     this.uiContentLoaded = this.journeyUi;
@@ -156,42 +161,13 @@ export default {
       "bookingEngine/getHostelConfirmationPageData",
       this.reservation.cart.hostel.hostel_code,
     );
-
     this.hostel = this.hostelData;
-
-    /**
-     * Deleting all previous reservations and carts other then current reservation
-     */
-
-    let thirtyDaysOlDate = subDays(new Date(), 30);
-    idbGetKeys().then((keys) => {
-      console.log("Deleting idb keys", { keys });
-
-      const deleteKeys = keys.filter(function (key) {
-        const recordValues = idbGet(key);
-        const recordDate = new Date(recordValues.created_at);
-
-        if (differenceInCalendarDays(thirtyDaysOlDate, recordDate) >= 30) {
-          return key;
-        }
-
-        return;
-      });
-
-      // Deleting keys 30 days older.
-      deleteKeys.forEach(function (key) {
-        //Checking if the value is current reservation
-        if (`reservation.${this.cid}` !== key) {
-          idbDelete(key);
-        }
-      });
-    });
-
-    await idbGetKeys().then(function (keys) {
-      console.log("Idb Keys after delete", { keys });
-    });
+    console.info("Getting hostel details", this.hostel);
   },
   async mounted() {
+    /**
+     * Tracking with google analytics.
+     */
     if (!this.$route.query.dev) {
       const resInterval = setInterval(() => {
         if (this.reservation) {

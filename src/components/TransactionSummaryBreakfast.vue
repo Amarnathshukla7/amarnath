@@ -100,7 +100,7 @@ export default {
   },
   async created() {
     this.isLoading = true;
-    this.price = await getBreakfastPrice(this.cid);
+    this.price = await getBreakfastPrice(this, this.cid);
     if (this.price.error) {
       this.isError = true;
     }
@@ -116,8 +116,9 @@ export default {
 
       const cart =
         this.qty === 0
-          ? await deleteExtra(this.content.key, this.cid)
+          ? await deleteExtra(this, this.content.key, this.cid)
           : await addExtra(
+              this,
               [
                 {
                   code: this.content.key,
