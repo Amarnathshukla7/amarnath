@@ -10,3 +10,12 @@ export const create = async (vm, token, data) => {
     })
     .then((res) => res.data);
 };
+
+export const getReservation = async (vm, token, data) => {
+  return reservationClient(vm)
+    .get(
+      `/carts/${token}/reservations?filter[reservations.status]=success`,
+      data,
+    )
+    .then((res) => res.data.data[0]);
+};

@@ -22,9 +22,11 @@ const wihpIds = {
 const isWihpBooking = (hostelCode) => hostelCode in wihpIds;
 
 const sendToDataLayer = (vm, reservation, name = "reservationCompleted") => {
-  const keysToNullify = ["auth_id", "vendor_id", "secret_output"];
+  const keysToNullify = ["auth_user_id", "vendor_id", "secret_output"];
   keysToNullify.forEach((key) => {
-    if (reservation.transaction[key]) reservation.transaction[key] = null;
+    if (reservation.transaction.hasOwnProperty(key)) {
+      reservation.transaction[key] = null;
+    }
   });
 
   if (!vm.$gtm && !vm.$gtm.push) return;

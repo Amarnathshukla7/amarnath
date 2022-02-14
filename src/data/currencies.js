@@ -1,25 +1,4 @@
-const defaultCurrencies = [
-  {
-    key: "GBP",
-    value: "GBP - British Pound",
-  },
-  {
-    key: "EUR",
-    value: "EUR - Euro",
-  },
-  {
-    key: "USD",
-    value: "USD - US Dollar",
-  },
-  {
-    key: "AUD",
-    value: "AUD - Australian Dollar",
-  },
-  {
-    key: "CAD",
-    value: "CAD - Canadian Dollar",
-  },
-];
+import TransactionViewOptions from "../config/transaction-view-options";
 
 const pragueCurrency = {
   key: "CZK",
@@ -33,12 +12,12 @@ const cphCurrency = {
 
 export const getCurrencies = (hostelCode) => {
   if (hostelCode === "PRA") {
-    return [pragueCurrency, ...defaultCurrencies];
+    return [pragueCurrency, ...TransactionViewOptions.supportedCurrencies];
   }
 
   if (hostelCode === "COP") {
-    return [cphCurrency, ...defaultCurrencies];
+    return [cphCurrency, ...TransactionViewOptions.supportedCurrencies];
   }
 
-  return defaultCurrencies;
+  return TransactionViewOptions.supportedCurrencies;
 };

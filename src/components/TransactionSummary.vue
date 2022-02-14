@@ -72,7 +72,7 @@
                 </v-card>
               </v-list-group>
 
-              <v-list-item class="py-2 pl-4 other">
+              <v-list-item class="py-2 pl-4 other" v-show="discount > 0">
                 <v-list-item-content>
                   <v-list-item-title>
                     {{ contentTheSummary.loyalty }}
@@ -120,7 +120,10 @@
       </v-expansion-panel>
     </v-expansion-panels>
     <v-card tile flat color="accent" class="">
-      <v-row class="hidden-sm-and-down px-4 py-2 font-weight-bold white--text">
+      <v-row
+        class="hidden-sm-and-down px-4 py-2 font-weight-bold white--text"
+        v-if="deposit === 0"
+      >
         <v-col cols="8"> {{ contentTheSummary.payable.now }}: </v-col>
         <v-col cols="4" class="text-right">
           {{
@@ -130,7 +133,7 @@
           }}
         </v-col>
       </v-row>
-      <v-row class="hidden-md-and-down px-4 py-2 white">
+      <v-row class="hidden-md-and-down px-4 py-2 white" v-if="deposit === 0">
         <v-col cols="8"> {{ contentTheSummary.payable.arrival }}: </v-col>
         <v-col cols="4" class="text-right">
           {{ dueOnArrival | formatPrice(currency) }}
@@ -179,6 +182,7 @@ import { differenceInDays, addDays } from "date-fns";
 import { hostelShortName } from "../helpers/hostelNames";
 import TransactionSummaryAccommodationItem from "./TransactionSummaryAccommodationItem";
 import TransactionSummaryBreakfast from "./TransactionSummaryBreakfast.vue";
+import TransactionViewOptions from "../config/transaction-view-options";
 
 export default {
   props: {

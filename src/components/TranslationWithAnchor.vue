@@ -20,7 +20,7 @@ export default {
     },
     styleClass: {
       type: String,
-      default: "secondary--text",
+      default: "secondary--text text-decoration-underline",
     },
     link: {
       type: String,

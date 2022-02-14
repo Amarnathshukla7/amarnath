@@ -1,4 +1,3 @@
-import axios from "axios";
 import { reservationClient } from "../../axios";
 
 export const create = async (vm, source, token) => {
@@ -9,7 +8,7 @@ export const create = async (vm, source, token) => {
     .then((res) => res.data);
 };
 
-export const get = async (vm, token) => {
+export const getCart = async (vm, token) => {
   return reservationClient(vm)
     .get(`/carts/${token}`)
     .then((res) => res.data);

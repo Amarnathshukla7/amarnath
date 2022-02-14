@@ -1,4 +1,3 @@
-import axios from "axios";
 import { reservationClient } from "../axios";
 
 export const create = async (vm, token, gateway, deposit = 100, currency) => {
