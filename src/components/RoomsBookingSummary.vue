@@ -415,7 +415,7 @@ export default {
     cost() {
       if (!this.cart) return 0;
 
-      return this.cart.total_cost;
+      return this.cart.total_cost || 0;
     },
     oneDayBooking() {
       if (!this.cart) return;
