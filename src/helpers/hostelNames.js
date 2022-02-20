@@ -7,8 +7,7 @@ export const hostelShortName = (hostelCode) => {
     BER: "Berlin Alexanderplatz Hostel",
     BRA: "Berlin Alexanderplatz Apartments",
     BRM: "Berlin Mitte Hostel",
-    COP: "Copenhagen - Downtown Hostel",
-    BWD: "Copenhagen - Bedwood hostel",
+    COP: "Copenhagen Downtown Hostel",
     PRA: "Prague - The Czech Inn",
     PAR: "Paris Canal Hostel",
     GDN: "Paris Gare Du Nord Hostel",
@@ -25,7 +24,6 @@ export const hostelShortName = (hostelCode) => {
     CMD: "London - Camden Hostel",
     SHP: "London - Shepherd's Bush Hostel",
     HMM: "London - Hammersmith Hostel",
-    VIE: "Vienna - Vienna Hostel",
   };
 
   const shortName = hostels[hostelCode];
