@@ -9,6 +9,7 @@
       :rounded="false"
       outlined
       clearable
+      attach
     >
       <v-tooltip
         v-if="soldOut"
