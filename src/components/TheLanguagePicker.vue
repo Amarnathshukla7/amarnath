@@ -14,6 +14,7 @@
       v-model="selectedLanguage"
       append-icon=""
       large
+      attach
     >
       <template #selection="{ item }">
         <img class="the-language-picker-selection-image" :src="item.flag" />

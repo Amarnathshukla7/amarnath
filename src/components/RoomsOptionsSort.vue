@@ -21,6 +21,7 @@
         clearable
         item-text="value"
         item-value="key"
+        attach
       ></v-select>
     </v-col>
 
